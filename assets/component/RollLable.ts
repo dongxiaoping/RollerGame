@@ -39,17 +39,24 @@ export default class RollLable extends cc.Component {
     @property(cc.Label)
     label: cc.Label = null  // Lable 控件，需要将其 AnchorX 设置为零，Overflow 模式为 None。
     @property(cc.Mask)
-    mask: cc.Mask // Mask 控件，需要将其 AnchorX 设置为零，将其宽度设置为滚动区域的宽度。
+    mask: cc.Mask = null// Mask 控件，需要将其 AnchorX 设置为零，将其宽度设置为滚动区域的宽度。
 
     space: String = '      '       // 在两条消息之间的间隔字符串，通常设置为八个空格。
 
-    _strings: String[]
+    _strings: String[] = []
 
     _d1: number = 0   // 正在滚动的文本长度
 
+    speed:number = 20
+
     _d2: number = 0  // 已经添加的后续文本长度
     start() {
-
+        console.log(this.label)
+        console.log(this.mask)
+        
+        console.log(this.label.string)
+        this.addText(this.label.string)
+        
     }
 
     /**
@@ -97,7 +104,7 @@ export default class RollLable extends cc.Component {
                 var x = - this._d1;
                 var t = d / this.speed;
                 this.label.node.runAction(cc.sequence(
-                    cc.moveTo(t, cc.p(x, this.label.node.y)),
+                    cc.moveTo(t, cc.v2(x, this.label.node.y)),
                     cc.callFunc(function () {
                         this._strings.shift();
                         if (this._strings.length > 0) {
@@ -117,7 +124,7 @@ export default class RollLable extends cc.Component {
                         }
                     }.bind(this))
                 ));
-            }.bind(this), 0);
+            }.bind(this), 500);
         }
     }
 
