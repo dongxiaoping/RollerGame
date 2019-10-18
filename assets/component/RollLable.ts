@@ -119,7 +119,7 @@ export default class RollLable extends cc.Component {
                         } else {
                             setTimeout((): void => {
                                 this.addText(this.label.string)
-                            }, 15 * 1000)
+                            }, 5 * 1000)
                         }
                     }.bind(this))
                 ));
