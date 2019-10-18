@@ -47,16 +47,11 @@ export default class RollLable extends cc.Component {
 
     _d1: number = 0   // 正在滚动的文本长度
 
-    speed:number = 20
+    speed: number = 30
 
     _d2: number = 0  // 已经添加的后续文本长度
     start() {
-        console.log(this.label)
-        console.log(this.mask)
-        
-        console.log(this.label.string)
         this.addText(this.label.string)
-        
     }
 
     /**
@@ -121,10 +116,14 @@ export default class RollLable extends cc.Component {
                                 }
                             }
                             this._rollText();
+                        } else {
+                            setTimeout((): void => {
+                                this.addText(this.label.string)
+                            }, 15 * 1000)
                         }
                     }.bind(this))
                 ));
-            }.bind(this), 500);
+            }.bind(this), 800);
         }
     }
 
