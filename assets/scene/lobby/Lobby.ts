@@ -25,7 +25,7 @@ export default class Lobby extends cc.Component {
     }
 
     onEnable() {
-        this.JoinPart.node.on(cc.Node.EventType.MOUSE_DOWN, ()=>{
+        this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, ()=>{
             this.showEntryBox()
         })
     }
@@ -38,7 +38,7 @@ export default class Lobby extends cc.Component {
     }
 
     onDisable(){
-        this.JoinPart.node.off(cc.Node.EventType.MOUSE_DOWN, ()=>{})
+        this.JoinPart.node.off(cc.Node.EventType.TOUCH_END, ()=>{})
     }
 
     start() {

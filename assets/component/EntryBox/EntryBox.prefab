@@ -25,7 +25,7 @@
       }
     ],
     "_active": false,
-    "_level": 2,
+    "_level": 1,
     "_components": [
       {
         "__id__": 149
@@ -933,8 +933,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1",
-    "_N$string": "1",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -2423,7 +2423,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "One",
+    "_name": "Four",
     "_objFlags": 0,
     "_parent": {
       "__id__": 61
@@ -2711,7 +2711,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Two",
+    "_name": "Five",
     "_objFlags": 0,
     "_parent": {
       "__id__": 61
@@ -2999,7 +2999,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Three",
+    "_name": "Six",
     "_objFlags": 0,
     "_parent": {
       "__id__": 61
@@ -3464,7 +3464,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "One",
+    "_name": "Seven",
     "_objFlags": 0,
     "_parent": {
       "__id__": 87
@@ -3752,7 +3752,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Two",
+    "_name": "Eight",
     "_objFlags": 0,
     "_parent": {
       "__id__": 87
@@ -4040,7 +4040,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Three",
+    "_name": "Nine",
     "_objFlags": 0,
     "_parent": {
       "__id__": 87
@@ -4505,7 +4505,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "One",
+    "_name": "Delete",
     "_objFlags": 0,
     "_parent": {
       "__id__": 113
@@ -4793,7 +4793,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Two",
+    "_name": "Zero",
     "_objFlags": 0,
     "_parent": {
       "__id__": 113
@@ -5081,7 +5081,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Three",
+    "_name": "Enter",
     "_objFlags": 0,
     "_parent": {
       "__id__": 113
@@ -5718,10 +5718,48 @@
       "__id__": 1
     },
     "_enabled": true,
-    "closeButton": {
+    "CloseButton": {
       "__id__": 13
     },
-    "text": "hello",
+    "One": {
+      "__id__": 41
+    },
+    "Two": {
+      "__id__": 48
+    },
+    "Three": {
+      "__id__": 55
+    },
+    "Four": {
+      "__id__": 67
+    },
+    "Five": {
+      "__id__": 74
+    },
+    "Six": {
+      "__id__": 81
+    },
+    "Seven": {
+      "__id__": 93
+    },
+    "Eight": {
+      "__id__": 100
+    },
+    "Nine": {
+      "__id__": 107
+    },
+    "Zero": {
+      "__id__": 126
+    },
+    "Delete": {
+      "__id__": 119
+    },
+    "Enter": {
+      "__id__": 133
+    },
+    "Num": {
+      "__id__": 24
+    },
     "_id": ""
   },
   {
