@@ -11,39 +11,29 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Lobby extends cc.Component {
-
-    @property(cc.Prefab)
-    EntryBox: cc.Prefab = null;
+export default class NewClass extends cc.Component {
 
     @property(cc.Sprite)
-    JoinPart: cc.Sprite = null;
+    closeButton: cc.Sprite = null;
+
+    @property
+    text: string = 'hello';
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad() {
-    }
+    // onLoad () {}
 
+    start() {
+
+    }
     onEnable() {
-        this.JoinPart.node.on(cc.Node.EventType.MOUSE_DOWN, ()=>{
-            this.showEntryBox()
+        this.closeButton.node.on(cc.Node.EventType.MOUSE_DOWN, ()=>{
+            this.node.destroy()
         })
     }
 
-    showEntryBox(): void{
-        var node = cc.instantiate(this.EntryBox)
-        node.parent = this.node
-        node.setPosition(3.687, 1.474);
-        node.active = true
-    }
-
     onDisable(){
-        this.JoinPart.node.off(cc.Node.EventType.MOUSE_DOWN, ()=>{})
+        this.closeButton.node.off(cc.Node.EventType.MOUSE_DOWN, ()=>{})
     }
-
-    start() {
-        console.log('应用启动')
-    }
-
     // update (dt) {}
 }
