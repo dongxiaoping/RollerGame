@@ -11,7 +11,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Lobby extends cc.Component {
+export default class LobbyScene extends cc.Component {
 
     @property(cc.Prefab)
     EntryBox: cc.Prefab = null;
