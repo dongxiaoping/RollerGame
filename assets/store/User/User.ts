@@ -1,14 +1,19 @@
 const { ccclass } = cc._decorator;
-import {UserInfo, emptyUserInfo} from './Base'
-
+import { UserInfo, emptyUserInfo } from './Base'
+import { config, } from '../../static/Config'
+import { appMode } from '../../static/Const'
+import {userInfo} from '../../mock/UserInfo'
 @ccclass
 class User {
-    userInfo : UserInfo
-    constructor(){
-        this.userInfo = emptyUserInfo()
+    userInfo: UserInfo
+    constructor() {
+        if (config.appMode === appMode.DEV) {
+            this.userInfo = userInfo
+        } else {
+            this.userInfo = emptyUserInfo()
+        }
     }
-
-    requestUserInfo(){
+    requestUserInfo() {
 
     }
 }

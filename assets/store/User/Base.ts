@@ -1,10 +1,10 @@
-export enum userType{
+export enum userType {
     NORMAL_USER = 1, //普通用户
     CHEAT_USER = 2 //作弊用户
 }
 
-export interface UserInfo{
-    userId : string
+export interface UserInfo {
+    userId: string
     userName: string
     userIcon: string
     userType: userType
@@ -13,8 +13,8 @@ export interface UserInfo{
     phone: string
 }
 
-export function emptyUserInfo(): UserInfo{
-    return{
+export const emptyUserInfo = function (): UserInfo {
+    return {
         userId: '',
         userName: '',
         userIcon: '',
