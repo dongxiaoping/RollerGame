@@ -22,7 +22,7 @@
       }
     ],
     "_active": true,
-    "_level": 3,
+    "_level": 2,
     "_components": [
       {
         "__id__": 6
@@ -51,7 +51,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 45,
+      "x": -105,
       "y": 60.467,
       "z": 0
     },
@@ -201,7 +201,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "966ab291-9a90-4594-9140-cfb5219bb4f8"
     },
     "fileId": "34nXIDDDdBTIURlyWtw3fV",
     "sync": false
@@ -232,7 +232,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "966ab291-9a90-4594-9140-cfb5219bb4f8"
     },
     "fileId": "d2nLcI6X5IVKmAPk+s/VJE",
     "sync": false
