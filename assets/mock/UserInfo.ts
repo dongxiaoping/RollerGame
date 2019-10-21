@@ -1,4 +1,4 @@
-import {UserInfo, userType} from '../store/User/Base'
+import {UserInfo, userType} from '../store/User/UserBase'
 export const userInfo: UserInfo  = {
     userId: '423423',
     userName: '苹果',

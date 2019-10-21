@@ -1,5 +1,5 @@
 const { ccclass } = cc._decorator;
-import { UserInfo, emptyUserInfo } from './Base'
+import { UserInfo, emptyUserInfo } from './UserBase'
 import { config, } from '../../static/Config'
 import { appMode } from '../../static/Const'
 import {userInfo} from '../../mock/UserInfo'
