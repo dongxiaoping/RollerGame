@@ -1,8 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import User from '../../store/User/User'
-import { PromiseParam, PromiseResult } from '../../static/Const'
+import { PromiseParam, PromiseResult } from '../../common/Const'
 import { UserInfo } from '../../store/User/UserBase'
-
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -44,7 +43,6 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-
     }
 
     // update (dt) {}
