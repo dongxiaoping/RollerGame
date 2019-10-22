@@ -1,7 +1,7 @@
 const { ccclass } = cc._decorator;
 import { UserInfo, emptyUserInfo } from './UserBase'
-import { config, } from '../../static/Config'
-import { appMode, PromiseParam, PromiseResult } from '../../static/Const'
+import { config, } from '../../common/Config'
+import { appMode, PromiseParam, PromiseResult } from '../../common/Const'
 import { userInfo } from '../../mock/UserInfo'
 @ccclass
 class User {
