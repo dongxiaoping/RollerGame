@@ -174,7 +174,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 257.2095449239783
+      "z": 249.41531628991834
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -244,7 +244,7 @@
         "__id__": 9
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 1,
     "_components": [
       {
@@ -1302,7 +1302,7 @@
       "__id__": 2
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_level": 1,
     "_components": [
       {
@@ -1432,7 +1432,7 @@
         "__id__": 43
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 1,
     "_components": [
       {
@@ -2646,7 +2646,7 @@
       "__id__": 64
     },
     "_name": "PlayButton",
-    "_active": true,
+    "_active": false,
     "_position": {
       "__type__": "cc.Vec3",
       "x": -124.514,
@@ -2736,6 +2736,7 @@
       "__id__": 40
     },
     "text": "hello",
+    "_width": 100,
     "_id": "feJlsZ4RBOK6EdKyA1WVAs"
   }
 ]

@@ -4,16 +4,17 @@ export enum roomState{
     CLOSE = 3   //关闭
 }
 
-export enum hostMode{
-    ROB = 1,
-    TURN = 2 
+export enum playMode{
+    LANDLORD = 1, //霸王庄
+    TURN = 2, //轮流
 }
 
 export interface RoomInfo{
-    roomNumber : number
-    roomState: roomState
-    creatorId: string
-    peopleLimit: number
-    playCountLimit: number
-    hostMode: hostMode  //轮庄模式
+    num : number  //房间编号
+    creatUserId: string  //创建者ID
+    memberLimit: number  //人员数量限制
+    playCount: number  //场次限制
+    playMode: playMode  //上庄模式
+    costLimit: number  //消费上限
+    roomState: roomState  //房间状态
 }

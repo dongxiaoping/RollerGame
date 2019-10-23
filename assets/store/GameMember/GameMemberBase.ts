@@ -6,7 +6,7 @@ export enum gameMemberType{
 
 export interface GameMember{
     userId : string
-    type: gameMemberType
-    name: string
-    userIcon: string
+    roleType: gameMemberType
+    nick: string
+    icon: string
 }

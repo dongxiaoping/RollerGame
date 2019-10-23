@@ -3,8 +3,8 @@ import { config, } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult } from '../../common/Const'
 import axios from 'axios'
 @ccclass
-class GameMemberInfo {
+class GameMember {
 
 }
 
-export default new GameMemberInfo
+export default new GameMember

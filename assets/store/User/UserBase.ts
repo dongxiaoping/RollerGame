@@ -4,23 +4,23 @@ export enum userType {
 }
 
 export interface UserInfo {
-    userId: string
-    userName: string
-    userIcon: string
-    userType: userType
+    id: string
+    icon: string
+    nick: string
+    type: userType
     score: number
-    diamondCount: number
+    diamond: number
     phone: string
 }
 
 export const emptyUserInfo = function (): UserInfo {
     return {
-        userId: '',
-        userName: '',
-        userIcon: '',
-        userType: userType.NORMAL_USER,
+        id: '',
+        nick: '',
+        icon: '',
+        type: userType.NORMAL_USER,
         score: 0,
-        diamondCount: 0,
+        diamond: 0,
         phone: ''
     }
 }
