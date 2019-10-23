@@ -3,6 +3,7 @@ import User from '../../store/User/User'
 import { PromiseParam, PromiseResult } from '../../common/Const'
 import { UserInfo } from '../../store/User/UserBase'
 import RollControler from '../../component/RollControler'
+import RollEmulator from '../../component/RollEmulator'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -11,18 +12,6 @@ export default class NewClass extends cc.Component {
 
     @property
     text: string = 'hello'
-
-    @property
-    _width = 100;
-    
-    @property
-    get width () {
-        return this._width;
-    }
-    set width (value) {
-        cc.log('width changed');
-       this._width = value;
-    }
 
     onEnable() {
         this.showUserIcon()
@@ -52,12 +41,11 @@ export default class NewClass extends cc.Component {
     }
 
     onLoad(){
-        cc.log(55555555555555)  
+
     }
 
     start() {
-        cc.log(3333333333333)
-        this.width = 45
+        RollEmulator.isRuning = true
     }
 
     // update (dt) {}
