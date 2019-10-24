@@ -1,11 +1,8 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-class RollEmulator extends cc.Component {
-    @property
-    _isRuning: boolean = false;
-
-    @property
+class RollEmulator  {
+    _isRuning: boolean = false
     get isRuning() {
         return this._isRuning;
     }
