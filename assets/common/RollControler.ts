@@ -3,6 +3,15 @@ import { eventBus } from '../common/EventBus'
 import { EventType } from '../common/Const'
 @ccclass
 class RollControler {
+    constructor(){
+        let eventId = `mst_app_${new Date().getTime()}_${Math.ceil(
+            Math.random() * 10
+          )}`
+        eventBus.on(EventType.DICE_COUNT, eventId, (info:any): void => {
+            cc.log('接收到色子点数')
+            cc.log(info)
+          })
+    }
     test(): void {
         console.log('roll 控制器')
         setTimeout(() => {

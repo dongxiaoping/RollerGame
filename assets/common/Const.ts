@@ -38,6 +38,7 @@ export const GameState = {
 
 
 export enum EventType {
+    DICE_COUNT = 9, //色子点数
     WAIT_BEGIN = GameState.WAIT_BEGIN,
     CHOICE_LANDLORD = GameState.CHOICE_LANDLORD,
     ROLL_DICE = GameState.ROLL_DICE,
