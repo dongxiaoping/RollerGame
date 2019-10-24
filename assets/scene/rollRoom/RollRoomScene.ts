@@ -23,10 +23,10 @@ export default class NewClass extends cc.Component {
    async showUserIcon() {
     let info = await User.requestUserInfo()
     let userInfo = info.extObject as UserInfo
-    cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {
-                    let myIcon = new cc.SpriteFrame(img);
-                    this.userIcon.spriteFrame = myIcon;
-                });
+    // cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {
+    //                 let myIcon = new cc.SpriteFrame(img);
+    //                 this.userIcon.spriteFrame = myIcon;
+    //             });
     }
 
     testCode(){
@@ -58,6 +58,9 @@ export default class NewClass extends cc.Component {
             Math.random() * 10
           )}`
         eventBus.on(EventType.WAIT_BEGIN, eventId, (info:any): void => {
+            cc.log(info)
+          })
+          eventBus.on(EventType.VAL_USER_TYPE_CHANGE, eventId, (info:any): void => {
             cc.log(info)
           })
     }

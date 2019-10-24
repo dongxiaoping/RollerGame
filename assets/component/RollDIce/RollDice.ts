@@ -32,10 +32,8 @@ export default class NewClass extends cc.Component {
         setTimeout((): void => {
             this.oning = false
             setTimeout((): void => {
-                this.isFlying = true
-                setTimeout((): void => {
-                    this.showDice()
-                }, 50)
+              this.isFlying = true
+              this.showDice()
             }, 500) //晃动结束开盒子的时间
         }, this.endTime * 1000)
     }
