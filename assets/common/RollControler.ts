@@ -4,6 +4,12 @@ import { EventType } from '../common/Const'
 @ccclass
 class RollControler {
     constructor(){
+          this.eventReceive()
+          
+    }
+
+    //事件接收
+    private eventReceive(): void {
         let eventId = `mst_app_${new Date().getTime()}_${Math.ceil(
             Math.random() * 10
           )}`
@@ -12,13 +18,14 @@ class RollControler {
             cc.log(info)
           })
     }
+
     test(): void {
         console.log('roll 控制器')
-        setTimeout(() => {
-            eventBus.emit(EventType.WAIT_BEGIN, {
-                num: 3,z: 4
-            })
-        }, 4000)
+        // setTimeout(() => {
+        //     eventBus.emit(EventType.WAIT_BEGIN, {
+        //         num: 3,z: 4
+        //     })
+        // }, 4000)
     }
 }
 

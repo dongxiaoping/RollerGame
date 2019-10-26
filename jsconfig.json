@@ -2,6 +2,10 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["assets/*"]
+          },
         "experimentalDecorators": true
     },
     "exclude": [

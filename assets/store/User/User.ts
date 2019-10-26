@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
-import { UserInfo, emptyUserInfo } from './UserBase'
-import { config, } from '../../common/Config'
+import { emptyUserInfo } from './UserBase'
+import { config } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult } from '../../common/Const'
 import { userInfo } from '../../mock/UserInfo'
 import UserItem from './UserItem'
@@ -28,4 +28,4 @@ class User {
     }
 }
 
-export default new User
+export default new User()

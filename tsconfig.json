@@ -6,6 +6,10 @@
     "experimentalDecorators": true,
     "skipLibCheck": true
   },
+  // "baseUrl": "assets",
+  // "path": {
+
+  // },
   "exclude": [
     "node_modules",
     "library",

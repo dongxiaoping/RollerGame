@@ -3,9 +3,9 @@ import User from '../../store/User/User'
 import { PromiseParam, PromiseResult } from '../../common/Const'
 import { UserInfo } from '../../store/User/UserBase'
 import RollControler from '../../common/RollControler'
-import RollEmulator from '../../common/RollEmulator'
+import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
-import { EventType } from '../../common/Const'
+import { EventType, GameState } from '../../common/Const'
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -13,56 +13,58 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     private userIcon: cc.Sprite = null
 
-    @property
-    text: string = 'hello'
+    @property(cc.Prefab)
+    private rollDice: cc.Prefab = null
 
     onEnable() {
         this.showUserIcon()
+        this.addEventListener()
     }
 
-   async showUserIcon() {
-    let info = await User.requestUserInfo()
-    let userInfo = info.extObject as UserInfo
-    // cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {
-    //                 let myIcon = new cc.SpriteFrame(img);
-    //                 this.userIcon.spriteFrame = myIcon;
-    //             });
+    private addEventListener() {
+        let eventId = `mst_app_${new Date().getTime()}_${Math.ceil(
+            Math.random() * 10
+        )}`
+        eventBus.on(EventType.GAME_STATE_CHANGE, eventId, (info: any): void => {
+            let to = info.to
+            switch (to) {
+                case GameState.ROLL_DICE:
+                    this.beginRollDice()
+                    break
+            }
+
+        })
     }
 
-    testCode(){
-        // User.requestUserInfo().then((result: PromiseParam): void => {
-        //     if (result.result === PromiseResult.SUCCESS) {
-        //         let userInfo = result.extObject as UserInfo
-        //         cc.loader.load({ url: userInfo.userIcon, type: 'png' }, (err, img: any) => {
-        //             let myIcon = new cc.SpriteFrame(img);
-        //             this.userIcon.spriteFrame = myIcon;
-        //         });
-        //     } else {
-
-        //     }
-        // })
+    //摇色子
+    private beginRollDice(): void {
+        var node = cc.instantiate(this.rollDice)
+        node.parent = this.node
+        node.setPosition(0, 0);
+        node.active = true
     }
 
-    onLoad(){
+    //结束摇色子
+    private endRollDice(): void {
+        let rollDice = this.node.getChildByName('RollDice')
+        rollDice.destroy()
+    }
+
+    async showUserIcon() {
+        let info = await User.requestUserInfo()
+        let userInfo = info.extObject as UserInfo
+        // cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {
+        //                 let myIcon = new cc.SpriteFrame(img);
+        //                 this.userIcon.spriteFrame = myIcon;
+        //             });
+    }
+
+    onLoad() {
 
     }
 
     start() {
         RollEmulator.isRuning = true
-        RollControler.test()
-        this.node.on('say-hello', function (msg) {
-            cc.log(msg);
-            cc.log('我接受到了')
-        });
-        let eventId = `mst_app_${new Date().getTime()}_${Math.ceil(
-            Math.random() * 10
-          )}`
-        eventBus.on(EventType.WAIT_BEGIN, eventId, (info:any): void => {
-            cc.log(info)
-          })
-          eventBus.on(EventType.VAL_USER_TYPE_CHANGE, eventId, (info:any): void => {
-            cc.log(info)
-          })
     }
 
     // update (dt) {}

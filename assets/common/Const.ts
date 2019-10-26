@@ -38,14 +38,7 @@ export const GameState = {
 
 
 export enum EventType {
-    VAL_USER_TYPE_CHANGE = 10, //用户类型改变通知
-    DICE_COUNT = 9, //色子点数
-    WAIT_BEGIN = GameState.WAIT_BEGIN,
-    CHOICE_LANDLORD = GameState.CHOICE_LANDLORD,
-    ROLL_DICE = GameState.ROLL_DICE,
-    DEAL = GameState.DEAL,
-    BET = GameState.BET,
-    SHOW_DOWN = GameState.SHOW_DOWN,
-    SHOW_RESULT = GameState.SHOW_RESULT,
-    GAME_OVER = GameState.GAME_OVER
+    GAME_STATE_CHANGE = 1, //游戏状态改变通知
+    VAL_USER_TYPE_CHANGE = 2, //用户类型改变通知
+    DICE_COUNT = 3, //色子点数通知
 }
