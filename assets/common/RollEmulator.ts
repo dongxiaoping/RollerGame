@@ -1,26 +1,17 @@
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../common/EventBus'
 import { EventType, GameState } from '../common/Const'
-import  from './'
+import { RollControlerOb } from './RollControler'
 @ccclass
-class RollEmulator {
-    _isRuning: boolean = false
-    get isRuning() {
-        return this._isRuning;
-    }
-    set isRuning(value) {
-        if (!this._isRuning && value) {
-            this.startEmulator()
-        }
-        this._isRuning = value;
+class RollEmulator extends RollControlerOb {
+    startRun(): void{
+        super.startRun()
+        this.startEulator()
     }
 
-    //启动模拟器
-    private startEmulator(): void {
+    startEulator(): void {
         setTimeout(() => {
-            eventBus.emit(EventType.GAME_STATE_CHANGE, {
-                from: GameState.CHOICE_LANDLORD, to: GameState.ROLL_DICE
-            })
+            this.toRollDice()
         }, 4000)
     }
 }
