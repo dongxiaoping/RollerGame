@@ -50,9 +50,11 @@ export default class NewClass extends cc.Component {
             let myIcon = new cc.SpriteFrame(img);
             this.diceTwo.spriteFrame = myIcon
         })
-        eventBus.emit(EventType.DICE_COUNT, {
-            one: a, two: b
-        } as DiceCountInfo)
+        setTimeout(()=>{
+            eventBus.emit(EventType.DICE_COUNT, {
+                one: a, two: b
+            } as DiceCountInfo)
+        },1000)
     }
 
     randNum(n: number, m: number): number {

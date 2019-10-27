@@ -47,4 +47,5 @@ export enum EventType {
     VAL_USER_TYPE_CHANGE = 2, //用户类型改变通知
     DICE_COUNT = 3, //色子点数通知
     PLAY_BUTTON_EVENT = 4, //游戏开始按钮被点击通知
+    GAME_LINK_FINISH = 5,  //游戏环节结束通知
 }

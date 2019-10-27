@@ -46,12 +46,27 @@ export class RollControlerOb {
         eventBus.on(EventType.DICE_COUNT, randEventId(), (info: DiceCountInfo): void => {
             cc.log('接收到色子点数')
             cc.log(info)
+            cc.log('摇色子结束，发指令，开始发牌指令')
+            eventBus.emit(EventType.GAME_STATE_CHANGE, {
+                from: GameState.ROLL_DICE, to: GameState.DEAL
+            })
         })
 
         eventBus.on(EventType.PLAY_BUTTON_EVENT, randEventId(), (info: any): void => {
             cc.log('控制器接收到游戏开始按钮通知')
             this.toChoiceLandlord()
             cc.log(info)
+        })
+
+        eventBus.on(EventType.GAME_LINK_FINISH, randEventId(), (info: any): void => {
+            cc.log('控制器接收到游戏环节结束通知')
+            let state = info.state
+            switch (state) {
+                case GameState.CHOICE_LANDLORD:  //选地主结束
+                    cc.log('选地主结束,发指令，开始摇色子流程')
+                    this.toRollDice()
+                    break
+            }
         })
     }
 }

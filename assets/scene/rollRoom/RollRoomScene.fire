@@ -171,7 +171,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 249.41531628991834
+      "z": 257.2095449239783
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -3159,6 +3159,9 @@
     },
     "playButtonPrefab": {
       "__uuid__": "96555e57-30bf-4555-b386-bacd48eb80b7"
+    },
+    "choiceLandlordPanel": {
+      "__uuid__": "5f8af98e-d6d0-4946-8b70-5398db9dcbda"
     },
     "_id": "feJlsZ4RBOK6EdKyA1WVAs"
   }

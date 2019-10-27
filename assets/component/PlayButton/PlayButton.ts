@@ -18,6 +18,7 @@ export default class NewClass extends cc.Component {
         this.node.on(cc.Node.EventType.TOUCH_END, ()=>{
             console.log('开始游戏按钮被点击')
             eventBus.emit(EventType.PLAY_BUTTON_EVENT, {})
+            this.node.destroy()
         })
     }
 
