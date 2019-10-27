@@ -4,15 +4,17 @@ import { EventType, GameState } from '../common/Const'
 import { RollControlerOb } from './RollControler'
 @ccclass
 class RollEmulator extends RollControlerOb {
+
     startRun(): void{
+        cc.log('游戏模拟器被启动')
         super.startRun()
         this.startEulator()
     }
 
     startEulator(): void {
-        setTimeout(() => {
-            this.toRollDice()
-        }, 4000)
+        // setTimeout(() => {
+        //     this.toRollDice()
+        // }, 4000)
     }
 }
 

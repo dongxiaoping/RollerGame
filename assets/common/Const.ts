@@ -24,6 +24,11 @@ export const TrendMapState = {
     SHOW: 3 //展示
 }
 
+export interface DiceCountInfo {
+    one: number, //第一个色子点数
+    two: number //第二个色子点数
+}
+
 //游戏状态
 export const GameState = {
     WAIT_BEGIN: 1, //等待游戏开始
@@ -41,4 +46,5 @@ export enum EventType {
     GAME_STATE_CHANGE = 1, //游戏状态改变通知
     VAL_USER_TYPE_CHANGE = 2, //用户类型改变通知
     DICE_COUNT = 3, //色子点数通知
+    PLAY_BUTTON_EVENT = 4, //游戏开始按钮被点击通知
 }

@@ -1,6 +1,6 @@
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType } from '../../common/Const'
+import { EventType, DiceCountInfo } from '../../common/Const'
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -32,8 +32,8 @@ export default class NewClass extends cc.Component {
         setTimeout((): void => {
             this.oning = false
             setTimeout((): void => {
-              this.isFlying = true
-              this.showDice()
+                this.isFlying = true
+                this.showDice()
             }, 500) //晃动结束开盒子的时间
         }, this.endTime * 1000)
     }
@@ -52,7 +52,7 @@ export default class NewClass extends cc.Component {
         })
         eventBus.emit(EventType.DICE_COUNT, {
             one: a, two: b
-        })
+        } as DiceCountInfo)
     }
 
     randNum(n: number, m: number): number {

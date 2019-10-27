@@ -1,5 +1,6 @@
 const {ccclass, property} = cc._decorator;
-
+import { eventBus } from '../../common/EventBus'
+import { EventType, GameState } from '../../common/Const'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -15,7 +16,8 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            console.log('开始游戏')
+            console.log('开始游戏按钮被点击')
+            eventBus.emit(EventType.PLAY_BUTTON_EVENT, {})
         })
     }
 
