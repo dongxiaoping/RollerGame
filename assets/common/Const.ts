@@ -60,5 +60,6 @@ export enum EventType {
     DICE_COUNT = 3, //色子点数通知
     PLAY_BUTTON_EVENT = 4, //游戏开始按钮被点击通知
     GAME_LINK_FINISH = 5,  //游戏环节结束通知
+    OPEN_CARD_NOTICE = 6  //翻牌通知
 }
 

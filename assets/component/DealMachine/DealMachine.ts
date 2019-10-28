@@ -1,6 +1,9 @@
 const { ccclass, property } = cc._decorator;
 import { TableLocationType } from '../../common/Const'
 import { getLocationByLocaitonType, getCircleListByLocationType } from './DealMachineBase'
+import { eventBus } from '../../common/EventBus'
+import { EventType } from '../../common/Const'
+
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -9,13 +12,8 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     mjDouble: cc.Prefab = null
-
     mahjongList: any[] = []  //一行显示的
-
-    showMjList: any[] =[]  //发下去的
-
     mjIndex: number = -1 //牌队列当前消耗位置，起牌
-
 
     onEnable() {
         this.initMaj()
@@ -44,6 +42,7 @@ export default class NewClass extends cc.Component {
             ++count
             if (count >= 4) {
                 cc.log('全部动画执行完毕')
+                this.toShowMjResult()
             } else {
                 cc.log('当前动画执行完毕')
                 ++this.mjIndex
@@ -56,7 +55,12 @@ export default class NewClass extends cc.Component {
 
     //显示结果
     toShowMjResult(): void {
+        this.showTheMjResult(4, TableLocationType.LANDLORD, () => { })
+    }
 
+    showTheMjResult(val: number, tableLocationType: TableLocationType, func: any): void {
+        cc.log('发出翻牌通知')
+        eventBus.emit(EventType.OPEN_CARD_NOTICE, tableLocationType)
     }
 
     /*未发牌行的指定位置到桌位的发牌动画
@@ -70,7 +74,7 @@ export default class NewClass extends cc.Component {
         t.getChildByName('Two').active = false
 
         let node = cc.instantiate(this.mjDouble)
-        this.showMjList[tableLocationType] = node
+        node.name = node.name + tableLocationType
         let rootOb = this.node.parent
         node.parent = rootOb
         node.setPosition(110.968, -193.548);
@@ -83,6 +87,7 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
+
     }
 
     // update (dt) {}
