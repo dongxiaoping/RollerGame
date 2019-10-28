@@ -5,15 +5,8 @@ export enum raceState{
     FINISHED = 4  //完成
 }
 
-export interface BetRecord{
-    id: string
-    userId: string
-    moneyValue: number
-}
-
 export interface raceRecord{
     raceId: string
     num: number //场次编号
     state: raceState
-    betRecords: BetRecord[]
 }

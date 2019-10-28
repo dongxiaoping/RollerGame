@@ -1,11 +1,11 @@
 const { ccclass, property } = cc._decorator;
-import User from '../../store/User/User'
+import User from '../../store/User/UserManage'
 import { PromiseParam, PromiseResult } from '../../common/Const'
 import { UserInfo } from '../../store/User/UserBase'
 import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
 import { EventType, GameState } from '../../common/Const'
-import Room from '../../store/Room/Room'
+import Room from '../../store/Room/RoomManage'
 import RoomItem from '../../store/Room/RoomItem'
 import { randEventId } from '../../common/Util'
 @ccclass
@@ -24,7 +24,7 @@ export default class NewClass extends cc.Component {
     private choiceLandlordPanel: cc.Prefab = null //选地主面板
 
     onEnable() {
-        this.showUserIcon()
+      //  this.showUserIcon()
         this.addEventListener()
     }
 
@@ -91,9 +91,9 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-        RollEmulator.isRuning = true
-        this.showUserIcon()
-        this.openStartButton()
+       // RollEmulator.isRuning = true
+      //  this.showUserIcon()
+      //  this.openStartButton()
     }
 
     async openStartButton() {

@@ -174,7 +174,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 257.2095449239783
+      "z": 249.41531628991834
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -3481,7 +3481,9 @@
     "mahjongs": {
       "__uuid__": "9425143a-6e37-4a12-a452-e985acabc58b"
     },
-    "text": "hello",
+    "mjDouble": {
+      "__uuid__": "1339ea18-aca2-4df6-b856-30204b3928a9"
+    },
     "_id": "c4wwnush1IWoh7yetiZf8M"
   },
   {

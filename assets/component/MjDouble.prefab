@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Mahjongs",
+    "_name": "MjDouble",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -25,10 +25,14 @@
       }
     ],
     "_active": true,
-    "_level": 1,
-    "_components": [],
+    "_level": 2,
+    "_components": [
+      {
+        "__id__": 10
+      }
+    ],
     "_prefab": {
-      "__id__": 10
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -40,8 +44,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 12,
-      "height": 20
+      "width": 92,
+      "height": 58
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -50,8 +54,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -87.05,
-      "y": -26.883,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -103,8 +107,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 12,
-      "height": 15
+      "width": 46,
+      "height": 58
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -113,8 +117,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": -2.5,
+      "x": -23,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -137,7 +141,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "One<Sprite>",
+    "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
@@ -177,7 +181,7 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 44,
+    "_alignFlags": 5,
     "_left": 0,
     "_right": 0,
     "_top": 0,
@@ -190,8 +194,8 @@
     "_isAbsBottom": true,
     "_isAbsHorizontalCenter": true,
     "_isAbsVerticalCenter": true,
-    "_originalWidth": 12,
-    "_originalHeight": 0,
+    "_originalWidth": 0,
+    "_originalHeight": 70,
     "_id": ""
   },
   {
@@ -200,9 +204,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9425143a-6e37-4a12-a452-e985acabc58b"
+      "__uuid__": "1339ea18-aca2-4df6-b856-30204b3928a9"
     },
-    "fileId": "5361XreeZAg5vjDuwztIn0",
+    "fileId": "a8U7vRpyZC1rK1O+2FSjY4",
     "sync": false
   },
   {
@@ -236,8 +240,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 12,
-      "height": 15
+      "width": 46,
+      "height": 58
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -246,8 +250,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 2.5,
+      "x": 23,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -270,7 +274,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "Two<Sprite>",
+    "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 6
@@ -310,7 +314,7 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 41,
+    "_alignFlags": 5,
     "_left": 0,
     "_right": 0,
     "_top": 0,
@@ -323,8 +327,8 @@
     "_isAbsBottom": true,
     "_isAbsHorizontalCenter": true,
     "_isAbsVerticalCenter": true,
-    "_originalWidth": 12,
-    "_originalHeight": 0,
+    "_originalWidth": 0,
+    "_originalHeight": 36,
     "_id": ""
   },
   {
@@ -333,10 +337,43 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9425143a-6e37-4a12-a452-e985acabc58b"
+      "__uuid__": "1339ea18-aca2-4df6-b856-30204b3928a9"
     },
-    "fileId": "922a15Vi1GrK4718dptiwh",
+    "fileId": "a7Czw9+xxEMYtKVvrI0b9O",
     "sync": false
+  },
+  {
+    "__type__": "cc.Layout",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_layoutSize": {
+      "__type__": "cc.Size",
+      "width": 92,
+      "height": 58
+    },
+    "_resize": 0,
+    "_N$layoutType": 1,
+    "_N$padding": 0,
+    "_N$cellSize": {
+      "__type__": "cc.Size",
+      "width": 40,
+      "height": 40
+    },
+    "_N$startAxis": 0,
+    "_N$paddingLeft": 0,
+    "_N$paddingRight": 0,
+    "_N$paddingTop": 0,
+    "_N$paddingBottom": 0,
+    "_N$spacingX": 0,
+    "_N$spacingY": 0,
+    "_N$verticalDirection": 1,
+    "_N$horizontalDirection": 0,
+    "_N$affectedByScale": false,
+    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -344,9 +381,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9425143a-6e37-4a12-a452-e985acabc58b"
+      "__uuid__": "1339ea18-aca2-4df6-b856-30204b3928a9"
     },
-    "fileId": "b8uduPmypAqLjg3l9Rkh/2",
+    "fileId": "f2dUO0Ng5KtIPUGO4bibrV",
     "sync": false
   }
 ]

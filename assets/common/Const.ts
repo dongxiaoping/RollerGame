@@ -6,6 +6,13 @@ export interface Config {
     appMode: number
 }
 
+export enum  TableLocationType {
+    SKY = 1, //天
+    MIDDLE = 2, //中
+    LAND = 3,  //地
+    LANDLORD = 4  //庄
+}
+
 export class PromiseParam {
     result: number
     extObject?: any
@@ -41,6 +48,11 @@ export const GameState = {
     GAME_OVER: 8  //游戏结束
 }
 
+export interface Coordinate {
+    x: number,
+    y: number
+}
+
 
 export enum EventType {
     GAME_STATE_CHANGE = 1, //游戏状态改变通知
@@ -49,3 +61,4 @@ export enum EventType {
     PLAY_BUTTON_EVENT = 4, //游戏开始按钮被点击通知
     GAME_LINK_FINISH = 5,  //游戏环节结束通知
 }
+

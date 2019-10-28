@@ -6,7 +6,7 @@ import { appMode, PromiseParam, PromiseResult } from '../../common/Const'
 import { roomInfo } from '../../mock/RoomInfo'
 
 @ccclass
-class Room {
+class RoomManage {
     private roomItem: RoomItem = null
 
     public requestRoomInfo(): Promise<PromiseParam> {
@@ -21,4 +21,4 @@ class Room {
     }
 }
 
-export default new Room()
+export default new RoomManage()

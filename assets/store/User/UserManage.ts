@@ -6,7 +6,7 @@ import { userInfo } from '../../mock/UserInfo'
 import UserItem from './UserItem'
 import axios from 'axios'
 @ccclass
-class User {
+class UserManage {
     private userInfo: UserItem = null
     constructor() {
     }
@@ -28,4 +28,4 @@ class User {
     }
 }
 
-export default new User()
+export default new UserManage()
