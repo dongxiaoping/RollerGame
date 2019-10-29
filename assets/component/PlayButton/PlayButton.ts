@@ -1,6 +1,6 @@
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState } from '../../common/Const'
+import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -15,18 +15,18 @@ export default class NewClass extends cc.Component {
     // onLoad () {}
 
     onEnable() {
-        this.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+        this.node.on(cc.Node.EventType.TOUCH_END, () => {
             console.log('开始游戏按钮被点击')
-            eventBus.emit(EventType.PLAY_BUTTON_EVENT, {})
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.WAIT_BEGIN, childState: ChildGameState.WAIT_BEGIN.PLAY_BUTTON_EVENT } as ChildGameParam)
             this.node.destroy()
         })
     }
 
-    onDisable(){
-        this.node.off(cc.Node.EventType.TOUCH_END, ()=>{})
+    onDisable() {
+        this.node.off(cc.Node.EventType.TOUCH_END, () => { })
     }
 
-    start () {
+    start() {
 
     }
 

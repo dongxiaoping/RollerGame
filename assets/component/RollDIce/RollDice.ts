@@ -1,6 +1,6 @@
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, DiceCountInfo } from '../../common/Const'
+import { EventType, DiceCountInfo, ChildGameParam, ChildGameState, GameState } from '../../common/Const'
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -50,11 +50,13 @@ export default class NewClass extends cc.Component {
             let myIcon = new cc.SpriteFrame(img);
             this.diceTwo.spriteFrame = myIcon
         })
-        setTimeout(()=>{
-            eventBus.emit(EventType.DICE_COUNT, {
-                one: a, two: b
-            } as DiceCountInfo)
-        },1000)
+        setTimeout(() => {
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, {
+                parentState: GameState.ROLL_DICE,
+                childState: ChildGameState.ROLL_DICE.DICE_COUNT,
+                val: { one: 1, two: 2 } as DiceCountInfo
+            } as ChildGameParam)
+        }, 1000)
     }
 
     randNum(n: number, m: number): number {

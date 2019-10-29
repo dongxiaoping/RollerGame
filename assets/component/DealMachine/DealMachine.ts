@@ -2,7 +2,7 @@ const { ccclass, property } = cc._decorator;
 import { TableLocationType } from '../../common/Const'
 import { getLocationByLocaitonType, getCircleListByLocationType } from './DealMachineBase'
 import { eventBus } from '../../common/EventBus'
-import { EventType } from '../../common/Const'
+import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -24,7 +24,7 @@ export default class NewClass extends cc.Component {
 
     initMaj(): void {
         let layout = this.node.getChildByName('Layout')
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < 1; i++) {
             let node = cc.instantiate(this.mahjongs)
             node.parent = layout
             node.setPosition(0, 0);
@@ -40,7 +40,7 @@ export default class NewClass extends cc.Component {
         let circleList = getCircleListByLocationType(tableLocationType)
         function backFun() {
             ++count
-            if (count >= 4) {
+            if (count >= 1) {
                 cc.log('全部动画执行完毕')
                 this.toShowMjResult()
             } else {
@@ -55,12 +55,12 @@ export default class NewClass extends cc.Component {
 
     //显示结果
     toShowMjResult(): void {
-        this.showTheMjResult(4, TableLocationType.LANDLORD, () => { })
+        this.showTheMjResult(4, TableLocationType.LAND, () => { })
     }
 
     showTheMjResult(val: number, tableLocationType: TableLocationType, func: any): void {
         cc.log('发出翻牌通知')
-        eventBus.emit(EventType.OPEN_CARD_NOTICE, tableLocationType)
+        eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: tableLocationType } as ChildGameParam)
     }
 
     /*未发牌行的指定位置到桌位的发牌动画
@@ -69,6 +69,10 @@ export default class NewClass extends cc.Component {
      *@backFunc 执行完毕回调函数
      */
     flyAnimation(mjIndex: number, tableLocationType: TableLocationType, func: any) {
+        if (this.mahjongList.length <= 0) {
+            return
+            cc.log('没有麻将队列')
+        }
         let t = this.mahjongList[this.mjIndex]
         t.getChildByName('One').active = false
         t.getChildByName('Two').active = false

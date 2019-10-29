@@ -6,7 +6,7 @@ export interface Config {
     appMode: number
 }
 
-export enum  TableLocationType {
+export enum TableLocationType {
     SKY = 1, //天
     MIDDLE = 2, //中
     LAND = 3,  //地
@@ -37,15 +37,15 @@ export interface DiceCountInfo {
 }
 
 //游戏状态
-export const GameState = {
-    WAIT_BEGIN: 1, //等待游戏开始
-    CHOICE_LANDLORD: 2, //选地主
-    ROLL_DICE: 3,  //摇色子
-    DEAL: 4, //发牌
-    BET: 5,  //下注
-    SHOW_DOWN: 6,  //比大小
-    SHOW_RESULT: 7,  //公布结果
-    GAME_OVER: 8  //游戏结束
+export enum GameState {
+    WAIT_BEGIN = 1, //等待游戏开始
+    CHOICE_LANDLORD = 2, //选地主
+    ROLL_DICE = 3,  //摇色子
+    DEAL = 4, //发牌
+    BET = 5,  //下注
+    SHOW_DOWN = 6,  //比大小
+    SHOW_RESULT = 7,  //公布结果
+    GAME_OVER = 8  //游戏结束
 }
 
 export interface Coordinate {
@@ -56,10 +56,21 @@ export interface Coordinate {
 
 export enum EventType {
     GAME_STATE_CHANGE = 1, //游戏状态改变通知
-    VAL_USER_TYPE_CHANGE = 2, //用户类型改变通知
-    DICE_COUNT = 3, //色子点数通知
-    PLAY_BUTTON_EVENT = 4, //游戏开始按钮被点击通知
-    GAME_LINK_FINISH = 5,  //游戏环节结束通知
-    OPEN_CARD_NOTICE = 6  //翻牌通知
+    CHILD_GAME_STATE_CHANGE = 2,  //游戏状态子状态改变通知
+    VAL_USER_TYPE_CHANGE = 3, //用户类型改变通知
+    GAME_LINK_FINISH = 4  //游戏环节结束通知
 }
 
+
+//游戏状态子状态
+export const ChildGameState = {
+    WAIT_BEGIN: { PLAY_BUTTON_EVENT: 1 }, //游戏开始按钮被点击通知
+    SHOW_DOWN: { OPEN_CARD_NOTICE: 2 }, //翻牌通知
+    ROLL_DICE:{DICE_COUNT:3} //色子点数通知
+}
+
+export interface ChildGameParam {
+    parentState: GameState,
+    childState: number,
+    val?: any
+}

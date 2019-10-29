@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
-import { EventType, GameState, DiceCountInfo } from '../common/Const'
+import { EventType, GameState, DiceCountInfo, ChildGameParam, ChildGameState } from '../common/Const'
 import { randEventId } from '../common/Util'
 @ccclass
 export class RollControlerOb {
@@ -16,7 +16,7 @@ export class RollControlerOb {
         this._isRuning = value;
     }
 
-    startRun(): void{
+    startRun(): void {
         this.initControl()
     }
 
@@ -43,19 +43,19 @@ export class RollControlerOb {
 
     //事件接收
     private eventReceive(): void {
-        eventBus.on(EventType.DICE_COUNT, randEventId(), (info: DiceCountInfo): void => {
-            cc.log('接收到色子点数')
-            cc.log(info)
-            cc.log('摇色子结束，发指令，开始发牌指令')
-            eventBus.emit(EventType.GAME_STATE_CHANGE, {
-                from: GameState.ROLL_DICE, to: GameState.DEAL
-            })
-        })
-
-        eventBus.on(EventType.PLAY_BUTTON_EVENT, randEventId(), (info: any): void => {
-            cc.log('控制器接收到游戏开始按钮通知')
-            this.toChoiceLandlord()
-            cc.log(info)
+        eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam): void => {
+            if (info.parentState === GameState.ROLL_DICE && info.childState === ChildGameState.ROLL_DICE.DICE_COUNT) {
+                cc.log('接收到色子点数')
+                cc.log(info.val)
+                cc.log('摇色子结束，发指令，开始发牌指令')
+                eventBus.emit(EventType.GAME_STATE_CHANGE, {
+                    from: GameState.ROLL_DICE, to: GameState.DEAL
+                })
+            } else if(info.parentState === GameState.WAIT_BEGIN && info.childState === ChildGameState.WAIT_BEGIN.PLAY_BUTTON_EVENT){
+                cc.log('控制器接收到游戏开始按钮通知')
+                this.toChoiceLandlord()
+                cc.log(info)
+            }
         })
 
         eventBus.on(EventType.GAME_LINK_FINISH, randEventId(), (info: any): void => {
@@ -71,4 +71,4 @@ export class RollControlerOb {
     }
 }
 
-export  const rollControler = new RollControlerOb()
+export const rollControler = new RollControlerOb()
