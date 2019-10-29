@@ -16,6 +16,18 @@ export default class NewClass extends cc.Component {
     halfIcon: cc.SpriteFrame = null
     allIcon: cc.SpriteFrame = null
 
+    iconValueList: any = {
+        1: ['1_1'],
+        2: ['2_1', '2_2'],
+        3: ['3_1'],
+        4: ['4_1', '4_2', '4_3', '4_4'],
+        5: ['5_1', '5_2', '5_3', '5_4', '5_5'],
+        6: ['6_1', '6_2'],
+        7: ['7_1'],
+        8: ['8_1'],
+        9: ['9_1', '9_2', '9_3', '9_4', '9_5', '9_6', '9_7', '9_8', '9_9']
+    }
+
     start() {
         cc.loader.loadRes('mahjong/mahjong_62fa7d43_02', (error, img) => {
             this.oneThirdIcon = new cc.SpriteFrame(img);
@@ -39,16 +51,52 @@ export default class NewClass extends cc.Component {
     }
 
     open(oneValue: number, twoNumber: number) {
-        this.one.spriteFrame = this.halfIcon
-        setTimeout(()=>{
-            this.one.spriteFrame = this.allIcon
-            setTimeout(()=>{
-                this.two.spriteFrame = this.halfIcon
-                setTimeout(()=>{
+        let time = 200
+        let count = 1
+        let setIn = setInterval(() => {
+            switch (count) {
+                case 1:
+                    this.one.spriteFrame = this.oneThirdIcon
+                    break;
+                case 2:
+                    this.one.spriteFrame = this.halfIcon
+                    break;
+                case 3:
+                    this.one.spriteFrame = this.allIcon
+                    this.drawResult(this.one, this.randNum(1, 9))
+                    time = 500
+                    break;
+                case 4:
+                    this.two.spriteFrame = this.oneThirdIcon
+                    time = 200
+                    break;
+                case 5:
+                    this.two.spriteFrame = this.halfIcon
+                    break;
+                case 6:
                     this.two.spriteFrame = this.allIcon
-                },200)
-            },500)
-        },200)
+                    this.drawResult(this.two, this.randNum(1, 9))
+                    break
+                case 7:
+                    clearInterval(setIn)
+            }
+            count++
+            cc.log('循环执行翻牌动画')
+        }, time)
+    }
+
+    drawResult(ob: cc.Sprite, val: number) {
+        cc.log(ob.node)
+        let list = this.iconValueList[val]
+        for (let i = 0; i < list.length; i++) {
+            ob.node.getChildByName(list[i]).active = true
+        }
+
+    }
+
+    randNum(n: number, m: number) {
+        let c = m - n + 1;
+        return Math.floor(Math.random() * c + n);
     }
 
     // update (dt) {}

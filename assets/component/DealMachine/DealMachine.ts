@@ -3,7 +3,7 @@ import { TableLocationType } from '../../common/Const'
 import { getLocationByLocaitonType, getCircleListByLocationType } from './DealMachineBase'
 import { eventBus } from '../../common/EventBus'
 import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'
-
+import { randEventId } from '../../common/Util'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -17,14 +17,19 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.initMaj()
-        this.deal(TableLocationType.LAND)
+    //    eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam): void => {
+    //     if (info.parentState === GameState.ROLL_DICE && info.childState === GameState.DEAL) {
+    //         cc.log('接受到发牌指令')
+    //         this.
+    //     }
+    // })
     }
 
 
 
     initMaj(): void {
         let layout = this.node.getChildByName('Layout')
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 16; i++) {
             let node = cc.instantiate(this.mahjongs)
             node.parent = layout
             node.setPosition(0, 0);
@@ -40,7 +45,7 @@ export default class NewClass extends cc.Component {
         let circleList = getCircleListByLocationType(tableLocationType)
         function backFun() {
             ++count
-            if (count >= 1) {
+            if (count >= 4) {
                 cc.log('全部动画执行完毕')
                 this.toShowMjResult()
             } else {
@@ -55,13 +60,20 @@ export default class NewClass extends cc.Component {
 
     //显示结果
     toShowMjResult(): void {
-        this.showTheMjResult(4, TableLocationType.LAND, () => { })
+        cc.log('发出翻牌通知')
+        eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.LANDLORD } as ChildGameParam)
+        setTimeout(()=>{
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.LAND } as ChildGameParam)
+        },1000)
+        setTimeout(()=>{
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.MIDDLE } as ChildGameParam)
+        },2000)
+        setTimeout(()=>{
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.SKY } as ChildGameParam)
+        },3000)
     }
 
-    showTheMjResult(val: number, tableLocationType: TableLocationType, func: any): void {
-        cc.log('发出翻牌通知')
-        eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: tableLocationType } as ChildGameParam)
-    }
+
 
     /*未发牌行的指定位置到桌位的发牌动画
      *@mjIndex 未发牌行的指定位置

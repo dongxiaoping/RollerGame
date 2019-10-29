@@ -4,7 +4,7 @@ import { PromiseParam, PromiseResult } from '../../common/Const'
 import { UserInfo } from '../../store/User/UserBase'
 import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState } from '../../common/Const'
+import { EventType, GameState, TableLocationType } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import RoomItem from '../../store/Room/RoomItem'
 import { randEventId } from '../../common/Util'
@@ -22,6 +22,10 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     private choiceLandlordPanel: cc.Prefab = null //选地主面板
+
+    @property(cc.Prefab)
+    private dealMachine: cc.Prefab = null //发牌预制件
+    
 
     onEnable() {
       //  this.showUserIcon()
@@ -51,6 +55,12 @@ export default class NewClass extends cc.Component {
     //开始发牌流程
     private beginDeal(){
         this.endRollDice()
+        var node = cc.instantiate(this.dealMachine)
+        node.parent = this.node
+        node.setPosition(189.261, -236.576);
+        node.active = true
+        let scriptOb = node.getComponent('DealMachine')
+        scriptOb.deal(TableLocationType.LAND)
     }
 
     //摇色子
@@ -91,9 +101,9 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-       // RollEmulator.isRuning = true
-      //  this.showUserIcon()
-      //  this.openStartButton()
+        RollEmulator.isRuning = true
+        this.showUserIcon()
+        this.openStartButton()
     }
 
     async openStartButton() {
