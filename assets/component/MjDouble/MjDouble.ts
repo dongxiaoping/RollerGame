@@ -86,7 +86,6 @@ export default class NewClass extends cc.Component {
     }
 
     drawResult(ob: cc.Sprite, val: number) {
-        cc.log(ob.node)
         let list = this.iconValueList[val]
         for (let i = 0; i < list.length; i++) {
             ob.node.getChildByName(list[i]).active = true
