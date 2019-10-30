@@ -41,7 +41,11 @@ export default class DealMachine extends cc.Component {
             ++count
             if (count >= 4) {
                 cc.log('全部动画执行完毕')
-                this.toShowMjResult()
+                // this.toShowMjResult()
+                setTimeout(() => {
+                    cc.log('发出发牌环节结束通知')
+                    eventBus.emit(EventType.GAME_LINK_FINISH, { state: GameState.DEAL })
+                }, 1000)
             } else {
                 cc.log('当前动画执行完毕')
                 ++this.mjIndex
@@ -56,15 +60,15 @@ export default class DealMachine extends cc.Component {
     toShowMjResult(): void {
         cc.log('发出翻牌通知')
         eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.LANDLORD } as ChildGameParam)
-        setTimeout(()=>{
+        setTimeout(() => {
             eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.LAND } as ChildGameParam)
-        },1000)
-        setTimeout(()=>{
+        }, 1000)
+        setTimeout(() => {
             eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.MIDDLE } as ChildGameParam)
-        },2000)
-        setTimeout(()=>{
+        }, 2000)
+        setTimeout(() => {
             eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.SKY } as ChildGameParam)
-        },3000)
+        }, 3000)
     }
 
 

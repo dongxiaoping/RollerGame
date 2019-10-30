@@ -37,6 +37,12 @@ export class RollControlerOb {
             from: GameState.CHOICE_LANDLORD, to: GameState.ROLL_DICE
         })
     }
+    toBet(): void{
+        cc.log('控制器发出下注指令')
+        eventBus.emit(EventType.GAME_STATE_CHANGE, {
+            from: GameState.DEAL, to: GameState.BET
+        })
+    }
 
     //指令，游戏开始，开始选地主通知
     toChoiceLandlord(): void {
@@ -77,6 +83,8 @@ export class RollControlerOb {
                     cc.log('选地主结束,发指令，开始摇色子流程')
                     this.toRollDice()
                     break
+                    case GameState.DEAL:  //发牌结束
+                    this.toBet()
             }
         })
     }

@@ -11,6 +11,10 @@ class BetManage {
 
     public requestBetList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
+            if (this.betList.length > 0) {
+                resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
+                return
+            }
             if (config.appMode === appMode.DEV) {
                 BetList.forEach((item: BetRecord): void => {
                     this.betList.push(new BetItem(item))
@@ -18,7 +22,7 @@ class BetManage {
             } else {
 
             }
-            resolve({ result: PromiseResult.SUCCESS, extObject: this.raceList })
+            resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
         })
     }
 }
