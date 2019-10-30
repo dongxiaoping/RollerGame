@@ -17,15 +17,7 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.initMaj()
-    //    eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam): void => {
-    //     if (info.parentState === GameState.ROLL_DICE && info.childState === GameState.DEAL) {
-    //         cc.log('接受到发牌指令')
-    //         this.
-    //     }
-    // })
     }
-
-
 
     initMaj(): void {
         let layout = this.node.getChildByName('Layout')

@@ -101,9 +101,9 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-        RollEmulator.isRuning = true
-        this.showUserIcon()
-        this.openStartButton()
+     //   RollEmulator.isRuning = true
+      //  this.showUserIcon()
+      //  this.openStartButton()
     }
 
     async openStartButton() {
