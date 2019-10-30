@@ -58,7 +58,8 @@ export enum EventType {
     GAME_STATE_CHANGE = 1, //游戏状态改变通知
     CHILD_GAME_STATE_CHANGE = 2,  //游戏状态子状态改变通知
     VAL_USER_TYPE_CHANGE = 3, //用户类型改变通知
-    GAME_LINK_FINISH = 4  //游戏环节结束通知
+    GAME_LINK_FINISH = 4,  //游戏环节结束通知
+    PUSH_EVENT = 5
 }
 
 
@@ -74,3 +75,15 @@ export interface ChildGameParam {
     childState: number,
     val?: any
 }
+
+export enum PushEventType {
+    MEMBER_CHANGE = 1, //人员改变、进来或者出去了
+    LANDLORD_CHANGE = 2, //地主改变通知
+    BET_CHIP_CHANGE = 3 // 下注改变通知
+}
+
+export interface PushEventPara{
+    eventType: PushEventType
+    info: any
+}
+

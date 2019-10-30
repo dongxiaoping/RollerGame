@@ -5,18 +5,28 @@ export const GameMemberList: GameMember[] = [
         userId: '23',
         roleType: gameMemberType.PLAYER,
         nick: '王五',
-        icon: 'a.png'
+        icon: 'test/11',
+        count:5
     },
     {
         userId: '24',
         roleType: gameMemberType.PLAYER,
         nick: '张三',
-        icon: 'a.png'
+        icon: 'test/33',
+        count:3
     },
     {
         userId: '25',
+        roleType: gameMemberType.PLAYER,
+        nick: '二哈',
+        icon: 'test/44',
+        count:3
+    },
+    {
+        userId: '26',
         roleType: gameMemberType.LANDLORD,
         nick: '李四',
-        icon: 'a.png'
+        icon: 'test/22',
+        count:4
     }
 ]

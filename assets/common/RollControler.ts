@@ -22,8 +22,13 @@ export class RollControlerOb {
 
     //启动控制器
     private initControl(): void {
-        this.eventReceive()
+        this.localEventReceive()
+        this.serverEventReceive()
     }
+
+
+
+
 
     //指令，发出摇色子的指令
     toRollDice(): void {
@@ -41,8 +46,14 @@ export class RollControlerOb {
         })
     }
 
+    //服务器端推送事件接收,并将事件转化为本地事件发出去 ，模拟器重写该函数主动触发
+    //websocke在这个地方调用
+    serverEventReceive(): void {
+        cc.log('添加服务器推送事件接收')
+    }
+
     //事件接收
-    private eventReceive(): void {
+    private localEventReceive(): void {
         eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam): void => {
             if (info.parentState === GameState.ROLL_DICE && info.childState === ChildGameState.ROLL_DICE.DICE_COUNT) {
                 cc.log('接收到色子点数')
@@ -51,7 +62,7 @@ export class RollControlerOb {
                 eventBus.emit(EventType.GAME_STATE_CHANGE, {
                     from: GameState.ROLL_DICE, to: GameState.DEAL
                 })
-            } else if(info.parentState === GameState.WAIT_BEGIN && info.childState === ChildGameState.WAIT_BEGIN.PLAY_BUTTON_EVENT){
+            } else if (info.parentState === GameState.WAIT_BEGIN && info.childState === ChildGameState.WAIT_BEGIN.PLAY_BUTTON_EVENT) {
                 cc.log('控制器接收到游戏开始按钮通知')
                 this.toChoiceLandlord()
                 cc.log(info)

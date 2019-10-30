@@ -3,7 +3,7 @@ import { config, } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult } from '../../common/Const'
 import GameMemberItem from './GameMemberItem'
 import { GameMemberList } from '../../mock/GameMemberList'
-import {GameMember} from './GameMemberBase'
+import { GameMember } from './GameMemberBase'
 import axios from 'axios'
 @ccclass
 class GameMemberManage {
@@ -11,8 +11,12 @@ class GameMemberManage {
 
     public requestGameMemberList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
+            if (this.gameMenmberList.length > 0) {
+                resolve({ result: PromiseResult.SUCCESS, extObject: this.gameMenmberList })
+                return
+            }
             if (config.appMode === appMode.DEV) {
-                GameMemberList.forEach((item: GameMember):void=>{
+                GameMemberList.forEach((item: GameMember): void => {
                     this.gameMenmberList.push(new GameMemberItem(item))
                 })
             } else {

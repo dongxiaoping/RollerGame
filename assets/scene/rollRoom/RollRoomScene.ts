@@ -25,10 +25,10 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     private dealMachine: cc.Prefab = null //发牌预制件
-    
+
 
     onEnable() {
-      //  this.showUserIcon()
+        this.showUserIcon()
         this.addEventListener()
     }
 
@@ -53,7 +53,7 @@ export default class NewClass extends cc.Component {
     }
 
     //开始发牌流程
-    private beginDeal(){
+    private beginDeal() {
         this.endRollDice()
         var node = cc.instantiate(this.dealMachine)
         node.parent = this.node
@@ -74,7 +74,7 @@ export default class NewClass extends cc.Component {
     //结束摇色子
     private endRollDice(): void {
         let ob = this.node.getChildByName('RollDice')
-        if(ob){
+        if (ob) {
             ob.destroy()
         }
     }
@@ -94,6 +94,10 @@ export default class NewClass extends cc.Component {
         //                 let myIcon = new cc.SpriteFrame(img);
         //                 this.userIcon.spriteFrame = myIcon;
         //             });
+        cc.loader.loadRes(userInfo.icon, (error, img) => {
+            let myIcon = new cc.SpriteFrame(img);
+            this.userIcon.spriteFrame = myIcon;
+        })
     }
 
     onLoad() {
@@ -101,9 +105,9 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-     //   RollEmulator.isRuning = true
-      //  this.showUserIcon()
-      //  this.openStartButton()
+        RollEmulator.isRuning = true
+        this.showUserIcon()
+        this.openStartButton()
     }
 
     async openStartButton() {

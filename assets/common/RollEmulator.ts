@@ -5,16 +5,14 @@ import { RollControlerOb } from './RollControler'
 @ccclass
 class RollEmulator extends RollControlerOb {
 
-    startRun(): void{
+    startRun(): void {
         cc.log('游戏模拟器被启动')
         super.startRun()
-        this.startEulator()
     }
 
-    startEulator(): void {
-        // setTimeout(() => {
-        //     this.toRollDice()
-        // }, 4000)
+    //模拟器模拟相关推送数据
+    serverEventReceive(): void {
+        cc.log('模拟器将模拟相关推送数据')
     }
 }
 
