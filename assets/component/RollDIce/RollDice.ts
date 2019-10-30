@@ -1,3 +1,6 @@
+/* 对摇色子进行管理
+ *
+ */
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
 import { EventType, DiceCountInfo, ChildGameParam, ChildGameState, GameState } from '../../common/Const'

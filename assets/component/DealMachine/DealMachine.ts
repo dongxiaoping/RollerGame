@@ -1,11 +1,12 @@
+/* 对麻将牌进行管理
+ */
 const { ccclass, property } = cc._decorator;
 import { TableLocationType } from '../../common/Const'
 import { getLocationByLocaitonType, getCircleListByLocationType } from './DealMachineBase'
 import { eventBus } from '../../common/EventBus'
 import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'
-import { randEventId } from '../../common/Util'
 @ccclass
-export default class NewClass extends cc.Component {
+export default class DealMachine extends cc.Component {
 
     @property(cc.Prefab)
     mahjongs: cc.Prefab = null
@@ -19,6 +20,7 @@ export default class NewClass extends cc.Component {
         this.initMaj()
     }
 
+    //初始麻将列表的显示
     initMaj(): void {
         let layout = this.node.getChildByName('Layout')
         for (let i = 0; i < 16; i++) {
@@ -31,7 +33,7 @@ export default class NewClass extends cc.Component {
     }
 
 
-
+    //从指定桌位开始，向4个排位进行发牌
     deal(tableLocationType: TableLocationType): void {
         let count = 0
         let circleList = getCircleListByLocationType(tableLocationType)

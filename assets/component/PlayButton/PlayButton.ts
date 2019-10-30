@@ -1,3 +1,6 @@
+/* 游戏开始按钮，只有房主才会显示
+ *
+ */
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
 import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'

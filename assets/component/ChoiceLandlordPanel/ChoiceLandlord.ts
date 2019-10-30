@@ -1,3 +1,6 @@
+/* 是否选中当地主选择提示框
+ *
+ */
 const { ccclass, property } = cc._decorator;
 import { EventType, GameState } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'

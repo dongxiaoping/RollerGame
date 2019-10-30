@@ -1,3 +1,6 @@
+/* 对下注的显示以及相关功能进行管理
+ *
+ */
 import { Coordinate } from '../../common/Const'
 const { ccclass, property } = cc._decorator;
 import { randEventId } from '../../common/Util'

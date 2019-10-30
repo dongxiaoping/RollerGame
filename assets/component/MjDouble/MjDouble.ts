@@ -1,3 +1,7 @@
+/* 发出去的一组麻将对象
+ * 对一组麻将的结果显示以及翻牌动画进行管理
+ *
+ */
 import { TableLocationType } from '../../common/Const'
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'

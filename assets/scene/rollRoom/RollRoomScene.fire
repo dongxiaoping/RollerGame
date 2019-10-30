@@ -87,10 +87,10 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 80
+        "__id__": 83
       },
       {
-        "__id__": 81
+        "__id__": 84
       }
     ],
     "_prefab": null,
@@ -3131,39 +3131,197 @@
   },
   {
     "__type__": "cc.Node",
+    "_name": "Desk",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
     },
-    "_id": "83v3HLX0VHIJheXO75gJf0",
-    "_prefab": {
-      "__id__": 79
-    },
-    "_name": "XiaZhu",
+    "_children": [
+      {
+        "__id__": 79
+      }
+    ],
     "_active": true,
+    "_level": 2,
+    "_components": [
+      {
+        "__id__": 82
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 685,
+      "height": 280
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 280.019,
-      "y": -242.56799999999998,
+      "x": 0,
+      "y": 0,
       "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": "29NrSFYEVOcLwAR+8rqjwO"
   },
   {
-    "__type__": "cc.PrefabInfo",
-    "root": {
+    "__type__": "cc.Node",
+    "_name": "Background",
+    "_objFlags": 0,
+    "_parent": {
       "__id__": 78
     },
-    "asset": {
-      "__uuid__": "36277233-5808-4b64-a95c-b30af91a37a2"
+    "_children": [],
+    "_active": true,
+    "_level": 3,
+    "_components": [
+      {
+        "__id__": 80
+      },
+      {
+        "__id__": 81
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
-    "fileId": "83v3HLX0VHIJheXO75gJf0",
-    "sync": true
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 685,
+      "height": 280
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": "54uah4sUdEW6RtY/QtdiCi"
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 79
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "8cdb44ac-a3f6-449f-b354-7cd48cf84061"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": "39bbN59OVIlYOhCRctjIRj"
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 79
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 40,
+    "_originalHeight": 36,
+    "_id": "1f/fiuWqhB7b5gG8lQTcmG"
+  },
+  {
+    "__type__": "b9807oJkylDGZA88itrud6Y",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 78
+    },
+    "_enabled": true,
+    "label": null,
+    "text": "hello",
+    "_id": "f5CADEDypBOpCRt99FxFcM"
   },
   {
     "__type__": "cc.Canvas",
