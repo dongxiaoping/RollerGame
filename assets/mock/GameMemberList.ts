@@ -10,7 +10,7 @@ export const GameMemberList: GameMember[] = [
     },
     {
         userId: '24',
-        roleType: gameMemberType.PLAYER,
+        roleType: gameMemberType.LANDLORD,
         nick: '张三',
         icon: 'test/33',
         count:3
@@ -24,7 +24,7 @@ export const GameMemberList: GameMember[] = [
     },
     {
         userId: '26',
-        roleType: gameMemberType.LANDLORD,
+        roleType: gameMemberType.PLAYER,
         nick: '李四',
         icon: 'test/22',
         count:4

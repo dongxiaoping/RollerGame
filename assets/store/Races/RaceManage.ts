@@ -6,11 +6,12 @@ import { RaceList } from '../../mock/RaceList'
 import { raceRecord } from './RaceBase'
 import GameMemberManage from '../GameMember/GameMemberManage'
 import { BetScore } from '../Bets/BetBase'
+import BetLocItem from '../Bets/BetLocItem'
 import GameMemberItem from '../GameMember/GameMemberItem'
 import axios from 'axios'
 @ccclass
 class RaceManage {
-    private raceList: RaceItem[] = []
+    public raceList: RaceItem[] = []
 
     public requestRaceList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
@@ -34,14 +35,16 @@ class RaceManage {
         raceList.forEach(raceItem => {
             raceItem.betInfo = []
             memberList.forEach(item => {
-                raceItem.betInfo[item.userId] = {
+                raceItem.betInfo[item.userId] = new BetLocItem({
+                    raceId: raceItem.raceId,
+                    userId:item.userId,
                     sky: 0,
                     land: 0,
                     middle: 0,
                     bridg: 0,
-                    sky_corner: 0,
-                    land_corner: 0
-                } as BetScore
+                    skyCorner: 0,
+                    landCorner: 0
+                })
             })
         })
         this.raceList = raceList

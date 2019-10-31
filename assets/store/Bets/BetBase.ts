@@ -18,10 +18,12 @@ export enum betLocaion {
 }
 
 export interface BetScore {
+    raceId: string,
+    userId: string,
     sky: number,
     land: number,
     middle: number,
     bridg: number,
-    sky_corner: number,
-    land_corner: number
+    skyCorner: number,
+    landCorner: number
 }

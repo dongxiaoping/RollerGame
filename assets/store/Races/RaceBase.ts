@@ -1,4 +1,4 @@
-import BetItem from '../../store/Bets/BetItem'
+import BetLocItem from '../../store/Bets/BetLocItem'
 export enum raceState{
     NOT_BEGIN = 1, //没开始
     DELIVERY_MONEY = 2,  //下注中
@@ -9,6 +9,6 @@ export enum raceState{
 export interface raceRecord{
     raceId: string
     num: number //场次编号
-    betInfo?:BetItem[][] //下注信息
+    betInfo?:BetLocItem[] //下注信息
     state: raceState
 }

@@ -2,8 +2,8 @@ const { ccclass, property } = cc._decorator;
 import { eventBus } from '../common/EventBus'
 import { EventType, GameState } from '../common/Const'
 import { RollControlerOb } from './RollControler'
-import { randEventId } from '../common/Util'
-import BetManage from '../store/Bets/BetManage'
+import RaceManage  from '../store/Races/RaceManage'
+import {randEventId} from '../common/Util'
 @ccclass
 class RollEmulator extends RollControlerOb {
 
@@ -26,7 +26,10 @@ class RollEmulator extends RollControlerOb {
     }
 
     emulateBet():void{
-        BetManage.requestBetList()
+       // BetManage.requestBetList()
+       cc.log('模拟器发起模拟下注')
+       cc.log(RaceManage.raceList[1])
+       RaceManage.raceList[1].betInfo[23].bridg = 10
     }
 
 }
