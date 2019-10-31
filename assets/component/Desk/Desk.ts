@@ -6,28 +6,71 @@ const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
 import { GameMember, gameMemberType } from '../../store/GameMember/GameMemberBase'
+import User from '../../store/User/UserManage'
+import { UserInfo } from '../../store/User/UserBase'
+import { SeatLocaionList } from '../../common/Const'
 @ccclass
 export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     private playUserIcon: cc.Prefab = null //玩家icon
+    @property(cc.Sprite)
+    private deskBg: cc.Sprite = null
+
+    private deskSitList = [] //坐的位置信息 如：[userId:location:{x:0,y:3}]
 
     start() {
+        this.setDeskLocation()
         this.showMembers()
     }
 
+    //重新摆放桌子位置
+    async setDeskLocation() {
+        let ob = await GameMemberManage.requestGameMemberList()
+        let memberList = ob.extObject as GameMemberItem[]
+        let info = await User.requestUserInfo()
+        let userInfo = info.extObject as UserInfo
+        if (memberList[userInfo.id].roleType === gameMemberType.LANDLORD) {
+            cc.loader.loadRes('desk/place-banker_e96db884', (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.deskBg.spriteFrame = myIcon;
+            })
+        } else {
+            cc.loader.loadRes('desk/place_a06eb30b', (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.deskBg.spriteFrame = myIcon;
+            })
+        }
+        cc.log('桌子摆放完毕')
+    }
+
     async showMembers() {
-        let memberList = await GameMemberManage.requestGameMemberList()
-        let list = memberList.extObject as GameMemberItem[]
-        let locationList = [{ x: -2.6, y: -211 }, { x: -400, y: -39 }, { x: -5, y: 196 }, { x: 394, y: -72 }]
+        this.deskSitList = [] //如果有残留图标 先删除
+        let ob = await GameMemberManage.requestGameMemberList()
+        let memberList = ob.extObject as GameMemberItem[]
+        let info = await User.requestUserInfo()
+        let userInfo = info.extObject as UserInfo
+        let deskLoc: any = null
+        if (memberList[userInfo.id].roleType === gameMemberType.LANDLORD) {
+            deskLoc = SeatLocaionList.landlord
+        } else {
+            deskLoc = SeatLocaionList.member
+        }
         let i = 0
-        list.forEach((item: GameMemberItem): void => {
+        memberList.forEach((item: GameMemberItem): void => {
             var node = cc.instantiate(this.playUserIcon)
             node.name = item.userId
             node.parent = this.node.parent
-            node.setPosition(locationList[i].x, locationList[i].y);
+            if (item.roleType === gameMemberType.LANDLORD) {
+                node.setPosition(deskLoc.landlord.x, deskLoc.landlord.y)
+                this.deskSitList[item.userId] = deskLoc.landlord
+            } else {
+                node.setPosition(deskLoc.members[i].x, deskLoc.members[i].y)
+                this.deskSitList[item.userId] = deskLoc.members[i]
+                i++
+            }
             node.active = true
-            i++
         })
+        cc.log('成员坐落初始化完毕')
     }
 }

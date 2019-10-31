@@ -7,7 +7,7 @@ import { GameMember } from './GameMemberBase'
 import axios from 'axios'
 @ccclass
 class GameMemberManage {
-    private gameMenmberList: GameMemberItem[] = []
+    public gameMenmberList: GameMemberItem[] = []
 
     public requestGameMemberList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
@@ -17,7 +17,7 @@ class GameMemberManage {
             }
             if (config.appMode === appMode.DEV) {
                 GameMemberList.forEach((item: GameMember): void => {
-                    this.gameMenmberList.push(new GameMemberItem(item))
+                    this.gameMenmberList[item.userId] = new GameMemberItem(item)
                 })
             } else {
 

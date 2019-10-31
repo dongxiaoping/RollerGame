@@ -2,6 +2,7 @@ const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
 import { EventType, GameState, DiceCountInfo, ChildGameParam, ChildGameState } from '../common/Const'
 import { randEventId } from '../common/Util'
+import RaceManage from '../store/Races/RaceManage'
 @ccclass
 export class RollControlerOb {
     _isRuning: boolean = false
@@ -70,6 +71,8 @@ export class RollControlerOb {
                 })
             } else if (info.parentState === GameState.WAIT_BEGIN && info.childState === ChildGameState.WAIT_BEGIN.PLAY_BUTTON_EVENT) {
                 cc.log('控制器接收到游戏开始按钮通知')
+                cc.log('比赛人数已确定，开始初始化本地比赛数据')
+                RaceManage.updateBetToRaceInfo() //初始化本地的比赛数据
                 this.toChoiceLandlord()
                 cc.log(info)
             }

@@ -67,7 +67,7 @@ export enum EventType {
 export const ChildGameState = {
     WAIT_BEGIN: { PLAY_BUTTON_EVENT: 1 }, //游戏开始按钮被点击通知
     SHOW_DOWN: { OPEN_CARD_NOTICE: 2 }, //翻牌通知
-    ROLL_DICE:{DICE_COUNT:3} //色子点数通知
+    ROLL_DICE: { DICE_COUNT: 3 } //色子点数通知
 }
 
 export interface ChildGameParam {
@@ -82,8 +82,35 @@ export enum PushEventType {
     BET_CHIP_CHANGE = 3 // 下注改变通知
 }
 
-export interface PushEventPara{
+export interface PushEventPara {
     eventType: PushEventType
     info: any
+}
+
+export const SeatLocaionList = {
+    landlord: {
+         landlord: { x: 200, y: 100 }, 
+         members: [
+             { x: 200, y: 100 },
+             { x: 200, y: 200 },
+             { x: 200, y: 300 },
+             { x: 200, y: 400 },
+             { x: 200, y: 500 },
+             { x: 200, y: 600 },
+             { x: 200, y: 700 }
+            ]
+         },
+    member: { 
+        landlord: { x: 400, y: 100 }, 
+        members: [
+            { x: 200, y: 100 },
+            { x: 200, y: 200 },
+            { x: 200, y: 300 },
+            { x: 200, y: 400 },
+            { x: 200, y: 500 },
+            { x: 200, y: 600 },
+            { x: 200, y: 700 }
+        ] 
+    }
 }
 

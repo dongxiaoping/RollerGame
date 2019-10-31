@@ -7,11 +7,10 @@ import { BetRecord } from './BetBase'
 import axios from 'axios'
 @ccclass
 class BetManage {
-    private betList: BetItem[] = []
-
+    betList: BetItem[] = []
     public requestBetList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if (this.betList.length > 0) {
+            if (this.betList !==null) {
                 resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
                 return
             }
@@ -20,10 +19,13 @@ class BetManage {
                     this.betList.push(new BetItem(item))
                 })
             } else {
-
             }
             resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
         })
+    }
+
+    getBetList(): BetRecord[]{
+        return this.betList
     }
 }
 
