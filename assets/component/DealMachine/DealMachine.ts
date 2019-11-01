@@ -4,7 +4,7 @@ const { ccclass, property } = cc._decorator;
 import { TableLocationType } from '../../common/Const'
 import { getLocationByLocaitonType, getCircleListByLocationType } from './DealMachineBase'
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'
+import { EventType, GameState } from '../../common/Const'
 @ccclass
 export default class DealMachine extends cc.Component {
 
@@ -55,23 +55,6 @@ export default class DealMachine extends cc.Component {
         ++this.mjIndex
         this.flyAnimation(this.mjIndex, circleList[count], backFun)
     }
-
-    //显示结果
-    toShowMjResult(): void {
-        cc.log('发出翻牌通知')
-        eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.LANDLORD } as ChildGameParam)
-        setTimeout(() => {
-            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.LAND } as ChildGameParam)
-        }, 1000)
-        setTimeout(() => {
-            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.MIDDLE } as ChildGameParam)
-        }, 2000)
-        setTimeout(() => {
-            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: TableLocationType.SKY } as ChildGameParam)
-        }, 3000)
-    }
-
-
 
     /*未发牌行的指定位置到桌位的发牌动画
      *@mjIndex 未发牌行的指定位置

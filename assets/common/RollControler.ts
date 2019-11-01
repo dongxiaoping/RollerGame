@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
-import { EventType, GameState, DiceCountInfo, ChildGameParam, ChildGameState } from '../common/Const'
+import { EventType, GameState, DiceCountInfo, ChildGameParam, ChildGameState, TableLocationType, OpenCardEventValue } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RaceManage from '../store/Races/RaceManage'
 @ccclass
@@ -27,9 +27,28 @@ export class RollControlerOb {
         this.serverEventReceive()
     }
 
+    getMjResultFromService() {
 
+    }
 
-
+    //显示结果麻将结果通知
+    toShowMjResult(): void {
+        cc.log('发出翻牌通知')
+        let val = { tableLocationType: TableLocationType.LANDLORD, oneValue: 2, twoValue: 9 } as OpenCardEventValue
+        eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: val } as ChildGameParam)
+        setTimeout(() => {
+            let val = { tableLocationType: TableLocationType.LAND, oneValue: 1, twoValue: 8 } as OpenCardEventValue
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: val } as ChildGameParam)
+        }, 1000)
+        setTimeout(() => {
+            let val = { tableLocationType: TableLocationType.MIDDLE, oneValue: 2, twoValue: 4 } as OpenCardEventValue
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: val } as ChildGameParam)
+        }, 2000)
+        setTimeout(() => {
+            let val = { tableLocationType: TableLocationType.SKY, oneValue: 2, twoValue: 9 } as OpenCardEventValue
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: val } as ChildGameParam)
+        }, 3000)
+    }
 
     //指令，发出摇色子的指令
     toRollDice(): void {
@@ -38,7 +57,7 @@ export class RollControlerOb {
             from: GameState.CHOICE_LANDLORD, to: GameState.ROLL_DICE
         })
     }
-    toBet(): void{
+    toBet(): void {
         cc.log('控制器发出下注指令')
         eventBus.emit(EventType.GAME_STATE_CHANGE, {
             from: GameState.DEAL, to: GameState.BET
@@ -86,7 +105,7 @@ export class RollControlerOb {
                     cc.log('选地主结束,发指令，开始摇色子流程')
                     this.toRollDice()
                     break
-                    case GameState.DEAL:  //发牌结束
+                case GameState.DEAL:  //发牌结束
                     this.toBet()
             }
         })

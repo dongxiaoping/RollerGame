@@ -2,11 +2,13 @@ const { ccclass, property } = cc._decorator;
 import { eventBus } from '../common/EventBus'
 import { EventType, GameState } from '../common/Const'
 import { RollControlerOb } from './RollControler'
-import RaceManage  from '../store/Races/RaceManage'
-import {randEventId} from '../common/Util'
+import RaceManage from '../store/Races/RaceManage'
+import { randEventId } from '../common/Util'
+import GameMember from '../store/GameMember/GameMemberManage'
+import GameMemberItem from '../store/GameMember/GameMemberItem'
+import { gameMemberType } from '../store/GameMember/GameMemberBase'
 @ccclass
 class RollEmulator extends RollControlerOb {
-
     startRun(): void {
         cc.log('游戏模拟器被启动')
         super.startRun()
@@ -25,12 +27,20 @@ class RollEmulator extends RollControlerOb {
         })
     }
 
-    emulateBet():void{
-       // BetManage.requestBetList()
-       cc.log('模拟器发起模拟下注')
-       cc.log(RaceManage.raceList[1])
-       RaceManage.raceList[1].betInfo[23].bridg = 10
+    emulateBet(): void {
+        // BetManage.requestBetList()
+        cc.log('模拟器发起模拟下注')
+        let memberList = GameMember.gameMenmberList
+        memberList.forEach((item: GameMemberItem) => {
+            if (item.roleType !== gameMemberType.LANDLORD) {
+                RaceManage.raceList[1].betInfo[item.userId].bridg = 10
+                RaceManage.raceList[1].betInfo[item.userId].land = 50
+            }
+        })
+
     }
+
+
 
 }
 

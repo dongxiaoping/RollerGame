@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
-import { BetRecord, betLocaion } from './BetBase'
-
+import { BetRecord } from './BetBase'
+import { betLocaion } from '../../common/Const'
 @ccclass
 export default class BetItem {
     public id: string = null

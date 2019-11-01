@@ -151,7 +151,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": null,
+    "_spriteFrame": {
+      "__uuid__": "cdd80195-ef84-44fb-b007-3dad7a80d70d"
+    },
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,

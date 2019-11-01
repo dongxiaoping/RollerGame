@@ -15,6 +15,10 @@ class RaceManage {
 
     public requestRaceList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
+            if (this.raceList.length > 0) {
+                resolve({ result: PromiseResult.SUCCESS, extObject: this.raceList })
+                return
+            }
             if (config.appMode === appMode.DEV) {
                 RaceList.forEach((item: raceRecord): void => {
                     this.raceList[item.raceId] = new RaceItem(item)
@@ -37,7 +41,7 @@ class RaceManage {
             memberList.forEach(item => {
                 raceItem.betInfo[item.userId] = new BetLocItem({
                     raceId: raceItem.raceId,
-                    userId:item.userId,
+                    userId: item.userId,
                     sky: 0,
                     land: 0,
                     middle: 0,

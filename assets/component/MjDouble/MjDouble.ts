@@ -5,7 +5,7 @@
 import { TableLocationType } from '../../common/Const'
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, ChildGameParam, ChildGameState } from '../../common/Const'
+import { EventType, GameState, ChildGameParam, ChildGameState, OpenCardEventValue, IconValueList } from '../../common/Const'
 import { randEventId } from '../../common/Util'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -20,18 +20,6 @@ export default class NewClass extends cc.Component {
     halfIcon: cc.SpriteFrame = null
     allIcon: cc.SpriteFrame = null
 
-    iconValueList: any = {
-        1: ['1_1'],
-        2: ['2_1', '2_2'],
-        3: ['3_1'],
-        4: ['4_1', '4_2', '4_3', '4_4'],
-        5: ['5_1', '5_2', '5_3', '5_4', '5_5'],
-        6: ['6_1', '6_2'],
-        7: ['7_1'],
-        8: ['8_1'],
-        9: ['9_1', '9_2', '9_3', '9_4', '9_5', '9_6', '9_7', '9_8', '9_9']
-    }
-
     start() {
         cc.loader.loadRes('mahjong/mahjong_62fa7d43_02', (error, img) => {
             this.oneThirdIcon = new cc.SpriteFrame(img);
@@ -45,10 +33,11 @@ export default class NewClass extends cc.Component {
 
         eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam) => {
             if (info.parentState === GameState.SHOW_DOWN && info.childState === ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE) {
-                if (this.node.name === 'MjDouble' + info.val) {
+                let val = info.val as OpenCardEventValue
+                if (this.node.name === 'MjDouble' + val.tableLocationType) {
                     cc.log('接收到翻牌通知')
                     cc.log(info)
-                    this.open(3, 5)
+                    this.open(val.oneValue, val.twoValue)
                 }
             }
         })
@@ -67,7 +56,7 @@ export default class NewClass extends cc.Component {
                     break;
                 case 3:
                     this.one.spriteFrame = this.allIcon
-                    this.drawResult(this.one, this.randNum(1, 9))
+                    this.drawResult(this.one, oneValue)
                     time = 500
                     break;
                 case 4:
@@ -79,7 +68,7 @@ export default class NewClass extends cc.Component {
                     break;
                 case 6:
                     this.two.spriteFrame = this.allIcon
-                    this.drawResult(this.two, this.randNum(1, 9))
+                    this.drawResult(this.two, twoNumber)
                     break
                 case 7:
                     clearInterval(setIn)
@@ -90,7 +79,7 @@ export default class NewClass extends cc.Component {
     }
 
     drawResult(ob: cc.Sprite, val: number) {
-        let list = this.iconValueList[val]
+        let list = IconValueList[val]
         for (let i = 0; i < list.length; i++) {
             ob.node.getChildByName(list[i]).active = true
         }

@@ -8,6 +8,7 @@ import { EventType, GameState, TableLocationType } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import RoomItem from '../../store/Room/RoomItem'
 import { randEventId } from '../../common/Util'
+import GameStateInfo from '../../store/GameStateInfo/GameStateInfo'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -108,6 +109,8 @@ export default class NewClass extends cc.Component {
         RollEmulator.isRuning = true
         this.showUserIcon()
         this.openStartButton()
+      //  GameStateInfo.requestMjResult('2')
+
     }
 
     async openStartButton() {

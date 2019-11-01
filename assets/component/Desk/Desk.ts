@@ -19,6 +19,7 @@ export default class NewClass extends cc.Component {
 
     private deskSitList = [] //坐的位置信息 如：[userId:location:{x:0,y:3}]
 
+    public userIsLandlord: boolean = false //当前用户是否为地主
     start() {
         this.setDeskLocation()
         this.showMembers()
@@ -31,11 +32,13 @@ export default class NewClass extends cc.Component {
         let info = await User.requestUserInfo()
         let userInfo = info.extObject as UserInfo
         if (memberList[userInfo.id].roleType === gameMemberType.LANDLORD) {
+            this.userIsLandlord = true
             cc.loader.loadRes('desk/place-banker_e96db884', (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 this.deskBg.spriteFrame = myIcon;
             })
         } else {
+            this.userIsLandlord = false
             cc.loader.loadRes('desk/place_a06eb30b', (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 this.deskBg.spriteFrame = myIcon;

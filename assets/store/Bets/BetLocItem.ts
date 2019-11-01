@@ -1,6 +1,7 @@
 const { ccclass } = cc._decorator;
-import { BetRecord, betLocaion, BetScore } from './BetBase'
-
+import { BetScore } from './BetBase'
+import { eventBus } from '../../common/EventBus'
+import { EventType, PushEventPara, PushEventType, PushEventParaInfo, betLocaion } from '../../common/Const'
 @ccclass
 export default class BetLocItem {
     public userId: string = null
@@ -27,7 +28,9 @@ export default class BetLocItem {
         return this._sky
     }
     set sky(val: number) {
-        this.valueChangeNotice(betLocaion.SKY_CORNER,this._sky,val)
+        if(this._sky!==null){
+            this.valueChangeNotice(betLocaion.SKY_CORNER, this._sky, val)
+        }
         this._sky = val
     }
 
@@ -35,7 +38,9 @@ export default class BetLocItem {
         return this._land
     }
     set land(val: number) {
-        this.valueChangeNotice(betLocaion.LAND,this._land,val)
+        if(this._land!==null){
+            this.valueChangeNotice(betLocaion.LAND, this._land, val)
+        }
         this._land = val
     }
 
@@ -43,7 +48,9 @@ export default class BetLocItem {
         return this._middle
     }
     set middle(val: number) {
-        this.valueChangeNotice(betLocaion.MIDDLE,this._middle,val)
+        if(this._middle!==null){
+            this.valueChangeNotice(betLocaion.MIDDLE, this._middle, val)
+        }
         this._middle = val
     }
 
@@ -51,7 +58,9 @@ export default class BetLocItem {
         return this._bridg
     }
     set bridg(val: number) {
-        this.valueChangeNotice(betLocaion.BRIDG,this._bridg,val)
+        if(this._bridg!==null){
+            this.valueChangeNotice(betLocaion.BRIDG, this._bridg, val)
+        }
         this._bridg = val
     }
 
@@ -59,7 +68,9 @@ export default class BetLocItem {
         return this._skyCorner
     }
     set skyCorner(val: number) {
-        this.valueChangeNotice(betLocaion.SKY_CORNER,this._skyCorner,val)
+        if(this._skyCorner!==null){
+            this.valueChangeNotice(betLocaion.SKY_CORNER, this._skyCorner, val)
+        }
         this._skyCorner = val
     }
 
@@ -67,12 +78,16 @@ export default class BetLocItem {
         return this.landCorner
     }
     set landCorner(val: number) {
-        this.valueChangeNotice(betLocaion.LAND_CORNER,this._landCorner,val)
+        if(this._landCorner!==null){
+            this.valueChangeNotice(betLocaion.LAND_CORNER, this._landCorner, val)
+        }
         this._landCorner = val
     }
 
     valueChangeNotice(locatIon: betLocaion, fromVal: number, toValue: number): void {
-        
+        eventBus.emit(EventType.PUSH_EVENT, {
+            eventType: PushEventType.BET_CHIP_CHANGE, info: { raceId: this.raceId, userId: this.userId, betLocation:locatIon , fromVal: fromVal, toValue: toValue } as PushEventParaInfo
+        } as PushEventPara)
         cc.log('投注值改变通知')
     }
 }
