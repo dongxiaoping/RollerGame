@@ -25,7 +25,6 @@ export default class UserItem {
         return this._type
     }
     set type(val: userType) {
-         cc.log(this._type + '--' + val)
         if (val !== this._type) {
             eventBus.emit(EventType.VAL_USER_TYPE_CHANGE, {
                 old:  this._type, new: val

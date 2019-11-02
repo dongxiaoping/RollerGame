@@ -7,5 +7,6 @@ export const roomInfo: RoomInfo  = {
     playCount : 8,
     playMode: playMode.TURN,
     costLimit: 20,
-    roomState: roomState.PLAYING
+    roomState: roomState.OPEN,
+    oningRaceNum: 1
 }

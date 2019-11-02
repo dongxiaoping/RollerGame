@@ -117,7 +117,7 @@ export interface PushEventParaInfo {
 }
 
 export const SeatLocaionList = {
-    landlord: {
+    member: {
         landlord: { x: 1, y: -170 },
         chipPoint:{
             1:{x:209,y:-66}, //SKY
@@ -137,7 +137,7 @@ export const SeatLocaionList = {
             { x: 393, y: -90 }
         ]
     },
-    member: {
+    landlord: {
         landlord: { x: 9.3, y: 184 },
         chipPoint:{
             1:{x:-227,y:81}, //SKY

@@ -28,7 +28,11 @@ class RollEmulator extends RollControlerOb {
     }
 
     emulateBet(): void {
-        // BetManage.requestBetList()
+        /////////
+        cc.log('添加一个成员')
+
+
+        ///////
         cc.log('模拟器发起模拟下注')
         let memberList = GameMember.gameMenmberList
         memberList.forEach((item: GameMemberItem) => {

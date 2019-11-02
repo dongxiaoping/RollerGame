@@ -1,14 +1,15 @@
 const { ccclass, property } = cc._decorator;
 import User from '../../store/User/UserManage'
-import { PromiseParam, PromiseResult } from '../../common/Const'
 import { UserInfo } from '../../store/User/UserBase'
 import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
 import { EventType, GameState, TableLocationType } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
+import {roomState} from '../../store/Room/RoomBase'
 import RoomItem from '../../store/Room/RoomItem'
+import RaceItem from '../../store/Races/RaceItem'
 import { randEventId } from '../../common/Util'
-import GameStateInfo from '../../store/GameStateInfo/GameStateInfo'
+import RaceManage from '../../store/Races/RaceManage'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -26,6 +27,9 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     private dealMachine: cc.Prefab = null //发牌预制件
+
+    @property(cc.Prefab)
+    private xiaZhu: cc.Prefab = null //下注功能预制件
 
 
     onEnable() {
@@ -56,7 +60,7 @@ export default class NewClass extends cc.Component {
     //开始发牌流程
     private beginDeal() {
         this.endRollDice()
-        var node = cc.instantiate(this.dealMachine)
+        let node = cc.instantiate(this.dealMachine)
         node.parent = this.node
         node.setPosition(189.261, -236.576);
         node.active = true
@@ -108,24 +112,39 @@ export default class NewClass extends cc.Component {
     start() {
         RollEmulator.isRuning = true
         this.showUserIcon()
-        this.openStartButton()
+        this.changeStartButtonState()
+        this.initXiaZhuFunc()
       //  GameStateInfo.requestMjResult('2')
 
     }
 
-    async openStartButton() {
-        let info = await Room.requestRoomInfo()
-        let roomInfo = info.extObject as RoomItem
-        let otherInfo = await User.requestUserInfo()
-        let userInfo = otherInfo.extObject as UserInfo
-        if (userInfo.id === roomInfo.creatUserId) {
+    //初始化下注功能
+    initXiaZhuFunc(){
+        var node = cc.instantiate(this.xiaZhu)
+        node.parent = this.node
+        node.setPosition(189.261, -236.576);
+        node.active = false
+        cc.log('初始化下注功能')
+       // let scriptOb = node.getComponent('DealMachine')
+        //scriptOb.deal(TableLocationType.LAND)
+    }
+
+    async changeStartButtonState() {
+        let infoOne = await Room.requestRoomInfo()
+        let roomInfo = infoOne.extObject as RoomItem
+        let InfoTwo = await User.requestUserInfo()
+        let userInfo = InfoTwo.extObject as UserInfo
+        let InfoThree = await RaceManage.requestRaceList()
+        let raceList =  InfoThree.extObject as RaceItem[]
+
+        if (userInfo.id === roomInfo.creatUserId && roomInfo.roomState === roomState.OPEN) {
             var node = cc.instantiate(this.playButtonPrefab)
             node.parent = this.node
             node.setPosition(-124.514, -268.949);
             node.active = true
-            cc.log('是房主，显示开始游戏按钮')
+            cc.log('是房主，并且房间游戏没有开始，显示开始游戏按钮')
         } else {
-            cc.log('不是房主，不显示开始游戏按钮')
+            cc.log('不是房主，或者房间游戏已开始，不显示开始游戏按钮')
         }
     }
 
