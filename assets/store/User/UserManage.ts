@@ -7,7 +7,7 @@ import UserItem from './UserItem'
 import axios from 'axios'
 @ccclass
 class UserManage {
-    private userInfo: UserItem = null
+    public userInfo: UserItem = null
     constructor() {
     }
 

@@ -26,6 +26,7 @@ export default class NewClass extends cc.Component {
     }
 
     onDisable() {
+        cc.log('开始按钮对象被销毁')
         this.node.off(cc.Node.EventType.TOUCH_END, () => { })
     }
 

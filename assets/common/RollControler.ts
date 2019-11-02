@@ -78,6 +78,15 @@ export class RollControlerOb {
         cc.log('添加服务器推送事件接收')
     }
 
+    //接收到本地游戏开始按钮后的事件处理逻辑
+    responsePlayBottomEvent(){
+        cc.log('控制器接收到游戏开始按钮通知')
+    }
+
+    responseLocalBeLandlordDeal(wantLandlord:boolean){
+        cc.log('控制器接收到用户是否愿意当地主通知')
+    }
+
     //事件接收
     private localEventReceive(): void {
         eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam): void => {
@@ -89,11 +98,9 @@ export class RollControlerOb {
                     from: GameState.ROLL_DICE, to: GameState.DEAL
                 })
             } else if (info.parentState === GameState.WAIT_BEGIN && info.childState === ChildGameState.WAIT_BEGIN.PLAY_BUTTON_EVENT) {
-                cc.log('控制器接收到游戏开始按钮通知')
-                cc.log('比赛人数已确定，开始初始化本地比赛数据')
-                RaceManage.updateBetToRaceInfo() //初始化本地的比赛数据
-                this.toChoiceLandlord()
-                cc.log(info)
+                this.responsePlayBottomEvent()
+            } else if(info.parentState === GameState.CHOICE_LANDLORD && info.childState === ChildGameState.CHOICE_LANDLORD.LOCAL_BE_LANDLORD_RESULT) {
+                this.responseLocalBeLandlordDeal(info.val)
             }
         })
 

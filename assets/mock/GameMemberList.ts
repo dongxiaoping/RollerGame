@@ -2,17 +2,17 @@ import { GameMember, gameMemberType } from '../store/GameMember/GameMemberBase'
 
 export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
     {
+        userId: '23',
+        roleType: gameMemberType.PLAYER,
+        nick: '苹果',
+        icon: 'test/44',
+        count:0
+    },
+    {
         userId: '24',
         roleType: gameMemberType.PLAYER,
         nick: '张三',
         icon: 'test/33',
-        count:0
-    },
-    {
-        userId: '23',
-        roleType: gameMemberType.PLAYER,
-        nick: '王五',
-        icon: 'test/11',
         count:0
     },
     {

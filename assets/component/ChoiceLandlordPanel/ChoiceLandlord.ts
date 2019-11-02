@@ -2,7 +2,7 @@
  *
  */
 const { ccclass, property } = cc._decorator;
-import { EventType, GameState } from '../../common/Const'
+import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -21,17 +21,21 @@ export default class NewClass extends cc.Component {
         let sureButton = this.node.getChildByName('Sure')
         let cancelButton = this.node.getChildByName('Cancel')
         sureButton.on(cc.Node.EventType.TOUCH_END, () => {
-            cc.log('发出选地主结束通知')
-            eventBus.emit(EventType.GAME_LINK_FINISH, {
-                state: GameState.CHOICE_LANDLORD
-            })
+            cc.log('点击按钮确认当地主')
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.CHOICE_LANDLORD, childState: ChildGameState.CHOICE_LANDLORD.LOCAL_BE_LANDLORD_RESULT, val:true} as ChildGameParam)
+            // cc.log('发出选地主结束通知')
+            // eventBus.emit(EventType.GAME_LINK_FINISH, {
+            //     state: GameState.CHOICE_LANDLORD
+            // })
             this.node.destroy()
         })
         cancelButton.on(cc.Node.EventType.TOUCH_END, () => {
-            cc.log('发出选地主结束通知')
-            eventBus.emit(EventType.GAME_LINK_FINISH, {
-                state: GameState.CHOICE_LANDLORD
-            })
+            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.CHOICE_LANDLORD, childState: ChildGameState.CHOICE_LANDLORD.LOCAL_BE_LANDLORD_RESULT, val:false} as ChildGameParam)
+            cc.log('点击按钮拒绝当地主')
+            // cc.log('发出选地主结束通知')
+            // eventBus.emit(EventType.GAME_LINK_FINISH, {
+            //     state: GameState.CHOICE_LANDLORD
+            // })
             this.node.destroy()
         })
     }

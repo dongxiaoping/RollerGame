@@ -1,9 +1,9 @@
 const { ccclass, property } = cc._decorator;
-import User from '../../store/User/UserManage'
+import UserManage from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
 import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, TableLocationType } from '../../common/Const'
+import { EventType, GameState, TableLocationType, PushEventType } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import {roomState} from '../../store/Room/RoomBase'
 import RoomItem from '../../store/Room/RoomItem'
@@ -35,6 +35,22 @@ export default class NewClass extends cc.Component {
     onEnable() {
         this.showUserIcon()
         this.addEventListener()
+        this.addPushEventListener()
+    }
+
+    private addPushEventListener(){
+        eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: any): void => {
+            let event = info.eventType
+            switch (event) {
+                case PushEventType.LANDLOAD_WELCOME:
+                    cc.log('控制器收到邀请地主通知')
+                    if(UserManage.userInfo.id === info.userId){
+                        cc.log('当前用户收到邀请，弹出是否当地主提示框')
+                        this.choiceLandLord()
+                    }
+                    break
+            }
+        })
     }
 
     private addEventListener() {
@@ -93,7 +109,7 @@ export default class NewClass extends cc.Component {
     }
 
     async showUserIcon() {
-        let info = await User.requestUserInfo()
+        let info = await UserManage.requestUserInfo()
         let userInfo = info.extObject as UserInfo
         // cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {
         //                 let myIcon = new cc.SpriteFrame(img);
@@ -132,11 +148,8 @@ export default class NewClass extends cc.Component {
     async changeStartButtonState() {
         let infoOne = await Room.requestRoomInfo()
         let roomInfo = infoOne.extObject as RoomItem
-        let InfoTwo = await User.requestUserInfo()
+        let InfoTwo = await UserManage.requestUserInfo()
         let userInfo = InfoTwo.extObject as UserInfo
-        let InfoThree = await RaceManage.requestRaceList()
-        let raceList =  InfoThree.extObject as RaceItem[]
-
         if (userInfo.id === roomInfo.creatUserId && roomInfo.roomState === roomState.OPEN) {
             var node = cc.instantiate(this.playButtonPrefab)
             node.parent = this.node

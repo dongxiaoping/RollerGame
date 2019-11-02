@@ -86,9 +86,10 @@ export enum RaceState {
 
 //游戏状态子状态
 export const ChildGameState = {
-    WAIT_BEGIN: { PLAY_BUTTON_EVENT: 1 }, //游戏开始按钮被点击通知
-    SHOW_DOWN: { OPEN_CARD_NOTICE: 2 }, //翻牌通知
-    ROLL_DICE: { DICE_COUNT: 3 } //色子点数通知
+    WAIT_BEGIN: { PLAY_BUTTON_EVENT: 1 }, //1 游戏开始按钮被点击通知
+    CHOICE_LANDLORD: { LOCAL_BE_LANDLORD_RESULT: 4, LANDLORD_HAS_CHANGE: 6 },  //5 本人是否愿意当地主通知 6地主改变通知
+    SHOW_DOWN: { OPEN_CARD_NOTICE: 2 }, //2 翻牌通知
+    ROLL_DICE: { DICE_COUNT: 3 } //3 色子点数通知
 }
 
 export interface ChildGameParam {
@@ -100,7 +101,8 @@ export interface ChildGameParam {
 export enum PushEventType {
     MEMBER_CHANGE = 1, //人员改变、进来或者出去了
     LANDLORD_CHANGE = 2, //地主改变通知
-    BET_CHIP_CHANGE = 3 // 下注改变通知
+    BET_CHIP_CHANGE = 3, // 下注改变通知
+    LANDLOAD_WELCOME = 4 //向指定人员发出地主邀请通知
 }
 
 export interface PushEventPara {
@@ -119,13 +121,13 @@ export interface PushEventParaInfo {
 export const SeatLocaionList = {
     member: {
         landlord: { x: 1, y: -170 },
-        chipPoint:{
-            1:{x:209,y:-66}, //SKY
-            2:{x:-227,y:-71},  //LAND
-            3:{x:-7,y:93}, //MIDDLE
-            4:{x:8,y:-54},  //BRIDG
-            5:{x:163,y:46},  //SKY_CORNER
-            6:{x:-182,y:44}  //LAND_CORNER
+        chipPoint: {
+            1: { x: 209, y: -66 }, //SKY
+            2: { x: -227, y: -71 },  //LAND
+            3: { x: -7, y: 93 }, //MIDDLE
+            4: { x: 8, y: -54 },  //BRIDG
+            5: { x: 163, y: 46 },  //SKY_CORNER
+            6: { x: -182, y: 44 }  //LAND_CORNER
         },
         members: [
             { x: 2.4, y: 187 },
@@ -139,13 +141,13 @@ export const SeatLocaionList = {
     },
     landlord: {
         landlord: { x: 9.3, y: 184 },
-        chipPoint:{
-            1:{x:-227,y:81}, //SKY
-            2:{x:209,y:79},  //LAND
-            3:{x:3,y:-74}, //MIDDLE
-            4:{x:-4,y:76},  //BRIDG
-            5:{x:-190,y:-31},  //SKY_CORNER
-            6:{x:189,y:-26}  //LAND_CORNER
+        chipPoint: {
+            1: { x: -227, y: 81 }, //SKY
+            2: { x: 209, y: 79 },  //LAND
+            3: { x: 3, y: -74 }, //MIDDLE
+            4: { x: -4, y: 76 },  //BRIDG
+            5: { x: -190, y: -31 },  //SKY_CORNER
+            6: { x: 189, y: -26 }  //LAND_CORNER
         },
         members: [
             { x: -6, y: -198 },

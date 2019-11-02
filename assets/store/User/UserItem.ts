@@ -4,13 +4,13 @@ import { EventType } from '../../common/Const'
 import { UserInfo, userType } from './UserBase'
 @ccclass
 export default class UserItem {
-    private id: string = null
-    private icon: string = null
-    private nick: string = null
-    private _type: userType = null
-    private score: number = null
-    private diamond: number = null
-    private phone: string = null
+    public id: string = null
+    public icon: string = null
+    public nick: string = null
+    public _type: userType = null
+    public score: number = null
+    public diamond: number = null
+    public phone: string = null
 
     constructor(val: UserInfo) {
         this.type = val.type

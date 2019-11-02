@@ -7,10 +7,14 @@ import { roomInfo } from '../../mock/RoomInfo'
 
 @ccclass
 class RoomManage {
-    private roomItem: RoomItem = null
+    public roomItem: RoomItem = null
 
     public requestRoomInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
+            if (this.roomItem !== null) {
+                resolve({ result: PromiseResult.SUCCESS, extObject: this.roomItem })
+                return
+            }
             if (config.appMode === appMode.DEV) {
                 this.roomItem = new RoomItem(roomInfo as RoomInfo)
             } else {

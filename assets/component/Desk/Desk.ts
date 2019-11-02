@@ -8,10 +8,12 @@ import GameMemberItem from '../../store/GameMember/GameMemberItem'
 import { GameMember, gameMemberType } from '../../store/GameMember/GameMemberBase'
 import User from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
-import { SeatLocaionList } from '../../common/Const'
+import { SeatLocaionList, EventType, GameState, ChildGameParam, ChildGameState } from '../../common/Const'
 import { roomState } from '../../store/Room/RoomBase'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
+import { eventBus } from '../../common/EventBus'
+import { randEventId } from '../../common/Util'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -25,6 +27,17 @@ export default class NewClass extends cc.Component {
     start() {
         this.setDeskLocation()
         this.showMembers()
+        this.addEventListener()
+    }
+
+    addEventListener() {
+        eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam): void => {
+            if (info.parentState === GameState.CHOICE_LANDLORD && info.childState === ChildGameState.CHOICE_LANDLORD.LANDLORD_HAS_CHANGE) {
+                cc.log('桌子接收到地主改变通知')
+                cc.log(info.val)
+                this.showMembers()
+            }
+        })
     }
 
     //重新摆放桌子位置
@@ -50,8 +63,16 @@ export default class NewClass extends cc.Component {
         cc.log('桌子摆放完毕')
     }
 
+    clearOldMember(){
+        this.deskSitList.forEach((item:any)=>{
+            let useId = item.userId
+            this.node.parent.getChildByName(useId).destroy()
+        })
+        this.deskSitList = []
+    }
+
     async showMembers() {
-        this.deskSitList = [] //如果有残留图标 先删除
+        this.clearOldMember()
         let infoOne = await Room.requestRoomInfo()
         let roomInfo = infoOne.extObject as RoomItem
         let ob = await GameMemberManage.requestGameMemberList()
@@ -62,7 +83,7 @@ export default class NewClass extends cc.Component {
         } else {
             deskLoc = SeatLocaionList.landlord
         }
-        if (roomInfo.roomState === roomState.OPEN) {
+        if (roomInfo.roomState === roomState.OPEN || roomInfo.roomState === roomState.PLAYING) {
             let i = 0
             let z = 0
             memberList.forEach((item: GameMemberItem): void => {
@@ -71,10 +92,10 @@ export default class NewClass extends cc.Component {
                 node.parent = this.node.parent
                 if (z === 0) {
                     node.setPosition(deskLoc.landlord.x, deskLoc.landlord.y)
-                    this.deskSitList[item.userId] = deskLoc.landlord
+                    this.deskSitList[item.userId] = {userId:item.userId,location: deskLoc.landlord}
                 } else {
                     node.setPosition(deskLoc.members[i].x, deskLoc.members[i].y)
-                    this.deskSitList[item.userId] = deskLoc.members[i]
+                    this.deskSitList[item.userId] = {userId:item.userId,location: deskLoc.members[i]}
                     i++
                 }
                 z++
