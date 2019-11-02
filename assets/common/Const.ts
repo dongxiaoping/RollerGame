@@ -117,48 +117,13 @@ export interface PushEventParaInfo {
     fromVal: number
     toValue: number
 }
-
-export const SeatLocaionList = {
-    member: {
-        landlord: { x: 1, y: -170 },
-        chipPoint: {
-            1: { x: 209, y: -66 }, //SKY
-            2: { x: -227, y: -71 },  //LAND
-            3: { x: -7, y: 93 }, //MIDDLE
-            4: { x: 8, y: -54 },  //BRIDG
-            5: { x: 163, y: 46 },  //SKY_CORNER
-            6: { x: -182, y: 44 }  //LAND_CORNER
-        },
-        members: [
-            { x: 2.4, y: 187 },
-            { x: 369, y: 42 },
-            { x: -368, y: 42 },
-            { x: -268, y: 131 },
-            { x: 265, y: 131 },
-            { x: -397, y: -90 },
-            { x: 393, y: -90 }
-        ]
-    },
-    landlord: {
-        landlord: { x: 9.3, y: 184 },
-        chipPoint: {
-            1: { x: -227, y: 81 }, //SKY
-            2: { x: 209, y: 79 },  //LAND
-            3: { x: 3, y: -74 }, //MIDDLE
-            4: { x: -4, y: 76 },  //BRIDG
-            5: { x: -190, y: -31 },  //SKY_CORNER
-            6: { x: 189, y: -26 }  //LAND_CORNER
-        },
-        members: [
-            { x: -6, y: -198 },
-            { x: -385, y: -20 },
-            { x: 393, y: -20 },
-            { x: -398, y: 122 },
-            { x: 401, y: 122 },
-            { x: -261, y: -133 },
-            { x: 264, y: -133 }
-        ]
-    }
+export const chipPoint = {
+    1: { x: -227, y: 81 }, //SKY
+    2: { x: 209, y: 79 },  //LAND
+    3: { x: 3, y: -74 }, //MIDDLE
+    4: { x: -4, y: 76 },  //BRIDG
+    5: { x: -190, y: -31 },  //SKY_CORNER
+    6: { x: 189, y: -26 }  //LAND_CORNER
 }
 
 //翻牌事件传递参数

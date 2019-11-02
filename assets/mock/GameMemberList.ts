@@ -56,5 +56,19 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '眼在兜里',
         icon: 'test/22',
         count:0
+    },
+    {
+        userId: '31',
+        roleType: gameMemberType.PLAYER,
+        nick: '眼在兜里没有',
+        icon: 'test/22',
+        count:0
+    },
+    {
+        userId: '32',
+        roleType: gameMemberType.PLAYER,
+        nick: '测试',
+        icon: 'test/22',
+        count:0
     }
 ]

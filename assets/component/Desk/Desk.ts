@@ -8,7 +8,7 @@ import GameMemberItem from '../../store/GameMember/GameMemberItem'
 import { GameMember, gameMemberType } from '../../store/GameMember/GameMemberBase'
 import User from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
-import { SeatLocaionList, EventType, GameState, ChildGameParam, ChildGameState } from '../../common/Const'
+import { EventType, GameState, ChildGameParam, ChildGameState } from '../../common/Const'
 import { roomState } from '../../store/Room/RoomBase'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
@@ -21,7 +21,6 @@ export default class NewClass extends cc.Component {
     private playUserIcon: cc.Prefab = null //玩家icon
     @property(cc.Sprite)
     private deskBg: cc.Sprite = null
-    private deskBridgIsTop: boolean = false //桌子的摆放姿势，如果true表示桥朝上
 
     private deskSitList = [] //坐的位置信息 如：[userId:location:{x:0,y:3}]
     start() {
@@ -48,14 +47,7 @@ export default class NewClass extends cc.Component {
         let memberList = ob.extObject as GameMemberItem[]
         let info = await User.requestUserInfo()
         let userInfo = info.extObject as UserInfo
-        let deskBg: string = null
-        if (roomInfo.roomState === roomState.OPEN || memberList[userInfo.id].roleType !== gameMemberType.LANDLORD) {
-            deskBg = 'desk/place_a06eb30b'
-            this.deskBridgIsTop = true
-        } else {
-            deskBg = 'desk/place-banker_e96db884'
-            this.deskBridgIsTop = false
-        }
+        let deskBg: string = 'desk/place_a06eb30b'
         cc.loader.loadRes(deskBg, (error, img) => {
             let myIcon = new cc.SpriteFrame(img);
             this.deskBg.spriteFrame = myIcon;
@@ -63,10 +55,10 @@ export default class NewClass extends cc.Component {
         cc.log('桌子摆放完毕')
     }
 
-    clearOldMember(){
-        this.deskSitList.forEach((item:any)=>{
-            let useId = item.userId
-            this.node.parent.getChildByName(useId).destroy()
+    clearOldMember() {
+        this.deskSitList.forEach((item: any) => {
+            let name = item.name
+            this.node.parent.getChildByName(name).removeAllChildren()
         })
         this.deskSitList = []
     }
@@ -77,31 +69,70 @@ export default class NewClass extends cc.Component {
         let roomInfo = infoOne.extObject as RoomItem
         let ob = await GameMemberManage.requestGameMemberList()
         let memberList = ob.extObject as GameMemberItem[]
-        let deskLoc: any = null
-        if (this.deskBridgIsTop) {
-            deskLoc = SeatLocaionList.member
-        } else {
-            deskLoc = SeatLocaionList.landlord
-        }
-        if (roomInfo.roomState === roomState.OPEN || roomInfo.roomState === roomState.PLAYING) {
-            let i = 0
-            let z = 0
-            memberList.forEach((item: GameMemberItem): void => {
-                var node = cc.instantiate(this.playUserIcon)
+        let isLandlordFind = false
+        let leftMembers: any[] = []
+        let rightMembers: any[] = []
+        memberList.forEach((item: GameMemberItem): void => {
+            if (item.roleType === gameMemberType.LANDLORD) {
+                let node = cc.instantiate(this.playUserIcon)
                 node.name = item.userId
-                node.parent = this.node.parent
-                if (z === 0) {
-                    node.setPosition(deskLoc.landlord.x, deskLoc.landlord.y)
-                    this.deskSitList[item.userId] = {userId:item.userId,location: deskLoc.landlord}
-                } else {
-                    node.setPosition(deskLoc.members[i].x, deskLoc.members[i].y)
-                    this.deskSitList[item.userId] = {userId:item.userId,location: deskLoc.members[i]}
-                    i++
-                }
-                z++
+                node.parent = this.node.parent.getChildByName('Member_landlord')
+                node.setPosition(0, 0)
+                this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_landlord' }
+                isLandlordFind = true
                 node.active = true
+            } else {
+                if (isLandlordFind) {
+                    leftMembers.push(item)
+                } else {
+                    rightMembers.push(item)
+                }
+            }
+        })
+        if (!isLandlordFind) {
+            let k = 0
+            let j = 0
+            memberList.forEach((item: GameMemberItem): void => {
+                let node = cc.instantiate(this.playUserIcon)
+                node.name = item.userId
+                if (k === 0) {
+                    node.parent = this.node.parent.getChildByName('Member_landlord')
+                    node.setPosition(0, 0)
+                    this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_landlord' }
+                    node.active = true
+                } else {
+                    node.parent = this.node.parent.getChildByName('Member_' + j)
+                    node.setPosition(0, 0)
+                    this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_' + j }
+                    node.active = true
+                    j++
+                }
+                k++
             })
+            return
         }
+        let i = 0
+        leftMembers.forEach((item: GameMemberItem): void => {
+            let node = cc.instantiate(this.playUserIcon)
+            node.name = item.userId
+            node.parent = this.node.parent.getChildByName('Member_' + i)
+            node.setPosition(0, 0)
+            this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_' + i }
+            node.active = true
+            i++
+        })
+        let j = 8
+        rightMembers = rightMembers.reverse()
+        rightMembers.forEach((item: GameMemberItem): void => {
+            let node = cc.instantiate(this.playUserIcon)
+            node.name = item.userId
+            node.parent = this.node.parent.getChildByName('Member_' + j)
+            node.setPosition(0, 0)
+            this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_' + j }
+            node.active = true
+            j--
+        })
+
         cc.log('成员坐落初始化完毕')
     }
 }

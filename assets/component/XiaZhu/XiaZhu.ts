@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
-import { EventType, PushEventPara, PushEventType, PushEventParaInfo, Coordinate, SeatLocaionList, betLocaion } from '../../common/Const'
+import { EventType, PushEventPara, PushEventType, PushEventParaInfo, Coordinate, chipPoint, betLocaion } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -57,12 +57,12 @@ export default class NewClass extends cc.Component {
         let scriptOb = node.getChildByName('Desk').getComponent('Desk')
         let location: Coordinate = null
         if (scriptOb.userIsLandlord) {
-            location = SeatLocaionList.landlord.chipPoint[betLocationType]
+            location = chipPoint[betLocationType]
             location.x = location.x + randFloatNum(1, 10)
             location.y = location.y + randFloatNum(1, 10)
             return location
         } else {
-            location = SeatLocaionList.member.chipPoint[betLocationType]
+            location = chipPoint[betLocationType]
             location.x = location.x + randFloatNum(1, 10)
             location.y = location.y + randFloatNum(1, 10)
             return location
