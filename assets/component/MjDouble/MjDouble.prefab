@@ -3089,7 +3089,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 21,
+      "x": 22,
       "y": 0,
       "z": 0
     },
@@ -5885,7 +5885,7 @@
     "_N$paddingRight": 0,
     "_N$paddingTop": 0,
     "_N$paddingBottom": 0,
-    "_N$spacingX": -3,
+    "_N$spacingX": -2,
     "_N$spacingY": 0,
     "_N$verticalDirection": 1,
     "_N$horizontalDirection": 0,

@@ -55,7 +55,10 @@ class RollEmulator extends RollControlerOb {
                 RaceManage.raceList[1].betInfo[item.userId].land = 50
             }
         })
-
+        setTimeout(()=>{
+            cc.log('修改游戏状态为比大小')
+            RaceManage.raceList[1].state = raceState.SHOW_DOWN
+        },3000)
     }
 
     responsePlayBottomEvent() {

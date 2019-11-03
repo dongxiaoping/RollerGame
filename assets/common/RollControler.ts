@@ -116,6 +116,16 @@ export class RollControlerOb {
                     this.toBet()
             }
         })
+
+        eventBus.on(EventType.GAME_STATE_CHANGE, randEventId(), (info: any): void => {
+            let to = info.to
+            switch (to) {
+                case GameState.SHOW_DOWN: 
+                    cc.log('控制器收到比大小指令，开始比大小流程')
+                    this.toShowMjResult()
+                    break
+            }
+        })
     }
 }
 

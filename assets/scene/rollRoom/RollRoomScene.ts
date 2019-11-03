@@ -60,23 +60,26 @@ export default class NewClass extends cc.Component {
             let to = info.to
             switch (to) {
                 case GameState.ROLL_DICE:
-                    cc.log('控制器收到摇色子指令，开始摇色子流程')
+                    cc.log('房间收到摇色子指令，开始摇色子流程')
                     this.beginRollDice()
                     if (GameMemberManage.gameMenmberList[UserManage.userInfo.id].roleType !== gameMemberType.LANDLORD) {
                         cc.log('不是地主,显示下注面板')
                         this.showXiaZhuPanel()
                     } else {
                         cc.log('是地主,不显示下注面板')
-                        this.showXiaZhuPanel()
                     }
                     break
                 case GameState.CHOICE_LANDLORD:
-                    cc.log('控制器收到选地主指令，开始选地主流程') //到了这个环境不是一定弹出地主提示框，要看通知是否轮到当前玩家选地主
+                    cc.log('房间收到选地主指令，开始选地主流程') //到了这个环境不是一定弹出地主提示框，要看通知是否轮到当前玩家选地主
                     // this.choiceLandLord()
                     break
                 case GameState.DEAL:
-                    cc.log('控制器收到发牌指令，开始发牌流程')
+                    cc.log('房间收到发牌指令，开始发牌流程')
                     this.beginDeal()
+                    break
+                case GameState.SHOW_DOWN: //这个由控制器来响应
+                   // cc.log('房间收到比大小指令，开始比大小流程')
+                   
                     break
             }
         })
@@ -148,13 +151,14 @@ export default class NewClass extends cc.Component {
         var node = cc.instantiate(this.xiaZhu)
         node.parent = this.node
         node.setPosition(189.261, -236.576);
-        node.active = false
+        node.getChildByName('Layout').active = false
+        node.active = true
         cc.log('初始化下注功能')
     }
     //初始化下注功能
     showXiaZhuPanel() {
         let node = this.node.getChildByName('XiaZhu')
-        node.active = true
+        node.getChildByName('Layout').active = true
         cc.log('显示下注面板')
         // let scriptOb = node.getComponent('DealMachine')
         //scriptOb.deal(TableLocationType.LAND)
