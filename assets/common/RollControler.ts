@@ -59,10 +59,11 @@ export class RollControlerOb {
         })
     }
     toBet(): void {
-        cc.log('控制器发出下注指令')
-        eventBus.emit(EventType.GAME_STATE_CHANGE, {
-            from: GameState.DEAL, to: GameState.BET
-        })
+        cc.log('控制器修改游戏状态为下注')
+        RaceManage.raceList[1].state = raceState.BET
+        // eventBus.emit(EventType.GAME_STATE_CHANGE, {
+        //     from: GameState.DEAL, to: GameState.BET
+        // })
     }
 
     //指令，游戏开始，开始选地主通知

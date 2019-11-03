@@ -10,6 +10,8 @@ import RoomItem from '../../store/Room/RoomItem'
 import RaceItem from '../../store/Races/RaceItem'
 import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
+import GameMemberManage from '../../store/GameMember/GameMemberManage'
+import { gameMemberType } from '../../store/GameMember/GameMemberBase'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -60,6 +62,13 @@ export default class NewClass extends cc.Component {
                 case GameState.ROLL_DICE:
                     cc.log('控制器收到摇色子指令，开始摇色子流程')
                     this.beginRollDice()
+                    if (GameMemberManage.gameMenmberList[UserManage.userInfo.id].roleType !== gameMemberType.LANDLORD) {
+                        cc.log('不是地主,显示下注面板')
+                        this.showXiaZhuPanel()
+                    } else {
+                        cc.log('是地主,不显示下注面板')
+                        this.showXiaZhuPanel()
+                    }
                     break
                 case GameState.CHOICE_LANDLORD:
                     cc.log('控制器收到选地主指令，开始选地主流程') //到了这个环境不是一定弹出地主提示框，要看通知是否轮到当前玩家选地主
@@ -129,18 +138,24 @@ export default class NewClass extends cc.Component {
         RollEmulator.isRuning = true
         this.showUserIcon()
         this.changeStartButtonState()
-        this.initXiaZhuFunc()
+        this.initXiaZhuPanel()
         //  GameStateInfo.requestMjResult('2')
 
     }
 
-    //初始化下注功能
-    initXiaZhuFunc() {
+    //只有初始化了下注面板，才能有投注动画
+    initXiaZhuPanel() {
         var node = cc.instantiate(this.xiaZhu)
         node.parent = this.node
         node.setPosition(189.261, -236.576);
         node.active = false
         cc.log('初始化下注功能')
+    }
+    //初始化下注功能
+    showXiaZhuPanel() {
+        let node = this.node.getChildByName('XiaZhu')
+        node.active = true
+        cc.log('显示下注面板')
         // let scriptOb = node.getComponent('DealMachine')
         //scriptOb.deal(TableLocationType.LAND)
     }

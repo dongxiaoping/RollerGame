@@ -32,13 +32,15 @@ export default class NewClass extends cc.Component {
 
         eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
             if (info.eventType === PushEventType.BET_CHIP_CHANGE) {
-                cc.log('收到下注动画通知')
+                cc.log('收到下注值改变通知')
                 cc.log(info)
                 let betInfo = info.info as PushEventParaInfo
                 let betValue = betInfo.toValue - betInfo.fromVal
                 let userId = betInfo.userId
                 let betLocationType = betInfo.betLocation
-                let toLocaiton = this.getBetPointbyLocationType(betLocationType)
+                let toLocaiton = chipPoint[betLocationType]
+                toLocaiton.x =  toLocaiton.x + randFloatNum(-5, 7)
+                toLocaiton.y =  toLocaiton.y + randFloatNum(-5, 7)
                 let fromLocation = this.getUserDeskLocation(userId)
                 this.flyAnimation(fromLocation, toLocaiton, betValue)
             }
@@ -48,26 +50,28 @@ export default class NewClass extends cc.Component {
     getUserDeskLocation(userId: string): Coordinate {
         let node = this.node.parent
         let scriptOb = node.getChildByName('Desk').getComponent('Desk')
-        return scriptOb.deskSitList[userId]
+        let chairName =  scriptOb.deskSitList[userId].name
+        let chairNode = node.getChildByName(chairName)
+        return chairNode.getPosition()
     }
 
-    getBetPointbyLocationType(betLocationType: betLocaion): Coordinate {
-        cc.log('获取下注点的坐标')
-        let node = this.node.parent
-        let scriptOb = node.getChildByName('Desk').getComponent('Desk')
-        let location: Coordinate = null
-        if (scriptOb.userIsLandlord) {
-            location = chipPoint[betLocationType]
-            location.x = location.x + randFloatNum(1, 10)
-            location.y = location.y + randFloatNum(1, 10)
-            return location
-        } else {
-            location = chipPoint[betLocationType]
-            location.x = location.x + randFloatNum(1, 10)
-            location.y = location.y + randFloatNum(1, 10)
-            return location
-        }
-    }
+    // getBetPointbyLocationType(betLocationType: betLocaion): Coordinate {
+    //     cc.log('获取下注点的坐标')
+    //     let node = this.node.parent
+    //     let scriptOb = node.getChildByName('Desk').getComponent('Desk')
+    //     let location: Coordinate = null
+    //     if (scriptOb.userIsLandlord) {
+    //         location = chipPoint[betLocationType]
+    //         location.x = location.x + randFloatNum(1, 10)
+    //         location.y = location.y + randFloatNum(1, 10)
+    //         return location
+    //     } else {
+    //         location = chipPoint[betLocationType]
+    //         location.x = location.x + randFloatNum(1, 10)
+    //         location.y = location.y + randFloatNum(1, 10)
+    //         return location
+    //     }
+    // }
 
     flyAnimation(fromLocation: Coordinate, toLocaiton: Coordinate, val: number) {
         let node = this.createChip(val)

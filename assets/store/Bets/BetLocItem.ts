@@ -2,6 +2,9 @@ const { ccclass } = cc._decorator;
 import { BetScore } from './BetBase'
 import { eventBus } from '../../common/EventBus'
 import { EventType, PushEventPara, PushEventType, PushEventParaInfo, betLocaion } from '../../common/Const'
+/*
+本地存储的记录
+*/
 @ccclass
 export default class BetLocItem {
     public userId: string = null
@@ -28,7 +31,7 @@ export default class BetLocItem {
         return this._sky
     }
     set sky(val: number) {
-        if(this._sky!==null){
+        if (this._sky !== null) {
             this.valueChangeNotice(betLocaion.SKY_CORNER, this._sky, val)
         }
         this._sky = val
@@ -38,7 +41,7 @@ export default class BetLocItem {
         return this._land
     }
     set land(val: number) {
-        if(this._land!==null){
+        if (this._land !== null) {
             this.valueChangeNotice(betLocaion.LAND, this._land, val)
         }
         this._land = val
@@ -48,7 +51,7 @@ export default class BetLocItem {
         return this._middle
     }
     set middle(val: number) {
-        if(this._middle!==null){
+        if (this._middle !== null) {
             this.valueChangeNotice(betLocaion.MIDDLE, this._middle, val)
         }
         this._middle = val
@@ -58,7 +61,7 @@ export default class BetLocItem {
         return this._bridg
     }
     set bridg(val: number) {
-        if(this._bridg!==null){
+        if (this._bridg !== null) {
             this.valueChangeNotice(betLocaion.BRIDG, this._bridg, val)
         }
         this._bridg = val
@@ -68,7 +71,7 @@ export default class BetLocItem {
         return this._skyCorner
     }
     set skyCorner(val: number) {
-        if(this._skyCorner!==null){
+        if (this._skyCorner !== null) {
             this.valueChangeNotice(betLocaion.SKY_CORNER, this._skyCorner, val)
         }
         this._skyCorner = val
@@ -78,16 +81,18 @@ export default class BetLocItem {
         return this.landCorner
     }
     set landCorner(val: number) {
-        if(this._landCorner!==null){
+        if (this._landCorner !== null) {
             this.valueChangeNotice(betLocaion.LAND_CORNER, this._landCorner, val)
         }
         this._landCorner = val
     }
 
     valueChangeNotice(locatIon: betLocaion, fromVal: number, toValue: number): void {
+        let info = { raceId: this.raceId, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as PushEventParaInfo
         eventBus.emit(EventType.PUSH_EVENT, {
-            eventType: PushEventType.BET_CHIP_CHANGE, info: { raceId: this.raceId, userId: this.userId, betLocation:locatIon , fromVal: fromVal, toValue: toValue } as PushEventParaInfo
+            eventType: PushEventType.BET_CHIP_CHANGE, info: info
         } as PushEventPara)
         cc.log('投注值改变通知')
+        cc.log(info)
     }
 }
