@@ -3,15 +3,13 @@ import UserManage from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
 import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, TableLocationType, PushEventType } from '../../common/Const'
+import { gameMemberType, EventType, GameState, TableLocationType, PushEventType, roomState } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
-import { roomState } from '../../store/Room/RoomBase'
 import RoomItem from '../../store/Room/RoomItem'
 import RaceItem from '../../store/Races/RaceItem'
 import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
-import { gameMemberType } from '../../store/GameMember/GameMemberBase'
 @ccclass
 export default class NewClass extends cc.Component {
 

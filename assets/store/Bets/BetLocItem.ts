@@ -1,7 +1,6 @@
 const { ccclass } = cc._decorator;
-import { BetScore } from './BetBase'
 import { eventBus } from '../../common/EventBus'
-import { EventType, PushEventPara, PushEventType, PushEventParaInfo, betLocaion } from '../../common/Const'
+import { EventType, PushEventPara, PushEventType, PushEventParaInfo, betLocaion,BetScore } from '../../common/Const'
 /*
 本地存储的记录
 */

@@ -1,5 +1,4 @@
-import { BetRecord } from '../store/Bets/BetBase'
-import { betLocaion } from '../common/Const'
+import { betLocaion, BetRecord } from '../common/Const'
 export const BetList: BetRecord[] = [
     {
         id:'3123',

@@ -1,9 +1,10 @@
-import { GameMember, gameMemberType } from '../store/GameMember/GameMemberBase'
+import { GameMember, gameMemberType } from '../common/Const'
+
 
 export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
     {
         userId: '23',
-        roleType: gameMemberType.PLAYER,
+        roleType: gameMemberType.LANDLORD,
         nick: '苹果',
         icon: 'test/44',
         count:0

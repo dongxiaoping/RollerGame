@@ -1,10 +1,9 @@
-import { raceRecord, raceState } from '../store/Races/RaceBase'
-import { DiceCountInfo } from '../common/Const'
+import { DiceCountInfo, raceRecord, raceState  } from '../common/Const'
 export const RaceList: raceRecord[] = [
     {
         raceId: '1',
         num: 1,
-        state: raceState.NOT_BEGIN,
+        state: raceState.SHOW_RESULT,
         majongResult: { sky: { one: 7, two: 8 }, land: { one: 9, two: 0.5 }, landlord: { one: 1, two: 2 }, middle: { one: 3, two: 4 } }
     },
     {

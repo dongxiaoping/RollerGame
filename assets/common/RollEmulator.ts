@@ -3,17 +3,14 @@ import { eventBus } from '../common/EventBus'
 import { RollControlerOb } from './RollControler'
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
-import { roomState } from '../store/Room/RoomBase'
 import { randEventId } from '../common/Util'
 import RoomItem from '../store/Room/RoomItem'
 import UserManage from '../store/User/UserManage'
 import GameMember from '../store/GameMember/GameMemberManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
-import { gameMemberType } from '../store/GameMember/GameMemberBase'
-import { PromiseParam, PushEventType, EventType, GameState, ChildGameParam } from '../common/Const'
+import { raceState, PushEventType, EventType, GameState, ChildGameParam, roomState, gameMemberType } from '../common/Const'
 import Room from '../store/Room/RoomManage'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
-import {raceState} from '../store/Races/RaceBase'
 @ccclass
 class RollEmulator extends RollControlerOb {
     startRun(): void {

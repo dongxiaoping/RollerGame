@@ -5,11 +5,9 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { GameMember, gameMemberType } from '../../store/GameMember/GameMemberBase'
 import User from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
-import { EventType, GameState, ChildGameParam, ChildGameState } from '../../common/Const'
-import { roomState } from '../../store/Room/RoomBase'
+import { EventType, GameState, ChildGameParam, ChildGameState, roomState, GameMember, gameMemberType } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
 import { eventBus } from '../../common/EventBus'

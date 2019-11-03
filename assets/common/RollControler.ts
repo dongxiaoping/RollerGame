@@ -1,9 +1,8 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
-import { EventType, GameState, DiceCountInfo, ChildGameParam, ChildGameState, TableLocationType, OpenCardEventValue } from '../common/Const'
+import { raceState, EventType, GameState, DiceCountInfo, ChildGameParam, ChildGameState, TableLocationType, OpenCardEventValue } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RaceManage from '../store/Races/RaceManage'
-import {raceState} from '../store/Races/RaceBase'
 @ccclass
 export class RollControlerOb {
     _isRuning: boolean = false

@@ -159,5 +159,85 @@ export enum MajhongValueType {
     DIAN = 3 //点
 }
 
+export interface BetRecord {
+    id: string
+    userId: string
+    raceId: string
+    betLocaion: betLocaion
+    moneyValue: number
+}
+
+export interface BetScore {
+    raceId: string,
+    userId: string,
+    sky: number,
+    land: number,
+    middle: number,
+    bridg: number,
+    skyCorner: number,
+    landCorner: number
+}
+export enum gameMemberType {
+    LANDLORD = 1, //地主
+    PLAYER = 2,  //参赛者
+    VISITOR = 3   //观众
+}
+
+export interface GameMember {
+    userId: string
+    roleType: gameMemberType
+    nick: string
+    icon: string
+    count: number
+}
+
+export enum raceState {
+    NOT_BEGIN = 1, //没开始
+    CHOICE_LANDLORD = 2, //选地主
+    ROLL_DICE = 3,  //摇色子
+    DEAL = 4,  //发牌
+    BET = 5,  //下注
+    SHOW_DOWN = 6,  //比大小
+    SHOW_RESULT = 7,  //揭晓结果
+    FINISHED = 8  //完成
+}
+
+export interface raceRecord {
+    raceId: string
+    num: number //场次编号
+    betInfo?: any[] //下注信息
+    state: raceState
+    majongResult?: MajongResult
+}
+
+export interface MajongResult {
+    sky: DiceCountInfo,
+    middle: DiceCountInfo,
+    land: DiceCountInfo,
+    landlord: DiceCountInfo
+}
+
+export enum roomState{
+    OPEN = 1, //创建,房主没点开始，等待玩家进入
+    PLAYING = 2,  //进行中
+    CLOSE = 3   //关闭
+}
+
+export enum playMode{
+    LANDLORD = 1, //霸王庄
+    TURN = 2, //轮流
+}
+
+export interface RoomInfo{
+    num : number  //房间编号
+    creatUserId: string  //创建者ID
+    memberLimit: number  //人员数量限制
+    playCount: number  //场次限制
+    playMode: playMode  //上庄模式
+    costLimit: number  //消费上限
+    roomState: roomState  //房间状态
+    oningRaceNum?:number //当前进行中的场次编号
+}
+
 
 

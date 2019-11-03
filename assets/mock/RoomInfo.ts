@@ -1,4 +1,4 @@
-import {RoomInfo, playMode, roomState} from '../store/Room/RoomBase'
+import {RoomInfo, playMode, roomState} from '../common/Const'
 
 export const roomInfo: RoomInfo  = {
     num: 12,

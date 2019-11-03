@@ -8,6 +8,7 @@ import GameMemberManage from '../GameMember/GameMemberManage'
 import { BetScore } from '../Bets/BetBase'
 import BetLocItem from '../Bets/BetLocItem'
 import GameMemberItem from '../GameMember/GameMemberItem'
+import { raceState } from './RaceBase'
 import axios from 'axios'
 @ccclass
 class RaceManage {
@@ -28,6 +29,16 @@ class RaceManage {
             }
             resolve({ result: PromiseResult.SUCCESS, extObject: this.raceList })
         })
+    }
+
+    //获取当前正在进行中的比赛场次相关信息,如果没有返回null
+    getPlayingRaceInfo() {
+        for(let i=1 ;i<this.raceList.length;i++){
+            if (this.raceList[i].state !== raceState.NOT_BEGIN && this.raceList[i].state !== raceState.FINISHED) {
+                return this.raceList[i]
+            }
+        }
+        return null
     }
 
     //将下注信息整合到比赛信息集合中并返回

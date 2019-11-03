@@ -1,7 +1,6 @@
 const { ccclass } = cc._decorator;
-import { GameMember, gameMemberType } from './GameMemberBase'
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'
+import { EventType, GameState, ChildGameState, ChildGameParam, GameMember, gameMemberType } from '../../common/Const'
 @ccclass
 export default class GameMemberItem {
     public userId: string = null

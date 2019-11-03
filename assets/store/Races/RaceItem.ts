@@ -1,8 +1,7 @@
 const { ccclass } = cc._decorator;
-import { raceRecord, raceState, MajongResult } from './RaceBase'
 import BetLocItem from '../../store/Bets/BetLocItem'
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState } from '../../common/Const'
+import { EventType, GameState, raceRecord, raceState, MajongResult } from '../../common/Const'
 @ccclass
 export default class RaceItem {
     public raceId: string = null
