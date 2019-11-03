@@ -18,6 +18,7 @@ export default class NewClass extends cc.Component {
     // onLoad () {}
 
     start() {
+        cc.log(22)
         let sureButton = this.node.getChildByName('Sure')
         let cancelButton = this.node.getChildByName('Cancel')
         sureButton.on(cc.Node.EventType.TOUCH_END, () => {
@@ -27,6 +28,7 @@ export default class NewClass extends cc.Component {
             // eventBus.emit(EventType.GAME_LINK_FINISH, {
             //     state: GameState.CHOICE_LANDLORD
             // })
+            this.node.active = false
             this.node.destroy()
         })
         cancelButton.on(cc.Node.EventType.TOUCH_END, () => {
@@ -36,6 +38,7 @@ export default class NewClass extends cc.Component {
             // eventBus.emit(EventType.GAME_LINK_FINISH, {
             //     state: GameState.CHOICE_LANDLORD
             // })
+            this.node.active = false
             this.node.destroy()
         })
     }

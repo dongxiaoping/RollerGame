@@ -3,6 +3,7 @@ import { eventBus } from '../common/EventBus'
 import { EventType, GameState, DiceCountInfo, ChildGameParam, ChildGameState, TableLocationType, OpenCardEventValue } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RaceManage from '../store/Races/RaceManage'
+import {raceState} from '../store/Races/RaceBase'
 @ccclass
 export class RollControlerOb {
     _isRuning: boolean = false
@@ -93,10 +94,8 @@ export class RollControlerOb {
             if (info.parentState === GameState.ROLL_DICE && info.childState === ChildGameState.ROLL_DICE.DICE_COUNT) {
                 cc.log('接收到色子点数')
                 cc.log(info.val)
-                cc.log('摇色子结束，发指令，开始发牌指令')
-                eventBus.emit(EventType.GAME_STATE_CHANGE, {
-                    from: GameState.ROLL_DICE, to: GameState.DEAL
-                })
+                cc.log('摇色子结束，将本场状态值改为发牌')
+                RaceManage.raceList[1].state = raceState.DEAL
             } else if (info.parentState === GameState.WAIT_BEGIN && info.childState === ChildGameState.WAIT_BEGIN.PLAY_BUTTON_EVENT) {
                 this.responsePlayBottomEvent()
             } else if(info.parentState === GameState.CHOICE_LANDLORD && info.childState === ChildGameState.CHOICE_LANDLORD.LOCAL_BE_LANDLORD_RESULT) {

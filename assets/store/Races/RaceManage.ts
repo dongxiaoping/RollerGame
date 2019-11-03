@@ -21,7 +21,7 @@ class RaceManage {
             }
             if (config.appMode === appMode.DEV) {
                 RaceList.forEach((item: raceRecord): void => {
-                    this.raceList[item.raceId] = new RaceItem(item)
+                    this.raceList[item.num] = new RaceItem(item)
                 })
             } else {
 

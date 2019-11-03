@@ -5,7 +5,7 @@ import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
 import { EventType, GameState, TableLocationType, PushEventType } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
-import {roomState} from '../../store/Room/RoomBase'
+import { roomState } from '../../store/Room/RoomBase'
 import RoomItem from '../../store/Room/RoomItem'
 import RaceItem from '../../store/Races/RaceItem'
 import { randEventId } from '../../common/Util'
@@ -38,13 +38,13 @@ export default class NewClass extends cc.Component {
         this.addPushEventListener()
     }
 
-    private addPushEventListener(){
+    private addPushEventListener() {
         eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: any): void => {
             let event = info.eventType
             switch (event) {
                 case PushEventType.LANDLOAD_WELCOME:
                     cc.log('控制器收到邀请地主通知')
-                    if(UserManage.userInfo.id === info.userId){
+                    if (UserManage.userInfo.id === info.userId) {
                         cc.log('当前用户收到邀请，弹出是否当地主提示框')
                         this.choiceLandLord()
                     }
@@ -62,8 +62,8 @@ export default class NewClass extends cc.Component {
                     this.beginRollDice()
                     break
                 case GameState.CHOICE_LANDLORD:
-                    cc.log('控制器收到选地主指令，开始选地主流程')
-                    this.choiceLandLord()
+                    cc.log('控制器收到选地主指令，开始选地主流程') //到了这个环境不是一定弹出地主提示框，要看通知是否轮到当前玩家选地主
+                    // this.choiceLandLord()
                     break
                 case GameState.DEAL:
                     cc.log('控制器收到发牌指令，开始发牌流程')
@@ -78,7 +78,7 @@ export default class NewClass extends cc.Component {
         this.endRollDice()
         let node = cc.instantiate(this.dealMachine)
         node.parent = this.node
-        node.setPosition(189.261, -236.576);
+        node.setPosition(320, 207);
         node.active = true
         let scriptOb = node.getComponent('DealMachine')
         scriptOb.deal(TableLocationType.LAND)
@@ -130,18 +130,18 @@ export default class NewClass extends cc.Component {
         this.showUserIcon()
         this.changeStartButtonState()
         this.initXiaZhuFunc()
-      //  GameStateInfo.requestMjResult('2')
+        //  GameStateInfo.requestMjResult('2')
 
     }
 
     //初始化下注功能
-    initXiaZhuFunc(){
+    initXiaZhuFunc() {
         var node = cc.instantiate(this.xiaZhu)
         node.parent = this.node
         node.setPosition(189.261, -236.576);
         node.active = false
         cc.log('初始化下注功能')
-       // let scriptOb = node.getComponent('DealMachine')
+        // let scriptOb = node.getComponent('DealMachine')
         //scriptOb.deal(TableLocationType.LAND)
     }
 

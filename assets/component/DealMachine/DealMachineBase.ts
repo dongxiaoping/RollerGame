@@ -4,16 +4,16 @@ export function getLocationByLocaitonType(type: TableLocationType): Coordinate {
     let coordinate: Coordinate
     switch (type) {
         case TableLocationType.LAND:
-            coordinate = { x: -214, y: -147 }
+            coordinate = { x: 218, y: 136 }
             break
         case TableLocationType.LANDLORD:
-            coordinate = { x: 5, y: -162 }
+            coordinate = { x: 2.5, y: 148 }
             break
         case TableLocationType.MIDDLE:
-            coordinate = { x: 10.3, y: 10.3 }
+            coordinate = { x: -2.5, y: -15 }
             break
         case TableLocationType.SKY:
-            coordinate = { x: 209, y: -157 }
+            coordinate = { x: -216, y: 140 }
             break
     }
     return coordinate

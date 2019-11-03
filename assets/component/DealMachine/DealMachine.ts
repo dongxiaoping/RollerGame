@@ -74,7 +74,7 @@ export default class DealMachine extends cc.Component {
         node.name = node.name + tableLocationType
         let rootOb = this.node.parent
         node.parent = rootOb
-        node.setPosition(110.968, -193.548);
+        node.setPosition(320, 207);
         node.active = true
 
         let location = getLocationByLocaitonType(tableLocationType)
