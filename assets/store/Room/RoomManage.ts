@@ -1,8 +1,7 @@
 const { ccclass } = cc._decorator;
-import { RoomInfo } from './RoomBase'
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { appMode, PromiseParam, PromiseResult } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, RoomInfo } from '../../common/Const'
 import { roomInfo } from '../../mock/RoomInfo'
 
 @ccclass

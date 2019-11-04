@@ -31,6 +31,8 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private xiaZhu: cc.Prefab = null //下注功能预制件
 
+    @property(cc.Prefab)
+    private raceResultPanel: cc.Prefab = null //公布单场竞赛结果面板
 
     onEnable() {
         this.showUserIcon()
@@ -76,11 +78,20 @@ export default class NewClass extends cc.Component {
                     this.beginDeal()
                     break
                 case GameState.SHOW_DOWN: //这个由控制器来响应
-                   // cc.log('房间收到比大小指令，开始比大小流程')
-                   
+                    // cc.log('房间收到比大小指令，开始比大小流程')
+                    break
+                case GameState.SHOW_RESULT:
+                    cc.log('控制器公布结果')
+                    this.toShowRaceResult()
                     break
             }
         })
+    }
+
+    toShowRaceResult(): void {
+        let node = cc.instantiate(this.raceResultPanel)
+        node.parent = this.node
+        node.active = true
     }
 
     //开始发牌流程

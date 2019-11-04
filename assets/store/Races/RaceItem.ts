@@ -7,6 +7,7 @@ export default class RaceItem {
     public raceId: string = null
     public num: number = null
     public _state: raceState = null
+    public landlordId: string = null
     public betInfo: BetLocItem[] = null //下注信息集合
     public majongResult: MajongResult = null
 
@@ -15,6 +16,7 @@ export default class RaceItem {
         this.num = val.num
         this.state = val.state
         this.betInfo = val.betInfo
+        this.landlordId = val.landlordId
         this.majongResult = val.majongResult
     }
 

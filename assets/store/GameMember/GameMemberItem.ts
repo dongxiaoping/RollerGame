@@ -1,20 +1,24 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, ChildGameState, ChildGameParam, GameMember, gameMemberType } from '../../common/Const'
+import { EventType, GameState, ChildGameState, ChildGameParam, GameMember, gameMemberType, memberState } from '../../common/Const'
 @ccclass
 export default class GameMemberItem {
     public userId: string = null
     public _roleType: gameMemberType = null
     public nick: string = null
     public icon: string = null
-    public count: number = null //积分
+    public score: number = null //积分
+    public state: memberState = null
+    public modTime: number = null
 
     constructor(val: GameMember) {
         this.userId = val.userId
         this.roleType = val.roleType
         this.nick = val.nick
         this.icon = val.icon
-        this.count = val.count
+        this.score = val.score
+        this.state = val.state
+        this.modTime = val.modTime
     }
 
     set roleType(val: gameMemberType) {

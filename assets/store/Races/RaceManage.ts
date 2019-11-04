@@ -1,14 +1,11 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RaceItem from './RaceItem'
-import { appMode, PromiseParam, PromiseResult } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, raceRecord, BetScore, raceState } from '../../common/Const'
 import { RaceList } from '../../mock/RaceList'
-import { raceRecord } from './RaceBase'
 import GameMemberManage from '../GameMember/GameMemberManage'
-import { BetScore } from '../Bets/BetBase'
 import BetLocItem from '../Bets/BetLocItem'
 import GameMemberItem from '../GameMember/GameMemberItem'
-import { raceState } from './RaceBase'
 import axios from 'axios'
 @ccclass
 class RaceManage {
@@ -33,7 +30,7 @@ class RaceManage {
 
     //获取当前正在进行中的比赛场次相关信息,如果没有返回null
     getPlayingRaceInfo() {
-        for(let i=1 ;i<this.raceList.length;i++){
+        for (let i = 1; i < this.raceList.length; i++) {
             if (this.raceList[i].state !== raceState.NOT_BEGIN && this.raceList[i].state !== raceState.FINISHED) {
                 return this.raceList[i]
             }
@@ -53,13 +50,15 @@ class RaceManage {
                 raceItem.betInfo[item.userId] = new BetLocItem({
                     raceId: raceItem.raceId,
                     userId: item.userId,
+                    userName: item.nick,
                     sky: 0,
                     land: 0,
                     middle: 0,
                     bridg: 0,
                     skyCorner: 0,
-                    landCorner: 0
-                })
+                    landCorner: 0,
+                    score: 0
+                } as BetScore)
             })
         })
         this.raceList = raceList

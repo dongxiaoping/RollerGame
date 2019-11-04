@@ -1,27 +1,64 @@
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 import RaceManage from '../../store/Races/RaceManage'
 import Room from '../../store/Room/RoomManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
+import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
+import RaceItem from '../../store/Races/RaceItem'
+import { GameMember, gameMemberType, memberState, raceRecord, raceState, MajongResult } from '../../common/Const'
+import BetLocItem from '../../store/Bets/BetLocItem'
 @ccclass
 export default class NewClass extends cc.Component {
 
     @property(cc.Label)
-    label: cc.Label = null;
+    myScore: cc.Label = null;
+    @property(cc.Prefab)
+    memberScoreItem: cc.Prefab = null;
+    @property(cc.Label)
+    landlordName: cc.Label = null;
+    @property(cc.Label)
+    landlordScore: cc.Label = null;
 
-    @property
-    text: string = 'hello';
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-      //  this.initData()
+    start() {
+        this.show()
     }
 
-     //初始化本地数据
-     async initData() {
+    show() {
+        cc.log('开始显示结果面板信息')
+        let raceNum = RoomManage.roomItem.oningRaceNum
+        cc.log('当前比赛的场次号' + raceNum)
+        let raceInfo = RaceManage.raceList[raceNum]
+        let betInfoList = raceInfo.betInfo
+        let majongResult = raceInfo.majongResult
+        let landloardId = raceInfo.landlordId
+        cc.log(raceInfo)
+        cc.log(landloardId)
+
+        // let nick = this.landlordInfo.nick //地主名称
+        // let landlordId = this.landlordInfo.userId as string
+        // let majongResult = this.raceInfo.majongResult //点数结果
+        // let memberResultList = this.raceInfo.betInfo //成员得分列表
+        // let memberListOb = this.node.getChildByName('MemberList')
+        let myUserId = UserManage.userInfo.id
+        let myScore = betInfoList[myUserId].score
+        this.myScore.string = myScore
+        this.landlordName.string = GameMemberManage.gameMenmberList[landloardId].nick
+        this.landlordScore.string = betInfoList[landloardId].score
+        let i = 1
+        betInfoList.forEach((item: BetLocItem) => {
+            let node = cc.instantiate(this.memberScoreItem)
+            let nameLabel = node.getChildByName('name').getComponents(cc.Label)
+            let scoreLabel = node.getChildByName('score').getComponents(cc.Label)
+            nameLabel[0].string = i + '. ' + item.userName
+            scoreLabel[0].string = item.score + ''
+            node.parent = this.node.getChildByName('MemberList')
+            i++
+        })
+        // let landlordScore = this.raceInfo.betInfo[0].score //得住得分
+    }
+
+    //初始化本地数据
+    async initData() {
         cc.log('模拟器初始化本地数据')
         let infoOne = await Room.requestRoomInfo()
         let infoTwo = await GameMemberManage.requestGameMemberList()
@@ -30,16 +67,16 @@ export default class NewClass extends cc.Component {
 
         ///////////
         let raceInfo = RaceManage.getPlayingRaceInfo()
-        if(raceInfo === null){
+        if (raceInfo === null) {
             cc.log('无法显示比赛结果面板，找不到正在进行中的比赛')
             return
-        }else {
+        } else {
             cc.log('需要显示的比赛信息')
             cc.log(raceInfo)
             let landloard = null
             let memberList = GameMemberManage.gameMenmberList
-            memberList.forEach((item,index)=>{
-               // if(item.roleType == gameMemberType)
+            memberList.forEach((item, index) => {
+                // if(item.roleType == gameMemberType)
             })
         }
 

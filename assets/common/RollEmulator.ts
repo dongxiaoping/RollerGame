@@ -56,6 +56,11 @@ class RollEmulator extends RollControlerOb {
             cc.log('修改游戏状态为比大小')
             RaceManage.raceList[1].state = raceState.SHOW_DOWN
         },3000)
+
+        setTimeout(()=>{
+            cc.log('修改游戏状态为公布积分结果')
+            RaceManage.raceList[1].state = raceState.SHOW_RESULT
+        },7000)
     }
 
     responsePlayBottomEvent() {

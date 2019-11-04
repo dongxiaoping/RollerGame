@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import { RoomInfo, playMode, roomState } from '../Room/RoomBase'
+import { RoomInfo, playMode, roomState } from '../../common/Const'
 
 @ccclass
 export default class RoomItem {
@@ -10,6 +10,7 @@ export default class RoomItem {
     playMode: playMode = null
     costLimit: number = null
     _roomState: roomState = null
+    oningRaceNum: number = null //当前正在进行的比赛场次号 从0开始
 
     constructor(val: RoomInfo) {
         this.num = val.num
@@ -19,6 +20,7 @@ export default class RoomItem {
         this.playMode = val.playMode
         this.costLimit = val.costLimit
         this.roomState = val.roomState
+        this.oningRaceNum = val.oningRaceNum
     }
     get roomState(): roomState{
         return this._roomState

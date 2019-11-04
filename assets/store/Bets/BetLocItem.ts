@@ -1,12 +1,13 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, PushEventPara, PushEventType, PushEventParaInfo, betLocaion,BetScore } from '../../common/Const'
+import { EventType, PushEventPara, PushEventType, PushEventParaInfo, betLocaion, BetScore } from '../../common/Const'
 /*
 本地存储的记录
 */
 @ccclass
 export default class BetLocItem {
     public userId: string = null
+    public userName: string = null
     public raceId: string = null
     public _sky: number = null
     public _land: number = null
@@ -14,16 +15,19 @@ export default class BetLocItem {
     public _bridg: number = null
     public _skyCorner: number = null
     public _landCorner: number = null
+    public score: number = null //本局比赛的得分
 
     constructor(val: BetScore) {
         this.raceId = val.raceId
         this.userId = val.userId
         this.sky = val.sky
+        this.userName = val.userName
         this.land = val.land
         this.middle = val.middle
         this.bridg = val.bridg
         this.skyCorner = val.skyCorner
         this.landCorner = val.landCorner
+        this.score = val.score
     }
 
     get sky(): number {

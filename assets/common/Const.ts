@@ -87,8 +87,9 @@ export enum RaceState {
 //游戏状态子状态
 export const ChildGameState = {
     WAIT_BEGIN: { PLAY_BUTTON_EVENT: 1 }, //1 游戏开始按钮被点击通知
-    CHOICE_LANDLORD: { LOCAL_BE_LANDLORD_RESULT: 4, LANDLORD_HAS_CHANGE: 6 },  //5 本人是否愿意当地主通知 6地主改变通知
-    SHOW_DOWN: { OPEN_CARD_NOTICE: 2 }, //2 翻牌通知
+    CHOICE_LANDLORD: { LOCAL_BE_LANDLORD_RESULT: 4, LANDLORD_HAS_CHANGE: 5 },  //4 本人是否愿意当地主通知 5地主改变通知
+    SHOW_DOWN: { OPEN_CARD_NOTICE: 6 }, //6 翻牌动画结束通知
+    SHOW_RESULT:{FLIP_ANIMATION:5},  
     ROLL_DICE: { DICE_COUNT: 3 } //3 色子点数通知
 }
 
@@ -170,17 +171,25 @@ export interface BetRecord {
 export interface BetScore {
     raceId: string,
     userId: string,
+    userName:string,
     sky: number,
     land: number,
     middle: number,
     bridg: number,
     skyCorner: number,
-    landCorner: number
+    landCorner: number,
+    score:number //本局比赛的得分
 }
 export enum gameMemberType {
-    LANDLORD = 1, //地主
-    PLAYER = 2,  //参赛者
+    LANDLORD = 1, //房主
+    PLAYER = 2,  //玩家
     VISITOR = 3   //观众
+}
+
+export enum memberState {
+    OnLine = 1, //在线
+    OffLine = 2,  //离线
+    KickOut = 3   //被踢出
 }
 
 export interface GameMember {
@@ -188,7 +197,9 @@ export interface GameMember {
     roleType: gameMemberType
     nick: string
     icon: string
-    count: number
+    score?: number  //本房间当前成员总分数
+    modTime: number //最后一次修改时间
+    state: memberState
 }
 
 export enum raceState {
@@ -204,6 +215,7 @@ export enum raceState {
 
 export interface raceRecord {
     raceId: string
+    landlordId: string //地主ID
     num: number //场次编号
     betInfo?: any[] //下注信息
     state: raceState
@@ -217,26 +229,26 @@ export interface MajongResult {
     landlord: DiceCountInfo
 }
 
-export enum roomState{
+export enum roomState {
     OPEN = 1, //创建,房主没点开始，等待玩家进入
     PLAYING = 2,  //进行中
     CLOSE = 3   //关闭
 }
 
-export enum playMode{
+export enum playMode {
     LANDLORD = 1, //霸王庄
     TURN = 2, //轮流
 }
 
-export interface RoomInfo{
-    num : number  //房间编号
+export interface RoomInfo {
+    id: number  //房间编号
     creatUserId: string  //创建者ID
     memberLimit: number  //人员数量限制
     playCount: number  //场次限制
     playMode: playMode  //上庄模式
     costLimit: number  //消费上限
     roomState: roomState  //房间状态
-    oningRaceNum?:number //当前进行中的场次编号
+    oningRaceNum?: number //当前进行中的场次编号
 }
 
 
