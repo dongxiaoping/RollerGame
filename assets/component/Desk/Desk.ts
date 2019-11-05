@@ -7,11 +7,13 @@ import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
 import User from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
-import { EventType, GameState, ChildGameParam, ChildGameState, roomState, GameMember, gameMemberType } from '../../common/Const'
+import { EventType, GameState, ChildGameParam, ChildGameState, roomState, GameMember, PushEventPara, PushEventType } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
 import { eventBus } from '../../common/EventBus'
 import { randEventId } from '../../common/Util'
+import RaceManage from '../../store/Races/RaceManage'
+import RaceItem from '../../store/Races/RaceItem'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -28,10 +30,9 @@ export default class NewClass extends cc.Component {
     }
 
     addEventListener() {
-        eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam): void => {
-            if (info.parentState === GameState.CHOICE_LANDLORD && info.childState === ChildGameState.CHOICE_LANDLORD.LANDLORD_HAS_CHANGE) {
+        eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
+            if (info.eventType === PushEventType.LANDLORD_CHANGE) {
                 cc.log('桌子接收到地主改变通知')
-                cc.log(info.val)
                 this.showMembers()
             }
         })
@@ -65,13 +66,20 @@ export default class NewClass extends cc.Component {
         this.clearOldMember()
         let infoOne = await Room.requestRoomInfo()
         let roomInfo = infoOne.extObject as RoomItem
+        let infoTwo = await RaceManage.requestRaceList()
+        let raceList = infoTwo.extObject as RaceItem[]
         let ob = await GameMemberManage.requestGameMemberList()
         let memberList = ob.extObject as GameMemberItem[]
         let isLandlordFind = false
         let leftMembers: any[] = []
         let rightMembers: any[] = []
+        let oningRaceNum = Room.roomItem.oningRaceNum
+        let landLordId = raceList[oningRaceNum].landlordId
+        if(landLordId === '' || landLordId === null){
+            landLordId = User.userInfo.id
+        }
         memberList.forEach((item: GameMemberItem): void => {
-            if (item.roleType === gameMemberType.LANDLORD) {
+            if (item.userId === landLordId) {
                 let node = cc.instantiate(this.playUserIcon)
                 node.name = item.userId
                 node.parent = this.node.parent.getChildByName('Member_landlord')

@@ -181,7 +181,7 @@ export interface BetScore {
     score:number //本局比赛的得分
 }
 export enum gameMemberType {
-    LANDLORD = 1, //房主
+    MANAGE = 1, //房主
     PLAYER = 2,  //玩家
     VISITOR = 3   //观众
 }

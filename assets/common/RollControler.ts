@@ -3,6 +3,7 @@ import { eventBus } from '../common/EventBus'
 import { raceState, EventType, GameState, DiceCountInfo, ChildGameParam, ChildGameState, TableLocationType, OpenCardEventValue } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RaceManage from '../store/Races/RaceManage'
+import RoomManage from '../store/Room/RoomManage'
 @ccclass
 export class RollControlerOb {
     _isRuning: boolean = false
@@ -34,18 +35,27 @@ export class RollControlerOb {
     //显示结果麻将结果通知
     toShowMjResult(): void {
         cc.log('发出翻牌通知')
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
         let val = { tableLocationType: TableLocationType.LANDLORD, oneValue: 2, twoValue: 9 } as OpenCardEventValue
+        RaceManage.raceList[oningRaceNum].majongResult.landlord.one = 2
+        RaceManage.raceList[oningRaceNum].majongResult.landlord.two = 9
         eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: val } as ChildGameParam)
         setTimeout(() => {
             let val = { tableLocationType: TableLocationType.LAND, oneValue: 1, twoValue: 8 } as OpenCardEventValue
+            RaceManage.raceList[oningRaceNum].majongResult.land.one = 1
+            RaceManage.raceList[oningRaceNum].majongResult.land.two = 8
             eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: val } as ChildGameParam)
         }, 1000)
         setTimeout(() => {
             let val = { tableLocationType: TableLocationType.MIDDLE, oneValue: 2, twoValue: 4 } as OpenCardEventValue
+            RaceManage.raceList[oningRaceNum].majongResult.middle.one = 2
+            RaceManage.raceList[oningRaceNum].majongResult.middle.two = 4
             eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: val } as ChildGameParam)
         }, 2000)
         setTimeout(() => {
-            let val = { tableLocationType: TableLocationType.SKY, oneValue: 2, twoValue: 9 } as OpenCardEventValue
+            let val = { tableLocationType: TableLocationType.SKY, oneValue: 3, twoValue: 9 } as OpenCardEventValue
+            RaceManage.raceList[oningRaceNum].majongResult.sky.one = 3
+            RaceManage.raceList[oningRaceNum].majongResult.sky.two = 9
             eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.SHOW_DOWN, childState: ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE, val: val } as ChildGameParam)
         }, 3000)
     }
@@ -59,7 +69,8 @@ export class RollControlerOb {
     }
     toBet(): void {
         cc.log('控制器修改游戏状态为下注')
-        RaceManage.raceList[1].state = raceState.BET
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        RaceManage.raceList[oningRaceNum].state = raceState.BET
         // eventBus.emit(EventType.GAME_STATE_CHANGE, {
         //     from: GameState.DEAL, to: GameState.BET
         // })
@@ -82,6 +93,7 @@ export class RollControlerOb {
     //接收到本地游戏开始按钮后的事件处理逻辑
     responsePlayBottomEvent(){
         cc.log('控制器接收到游戏开始按钮通知')
+        
     }
 
     responseLocalBeLandlordDeal(wantLandlord:boolean){

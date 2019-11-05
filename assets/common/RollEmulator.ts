@@ -67,7 +67,7 @@ class RollEmulator extends RollControlerOb {
         cc.log('模拟器控制器接收到游戏开始按钮通知')
         cc.log('房间改为游戏中')
         RoomManage.roomItem.roomState = roomState.PLAYING //改变房间状态为游戏中
-        RaceManage.raceList[1].state = raceState.CHOICE_LANDLORD
+        RaceManage.raceList[0].state = raceState.CHOICE_LANDLORD
         eventBus.emit(EventType.PUSH_EVENT, { //推送地主邀请
             eventType: PushEventType.LANDLOAD_WELCOME, userId: UserManage.userInfo.id
         })
@@ -75,14 +75,16 @@ class RollEmulator extends RollControlerOb {
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {
         cc.log('模拟控制器接收到用户是否愿意当地主通知')
+        let userId = UserManage.userInfo.id
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
         if (wantLandlord) {
-            GameMemberManage.gameMenmberList[23].roleType = gameMemberType.LANDLORD
+           RaceManage.raceList[oningRaceNum].landlordId = userId
         } else {
-            GameMemberManage.gameMenmberList[24].roleType = gameMemberType.LANDLORD
+            RaceManage.raceList[oningRaceNum].landlordId = '24'
         }
         setTimeout(()=>{
             cc.log('模拟器开启摇色子环节')
-            RaceManage.raceList[1].state = raceState.ROLL_DICE
+            RaceManage.raceList[oningRaceNum].state = raceState.ROLL_DICE
         },1000)
     }
 

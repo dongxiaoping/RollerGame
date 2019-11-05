@@ -4,7 +4,7 @@ import { GameMember, gameMemberType, memberState } from '../common/Const'
 export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
     {
         userId: '23',
-        roleType: gameMemberType.LANDLORD,
+        roleType: gameMemberType.MANAGE,
         nick: '苹果',
         icon: 'test/44',
         score:0,

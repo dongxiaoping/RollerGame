@@ -67,11 +67,6 @@ export default class NewClass extends cc.Component {
         this.drawResult(this.landlord_dian_2,majongResult.landlord.two)
 
 
-        // let nick = this.landlordInfo.nick //地主名称
-        // let landlordId = this.landlordInfo.userId as string
-        // let majongResult = this.raceInfo.majongResult //点数结果
-        // let memberResultList = this.raceInfo.betInfo //成员得分列表
-        // let memberListOb = this.node.getChildByName('MemberList')
         let myUserId = UserManage.userInfo.id
         let myScore = betInfoList[myUserId].score
         this.myScore.string = myScore
@@ -87,7 +82,6 @@ export default class NewClass extends cc.Component {
             node.parent = this.node.getChildByName('MemberList')
             i++
         })
-        // let landlordScore = this.raceInfo.betInfo[0].score //得住得分
     }
 
     //初始化本地数据

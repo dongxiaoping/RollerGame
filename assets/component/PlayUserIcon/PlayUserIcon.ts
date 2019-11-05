@@ -26,7 +26,7 @@ export default class NewClass extends cc.Component {
                 cc.loader.loadRes(item.icon, (error, img) => {
                     let myIcon = new cc.SpriteFrame(img);
                     this.userIcon.spriteFrame = myIcon
-                    this.userCount.string = item.count + ''
+                    this.userCount.string = item.score + ''
                     this.userName.string = item.nick
                 })
                 return
