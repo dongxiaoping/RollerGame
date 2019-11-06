@@ -25,11 +25,6 @@ export default class UserItem {
         return this._type
     }
     set type(val: userType) {
-        if (val !== this._type) {
-            eventBus.emit(EventType.VAL_USER_TYPE_CHANGE, {
-                old:  this._type, new: val
-            })
-        }
         this._type= val
     }
 }

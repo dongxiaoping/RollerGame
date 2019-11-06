@@ -5,8 +5,10 @@
 import { TableLocationType } from '../../common/Const'
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, ChildGameParam, ChildGameState, OpenCardEventValue, IconValueList } from '../../common/Const'
+import { EventType, IconValueList, LocalNoticeEventPara, LocalNoticeEventType } from '../../common/Const'
 import { randEventId } from '../../common/Util'
+import RoomManage from '../../store/Room/RoomManage'
+import RaceManage from '../../store/Races/RaceManage'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -31,21 +33,27 @@ export default class NewClass extends cc.Component {
             this.allIcon = new cc.SpriteFrame(img);
         })
 
-        eventBus.on(EventType.CHILD_GAME_STATE_CHANGE, randEventId(), (info: ChildGameParam) => {
-            if (info.parentState === GameState.SHOW_DOWN && info.childState === ChildGameState.SHOW_DOWN.OPEN_CARD_NOTICE) {
-                let val = info.val as OpenCardEventValue
-                if (this.node.name === 'MjDouble' + val.tableLocationType) {
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara) => {
+            if (info.type === LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE) {
+                let tableLocationType = info.info as TableLocationType
+                if (this.node.name === 'MjDouble' + tableLocationType) {
                     cc.log('接收到翻牌通知')
+                    this.open(tableLocationType)
                     cc.log(info)
-                    this.open(val.oneValue, val.twoValue)
                 }
             }
         })
     }
 
-    open(oneValue: number, twoNumber: number) {
+    open(tableLocationType: TableLocationType) {
+        let oneValue: number
+        let twoValue: number
         let time = 200
         let count = 1
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        let majongResult = RaceManage.raceList[oningRaceNum].majongResult
+        oneValue = majongResult[tableLocationType].one
+        twoValue = majongResult[tableLocationType].two
         let setIn = setInterval(() => {
             switch (count) {
                 case 1:
@@ -68,7 +76,7 @@ export default class NewClass extends cc.Component {
                     break;
                 case 6:
                     this.two.spriteFrame = this.allIcon
-                    this.drawResult(this.two, twoNumber)
+                    this.drawResult(this.two, twoValue)
                     break
                 case 7:
                     clearInterval(setIn)

@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, ChildGameState, ChildGameParam } from '../../common/Const'
+import { EventType, LocalNoticeEventType, LocalNoticeEventPara } from '../../common/Const'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -20,7 +20,7 @@ export default class NewClass extends cc.Component {
     onEnable() {
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
             console.log('开始游戏按钮被点击')
-            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.WAIT_BEGIN, childState: ChildGameState.WAIT_BEGIN.PLAY_BUTTON_EVENT } as ChildGameParam)
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {type: LocalNoticeEventType.PLAY_BUTTON_EVENT} as LocalNoticeEventPara)
             this.node.destroy()
         })
     }

@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
-import { EventType, PushEventPara, PushEventType, PushEventParaInfo, Coordinate, chipPoint, betLocaion } from '../../common/Const'
+import { EventType, PushEventPara, PushEventType, Coordinate, chipPoint, betLocaion } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -29,12 +29,12 @@ export default class NewClass extends cc.Component {
         // setTimeout(()=>{
         //     this.showLineChip({ x: 200, y: 200 })
         // },2000)
-
+   
         eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
-            if (info.eventType === PushEventType.BET_CHIP_CHANGE) {
+            if (info.type === PushEventType.BET_CHIP_CHANGE) {
                 cc.log('收到下注值改变通知')
                 cc.log(info)
-                let betInfo = info.info as PushEventParaInfo
+                let betInfo = info.info
                 let betValue = betInfo.toValue - betInfo.fromVal
                 let userId = betInfo.userId
                 let betLocationType = betInfo.betLocation

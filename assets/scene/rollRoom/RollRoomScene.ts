@@ -3,7 +3,7 @@ import UserManage from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
 import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
-import { gameMemberType, EventType, GameState, TableLocationType, PushEventType, roomState } from '../../common/Const'
+import { RaceState, gameMemberType, EventType, PushEventPara, TableLocationType, PushEventType, roomState, RaceStateChangeParam } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import RoomItem from '../../store/Room/RoomItem'
 import RaceItem from '../../store/Races/RaceItem'
@@ -36,17 +36,17 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.showUserIcon()
-        this.addEventListener()
+        this.addRaceListener()
         this.addPushEventListener()
     }
 
     private addPushEventListener() {
-        eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: any): void => {
-            let event = info.eventType
-            switch (event) {
+        eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
+            let type = info.type
+            switch (type) {
                 case PushEventType.LANDLOAD_WELCOME:
                     cc.log('控制器收到邀请地主通知')
-                    if (UserManage.userInfo.id === info.userId) {
+                    if (UserManage.userInfo.id === info.info.userId) {
                         cc.log('当前用户收到邀请，弹出是否当地主提示框')
                         this.choiceLandLord()
                     }
@@ -55,37 +55,70 @@ export default class NewClass extends cc.Component {
         })
     }
 
-    private addEventListener() {
-        eventBus.on(EventType.GAME_STATE_CHANGE, randEventId(), (info: any): void => {
-            let to = info.to
+    private addRaceListener() {
+        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
+            let to = info.toState
+            let raceNum = info.raceNum
+            debugger
             switch (to) {
-                case GameState.ROLL_DICE:
+                case RaceState.ROLL_DICE:
                     cc.log('房间收到摇色子指令，开始摇色子流程')
+                    let landlordId = RaceManage.raceList[raceNum].landlordId
                     this.beginRollDice()
-                    if (GameMemberManage.gameMenmberList[UserManage.userInfo.id].roleType !== gameMemberType.LANDLORD) {
+                    if (UserManage.userInfo.id !== landlordId) {
                         cc.log('不是地主,显示下注面板')
                         this.showXiaZhuPanel()
                     } else {
                         cc.log('是地主,不显示下注面板')
                     }
                     break
-                case GameState.CHOICE_LANDLORD:
+                case RaceState.CHOICE_LANDLORD:
                     cc.log('房间收到选地主指令，开始选地主流程') //到了这个环境不是一定弹出地主提示框，要看通知是否轮到当前玩家选地主
                     // this.choiceLandLord()
                     break
-                case GameState.DEAL:
+                case RaceState.DEAL:
                     cc.log('房间收到发牌指令，开始发牌流程')
                     this.beginDeal()
                     break
-                case GameState.SHOW_DOWN: //这个由控制器来响应
+                case RaceState.SHOW_DOWN: //这个由控制器来响应
                     // cc.log('房间收到比大小指令，开始比大小流程')
                     break
-                case GameState.SHOW_RESULT:
+                case RaceState.SHOW_RESULT:
                     cc.log('控制器公布结果')
                     this.toShowRaceResult()
                     break
             }
         })
+        // eventBus.on(EventType.GAME_STATE_CHANGE, randEventId(), (info: any): void => {
+        //     let to = info.to
+        //     switch (to) {
+        //         case GameState.ROLL_DICE:
+        //             cc.log('房间收到摇色子指令，开始摇色子流程')
+        //             this.beginRollDice()
+        //             if (GameMemberManage.gameMenmberList[UserManage.userInfo.id].roleType !== gameMemberType.LANDLORD) {
+        //                 cc.log('不是地主,显示下注面板')
+        //                 this.showXiaZhuPanel()
+        //             } else {
+        //                 cc.log('是地主,不显示下注面板')
+        //             }
+        //             break
+        //         case GameState.CHOICE_LANDLORD:
+        //             cc.log('房间收到选地主指令，开始选地主流程') //到了这个环境不是一定弹出地主提示框，要看通知是否轮到当前玩家选地主
+        //             // this.choiceLandLord()
+        //             break
+        //         case GameState.DEAL:
+        //             cc.log('房间收到发牌指令，开始发牌流程')
+        //             this.beginDeal()
+        //             break
+        //         case GameState.SHOW_DOWN: //这个由控制器来响应
+        //             // cc.log('房间收到比大小指令，开始比大小流程')
+        //             break
+        //         case GameState.SHOW_RESULT:
+        //             cc.log('控制器公布结果')
+        //             this.toShowRaceResult()
+        //             break
+        //     }
+        // })
     }
 
     toShowRaceResult(): void {
@@ -96,6 +129,7 @@ export default class NewClass extends cc.Component {
 
     //开始发牌流程
     private beginDeal() {
+        debugger
         this.endRollDice()
         let node = cc.instantiate(this.dealMachine)
         node.parent = this.node

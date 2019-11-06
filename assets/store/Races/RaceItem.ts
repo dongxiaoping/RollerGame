@@ -1,12 +1,12 @@
 const { ccclass } = cc._decorator;
 import BetLocItem from '../../store/Bets/BetLocItem'
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, raceRecord, raceState, MajongResult, PushEventPara, PushEventType } from '../../common/Const'
+import { EventType, raceRecord, RaceState, MajongResult, PushEventPara, PushEventType, RaceStateChangeParam } from '../../common/Const'
 @ccclass
 export default class RaceItem {
     public raceId: string = null
     public num: number = null
-    public _state: raceState = null
+    public _state: RaceState = null
     public _landlordId: string = null
     public betInfo: BetLocItem[] = null //下注信息集合
     public majongResult: MajongResult = null
@@ -33,16 +33,16 @@ export default class RaceItem {
     }
 
 
-    get state(): raceState {
+    get state(): RaceState {
         return this._state
     }
 
-    set state(val: raceState) {
+    set state(val: RaceState) {
         if (this._state != null) {
             cc.log('单场游戏状态改变了,下发通知')
-            eventBus.emit(EventType.GAME_STATE_CHANGE, {
-                from: this._state, to: val, raceId: this.raceId, num: this.num
-            })
+            eventBus.emit(EventType.RACE_STATE_CHANGE_EVENT, {
+                fromState: this._state, toState: val, raceId: this.raceId, raceNum: this.num
+            } as RaceStateChangeParam) 
         }
         this._state = val
     }

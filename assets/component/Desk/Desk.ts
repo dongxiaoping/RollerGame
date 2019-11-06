@@ -7,7 +7,7 @@ import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
 import User from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
-import { EventType, GameState, ChildGameParam, ChildGameState, roomState, GameMember, PushEventPara, PushEventType } from '../../common/Const'
+import { EventType, roomState, GameMember, PushEventPara, PushEventType } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
 import { eventBus } from '../../common/EventBus'
@@ -31,7 +31,7 @@ export default class NewClass extends cc.Component {
 
     addEventListener() {
         eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
-            if (info.eventType === PushEventType.LANDLORD_CHANGE) {
+            if (info.type === PushEventType.LANDLORD_CHANGE) {
                 cc.log('桌子接收到地主改变通知')
                 this.showMembers()
             }

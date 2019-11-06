@@ -8,7 +8,7 @@ import RoomItem from '../store/Room/RoomItem'
 import UserManage from '../store/User/UserManage'
 import GameMember from '../store/GameMember/GameMemberManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
-import { raceState, PushEventType, EventType, GameState, ChildGameParam, roomState, gameMemberType } from '../common/Const'
+import { RaceState, PushEventType, EventType, roomState, RaceStateChangeParam } from '../common/Const'
 import Room from '../store/Room/RoomManage'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
 @ccclass
@@ -30,10 +30,10 @@ class RollEmulator extends RollControlerOb {
 
     //模拟器模拟相关推送数据
     serverEventReceive(): void {
-        eventBus.on(EventType.GAME_STATE_CHANGE, randEventId(), (info: any): void => {
-            let to = info.to
+        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
+            let to = info.toState
             switch (to) {
-                case GameState.BET:
+                case RaceState.BET:
                     cc.log('模拟器接收到下注环节通知')
                     this.emulateBet()
                     break
@@ -45,29 +45,34 @@ class RollEmulator extends RollControlerOb {
 
     emulateBet(): void {
         cc.log('模拟器发起模拟下注')
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        let landlordId = RaceManage.raceList[oningRaceNum].landlordId
         let memberList = GameMember.gameMenmberList
         memberList.forEach((item: GameMemberItem) => {
-            if (item.roleType !== gameMemberType.LANDLORD) {
-                RaceManage.raceList[1].betInfo[item.userId].bridg = 10
-                RaceManage.raceList[1].betInfo[item.userId].land = 50
+            if (item.userId !== landlordId) {
+                RaceManage.raceList[oningRaceNum].betInfo[item.userId].bridg = 10
+                RaceManage.raceList[oningRaceNum].betInfo[item.userId].land = 50
+                RaceManage.raceList[oningRaceNum].betInfo[item.userId].middle = 10
             }
         })
-        setTimeout(()=>{
+        setTimeout(() => {
             cc.log('修改游戏状态为比大小')
-            RaceManage.raceList[1].state = raceState.SHOW_DOWN
-        },3000)
+            debugger
+           RaceManage.changeRaceState(RaceState.SHOW_DOWN)
+        }, 3000)
 
-        setTimeout(()=>{
+        setTimeout(() => {
             cc.log('修改游戏状态为公布积分结果')
-            RaceManage.raceList[1].state = raceState.SHOW_RESULT
-        },7000)
+          //  RaceManage.changeRaceState(RaceState.SHOW_RESULT)
+        }, 7000)
     }
 
     responsePlayBottomEvent() {
         cc.log('模拟器控制器接收到游戏开始按钮通知')
         cc.log('房间改为游戏中')
         RoomManage.roomItem.roomState = roomState.PLAYING //改变房间状态为游戏中
-        RaceManage.raceList[0].state = raceState.CHOICE_LANDLORD
+        RoomManage.roomItem.oningRaceNum = 0
+        RaceManage.raceList[0].state = RaceState.CHOICE_LANDLORD
         eventBus.emit(EventType.PUSH_EVENT, { //推送地主邀请
             eventType: PushEventType.LANDLOAD_WELCOME, userId: UserManage.userInfo.id
         })
@@ -78,14 +83,14 @@ class RollEmulator extends RollControlerOb {
         let userId = UserManage.userInfo.id
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         if (wantLandlord) {
-           RaceManage.raceList[oningRaceNum].landlordId = userId
+            RaceManage.raceList[oningRaceNum].landlordId = userId
         } else {
             RaceManage.raceList[oningRaceNum].landlordId = '24'
         }
-        setTimeout(()=>{
+        setTimeout(() => {
             cc.log('模拟器开启摇色子环节')
-            RaceManage.raceList[oningRaceNum].state = raceState.ROLL_DICE
-        },1000)
+            RaceManage.raceList[oningRaceNum].state = RaceState.ROLL_DICE
+        }, 1000)
     }
 
 }

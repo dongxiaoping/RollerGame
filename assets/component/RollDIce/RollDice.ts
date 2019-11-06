@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, DiceCountInfo, ChildGameParam, ChildGameState, GameState } from '../../common/Const'
+import { EventType, LocalNoticeEventPara, LocalNoticeEventType} from '../../common/Const'
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -54,11 +54,11 @@ export default class NewClass extends cc.Component {
             this.diceTwo.spriteFrame = myIcon
         })
         setTimeout(() => {
-            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, {
-                parentState: GameState.ROLL_DICE,
-                childState: ChildGameState.ROLL_DICE.DICE_COUNT,
-                val: { one: 1, two: 2 } as DiceCountInfo
-            } as ChildGameParam)
+            debugger
+            cc.log('发出摇色子动画结束通知')
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+               type: LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE
+            } as LocalNoticeEventPara)
         }, 1000)
     }
 

@@ -7,10 +7,10 @@ export interface Config {
 }
 
 export enum TableLocationType {
-    SKY = 1, //天
-    MIDDLE = 2, //中
-    LAND = 3,  //地
-    LANDLORD = 4  //庄
+    SKY = 'sky', //天
+    MIDDLE = 'middle', //中
+    LAND = 'land',  //地
+    LANDLORD = 'landlord'  //庄
 }
 
 export class PromiseParam {
@@ -36,16 +36,10 @@ export interface DiceCountInfo {
     two: number //第二个色子点数
 }
 
-//游戏状态
-export enum GameState {
-    WAIT_BEGIN = 1, //等待游戏开始
-    CHOICE_LANDLORD = 2, //选地主
-    ROLL_DICE = 3,  //摇色子
-    DEAL = 4, //发牌
-    BET = 5,  //下注
-    SHOW_DOWN = 6,  //比大小
-    SHOW_RESULT = 7,  //公布结果
-    GAME_OVER = 8  //游戏结束
+export enum roomState {
+    OPEN = 1, //创建,房主没点开始，等待玩家进入
+    PLAYING = 2,  //进行中
+    CLOSE = 3   //关闭
 }
 
 export interface Coordinate {
@@ -62,42 +56,35 @@ export enum betLocaion {
     LAND_CORNER = 6
 }
 
+////////////////////房间游戏各种状态定义
 export enum EventType {
-    GAME_STATE_CHANGE = 1, //游戏状态改变通知
-    CHILD_GAME_STATE_CHANGE = 2,  //游戏状态子状态改变通知
-    VAL_USER_TYPE_CHANGE = 3, //用户类型改变通知
-    GAME_LINK_FINISH = 4,  //游戏环节结束通知
-    PUSH_EVENT = 5,  //推送事件通知，和服务器端的推送事件一一对应
-    RACE_STATE_CHANGE = 6,  //场次状态改变通知
+    ROOM_STATE_CHANGE_EVENT = 1, //房间状态改变通知
+    RACE_STATE_CHANGE_EVENT = 2,  //当前比赛状态改变通知
+    LOCAL_NOTICE_EVENT = 3,  //本地通知事件
+    PUSH_EVENT = 4,  //推送事件通知，和服务器端的推送事件一一对应
 }
+
+//单场游戏状态
+export enum RaceState {
+    NOT_BEGIN = 1, //没开始
+    CHOICE_LANDLORD = 2, //选地主
+    ROLL_DICE = 3,  //摇色子
+    DEAL = 4,  //发牌
+    BET = 5,  //下注
+    SHOW_DOWN = 6,  //比大小
+    SHOW_RESULT = 7,  //揭晓结果
+    FINISHED = 8  //完成
+}
+
 
 //场次状态改变参数
 export interface RaceStateChangeParam {
     raceId: string
-    ranceNum: number
-    state: RaceState
+    raceNum: number
+    fromState: RaceState
+    toState: RaceState
 }
 
-export enum RaceState {
-    BEGIN = 1,
-    END = 2
-}
-
-
-//游戏状态子状态
-export const ChildGameState = {
-    WAIT_BEGIN: { PLAY_BUTTON_EVENT: 1 }, //1 游戏开始按钮被点击通知
-    CHOICE_LANDLORD: { LOCAL_BE_LANDLORD_RESULT: 4, LANDLORD_HAS_CHANGE: 5 },  //4 本人是否愿意当地主通知 5地主改变通知
-    SHOW_DOWN: { OPEN_CARD_NOTICE: 6 }, //6 翻牌动画结束通知
-    SHOW_RESULT:{FLIP_ANIMATION:5},  
-    ROLL_DICE: { DICE_COUNT: 3 } //3 色子点数通知
-}
-
-export interface ChildGameParam {
-    parentState: GameState,
-    childState: number,
-    val?: any
-}
 
 export enum PushEventType {
     MEMBER_CHANGE = 1, //人员改变、进来或者出去了
@@ -107,17 +94,25 @@ export enum PushEventType {
 }
 
 export interface PushEventPara {
-    eventType: PushEventType
+    type: PushEventType
     info?: any
 }
 
-export interface PushEventParaInfo {
-    raceId: string
-    userId: string
-    betLocation: betLocaion
-    fromVal: number
-    toValue: number
+export enum LocalNoticeEventType {
+    PLAY_BUTTON_EVENT = 1, // 游戏开始按钮被点击通知
+    LOCAL_BE_LANDLORD_RESULT = 2,  //本人是否愿意当地主结果通知
+    ROLL_DICE_FINISHED_NOTICE = 5, //摇色子动画结束通知
+    DELIVERY_CARD_FINISHED_NOTICE = 3, //发牌动画执行结束通知
+    OPEN_CARD_FINISHED_NOTICE = 4, //翻牌动画结束通知
+    OPEN_CARD_REQUEST_NOTICE = 5, //请求翻牌通知
 }
+
+export interface LocalNoticeEventPara {
+    type: LocalNoticeEventType
+    info?: any
+}
+
+
 export const chipPoint = {
     1: { x: -227, y: 81 }, //SKY
     2: { x: 209, y: 79 },  //LAND
@@ -125,13 +120,6 @@ export const chipPoint = {
     4: { x: -4, y: 76 },  //BRIDG
     5: { x: -190, y: -31 },  //SKY_CORNER
     6: { x: 189, y: -26 }  //LAND_CORNER
-}
-
-//翻牌事件传递参数
-export interface OpenCardEventValue {
-    tableLocationType: TableLocationType
-    oneValue: number
-    twoValue: number
 }
 
 export const IconValueList = {
@@ -202,17 +190,6 @@ export interface GameMember {
     state: memberState
 }
 
-export enum raceState {
-    NOT_BEGIN = 1, //没开始
-    CHOICE_LANDLORD = 2, //选地主
-    ROLL_DICE = 3,  //摇色子
-    DEAL = 4,  //发牌
-    BET = 5,  //下注
-    SHOW_DOWN = 6,  //比大小
-    SHOW_RESULT = 7,  //揭晓结果
-    FINISHED = 8  //完成
-}
-
 export interface raceRecord {
     raceId: string
     landlordId: string //地主ID
@@ -227,12 +204,6 @@ export interface MajongResult {
     middle: DiceCountInfo,
     land: DiceCountInfo,
     landlord: DiceCountInfo
-}
-
-export enum roomState {
-    OPEN = 1, //创建,房主没点开始，等待玩家进入
-    PLAYING = 2,  //进行中
-    CLOSE = 3   //关闭
 }
 
 export enum playMode {

@@ -6,6 +6,7 @@ import { RaceList } from '../../mock/RaceList'
 import GameMemberManage from '../GameMember/GameMemberManage'
 import BetLocItem from '../Bets/BetLocItem'
 import GameMemberItem from '../GameMember/GameMemberItem'
+import RoomManage from '../../store/Room/RoomManage'
 import axios from 'axios'
 @ccclass
 class RaceManage {
@@ -36,6 +37,13 @@ class RaceManage {
             }
         }
         return null
+    }
+
+    //修改当前进行中的场次游戏状态
+    changeRaceState(toState: raceState): void {
+        debugger
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        this.raceList[oningRaceNum].state = toState
     }
 
     //将下注信息整合到比赛信息集合中并返回

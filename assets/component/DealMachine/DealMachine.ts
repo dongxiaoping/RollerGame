@@ -4,7 +4,8 @@ const { ccclass, property } = cc._decorator;
 import { TableLocationType } from '../../common/Const'
 import { getLocationByLocaitonType, getCircleListByLocationType } from './DealMachineBase'
 import { eventBus } from '../../common/EventBus'
-import { EventType, GameState } from '../../common/Const'
+import { EventType, RaceState,LocalNoticeEventType, LocalNoticeEventPara } from '../../common/Const'
+import RaceManage from '../../store/Races/RaceManage'
 @ccclass
 export default class DealMachine extends cc.Component {
 
@@ -43,8 +44,10 @@ export default class DealMachine extends cc.Component {
                 cc.log('全部动画执行完毕')
                 // this.toShowMjResult()
                 setTimeout(() => {
-                    cc.log('发出发牌环节结束通知')
-                    eventBus.emit(EventType.GAME_LINK_FINISH, { state: GameState.DEAL })
+                    cc.log('发牌动画执行完毕通知')
+                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                        type: LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE
+                     } as LocalNoticeEventPara)
                 }, 1000)
             } else {
                 cc.log('当前动画执行完毕')
