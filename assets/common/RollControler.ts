@@ -48,7 +48,6 @@ export class RollControlerOb {
 
     //显示结果麻将结果通知
     toShowMjResult(): void {
-        debugger
         cc.log('发出翻牌通知')
         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
         // setTimeout(() => {
@@ -115,12 +114,10 @@ export class RollControlerOb {
                     break
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //响应摇色子动画结束通知
                     cc.log('响应摇色子动画结束通知,修改状态为发牌')
-                    debugger
                     RaceManage.changeRaceState(RaceState.DEAL)
                     break
                 case LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE:
                     cc.log('响应发牌动画结束通知,将状态改为下注')
-                    debugger
                     RaceManage.changeRaceState(RaceState.BET)
                     break
             }

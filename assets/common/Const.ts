@@ -101,10 +101,10 @@ export interface PushEventPara {
 export enum LocalNoticeEventType {
     PLAY_BUTTON_EVENT = 1, // 游戏开始按钮被点击通知
     LOCAL_BE_LANDLORD_RESULT = 2,  //本人是否愿意当地主结果通知
-    ROLL_DICE_FINISHED_NOTICE = 5, //摇色子动画结束通知
-    DELIVERY_CARD_FINISHED_NOTICE = 3, //发牌动画执行结束通知
-    OPEN_CARD_FINISHED_NOTICE = 4, //翻牌动画结束通知
-    OPEN_CARD_REQUEST_NOTICE = 5, //请求翻牌通知
+    ROLL_DICE_FINISHED_NOTICE = 3, //摇色子动画结束通知
+    DELIVERY_CARD_FINISHED_NOTICE = 4, //发牌动画执行结束通知
+    OPEN_CARD_FINISHED_NOTICE = 5, //翻牌动画结束通知
+    OPEN_CARD_REQUEST_NOTICE = 6, //请求翻牌通知
 }
 
 export interface LocalNoticeEventPara {
@@ -195,7 +195,7 @@ export interface raceRecord {
     landlordId: string //地主ID
     num: number //场次编号
     betInfo?: any[] //下注信息
-    state: raceState
+    state: RaceState
     majongResult?: MajongResult
 }
 

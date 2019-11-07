@@ -54,7 +54,6 @@ export default class NewClass extends cc.Component {
             this.diceTwo.spriteFrame = myIcon
         })
         setTimeout(() => {
-            debugger
             cc.log('发出摇色子动画结束通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                type: LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE

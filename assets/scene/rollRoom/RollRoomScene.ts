@@ -59,7 +59,6 @@ export default class NewClass extends cc.Component {
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
             let to = info.toState
             let raceNum = info.raceNum
-            debugger
             switch (to) {
                 case RaceState.ROLL_DICE:
                     cc.log('房间收到摇色子指令，开始摇色子流程')
@@ -129,7 +128,6 @@ export default class NewClass extends cc.Component {
 
     //开始发牌流程
     private beginDeal() {
-        debugger
         this.endRollDice()
         let node = cc.instantiate(this.dealMachine)
         node.parent = this.node

@@ -41,7 +41,6 @@ class RaceManage {
 
     //修改当前进行中的场次游戏状态
     changeRaceState(toState: raceState): void {
-        debugger
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         this.raceList[oningRaceNum].state = toState
     }

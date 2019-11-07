@@ -57,7 +57,6 @@ class RollEmulator extends RollControlerOb {
         })
         setTimeout(() => {
             cc.log('修改游戏状态为比大小')
-            debugger
            RaceManage.changeRaceState(RaceState.SHOW_DOWN)
         }, 3000)
 
