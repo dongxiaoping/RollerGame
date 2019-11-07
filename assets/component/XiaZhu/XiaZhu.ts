@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
-import { EventType, PushEventPara, PushEventType, Coordinate, chipPoint, betLocaion } from '../../common/Const'
+import { EventType, PushEventPara, PushEventType, Coordinate, chipPoint } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 @ccclass
 export default class NewClass extends cc.Component {

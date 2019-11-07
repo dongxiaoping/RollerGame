@@ -4,8 +4,7 @@ import Room from '../../store/Room/RoomManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
-import RaceItem from '../../store/Races/RaceItem'
-import { GameMember, gameMemberType, memberState, raceRecord, raceState, MajongResult, IconValueList } from '../../common/Const'
+import { IconValueList } from '../../common/Const'
 import BetLocItem from '../../store/Bets/BetLocItem'
 @ccclass
 export default class NewClass extends cc.Component {

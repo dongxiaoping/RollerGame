@@ -1,7 +1,7 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RaceItem from './RaceItem'
-import { appMode, PromiseParam, PromiseResult, raceRecord, BetScore, raceState } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, raceRecord, BetScore, RaceState } from '../../common/Const'
 import { RaceList } from '../../mock/RaceList'
 import GameMemberManage from '../GameMember/GameMemberManage'
 import BetLocItem from '../Bets/BetLocItem'
@@ -31,8 +31,9 @@ class RaceManage {
 
     //获取当前正在进行中的比赛场次相关信息,如果没有返回null
     getPlayingRaceInfo() {
-        for (let i = 1; i < this.raceList.length; i++) {
-            if (this.raceList[i].state !== raceState.NOT_BEGIN && this.raceList[i].state !== raceState.FINISHED) {
+        let i = 0
+        for (; i < this.raceList.length; i++) {
+            if (this.raceList[i].state !== RaceState.NOT_BEGIN && this.raceList[i].state !== RaceState.FINISHED) {
                 return this.raceList[i]
             }
         }
@@ -40,7 +41,7 @@ class RaceManage {
     }
 
     //修改当前进行中的场次游戏状态
-    changeRaceState(toState: raceState): void {
+    changeRaceState(toState: RaceState): void {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         this.raceList[oningRaceNum].state = toState
     }

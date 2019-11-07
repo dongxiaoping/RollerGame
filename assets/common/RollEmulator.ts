@@ -29,20 +29,6 @@ class RollEmulator extends RollControlerOb {
     }
 
     //模拟器模拟相关推送数据
-    serverEventReceive(): void {
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
-            let to = info.toState
-            switch (to) {
-                case RaceState.BET:
-                    cc.log('模拟器接收到下注环节通知')
-                    this.emulateBet()
-                    break
-            }
-        })
-    }
-
-
-
     emulateBet(): void {
         cc.log('模拟器发起模拟下注')
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
@@ -57,12 +43,14 @@ class RollEmulator extends RollControlerOb {
         })
         setTimeout(() => {
             cc.log('修改游戏状态为比大小')
+            cc.log('我是模拟器，我将比赛状态改为比大小')
            RaceManage.changeRaceState(RaceState.SHOW_DOWN)
         }, 3000)
 
         setTimeout(() => {
             cc.log('修改游戏状态为公布积分结果')
-          //  RaceManage.changeRaceState(RaceState.SHOW_RESULT)
+            cc.log('我是模拟器，我将比赛状态改为显示单局结果')
+            RaceManage.changeRaceState(RaceState.SHOW_RESULT)
         }, 7000)
     }
 
@@ -70,8 +58,10 @@ class RollEmulator extends RollControlerOb {
         cc.log('模拟器控制器接收到游戏开始按钮通知')
         cc.log('房间改为游戏中')
         RoomManage.roomItem.roomState = roomState.PLAYING //改变房间状态为游戏中
+        cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将进行中的比赛场次设置为0')
         RoomManage.roomItem.oningRaceNum = 0
-        RaceManage.raceList[0].state = RaceState.CHOICE_LANDLORD
+        cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将第一个房间状态改为选地主')
+        RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
         eventBus.emit(EventType.PUSH_EVENT, { //推送地主邀请
             eventType: PushEventType.LANDLOAD_WELCOME, userId: UserManage.userInfo.id
         })
@@ -88,7 +78,8 @@ class RollEmulator extends RollControlerOb {
         }
         setTimeout(() => {
             cc.log('模拟器开启摇色子环节')
-            RaceManage.raceList[oningRaceNum].state = RaceState.ROLL_DICE
+            cc.log('我是模拟器，我收到了本地用户是否愿意当地主的通知，我将比赛状态改为摇色子')
+            RaceManage.changeRaceState(RaceState.ROLL_DICE)
         }, 1000)
     }
 

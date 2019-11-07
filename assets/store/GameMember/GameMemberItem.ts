@@ -1,10 +1,9 @@
 const { ccclass } = cc._decorator;
-import { eventBus } from '../../common/EventBus'
-import { EventType, GameState, ChildGameState, ChildGameParam, GameMember, gameMemberType, memberState } from '../../common/Const'
+import { GameMember, gameMemberType, memberState } from '../../common/Const'
 @ccclass
 export default class GameMemberItem {
     public userId: string = null
-    public _roleType: gameMemberType = null
+    public roleType: gameMemberType = null
     public nick: string = null
     public icon: string = null
     public score: number = null //积分
@@ -19,18 +18,5 @@ export default class GameMemberItem {
         this.score = val.score
         this.state = val.state
         this.modTime = val.modTime
-    }
-
-    set roleType(val: gameMemberType) {
-        if (val === gameMemberType.LANDLORD) {
-            cc.log('有用户被设置为地主')
-            cc.log('发出地主改变通知')
-            eventBus.emit(EventType.CHILD_GAME_STATE_CHANGE, { parentState: GameState.CHOICE_LANDLORD, childState: ChildGameState.CHOICE_LANDLORD.LANDLORD_HAS_CHANGE, val: this.userId } as ChildGameParam)
-        }
-        this._roleType = val
-    }
-
-    get roleType(): gameMemberType {
-        return this._roleType
     }
 }

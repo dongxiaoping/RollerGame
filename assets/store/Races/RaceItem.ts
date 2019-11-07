@@ -27,7 +27,7 @@ export default class RaceItem {
     set landlordId(val: string) {
         if (this._landlordId != null) {
             cc.log('地主改变了,下发通知')
-            eventBus.emit(EventType.PUSH_EVENT, { eventType: PushEventType.LANDLORD_CHANGE } as PushEventPara)
+            eventBus.emit(EventType.PUSH_EVENT, { type: PushEventType.LANDLORD_CHANGE } as PushEventPara)
         }
         this._landlordId = val
     }

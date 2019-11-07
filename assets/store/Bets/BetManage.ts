@@ -1,9 +1,8 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import BetItem from './BetItem'
-import { appMode, PromiseParam, PromiseResult } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, BetRecord } from '../../common/Const'
 import { BetList } from '../../mock/BetList'
-import { BetRecord } from './BetBase'
 import axios from 'axios'
 @ccclass
 class BetManage {
