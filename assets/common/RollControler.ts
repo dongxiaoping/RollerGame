@@ -5,6 +5,8 @@ import { randEventId } from '../common/Util'
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage'
+import GameMemberManage from '../store/GameMember/GameMemberManage'
+import GameMemberItem from '../store/GameMember/GameMemberItem'
 @ccclass
 export class RollControlerOb {
     _isRuning: boolean = false
@@ -34,11 +36,14 @@ export class RollControlerOb {
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
             let to = info.toState
             switch (to) {
-                case RaceState.SHOW_DOWN:
+                case RaceState.SHOW_DOWN: //比大小
                     this.toShowMjResult()
                     break
-                case RaceState.BET:
+                case RaceState.BET:  //下注
                     this.emulateBet()
+                    break
+                case RaceState.FINISHED:  //当场比赛结束
+                    this.toStartNextRace()
                     break
             }
         })
@@ -72,6 +77,35 @@ export class RollControlerOb {
         })
     }
 
+    //启动下场比赛
+    toStartNextRace(): void {
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        if ((oningRaceNum + 1) === RoomManage.roomItem.playCount) {
+            cc.log('所有比赛都完成')
+            cc.log('因为所有比赛都完成了，我准备显示最后的房间比赛结果')
+            return
+        }
+        if ((oningRaceNum + 1) > RoomManage.roomItem.playCount) {
+            cc.log('所有比赛已完成，无下场比赛')
+            return
+        }
+        cc.log('我是控制器，我修改了进行中的场次值，开始下场比赛')
+        let nextRaceNum = oningRaceNum + 1
+        cc.log('当前场次的编号：' + oningRaceNum + ',下场比赛的编号:' + nextRaceNum)
+        setTimeout(() => {
+            RoomManage.roomItem.oningRaceNum = nextRaceNum
+            cc.log('我是控制器，我开始了下局比赛，所以直接将下场比赛状态改为摇色子')
+            let i = 0
+            GameMemberManage.gameMenmberList.forEach((item: GameMemberItem) => {
+                if (i === nextRaceNum) {
+                    cc.log('我是控制器，因为开始了下场比赛，我随机修改了地主值')
+                    RaceManage.raceList[nextRaceNum].landlordId = item.userId
+                }
+                i++
+            })
+            RaceManage.changeRaceState(RaceState.ROLL_DICE)
+        }, 3000)
+    }
     //显示结果麻将结果通知
     toShowMjResult(): void {
         cc.log('发出翻牌通知')
@@ -94,7 +128,7 @@ export class RollControlerOb {
         cc.log('控制器接收到用户是否愿意当地主通知')
     }
 
-    emulateBet():void{ //控制器不实现
+    emulateBet(): void { //控制器不实现
 
     }
 }

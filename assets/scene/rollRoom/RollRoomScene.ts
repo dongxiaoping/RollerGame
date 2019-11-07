@@ -34,26 +34,10 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.showUserIcon()
-        this.addRaceListener()
-        this.addPushEventListener()
+        this.addListener()
     }
 
-    private addPushEventListener() {
-        eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
-            let type = info.type
-            switch (type) {
-                case PushEventType.LANDLOAD_WELCOME:
-                    cc.log('控制器收到邀请地主通知')
-                    if (UserManage.userInfo.id === info.info.userId) {
-                        cc.log('当前用户收到邀请，弹出是否当地主提示框')
-                        this.choiceLandLord()
-                    }
-                    break
-            }
-        })
-    }
-
-    private addRaceListener() {
+    private addListener() {
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
             let to = info.toState
             let raceNum = info.raceNum
@@ -82,16 +66,54 @@ export default class NewClass extends cc.Component {
                     break
                 case RaceState.SHOW_RESULT:
                     cc.log('控制器公布结果')
-                    this.toShowRaceResult()
+                    this.toShowRaceResultPanel()
+                    break
+                case RaceState.FINISHED:
+                    cc.log('房间收到比赛结束通知，清空页面上次比赛信息')
+                    this.toCloseRaceResultPanel()
+                    this.cleanMhjongOnDesk()
+                    this.cleanChipOnDesk()
+                    break
+            }
+        })
+
+        eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
+            let type = info.type
+            switch (type) {
+                case PushEventType.LANDLOAD_WELCOME:
+                    cc.log('控制器收到邀请地主通知')
+                    if (UserManage.userInfo.id === info.info.userId) {
+                        cc.log('当前用户收到邀请，弹出是否当地主提示框')
+                        this.choiceLandLord()
+                    }
                     break
             }
         })
     }
 
-    toShowRaceResult(): void {
+    cleanMhjongOnDesk(): void {
+        this.node.getChildByName('MjDouble' + TableLocationType.LAND).destroy()
+        this.node.getChildByName('MjDouble' + TableLocationType.LANDLORD).destroy()
+        this.node.getChildByName('MjDouble' + TableLocationType.MIDDLE).destroy()
+        this.node.getChildByName('MjDouble' + TableLocationType.SKY).destroy()
+    }
+
+    //清空座子上的筹码
+    cleanChipOnDesk(){
+
+    }
+
+    toShowRaceResultPanel(): void {
         let node = cc.instantiate(this.raceResultPanel)
+        node.name = 'RaceResultPanel'
         node.parent = this.node
         node.active = true
+    }
+
+    toCloseRaceResultPanel(): void {
+        let node = this.node.getChildByName('RaceResultPanel')
+        node.active = false
+        node.destroy()
     }
 
     //开始发牌流程
@@ -151,8 +173,6 @@ export default class NewClass extends cc.Component {
         this.showUserIcon()
         this.changeStartButtonState()
         this.initXiaZhuPanel()
-        //  GameStateInfo.requestMjResult('2')
-
     }
 
     //只有初始化了下注面板，才能有投注动画

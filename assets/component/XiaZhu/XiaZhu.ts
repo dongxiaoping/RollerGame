@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
-import { EventType, PushEventPara, PushEventType, Coordinate, chipPoint } from '../../common/Const'
+import { EventType, PushEventPara, PushEventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -16,41 +16,18 @@ export default class NewClass extends cc.Component {
     chip_50: cc.Prefab = null
     @property(cc.Prefab)
     chip_100: cc.Prefab = null
-
+    pushEventId: string = ''
+    raceStateId: string = ''
     deskChipList: string[] = [] //桌子上的chip名称集合
     // onLoad () {}
 
     start() {
-        //this.flyAnimation({ x: 0, y: 0 }, { x: 200, y: 200 }, 10)
-        //  this.flyAnimation({ x: 0, y: 0 }, { x: 200, y: 200 }, 10)
-        //this.destroyDeskChip()
-        //cc.log(this.node.parent)
-        // this.hideLineChip()
-        // setTimeout(()=>{
-        //     this.showLineChip({ x: 200, y: 200 })
-        // },2000)
-   
-        eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
-            if (info.type === PushEventType.BET_CHIP_CHANGE) {
-                cc.log('收到下注值改变通知')
-                cc.log(info)
-                let betInfo = info.info
-                let betValue = betInfo.toValue - betInfo.fromVal
-                let userId = betInfo.userId
-                let betLocationType = betInfo.betLocation
-                let toLocaiton = chipPoint[betLocationType]
-                toLocaiton.x =  toLocaiton.x + randFloatNum(-5, 7)
-                toLocaiton.y =  toLocaiton.y + randFloatNum(-5, 7)
-                let fromLocation = this.getUserDeskLocation(userId)
-                this.flyAnimation(fromLocation, toLocaiton, betValue)
-            }
-        })
     }
 
     getUserDeskLocation(userId: string): Coordinate {
         let node = this.node.parent
         let scriptOb = node.getChildByName('Desk').getComponent('Desk')
-        let chairName =  scriptOb.deskSitList[userId].name
+        let chairName = scriptOb.deskSitList[userId].name
         let chairNode = node.getChildByName(chairName)
         return chairNode.getPosition()
     }
@@ -124,8 +101,38 @@ export default class NewClass extends cc.Component {
         cc.log(this.node)
     }
 
-    reSetLineChip(): void {
+    onEnable() {
+        this.pushEventId = randEventId()
+        eventBus.on(EventType.PUSH_EVENT, this.pushEventId, (info: PushEventPara): void => {
+            if (info.type === PushEventType.BET_CHIP_CHANGE) {
+                cc.log('收到下注值改变通知')
+                cc.log(info)
+                let betInfo = info.info
+                let betValue = betInfo.toValue - betInfo.fromVal
+                let userId = betInfo.userId
+                let betLocationType = betInfo.betLocation
+                let toLocaiton = chipPoint[betLocationType]
+                toLocaiton.x = toLocaiton.x + randFloatNum(-5, 7)
+                toLocaiton.y = toLocaiton.y + randFloatNum(-5, 7)
+                let fromLocation = this.getUserDeskLocation(userId)
+                this.flyAnimation(fromLocation, toLocaiton, betValue)
+            }
+        })
+        this.raceStateId = randEventId()
+        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId, (info: RaceStateChangeParam): void => {
+            let to = info.toState
+            switch (to) {
+                case RaceState.FINISHED:
+                    cc.log('下注组件收到单场比赛结束事件，清除桌子上的筹码')
+                    this.destroyDeskChip()
+                    break
+            }
+        })
+    }
 
+    onDisable() {
+        eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId)
+        eventBus.off(EventType.PUSH_EVENT, this.pushEventId)
     }
 
     // update (dt) {}

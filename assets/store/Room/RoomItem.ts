@@ -28,6 +28,10 @@ export default class RoomItem {
     }
 
     set oningRaceNum(val: number) {
+        if (this._oningRaceNum != null && (this._oningRaceNum >= val)) {
+            cc.log('进行中场次号设置异常，当前的场次号：' + this._oningRaceNum + ',要设置的场次号:' + val)
+            return
+        }
         this._oningRaceNum = val
     }
 

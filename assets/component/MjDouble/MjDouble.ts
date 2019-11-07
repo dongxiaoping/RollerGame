@@ -22,27 +22,9 @@ export default class NewClass extends cc.Component {
     halfIcon: cc.SpriteFrame = null
     allIcon: cc.SpriteFrame = null
 
+    localEventId: string
     start() {
-        cc.loader.loadRes('mahjong/mahjong_62fa7d43_02', (error, img) => {
-            this.oneThirdIcon = new cc.SpriteFrame(img);
-        })
-        cc.loader.loadRes('mahjong/mahjong_62fa7d43_03', (error, img) => {
-            this.halfIcon = new cc.SpriteFrame(img);
-        })
-        cc.loader.loadRes('mahjong/mahjong_62fa7d43_04', (error, img) => {
-            this.allIcon = new cc.SpriteFrame(img);
-        })
 
-        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara) => {
-            if (info.type === LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE) {
-                let tableLocationType = info.info as TableLocationType
-                if (this.node.name === 'MjDouble' + tableLocationType) {
-                    cc.log('接收到翻牌通知')
-                    this.open(tableLocationType)
-                    cc.log(info)
-                }
-            }
-        })
     }
 
     open(tableLocationType: TableLocationType) {
@@ -97,6 +79,33 @@ export default class NewClass extends cc.Component {
     randNum(n: number, m: number) {
         let c = m - n + 1;
         return Math.floor(Math.random() * c + n);
+    }
+
+    onEnable() {
+        cc.loader.loadRes('mahjong/mahjong_62fa7d43_02', (error, img) => {
+            this.oneThirdIcon = new cc.SpriteFrame(img);
+        })
+        cc.loader.loadRes('mahjong/mahjong_62fa7d43_03', (error, img) => {
+            this.halfIcon = new cc.SpriteFrame(img);
+        })
+        cc.loader.loadRes('mahjong/mahjong_62fa7d43_04', (error, img) => {
+            this.allIcon = new cc.SpriteFrame(img);
+        })
+
+        this.localEventId = randEventId()
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.localEventId, (info: LocalNoticeEventPara) => {
+            if (info.type === LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE) {
+                let tableLocationType = info.info as TableLocationType
+                if (this.node.name === 'MjDouble' + tableLocationType) {
+                    cc.log('接收到翻牌通知')
+                    this.open(tableLocationType)
+                    cc.log(info)
+                }
+            }
+        })
+    }
+    onDisable() {
+        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.localEventId)
     }
 
     // update (dt) {}

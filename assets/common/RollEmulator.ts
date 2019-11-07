@@ -49,8 +49,12 @@ class RollEmulator extends RollControlerOb {
 
         setTimeout(() => {
             cc.log('修改游戏状态为公布积分结果')
-            cc.log('我是模拟器，我将比赛状态改为显示单局结果')
+            cc.log('我是模拟器，比大小已经持续了4s,我将比赛状态改为显示单局结果')
             RaceManage.changeRaceState(RaceState.SHOW_RESULT)
+            setTimeout(()=>{
+                cc.log('我是模拟器，显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
+                RaceManage.changeRaceState(RaceState.FINISHED)
+            },2000)
         }, 7000)
     }
 
@@ -58,7 +62,7 @@ class RollEmulator extends RollControlerOb {
         cc.log('模拟器控制器接收到游戏开始按钮通知')
         cc.log('房间改为游戏中')
         RoomManage.roomItem.roomState = roomState.PLAYING //改变房间状态为游戏中
-        cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将进行中的比赛场次设置为0')
+        cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将进行中的比赛场次设置为0，我开始了比赛')
         RoomManage.roomItem.oningRaceNum = 0
         cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将第一个房间状态改为选地主')
         RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)

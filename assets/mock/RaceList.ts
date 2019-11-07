@@ -41,19 +41,5 @@ export const RaceList: raceRecord[] = [
         landlordId: '23',
         state: RaceState.NOT_BEGIN,
         majongResult: { sky: { one: 7, two: 8 }, land: { one: 9, two: 0.5 }, landlord: { one: 1, two: 2 }, middle: { one: 3, two: 4 } }
-    },
-    {
-        raceId: '7',
-        num: 6,
-        landlordId: '23',
-        state: RaceState.NOT_BEGIN,
-        majongResult: { sky: { one: 9, two: 0.5 }, land: { one: 1, two: 2 }, landlord: { one: 3, two: 4 }, middle: { one: 5, two: 6 } }
-    },
-    {
-        raceId: '8',
-        num: 7,
-        landlordId: '23',
-        state: RaceState.NOT_BEGIN,
-        majongResult: { sky: { one: 1, two: 2 }, land: { one: 3, two: 4 }, landlord: { one: 5, two: 6 }, middle: { one: 7, two: 8 } }
     }
 ]
