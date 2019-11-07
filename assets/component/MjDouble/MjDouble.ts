@@ -30,42 +30,37 @@ export default class NewClass extends cc.Component {
     open(tableLocationType: TableLocationType) {
         let oneValue: number
         let twoValue: number
-        let time = 200
-        let count = 1
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         let majongResult = RaceManage.raceList[oningRaceNum].majongResult
         oneValue = majongResult[tableLocationType].one
         twoValue = majongResult[tableLocationType].two
+        this.openAnimation(this.one, oneValue, () => {
+            setTimeout(() => {
+                this.openAnimation(this.two, twoValue, () => { })
+            }, 250)
+        })
+    }
+
+    openAnimation(ob: cc.Sprite, val: number, callBack: any) {
+        let count = 1
         let setIn = setInterval(() => {
             switch (count) {
                 case 1:
-                    this.one.spriteFrame = this.oneThirdIcon
+                    ob.spriteFrame = this.oneThirdIcon
                     break;
                 case 2:
-                    this.one.spriteFrame = this.halfIcon
+                    ob.spriteFrame = this.halfIcon
                     break;
                 case 3:
-                    this.one.spriteFrame = this.allIcon
-                    this.drawResult(this.one, oneValue)
-                    time = 500
-                    break;
-                case 4:
-                    this.two.spriteFrame = this.oneThirdIcon
-                    time = 200
-                    break;
-                case 5:
-                    this.two.spriteFrame = this.halfIcon
-                    break;
-                case 6:
-                    this.two.spriteFrame = this.allIcon
-                    this.drawResult(this.two, twoValue)
-                    break
-                case 7:
+                    ob.spriteFrame = this.allIcon
+                    this.drawResult(ob, val)
                     clearInterval(setIn)
+                    callBack()
+                    break;
             }
             count++
             cc.log('循环执行翻牌动画')
-        }, time)
+        }, 100)
     }
 
     drawResult(ob: cc.Sprite, val: number) {

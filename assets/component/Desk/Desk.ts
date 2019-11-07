@@ -21,10 +21,10 @@ export default class NewClass extends cc.Component {
     private playUserIcon: cc.Prefab = null //玩家icon
     @property(cc.Sprite)
     private deskBg: cc.Sprite = null
+    onLandlordSiteUserId: string = null //当前坐在地主位置上的用户ID
 
     private deskSitList = [] //坐的位置信息 如：[userId:location:{x:0,y:3}]
     start() {
-        this.setDeskLocation()
         this.showMembers()
         this.addEventListener()
     }
@@ -38,23 +38,8 @@ export default class NewClass extends cc.Component {
         })
     }
 
-    //重新摆放桌子位置
-    async setDeskLocation() {
-        let infoOne = await Room.requestRoomInfo()
-        let roomInfo = infoOne.extObject as RoomItem
-        let ob = await GameMemberManage.requestGameMemberList()
-        let memberList = ob.extObject as GameMemberItem[]
-        let info = await User.requestUserInfo()
-        let userInfo = info.extObject as UserInfo
-        let deskBg: string = 'desk/place_a06eb30b'
-        cc.loader.loadRes(deskBg, (error, img) => {
-            let myIcon = new cc.SpriteFrame(img);
-            this.deskBg.spriteFrame = myIcon;
-        })
-        cc.log('桌子摆放完毕')
-    }
-
     clearOldMember() {
+        this.onLandlordSiteUserId = null
         this.deskSitList.forEach((item: any) => {
             let name = item.name
             this.node.parent.getChildByName(name).removeAllChildren()
@@ -63,7 +48,6 @@ export default class NewClass extends cc.Component {
     }
 
     async showMembers() {
-        this.clearOldMember()
         let infoOne = await Room.requestRoomInfo()
         let roomInfo = infoOne.extObject as RoomItem
         let infoTwo = await RaceManage.requestRaceList()
@@ -75,14 +59,20 @@ export default class NewClass extends cc.Component {
         let rightMembers: any[] = []
         let oningRaceNum = Room.roomItem.oningRaceNum
         let landLordId = raceList[oningRaceNum].landlordId
-        if(landLordId === '' || landLordId === null){
+        if (landLordId === '' || landLordId === null) {
             landLordId = User.userInfo.id
         }
+        if(landLordId === this.onLandlordSiteUserId){ //这个地方存在一个bug 地主没变 但是成员变了 就不会刷新
+            cc.log('地主位置上人员没有变动，不换位置')
+            return
+        }
+        this.clearOldMember()
         memberList.forEach((item: GameMemberItem): void => {
             if (item.userId === landLordId) {
                 let node = cc.instantiate(this.playUserIcon)
                 node.name = item.userId
                 node.parent = this.node.parent.getChildByName('Member_landlord')
+                this.onLandlordSiteUserId = item.userId
                 node.setPosition(0, 0)
                 this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_landlord' }
                 isLandlordFind = true
@@ -103,6 +93,7 @@ export default class NewClass extends cc.Component {
                 node.name = item.userId
                 if (k === 0) {
                     node.parent = this.node.parent.getChildByName('Member_landlord')
+                    this.onLandlordSiteUserId = item.userId
                     node.setPosition(0, 0)
                     this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_landlord' }
                     node.active = true

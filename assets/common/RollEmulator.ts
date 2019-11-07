@@ -58,7 +58,7 @@ class RollEmulator extends RollControlerOb {
                 cc.log('我是模拟器，显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
                 RaceManage.changeRaceState(RaceState.FINISHED)
             },2000)
-        }, 7000)
+        }, 10000)
     }
 
     responsePlayBottomEvent() {

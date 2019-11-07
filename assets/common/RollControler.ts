@@ -112,16 +112,17 @@ export class RollControlerOb {
         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
         setTimeout(() => {
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LAND } as LocalNoticeEventPara)
+            , 1200
         }
-            , 1000)
+            , 2400)
         setTimeout(() => {
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.MIDDLE } as LocalNoticeEventPara)
         }
-            , 2000)
+            , 3600)
         setTimeout(() => {
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.SKY } as LocalNoticeEventPara)
         }
-            , 3000)
+            , 4900)
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {
