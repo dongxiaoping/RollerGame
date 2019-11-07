@@ -1,6 +1,5 @@
 const { ccclass } = cc._decorator;
-import { BetRecord } from './BetBase'
-import { betLocaion } from '../../common/Const'
+import { betLocaion, BetRecord } from '../../common/Const'
 /*
 从服务器下拉的记录
 */

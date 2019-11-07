@@ -39,6 +39,9 @@ class RollEmulator extends RollControlerOb {
                 RaceManage.raceList[oningRaceNum].betInfo[item.userId].bridg = 10
                 RaceManage.raceList[oningRaceNum].betInfo[item.userId].land = 50
                 RaceManage.raceList[oningRaceNum].betInfo[item.userId].middle = 10
+                RaceManage.raceList[oningRaceNum].betInfo[item.userId].sky = 100
+                RaceManage.raceList[oningRaceNum].betInfo[item.userId].skyCorner = 20
+                RaceManage.raceList[oningRaceNum].betInfo[item.userId].landCorner = 100
             }
         })
         setTimeout(() => {

@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, PushEventPara, PushEventType, betLocaion, BetScore } from '../../common/Const'
+import { EventType, PushEventPara, PushEventType, betLocaion, BetScore, BetChipChangeInfo } from '../../common/Const'
 /*
 本地存储的记录
 */
@@ -35,7 +35,7 @@ export default class BetLocItem {
     }
     set sky(val: number) {
         if (this._sky !== null) {
-            this.valueChangeNotice(betLocaion.SKY_CORNER, this._sky, val)
+            this.valueChangeNotice(betLocaion.SKY, this._sky, val)
         }
         this._sky = val
     }
@@ -91,11 +91,10 @@ export default class BetLocItem {
     }
 
     valueChangeNotice(locatIon: betLocaion, fromVal: number, toValue: number): void {
-        let info = { raceId: this.raceId, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue }
+        let info = { raceId: this.raceId, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as BetChipChangeInfo
+        cc.log('投注值改变通知'+ JSON.stringify(info))
         eventBus.emit(EventType.PUSH_EVENT, {
             type: PushEventType.BET_CHIP_CHANGE, info: info
         } as PushEventPara)
-        cc.log('投注值改变通知')
-        cc.log(info)
     }
 }

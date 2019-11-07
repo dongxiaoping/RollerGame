@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
-import { EventType, PushEventPara, PushEventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState } from '../../common/Const'
+import { BetChipChangeInfo, EventType, PushEventPara, PushEventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -106,16 +106,13 @@ export default class NewClass extends cc.Component {
         eventBus.on(EventType.PUSH_EVENT, this.pushEventId, (info: PushEventPara): void => {
             if (info.type === PushEventType.BET_CHIP_CHANGE) {
                 cc.log('收到下注值改变通知')
-                cc.log(info)
-                let betInfo = info.info
+                let betInfo = info.info as BetChipChangeInfo
                 let betValue = betInfo.toValue - betInfo.fromVal
                 let userId = betInfo.userId
                 let betLocationType = betInfo.betLocation
-                let toLocaiton = chipPoint[betLocationType]
-                toLocaiton.x = toLocaiton.x + randFloatNum(-5, 7)
-                toLocaiton.y = toLocaiton.y + randFloatNum(-5, 7)
+                let points = chipPoint[betLocationType]
                 let fromLocation = this.getUserDeskLocation(userId)
-                this.flyAnimation(fromLocation, toLocaiton, betValue)
+                this.flyAnimation(fromLocation, this.getXiaZhuLocation(points), betValue)
             }
         })
         this.raceStateId = randEventId()
@@ -128,6 +125,14 @@ export default class NewClass extends cc.Component {
                     break
             }
         })
+    }
+    getXiaZhuLocation(points: any): Coordinate {
+        let leftPoints = points.left
+        let rightPoints = points.right
+        let randx = randFloatNum(leftPoints.x, rightPoints.x)
+        let randy = rightPoints.y + randFloatNum(-5, 5)
+        let newPoint = { x: randx, y: randy } as Coordinate
+        return newPoint
     }
 
     onDisable() {

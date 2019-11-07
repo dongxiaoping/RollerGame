@@ -48,12 +48,12 @@ export interface Coordinate {
 }
 
 export enum betLocaion {
-    SKY = 1,
-    LAND = 2,
-    MIDDLE = 3,
-    BRIDG = 4,
-    SKY_CORNER = 5,
-    LAND_CORNER = 6
+    SKY = 'sky',
+    LAND = 'land',
+    MIDDLE = 'middle',
+    BRIDG = 'bridg',
+    SKY_CORNER = 'sky_corner',
+    LAND_CORNER = 'land_corner'
 }
 
 ////////////////////房间游戏各种状态定义
@@ -112,14 +112,13 @@ export interface LocalNoticeEventPara {
     info?: any
 }
 
-
 export const chipPoint = {
-    1: { x: -227, y: 81 }, //SKY
-    2: { x: 209, y: 79 },  //LAND
-    3: { x: 3, y: -74 }, //MIDDLE
-    4: { x: -4, y: 76 },  //BRIDG
-    5: { x: -190, y: -31 },  //SKY_CORNER
-    6: { x: 189, y: -26 }  //LAND_CORNER
+    sky: {left:{ x: -277, y: 81 },right:{ x: -151, y: 81 }}, //SKY
+    land: {left:{ x: 151, y: 79 },right:{ x: 285, y: 79 }},  //LAND
+    middle: {left:{ x: -66, y: -64 },right:{ x: 69, y: -64 }}, //MIDDLE 
+    bridg: {left:{ x: -60, y: 79 },right:{ x: 65, y: 79 }},  //BRIDG 
+    sky_corner: {left:{ x: -246, y: -16 },right:{ x: -149, y: -16 }},  //SKY_CORNER
+    land_corner: {left:{ x: 148, y: -31 },right:{ x: 240, y: -31 }}  //LAND_CORNER
 }
 
 export const IconValueList = {
@@ -222,5 +221,11 @@ export interface RoomInfo {
     oningRaceNum?: number //当前进行中的场次编号
 }
 
-
+export interface BetChipChangeInfo{
+    raceId:string
+    userId:string
+    betLocation:betLocaion
+    fromVal:number
+    toValue:number
+}
 
