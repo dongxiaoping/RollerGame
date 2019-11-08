@@ -32,8 +32,8 @@ export const TrendMapState = {
 }
 
 export interface DiceCountInfo {
-    one: number, //第一个色子点数
-    two: number //第二个色子点数
+    one: number, //第一个的值
+    two: number //第二个的值
 }
 
 export enum roomState {
@@ -123,13 +123,6 @@ export const IconValueList = {
     0.5: ['1_1']
 }
 
-//麻将值对比结果
-export enum CompareMahjRe {
-    BIG = 1,  //大
-    SMALL = 2, //小
-    EQ = 3 //相等
-}
-
 export enum MajhongValueType {
     DUI_ZI = 1, //对子
     BI_SHI = 2, //鄙十
@@ -154,7 +147,6 @@ export interface BetScore {
     bridg: number,
     skyCorner: number,
     landCorner: number,
-    score:number //本局比赛的得分
 }
 export enum gameMemberType {
     MANAGE = 1, //房主
@@ -218,3 +210,19 @@ export interface BetChipChangeInfo{
     toValue:number
 }
 
+//每个位置的输赢 true表示赢 false 表示输
+export interface LocationResultDetail{
+    sky: CompareDxRe
+    land:CompareDxRe
+    middle: CompareDxRe
+    bridg:CompareDxRe
+    sky_corner: CompareDxRe
+    land_corner:CompareDxRe
+}
+
+//大小比较结果
+export enum CompareDxRe {
+    BIG = 1,  //大
+    SMALL = 2, //小
+    EQ = 3 //相等
+}

@@ -9,7 +9,7 @@ class GameStateInfo {
     constructor() {
     }
 
-    //获取指定场次的天、地、中、桥四个位置的结果
+    //获取指定场次的天、地、中、桥四个位置的结果 弃用
     public requestMjResult(ranceId: string): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (config.appMode === appMode.DEV) {

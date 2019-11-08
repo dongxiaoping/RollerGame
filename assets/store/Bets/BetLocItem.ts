@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, betLocaion, BetScore, BetChipChangeInfo } from '../../common/Const'
+import { EventType, betLocaion, BetScore, BetChipChangeInfo, LocationResultDetail } from '../../common/Const'
 /*
 本地存储的记录
 */
@@ -15,7 +15,6 @@ export default class BetLocItem {
     public _bridg: number = null
     public _skyCorner: number = null
     public _landCorner: number = null
-    public score: number = null //本局比赛的得分
 
     constructor(val: BetScore) {
         this.raceId = val.raceId
@@ -27,7 +26,11 @@ export default class BetLocItem {
         this.bridg = val.bridg
         this.skyCorner = val.skyCorner
         this.landCorner = val.landCorner
-        this.score = val.score
+    }
+
+    //根据各个位置的输赢、获取当前场次，当前用户，当前时刻的得分
+    getScore(locationResultDetail: LocationResultDetail): number { 
+        return 0
     }
 
     get sky(): number {

@@ -65,7 +65,6 @@ class RaceManage {
                     bridg: 0,
                     skyCorner: 0,
                     landCorner: 0,
-                    score: 0
                 } as BetScore)
             })
         })
@@ -73,6 +72,8 @@ class RaceManage {
         cc.log('本地比赛下注数据初始化完毕')
         cc.log(this.raceList)
     }
+
+
 }
 
 export default new RaceManage

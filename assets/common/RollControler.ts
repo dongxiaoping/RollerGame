@@ -4,7 +4,6 @@ import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNot
 import { randEventId } from '../common/Util'
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
-import UserManage from '../store/User/UserManage'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
 @ccclass
@@ -122,19 +121,6 @@ export class RollControlerOb {
     toShowMjResult(): void {
         cc.log('发出翻牌通知')
         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
-        // setTimeout(() => {
-        //     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LAND } as LocalNoticeEventPara)
-        //     , 1200
-        // }
-        //     , 2400)
-        // setTimeout(() => {
-        //     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.MIDDLE } as LocalNoticeEventPara)
-        // }
-        //     , 3600)
-        // setTimeout(() => {
-        //     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.SKY } as LocalNoticeEventPara)
-        // }
-        //     , 4900)
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {

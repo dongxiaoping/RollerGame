@@ -77,7 +77,7 @@ export default class NewClass extends cc.Component {
             let nameLabel = node.getChildByName('name').getComponents(cc.Label)
             let scoreLabel = node.getChildByName('score').getComponents(cc.Label)
             nameLabel[0].string = i + '. ' + item.userName
-            scoreLabel[0].string = item.score + ''
+           // scoreLabel[0].string = item.score + ''
             node.parent = this.node.getChildByName('MemberList')
             i++
         })

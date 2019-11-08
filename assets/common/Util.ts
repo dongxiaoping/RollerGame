@@ -92,74 +92,75 @@ export function getMahjongValueVoice(majongInfo: DiceCountInfo): void {
     }
 }
 
-//返回第一个值相对第二个值的对比结果，其中第一个值是庄家值
-export function compareMahjong(targer: DiceCountInfo, compareTo: DiceCountInfo): CompareMahjRe {
-    let targerType = this.getMajhongValueType(targer)
-    let compareToType = this.getMajhongValueType(compareTo)
+//返回第一个值相对第二个值的对比结果，其中第一个值是庄家值(即地主)  true表示第一个参数大 false表示第一个参数小
+export function isLandlordMahjongWin(landlordCount: DiceCountInfo, compareToCount: DiceCountInfo): boolean {
+    let targerType = getMajhongValueType(landlordCount)
+    let compareToType = getMajhongValueType(compareToCount)
     switch (targerType) {
         case MajhongValueType.DUI_ZI:
             switch (compareToType) {
                 case MajhongValueType.DUI_ZI:
-                    if (compareTo.one > targer.one) {
-                        return CompareMahjRe.SMALL
+                    if (compareToCount.one > landlordCount.one) {
+                        return false
                     } else {
-                        return CompareMahjRe.BIG
+                        return true
                     }
                     break
                 case MajhongValueType.DIAN:
-                    return CompareMahjRe.BIG
+                    return true
                     break
                 case MajhongValueType.BI_SHI:
-                    return CompareMahjRe.BIG
+                    return true
                     break
             }
             break
         case MajhongValueType.DIAN:
             switch (compareToType) {
                 case MajhongValueType.DUI_ZI:
-                    return CompareMahjRe.SMALL
+                    return false
                     break
                 case MajhongValueType.DIAN:
-                    let targerPonit = targer.two + targer.one
+                    let targerPonit = landlordCount.two + landlordCount.one
                     if (targerPonit > 10) {
                         targerPonit = targerPonit - 10
                     }
-                    let compareToPonit = compareTo.two + compareTo.one
+                    let compareToPonit = compareToCount.two + compareToCount.one
                     if (compareToPonit > 10) {
                         compareToPonit = compareToPonit - 10
                     }
                     if (targerPonit > compareToPonit) {
-                        return CompareMahjRe.BIG
+                        return true
                     } else if (targerPonit < compareToPonit) {
-                        return CompareMahjRe.SMALL
+                        return false
                     } else { //点数相等情况下的判断
-                        if (targer.one === compareTo.one || targer.one === compareTo.two) {
-                            return CompareMahjRe.BIG
-                        } else if ((targer.one > compareTo.one && targer.one > compareTo.two) || (targer.two > compareTo.one && targer.two > compareTo.two)) {
-                            return CompareMahjRe.BIG
+                        if (landlordCount.one === compareToCount.one || landlordCount.one === compareToCount.two) {
+                            return true
+                        } else if ((landlordCount.one > compareToCount.one && landlordCount.one > compareToCount.two) 
+                        || (landlordCount.two > compareToCount.one && landlordCount.two > compareToCount.two)) {
+                            return true
                         } else {
-                            return CompareMahjRe.SMALL
+                            return false
                         }
                     }
                     break
                 case MajhongValueType.BI_SHI:
-                    return CompareMahjRe.BIG
+                    return true
                     break
             }
             break
         case MajhongValueType.BI_SHI:
             switch (compareToType) {
                 case MajhongValueType.DUI_ZI:
-                    return CompareMahjRe.SMALL
+                    return false
                     break
                 case MajhongValueType.DIAN:
-                    return CompareMahjRe.SMALL
+                    return false
                     break
                 case MajhongValueType.BI_SHI:
-                    return CompareMahjRe.BIG
+                    return true
                     break
             }
             break
     }
-    return CompareMahjRe.BIG
+    return true
 }
