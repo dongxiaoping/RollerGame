@@ -22,6 +22,10 @@ export default class NewClass extends cc.Component {
     halfIcon: cc.SpriteFrame = null
     allIcon: cc.SpriteFrame = null
 
+    singleIntervalTime = 100  //单个动作内部小动作的间隔时间 ms
+    twoIntervalTime = 250  //两张之间的间隔时间
+    twoLocationIntervalTime = 1000 //两个位置之间的发牌间隔时间
+
     localEventId: string
     start() {
 
@@ -36,9 +40,34 @@ export default class NewClass extends cc.Component {
         twoValue = majongResult[tableLocationType].two
         this.openAnimation(this.one, oneValue, () => {
             setTimeout(() => {
-                this.openAnimation(this.two, twoValue, () => { })
-            }, 250)
+                this.openAnimation(this.two, twoValue, () => {
+                    let nextLocation = this.getNextTableLocation(tableLocationType)
+                    if (nextLocation) {  //下个位置的翻牌
+                        setTimeout(() => {
+                            cc.log('发出下个位置的翻牌请求,下个位置为' + nextLocation + ',当前位置为：' + tableLocationType)
+                            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: nextLocation } as LocalNoticeEventPara)
+                        }, this.twoLocationIntervalTime);
+                    } else {
+                        cc.log('全部的翻牌动作执行完毕，发出翻牌动画结束通知')
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE } as LocalNoticeEventPara)
+                    }
+                })
+            }, this.twoIntervalTime)
         })
+    }
+
+    getNextTableLocation(tableLocationType: TableLocationType): TableLocationType {
+        switch (tableLocationType) {
+            case TableLocationType.LANDLORD:
+                return TableLocationType.LAND
+            case TableLocationType.LAND:
+                return TableLocationType.MIDDLE
+            case TableLocationType.MIDDLE:
+                return TableLocationType.SKY
+            case TableLocationType.SKY:
+                return null
+        }
+        return null
     }
 
     openAnimation(ob: cc.Sprite, val: number, callBack: any) {
@@ -60,7 +89,7 @@ export default class NewClass extends cc.Component {
             }
             count++
             cc.log('循环执行翻牌动画')
-        }, 100)
+        }, this.singleIntervalTime)
     }
 
     drawResult(ob: cc.Sprite, val: number) {

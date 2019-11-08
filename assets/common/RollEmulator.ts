@@ -1,12 +1,11 @@
 const { ccclass, property } = cc._decorator;
-import { eventBus } from '../common/EventBus'
 import { RollControlerOb } from './RollControler'
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage'
 import GameMember from '../store/GameMember/GameMemberManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
-import { RaceState, EventType, roomState, RaceStateChangeParam } from '../common/Const'
+import { RaceState, roomState, RaceStateChangeParam } from '../common/Const'
 import Room from '../store/Room/RoomManage'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
 @ccclass
@@ -46,17 +45,7 @@ class RollEmulator extends RollControlerOb {
             cc.log('修改游戏状态为比大小')
             cc.log('我是模拟器，我将比赛状态改为比大小')
            RaceManage.changeRaceState(RaceState.SHOW_DOWN)
-        }, 3000)
-
-        setTimeout(() => {
-            cc.log('修改游戏状态为公布积分结果')
-            cc.log('我是模拟器，比大小已经持续了4s,我将比赛状态改为显示单局结果')
-            RaceManage.changeRaceState(RaceState.SHOW_RESULT)
-            setTimeout(()=>{
-                cc.log('我是模拟器，显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
-                RaceManage.changeRaceState(RaceState.FINISHED)
-            },2000)
-        }, 10000)
+        }, 5000)
     }
 
     responsePlayButtonEvent() {

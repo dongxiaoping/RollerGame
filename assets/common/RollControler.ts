@@ -69,12 +69,23 @@ export class RollControlerOb {
                     cc.log('我是控制器，我接到了发牌动画结束的通知，我将比赛状态改为下注')
                     RaceManage.changeRaceState(RaceState.BET)
                     break
+                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    cc.log('我是控制器，我接到了开牌动画结束通知，我将比赛状态改为下注')
+                    setTimeout(() => {
+                        cc.log('比大小已经持续了4s,我将比赛状态改为显示单局结果')
+                        RaceManage.changeRaceState(RaceState.SHOW_RESULT)
+                        setTimeout(() => {
+                            cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
+                            RaceManage.changeRaceState(RaceState.FINISHED)
+                        }, 2000)
+                    }, 5000)
+                    break
             }
         })
     }
 
     //向服务器发请求，改变游戏状态
-    responsePlayButtonEvent():void{
+    responsePlayButtonEvent(): void {
         cc.log('控制器收到游戏按钮点击事件')
     }
 
@@ -111,19 +122,19 @@ export class RollControlerOb {
     toShowMjResult(): void {
         cc.log('发出翻牌通知')
         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
-        setTimeout(() => {
-            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LAND } as LocalNoticeEventPara)
-            , 1200
-        }
-            , 2400)
-        setTimeout(() => {
-            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.MIDDLE } as LocalNoticeEventPara)
-        }
-            , 3600)
-        setTimeout(() => {
-            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.SKY } as LocalNoticeEventPara)
-        }
-            , 4900)
+        // setTimeout(() => {
+        //     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LAND } as LocalNoticeEventPara)
+        //     , 1200
+        // }
+        //     , 2400)
+        // setTimeout(() => {
+        //     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.MIDDLE } as LocalNoticeEventPara)
+        // }
+        //     , 3600)
+        // setTimeout(() => {
+        //     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.SKY } as LocalNoticeEventPara)
+        // }
+        //     , 4900)
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {
