@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
-import { BetChipChangeInfo, EventType, PushEventPara, PushEventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState } from '../../common/Const'
+import { BetChipChangeInfo, EventType,Coordinate, chipPoint, RaceStateChangeParam, RaceState } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -103,17 +103,14 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.pushEventId = randEventId()
-        eventBus.on(EventType.PUSH_EVENT, this.pushEventId, (info: PushEventPara): void => {
-            if (info.type === PushEventType.BET_CHIP_CHANGE) {
+        eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.pushEventId, (betInfo: BetChipChangeInfo): void => {
                 cc.log('收到下注值改变通知')
-                let betInfo = info.info as BetChipChangeInfo
                 let betValue = betInfo.toValue - betInfo.fromVal
                 let userId = betInfo.userId
                 let betLocationType = betInfo.betLocation
                 let points = chipPoint[betLocationType]
                 let fromLocation = this.getUserDeskLocation(userId)
                 this.flyAnimation(fromLocation, this.getXiaZhuLocation(points), betValue)
-            }
         })
         this.raceStateId = randEventId()
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId, (info: RaceStateChangeParam): void => {
@@ -137,7 +134,7 @@ export default class NewClass extends cc.Component {
 
     onDisable() {
         eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId)
-        eventBus.off(EventType.PUSH_EVENT, this.pushEventId)
+        eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.pushEventId)
     }
 
     // update (dt) {}

@@ -3,12 +3,10 @@ import { eventBus } from '../common/EventBus'
 import { RollControlerOb } from './RollControler'
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
-import { randEventId } from '../common/Util'
-import RoomItem from '../store/Room/RoomItem'
 import UserManage from '../store/User/UserManage'
 import GameMember from '../store/GameMember/GameMemberManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
-import { RaceState, PushEventType, EventType, roomState, RaceStateChangeParam } from '../common/Const'
+import { RaceState, EventType, roomState, RaceStateChangeParam } from '../common/Const'
 import Room from '../store/Room/RoomManage'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
 @ccclass
@@ -61,7 +59,7 @@ class RollEmulator extends RollControlerOb {
         }, 10000)
     }
 
-    responsePlayBottomEvent() {
+    responsePlayButtonEvent() {
         cc.log('模拟器控制器接收到游戏开始按钮通知')
         cc.log('房间改为游戏中')
         RoomManage.roomItem.roomState = roomState.PLAYING //改变房间状态为游戏中
@@ -69,9 +67,8 @@ class RollEmulator extends RollControlerOb {
         RoomManage.roomItem.oningRaceNum = 0
         cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将第一个房间状态改为选地主')
         RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
-        eventBus.emit(EventType.PUSH_EVENT, { //推送地主邀请
-            eventType: PushEventType.LANDLOAD_WELCOME, userId: UserManage.userInfo.id
-        })
+        cc.log('邀请当前用户当地主')
+        RaceManage.raceList[0].landlordId = UserManage.userInfo.id
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {

@@ -3,11 +3,12 @@ import UserManage from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
 import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
-import { RaceState, EventType, PushEventPara, TableLocationType, PushEventType, roomState, RaceStateChangeParam } from '../../common/Const'
+import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import RoomItem from '../../store/Room/RoomItem'
 import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
+import RoomManage from '../../store/Room/RoomManage'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -77,16 +78,17 @@ export default class NewClass extends cc.Component {
             }
         })
 
-        eventBus.on(EventType.PUSH_EVENT, randEventId(), (info: PushEventPara): void => {
-            let type = info.type
-            switch (type) {
-                case PushEventType.LANDLOAD_WELCOME:
-                    cc.log('控制器收到邀请地主通知')
-                    if (UserManage.userInfo.id === info.info.userId) {
-                        cc.log('当前用户收到邀请，弹出是否当地主提示框')
-                        this.choiceLandLord()
-                    }
-                    break
+        eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
+            let oningRaceNum = RoomManage.roomItem.oningRaceNum
+            if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD) {
+                cc.log('错误！接收到了地主邀请通知，但当前房间状态不是选地主')
+                return
+            }
+            if (UserManage.userInfo.id !== landlordId) {
+                cc.log('接收到了地主邀请通知，但邀请的不是自己')
+            } else {
+                cc.log('当前用户收到邀请，弹出是否当地主提示框')
+                this.choiceLandLord()
             }
         })
     }
@@ -99,7 +101,7 @@ export default class NewClass extends cc.Component {
     }
 
     //清空座子上的筹码
-    cleanChipOnDesk(){
+    cleanChipOnDesk() {
 
     }
 

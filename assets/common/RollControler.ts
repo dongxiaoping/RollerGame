@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
-import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, PushEventPara, PushEventType } from '../common/Const'
+import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
@@ -53,11 +53,7 @@ export class RollControlerOb {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.PLAY_BUTTON_EVENT:  //游戏开始按钮被点击
-                    cc.log('向当前用户推送当地主邀请')
-                    eventBus.emit(EventType.PUSH_EVENT, {
-                        type: PushEventType.LANDLOAD_WELCOME,
-                        info: { userId: UserManage.userInfo.id }
-                    } as PushEventPara)
+                    this.responsePlayButtonEvent()
                     break
                 case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT: //响应本地是否选择当地主结果
                     cc.log('响应本地是否选择当地主')
@@ -75,6 +71,11 @@ export class RollControlerOb {
                     break
             }
         })
+    }
+
+    //向服务器发请求，改变游戏状态
+    responsePlayButtonEvent():void{
+        cc.log('控制器收到游戏按钮点击事件')
     }
 
     //启动下场比赛

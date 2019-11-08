@@ -10,7 +10,7 @@ export const RaceList: raceRecord[] = [
     {
         raceId: '2',
         num: 1,
-        landlordId: '23',
+        landlordId: '',
         state: RaceState.NOT_BEGIN,
         majongResult: { sky: { one: 9, two: 0.5 }, land: { one: 1, two: 2 }, landlord: { one: 3, two: 4 }, middle: { one: 5, two: 6 } }
     }//,

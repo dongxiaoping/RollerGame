@@ -56,12 +56,14 @@ export enum betLocaion {
     LAND_CORNER = 'land_corner'
 }
 
-////////////////////房间游戏各种状态定义
+//应用中事件定义
 export enum EventType {
-    ROOM_STATE_CHANGE_EVENT = 1, //房间状态改变通知
-    RACE_STATE_CHANGE_EVENT = 2,  //当前比赛状态改变通知
-    LOCAL_NOTICE_EVENT = 3,  //本地通知事件
-    PUSH_EVENT = 4,  //推送事件通知，和服务器端的推送事件一一对应
+    ROOM_STATE_CHANGE_EVENT = 1, //房间状态改变通知   （数据改变触发）
+    RACE_STATE_CHANGE_EVENT = 2,  //当前比赛状态改变通知 （数据改变触发）
+    MEMBER_CHANGE_EVENT = 3,  //人员变动通知  （数据改变触发）
+    LOCAL_NOTICE_EVENT = 4,  //本地通知事件 （本地对本地 和数据改变无关）
+    LANDLORD_CAHNGE_EVENT = 5,//地主改变通知 （数据改变触发）
+    BET_CHIP_CHANGE_EVENT = 6 //下注改变通知 （数据改变触发）
 }
 
 //单场游戏状态
@@ -85,26 +87,13 @@ export interface RaceStateChangeParam {
     toState: RaceState
 }
 
-
-export enum PushEventType {
-    MEMBER_CHANGE = 1, //人员改变、进来或者出去了
-    LANDLORD_CHANGE = 2, //地主改变通知
-    BET_CHIP_CHANGE = 3, // 下注改变通知
-    LANDLOAD_WELCOME = 4 //向指定人员发出地主邀请通知
-}
-
-export interface PushEventPara {
-    type: PushEventType
-    info?: any
-}
-
-export enum LocalNoticeEventType {
+export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （本地对本地  和数据状态改变而触发无关）
     PLAY_BUTTON_EVENT = 1, // 游戏开始按钮被点击通知
     LOCAL_BE_LANDLORD_RESULT = 2,  //本人是否愿意当地主结果通知
     ROLL_DICE_FINISHED_NOTICE = 3, //摇色子动画结束通知
     DELIVERY_CARD_FINISHED_NOTICE = 4, //发牌动画执行结束通知
     OPEN_CARD_FINISHED_NOTICE = 5, //翻牌动画结束通知
-    OPEN_CARD_REQUEST_NOTICE = 6, //请求翻牌通知
+    OPEN_CARD_REQUEST_NOTICE = 6 //请求翻牌通知
 }
 
 export interface LocalNoticeEventPara {
