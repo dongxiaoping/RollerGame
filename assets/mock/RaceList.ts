@@ -1,11 +1,11 @@
-import { DiceCountInfo, raceRecord, RaceState  } from '../common/Const'
+import { DiceCountInfo, raceRecord, RaceState } from '../common/Const'
 export const RaceList: raceRecord[] = [
     {
         raceId: '1',
         num: 0,
         landlordId: '',
         state: RaceState.SHOW_RESULT,
-        majongResult: { sky: { one: 7, two: 8 }, land: { one: 9, two: 0.5 }, landlord: { one: 1, two: 2 }, middle: { one: 3, two: 4 } }
+        majongResult: { sky: { one: 9, two: 0.5 }, land: { one: 1, two: 2 }, landlord: { one: 3, two: 4 }, middle: { one: 5, two: 6 } }
     },
     {
         raceId: '2',

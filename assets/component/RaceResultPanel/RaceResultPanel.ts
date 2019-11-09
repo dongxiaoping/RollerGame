@@ -55,34 +55,44 @@ export default class NewClass extends cc.Component {
         let majongResult = raceInfo.majongResult
         let landloardId = raceInfo.landlordId
         cc.log(raceInfo)
-        cc.log(landloardId)
-        this.drawResult(this.sky_dian_1,majongResult.sky.one)
-        this.drawResult(this.sky_dian_2,majongResult.sky.two)
-        this.drawResult(this.middle_dian_1,majongResult.middle.one)
-        this.drawResult(this.middle_dian_2,majongResult.middle.two)
-        this.drawResult(this.land_dian_1,majongResult.land.one)
-        this.drawResult(this.land_dian_2,majongResult.land.two)
-        this.drawResult(this.landlord_dian_1,majongResult.landlord.one)
-        this.drawResult(this.landlord_dian_2,majongResult.landlord.two)
+        this.drawResult(this.sky_dian_1, majongResult.sky.one)
+        this.drawResult(this.sky_dian_2, majongResult.sky.two)
+        this.drawResult(this.middle_dian_1, majongResult.middle.one)
+        this.drawResult(this.middle_dian_2, majongResult.middle.two)
+        this.drawResult(this.land_dian_1, majongResult.land.one)
+        this.drawResult(this.land_dian_2, majongResult.land.two)
+        this.drawResult(this.landlord_dian_1, majongResult.landlord.one)
+        this.drawResult(this.landlord_dian_2, majongResult.landlord.two)
 
 
         let myUserId = UserManage.userInfo.id
-        let myScore = betInfoList[myUserId].score
-        this.myScore.string = myScore
         this.landlordName.string = GameMemberManage.gameMenmberList[landloardId].nick
-        this.landlordScore.string = betInfoList[landloardId].score
-        let i = 1
         let locationResultDetail = raceInfo.getLocationResultDetail()
+        let totalScore: number = 0
+        betInfoList.forEach((item: BetLocItem) => {
+            totalScore = totalScore + item.getScore(locationResultDetail)
+        })
+        let i = 1
         betInfoList.forEach((item: BetLocItem) => {
             let node = cc.instantiate(this.memberScoreItem)
             let nameLabel = node.getChildByName('name').getComponents(cc.Label)
             let scoreLabel = node.getChildByName('score').getComponents(cc.Label)
             nameLabel[0].string = i + '. ' + item.userName
-            let score = item.getScore(locationResultDetail)
+            let score = item.score
+            if (item.userId === landloardId) {
+                score = -totalScore
+                item.score = score //对地主的分数进行了赋值
+            }
             scoreLabel[0].string = score + ''
             node.parent = this.node.getChildByName('MemberList')
             i++
         })
+        this.landlordScore.string = -totalScore + ''
+        let myScore = betInfoList[myUserId].score
+        if (myUserId === landloardId) {
+            myScore = -totalScore
+        }
+        this.myScore.string = myScore
     }
 
     //初始化本地数据

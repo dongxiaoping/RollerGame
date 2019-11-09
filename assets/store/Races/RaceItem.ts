@@ -82,8 +82,8 @@ export default class RaceItem {
             locationResultDetail.land_corner = CompareDxRe.EQ
         }
         this.locationResultDetail = locationResultDetail
-        cc.log('发牌的值相关信息：'+ JSON.stringify(this.majongResult))
-        cc.log('各个位置的输赢结果：'+JSON.stringify(locationResultDetail))
+        cc.log('比大小信息，发牌的值相关信息：'+ JSON.stringify(this.majongResult))
+        cc.log('比大小信息，各个位置的输赢结果：'+JSON.stringify(locationResultDetail))
         return this.locationResultDetail
     }
 

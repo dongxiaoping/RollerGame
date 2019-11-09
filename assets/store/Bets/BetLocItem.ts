@@ -15,6 +15,7 @@ export default class BetLocItem {
     public _bridg: number = null
     public _skyCorner: number = null
     public _landCorner: number = null
+    public score: number = null //地主的分数是统计面板统计后赋值的
 
     constructor(val: BetScore) {
         this.raceId = val.raceId
@@ -99,10 +100,10 @@ export default class BetLocItem {
         let score: number = 0
         switch (locationResultDetail.sky) {
             case CompareDxRe.BIG:
-                score += this.sky
+                score = score + this.sky
                 break
             case CompareDxRe.SMALL:
-                score -= this.sky
+                score = score - this.sky
                 break
             case CompareDxRe.EQ:
                 break
@@ -110,10 +111,10 @@ export default class BetLocItem {
 
         switch (locationResultDetail.middle) {
             case CompareDxRe.BIG:
-                score += this.middle
+                score = score + this.middle
                 break
             case CompareDxRe.SMALL:
-                score -= this.middle
+                score = score - this.middle
                 break
             case CompareDxRe.EQ:
                 break
@@ -121,10 +122,10 @@ export default class BetLocItem {
 
         switch (locationResultDetail.land) {
             case CompareDxRe.BIG:
-                score += this.land
+                score = score + this.land
                 break
             case CompareDxRe.SMALL:
-                score -= this.land
+                score = score - this.land
                 break
             case CompareDxRe.EQ:
                 break
@@ -132,10 +133,10 @@ export default class BetLocItem {
 
         switch (locationResultDetail.bridg) {
             case CompareDxRe.BIG:
-                score += this.bridg
+                score = score + this.bridg
                 break
             case CompareDxRe.SMALL:
-                score -= this.bridg
+                score = score - this.bridg
                 break
             case CompareDxRe.EQ:
                 break
@@ -143,10 +144,10 @@ export default class BetLocItem {
 
         switch (locationResultDetail.land_corner) {
             case CompareDxRe.BIG:
-                score += this.landCorner
+                score = score + this.landCorner
                 break
             case CompareDxRe.SMALL:
-                score -= this.landCorner
+                score = score - this.landCorner
                 break
             case CompareDxRe.EQ:
                 break
@@ -154,14 +155,17 @@ export default class BetLocItem {
 
         switch (locationResultDetail.sky_corner) {
             case CompareDxRe.BIG:
-                score += this.skyCorner
+                score = score + this.skyCorner
                 break
             case CompareDxRe.SMALL:
-                score -= this.skyCorner
+                score = score - this.skyCorner
                 break
             case CompareDxRe.EQ:
                 break
         }
+        cc.log('我是' + this.userName + ',比大小信息,我的得分是:' + score)
+        cc.log(this)
+        this.score = score
         return score
     }
 }

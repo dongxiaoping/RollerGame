@@ -75,7 +75,7 @@ export class RollControlerOb {
                         RaceManage.changeRaceState(RaceState.SHOW_RESULT)
                         setTimeout(() => {
                             cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
-                            RaceManage.changeRaceState(RaceState.FINISHED)
+                          //  RaceManage.changeRaceState(RaceState.FINISHED)
                         }, 2000)
                     }, 5000)
                     break

@@ -223,7 +223,7 @@ export interface LocationResultDetail {
 
 //大小比较结果
 export enum CompareDxRe {
-    BIG = 1,  //大
-    SMALL = 2, //小
-    EQ = 3 //相等
+    BIG = 'big',  //大
+    SMALL = 'sm', //小
+    EQ = 'eq' //相等
 }
