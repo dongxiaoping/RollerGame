@@ -12,12 +12,12 @@ class UserManage {
     constructor() {
     }
 
-    getSelectChipValue() {
+    getSelectChipValue(): number {
         return this.selectChipValue
     }
 
-    setSelectChipValue(val: number): number {
-        return this.selectChipValue
+    setSelectChipValue(val: number) {
+        this.selectChipValue = val
     }
 
     public requestUserInfo(): Promise<PromiseParam> {

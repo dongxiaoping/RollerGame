@@ -52,8 +52,8 @@ export enum betLocaion {
     LAND = 'land',
     MIDDLE = 'middle',
     BRIDG = 'bridg',
-    SKY_CORNER = 'sky_corner',
-    LAND_CORNER = 'land_corner'
+    SKY_CORNER = 'skyCorner',
+    LAND_CORNER = 'landCorner'
 }
 
 //应用中事件定义
@@ -106,8 +106,8 @@ export const chipPoint = {
     land: { left: { x: 151, y: 79 }, right: { x: 285, y: 79 } },  //LAND
     middle: { left: { x: -66, y: -64 }, right: { x: 69, y: -64 } }, //MIDDLE 
     bridg: { left: { x: -60, y: 79 }, right: { x: 65, y: 79 } },  //BRIDG 
-    sky_corner: { left: { x: -246, y: -16 }, right: { x: -149, y: -16 } },  //SKY_CORNER
-    land_corner: { left: { x: 148, y: -31 }, right: { x: 240, y: -31 } }  //LAND_CORNER
+    skyCorner: { left: { x: -246, y: -16 }, right: { x: -149, y: -16 } },  //SKY_CORNER
+    landCorner: { left: { x: 148, y: -31 }, right: { x: 240, y: -31 } }  //LAND_CORNER
 }
 
 export const IconValueList = {

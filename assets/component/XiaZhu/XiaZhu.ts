@@ -1,13 +1,11 @@
 /* 对下注的显示以及相关功能进行管理
- *
+ * 下注动画在这里实现  下注按钮事件在桌子上实现
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
 import { BetChipChangeInfo, EventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
-import UserManage from '../../store/User/UserManage';
-import RaceManage from '../../store/Races/RaceManage'
-import RoomManage from '../../store/Room/RoomManage'
+import UserManage from '../../store/User/UserManage'
 @ccclass
 export default class NewClass extends cc.Component {
 
