@@ -25,14 +25,14 @@
     "_level": 2,
     "_components": [
       {
-        "__id__": 47
+        "__id__": 59
       },
       {
-        "__id__": 48
+        "__id__": 60
       }
     ],
     "_prefab": {
-      "__id__": 49
+      "__id__": 61
     },
     "_opacity": 255,
     "_color": {
@@ -88,30 +88,30 @@
         "__id__": 3
       },
       {
-        "__id__": 13
+        "__id__": 16
       },
       {
-        "__id__": 23
+        "__id__": 29
       },
       {
-        "__id__": 33
+        "__id__": 42
       }
     ],
     "_active": true,
     "_level": 3,
     "_components": [
       {
-        "__id__": 43
+        "__id__": 55
       },
       {
-        "__id__": 44
+        "__id__": 56
       },
       {
-        "__id__": 45
+        "__id__": 57
       }
     ],
     "_prefab": {
-      "__id__": 46
+      "__id__": 58
     },
     "_opacity": 255,
     "_color": {
@@ -174,7 +174,7 @@
     "_level": 4,
     "_components": [],
     "_prefab": {
-      "__id__": 12
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -358,19 +358,23 @@
     "_parent": {
       "__id__": 3
     },
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 9
+      }
+    ],
     "_active": true,
     "_level": 5,
     "_components": [
       {
-        "__id__": 9
+        "__id__": 12
       },
       {
-        "__id__": 10
+        "__id__": 13
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -413,6 +417,107 @@
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Label",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 8
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 6,
+    "_components": [
+      {
+        "__id__": 10
+      }
+    ],
+    "_prefab": {
+      "__id__": 11
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 22.25,
+      "height": 25.2
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 9
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_useOriginalSize": false,
+    "_string": "10",
+    "_N$string": "10",
+    "_fontSize": 20,
+    "_lineHeight": 20,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "36277233-5808-4b64-a95c-b30af91a37a2"
+    },
+    "fileId": "a2xL6ge+tAXJMNCiuypx0w",
+    "sync": false
   },
   {
     "__type__": "cc.Sprite",
@@ -504,17 +609,17 @@
     },
     "_children": [
       {
-        "__id__": 14
+        "__id__": 17
       },
       {
-        "__id__": 18
+        "__id__": 21
       }
     ],
     "_active": true,
     "_level": 4,
     "_components": [],
     "_prefab": {
-      "__id__": 22
+      "__id__": 28
     },
     "_opacity": 255,
     "_color": {
@@ -563,21 +668,21 @@
     "_name": "Focus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 13
+      "__id__": 16
     },
     "_children": [],
     "_active": true,
     "_level": 5,
     "_components": [
       {
-        "__id__": 15
+        "__id__": 18
       },
       {
-        "__id__": 16
+        "__id__": 19
       }
     ],
     "_prefab": {
-      "__id__": 17
+      "__id__": 20
     },
     "_opacity": 255,
     "_color": {
@@ -626,7 +731,7 @@
     "_name": "Focus<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 14
+      "__id__": 17
     },
     "_enabled": true,
     "_materials": [
@@ -658,7 +763,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 14
+      "__id__": 17
     },
     "_enabled": true,
     "alignMode": 1,
@@ -696,21 +801,25 @@
     "_name": "Chip",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 13
+      "__id__": 16
     },
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 22
+      }
+    ],
     "_active": true,
     "_level": 5,
     "_components": [
       {
-        "__id__": 19
+        "__id__": 25
       },
       {
-        "__id__": 20
+        "__id__": 26
       }
     ],
     "_prefab": {
-      "__id__": 21
+      "__id__": 27
     },
     "_opacity": 255,
     "_color": {
@@ -755,11 +864,112 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Label",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 21
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 6,
+    "_components": [
+      {
+        "__id__": 23
+      }
+    ],
+    "_prefab": {
+      "__id__": 24
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 22.25,
+      "height": 25.2
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 22
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_useOriginalSize": false,
+    "_string": "20",
+    "_N$string": "20",
+    "_fontSize": 20,
+    "_lineHeight": 20,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "36277233-5808-4b64-a95c-b30af91a37a2"
+    },
+    "fileId": "36j6TsMmpCaZZ004fLcEZe",
+    "sync": false
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "Chip<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 18
+      "__id__": 21
     },
     "_enabled": true,
     "_materials": [
@@ -791,7 +1001,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 18
+      "__id__": 21
     },
     "_enabled": true,
     "alignMode": 1,
@@ -844,17 +1054,17 @@
     },
     "_children": [
       {
-        "__id__": 24
+        "__id__": 30
       },
       {
-        "__id__": 28
+        "__id__": 34
       }
     ],
     "_active": true,
     "_level": 4,
     "_components": [],
     "_prefab": {
-      "__id__": 32
+      "__id__": 41
     },
     "_opacity": 255,
     "_color": {
@@ -903,21 +1113,21 @@
     "_name": "Focus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 23
+      "__id__": 29
     },
     "_children": [],
     "_active": true,
     "_level": 5,
     "_components": [
       {
-        "__id__": 25
+        "__id__": 31
       },
       {
-        "__id__": 26
+        "__id__": 32
       }
     ],
     "_prefab": {
-      "__id__": 27
+      "__id__": 33
     },
     "_opacity": 255,
     "_color": {
@@ -966,7 +1176,7 @@
     "_name": "Focus<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 24
+      "__id__": 30
     },
     "_enabled": true,
     "_materials": [
@@ -998,7 +1208,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 24
+      "__id__": 30
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1036,21 +1246,25 @@
     "_name": "Chip",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 23
+      "__id__": 29
     },
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 35
+      }
+    ],
     "_active": true,
     "_level": 5,
     "_components": [
       {
-        "__id__": 29
+        "__id__": 38
       },
       {
-        "__id__": 30
+        "__id__": 39
       }
     ],
     "_prefab": {
-      "__id__": 31
+      "__id__": 40
     },
     "_opacity": 255,
     "_color": {
@@ -1095,11 +1309,112 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Label",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 34
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 6,
+    "_components": [
+      {
+        "__id__": 36
+      }
+    ],
+    "_prefab": {
+      "__id__": 37
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 22.25,
+      "height": 25.2
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 35
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_useOriginalSize": false,
+    "_string": "50",
+    "_N$string": "50",
+    "_fontSize": 20,
+    "_lineHeight": 20,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "36277233-5808-4b64-a95c-b30af91a37a2"
+    },
+    "fileId": "49TO38T5JNu4x3UxO4L6cC",
+    "sync": false
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "Chip<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 28
+      "__id__": 34
     },
     "_enabled": true,
     "_materials": [
@@ -1131,7 +1446,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 28
+      "__id__": 34
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1184,17 +1499,17 @@
     },
     "_children": [
       {
-        "__id__": 34
+        "__id__": 43
       },
       {
-        "__id__": 38
+        "__id__": 47
       }
     ],
     "_active": true,
     "_level": 4,
     "_components": [],
     "_prefab": {
-      "__id__": 42
+      "__id__": 54
     },
     "_opacity": 255,
     "_color": {
@@ -1243,21 +1558,21 @@
     "_name": "Focus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 33
+      "__id__": 42
     },
     "_children": [],
     "_active": true,
     "_level": 5,
     "_components": [
       {
-        "__id__": 35
+        "__id__": 44
       },
       {
-        "__id__": 36
+        "__id__": 45
       }
     ],
     "_prefab": {
-      "__id__": 37
+      "__id__": 46
     },
     "_opacity": 255,
     "_color": {
@@ -1306,7 +1621,7 @@
     "_name": "Focus<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 34
+      "__id__": 43
     },
     "_enabled": true,
     "_materials": [
@@ -1338,7 +1653,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 34
+      "__id__": 43
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1376,21 +1691,25 @@
     "_name": "Chip",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 33
+      "__id__": 42
     },
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 48
+      }
+    ],
     "_active": true,
     "_level": 5,
     "_components": [
       {
-        "__id__": 39
+        "__id__": 51
       },
       {
-        "__id__": 40
+        "__id__": 52
       }
     ],
     "_prefab": {
-      "__id__": 41
+      "__id__": 53
     },
     "_opacity": 255,
     "_color": {
@@ -1435,11 +1754,112 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Label",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 47
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 6,
+    "_components": [
+      {
+        "__id__": 49
+      }
+    ],
+    "_prefab": {
+      "__id__": 50
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 33.37,
+      "height": 25.2
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 48
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_useOriginalSize": false,
+    "_string": "100",
+    "_N$string": "100",
+    "_fontSize": 20,
+    "_lineHeight": 20,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "36277233-5808-4b64-a95c-b30af91a37a2"
+    },
+    "fileId": "13LyvbiDFES5GQo/YTK0o3",
+    "sync": false
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "Chip<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 38
+      "__id__": 47
     },
     "_enabled": true,
     "_materials": [
@@ -1471,7 +1891,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 38
+      "__id__": 47
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1662,6 +2082,30 @@
     },
     "chip_100": {
       "__uuid__": "629af50f-c3cd-4e80-9a62-268740195dee"
+    },
+    "focus_10": {
+      "__id__": 5
+    },
+    "focus_20": {
+      "__id__": 18
+    },
+    "focus_50": {
+      "__id__": 31
+    },
+    "focus_100": {
+      "__id__": 44
+    },
+    "button_10": {
+      "__id__": 12
+    },
+    "button_20": {
+      "__id__": 25
+    },
+    "button_50": {
+      "__id__": 38
+    },
+    "button_100": {
+      "__id__": 51
     },
     "_id": ""
   },

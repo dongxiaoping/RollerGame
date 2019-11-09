@@ -8,7 +8,16 @@ import axios from 'axios'
 @ccclass
 class UserManage {
     public userInfo: UserItem = null
+    selectChipValue: number = 10 //选中的下注值，默认10
     constructor() {
+    }
+
+    getSelectChipValue() {
+        return this.selectChipValue
+    }
+
+    setSelectChipValue(val: number): number {
+        return this.selectChipValue
     }
 
     public requestUserInfo(): Promise<PromiseParam> {
@@ -16,7 +25,7 @@ class UserManage {
             if (config.appMode === appMode.DEV) {
                 this.userInfo = new UserItem(userInfo)
             } else {
-                this.userInfo =  new UserItem(emptyUserInfo())
+                this.userInfo = new UserItem(emptyUserInfo())
                 // axios
                 // .get('https://www.baidu.com')
                 // .then((response: any): void => {
