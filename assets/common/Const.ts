@@ -102,12 +102,12 @@ export interface LocalNoticeEventPara {
 }
 
 export const chipPoint = {
-    sky: {left:{ x: -277, y: 81 },right:{ x: -151, y: 81 }}, //SKY
-    land: {left:{ x: 151, y: 79 },right:{ x: 285, y: 79 }},  //LAND
-    middle: {left:{ x: -66, y: -64 },right:{ x: 69, y: -64 }}, //MIDDLE 
-    bridg: {left:{ x: -60, y: 79 },right:{ x: 65, y: 79 }},  //BRIDG 
-    sky_corner: {left:{ x: -246, y: -16 },right:{ x: -149, y: -16 }},  //SKY_CORNER
-    land_corner: {left:{ x: 148, y: -31 },right:{ x: 240, y: -31 }}  //LAND_CORNER
+    sky: { left: { x: -277, y: 81 }, right: { x: -151, y: 81 } }, //SKY
+    land: { left: { x: 151, y: 79 }, right: { x: 285, y: 79 } },  //LAND
+    middle: { left: { x: -66, y: -64 }, right: { x: 69, y: -64 } }, //MIDDLE 
+    bridg: { left: { x: -60, y: 79 }, right: { x: 65, y: 79 } },  //BRIDG 
+    sky_corner: { left: { x: -246, y: -16 }, right: { x: -149, y: -16 } },  //SKY_CORNER
+    land_corner: { left: { x: 148, y: -31 }, right: { x: 240, y: -31 } }  //LAND_CORNER
 }
 
 export const IconValueList = {
@@ -140,7 +140,7 @@ export interface BetRecord {
 export interface BetScore {
     raceId: string,
     userId: string,
-    userName:string,
+    userName: string,
     sky: number,
     land: number,
     middle: number,
@@ -202,23 +202,24 @@ export interface RoomInfo {
     oningRaceNum?: number //当前进行中的场次编号
 }
 
-export interface BetChipChangeInfo{
-    raceId:string
-    userId:string
-    betLocation:betLocaion
-    fromVal:number
-    toValue:number
+export interface BetChipChangeInfo {
+    raceId: string
+    userId: string
+    betLocation: betLocaion
+    fromVal: number
+    toValue: number
 }
 
 //每个位置的输赢 true表示赢 false 表示输
-export interface LocationResultDetail{
+export interface LocationResultDetail {
     sky: CompareDxRe
-    land:CompareDxRe
+    land: CompareDxRe
     middle: CompareDxRe
-    bridg:CompareDxRe
+    bridg: CompareDxRe
     sky_corner: CompareDxRe
-    land_corner:CompareDxRe
+    land_corner: CompareDxRe
 }
+
 
 //大小比较结果
 export enum CompareDxRe {

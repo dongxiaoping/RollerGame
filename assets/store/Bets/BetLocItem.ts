@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, betLocaion, BetScore, BetChipChangeInfo, LocationResultDetail } from '../../common/Const'
+import { CompareDxRe, EventType, betLocaion, BetScore, BetChipChangeInfo, LocationResultDetail } from '../../common/Const'
 /*
 本地存储的记录
 */
@@ -26,11 +26,6 @@ export default class BetLocItem {
         this.bridg = val.bridg
         this.skyCorner = val.skyCorner
         this.landCorner = val.landCorner
-    }
-
-    //根据各个位置的输赢、获取当前场次，当前用户，当前时刻的得分
-    getScore(locationResultDetail: LocationResultDetail): number { 
-        return 0
     }
 
     get sky(): number {
@@ -84,7 +79,7 @@ export default class BetLocItem {
     }
 
     get landCorner(): number {
-        return this.landCorner
+        return this._landCorner
     }
     set landCorner(val: number) {
         if (this._landCorner !== null) {
@@ -97,5 +92,76 @@ export default class BetLocItem {
         let info = { raceId: this.raceId, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as BetChipChangeInfo
         cc.log('投注值改变通知' + JSON.stringify(info))
         eventBus.emit(EventType.BET_CHIP_CHANGE_EVENT, info)
+    }
+
+    //根据各个位置的输赢、获取当前场次，当前用户，当前时刻的得分
+    getScore(locationResultDetail: LocationResultDetail): number {
+        let score: number = 0
+        switch (locationResultDetail.sky) {
+            case CompareDxRe.BIG:
+                score += this.sky
+                break
+            case CompareDxRe.SMALL:
+                score -= this.sky
+                break
+            case CompareDxRe.EQ:
+                break
+        }
+
+        switch (locationResultDetail.middle) {
+            case CompareDxRe.BIG:
+                score += this.middle
+                break
+            case CompareDxRe.SMALL:
+                score -= this.middle
+                break
+            case CompareDxRe.EQ:
+                break
+        }
+
+        switch (locationResultDetail.land) {
+            case CompareDxRe.BIG:
+                score += this.land
+                break
+            case CompareDxRe.SMALL:
+                score -= this.land
+                break
+            case CompareDxRe.EQ:
+                break
+        }
+
+        switch (locationResultDetail.bridg) {
+            case CompareDxRe.BIG:
+                score += this.bridg
+                break
+            case CompareDxRe.SMALL:
+                score -= this.bridg
+                break
+            case CompareDxRe.EQ:
+                break
+        }
+
+        switch (locationResultDetail.land_corner) {
+            case CompareDxRe.BIG:
+                score += this.landCorner
+                break
+            case CompareDxRe.SMALL:
+                score -= this.landCorner
+                break
+            case CompareDxRe.EQ:
+                break
+        }
+
+        switch (locationResultDetail.sky_corner) {
+            case CompareDxRe.BIG:
+                score += this.skyCorner
+                break
+            case CompareDxRe.SMALL:
+                score -= this.skyCorner
+                break
+            case CompareDxRe.EQ:
+                break
+        }
+        return score
     }
 }

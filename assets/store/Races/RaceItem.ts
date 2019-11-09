@@ -21,8 +21,8 @@ export default class RaceItem {
         this.majongResult = val.majongResult
     }
 
-    //获取本局比赛赢位
-    getWinTableLocation(): LocationResultDetail {
+    //获取本局比赛位置输赢信息
+    getLocationResultDetail(): LocationResultDetail {
         if (this.majongResult === null) {
             return null
         }
@@ -82,6 +82,8 @@ export default class RaceItem {
             locationResultDetail.land_corner = CompareDxRe.EQ
         }
         this.locationResultDetail = locationResultDetail
+        cc.log('发牌的值相关信息：'+ JSON.stringify(this.majongResult))
+        cc.log('各个位置的输赢结果：'+JSON.stringify(locationResultDetail))
         return this.locationResultDetail
     }
 

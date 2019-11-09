@@ -72,12 +72,14 @@ export default class NewClass extends cc.Component {
         this.landlordName.string = GameMemberManage.gameMenmberList[landloardId].nick
         this.landlordScore.string = betInfoList[landloardId].score
         let i = 1
+        let locationResultDetail = raceInfo.getLocationResultDetail()
         betInfoList.forEach((item: BetLocItem) => {
             let node = cc.instantiate(this.memberScoreItem)
             let nameLabel = node.getChildByName('name').getComponents(cc.Label)
             let scoreLabel = node.getChildByName('score').getComponents(cc.Label)
             nameLabel[0].string = i + '. ' + item.userName
-           // scoreLabel[0].string = item.score + ''
+            let score = item.getScore(locationResultDetail)
+            scoreLabel[0].string = score + ''
             node.parent = this.node.getChildByName('MemberList')
             i++
         })
