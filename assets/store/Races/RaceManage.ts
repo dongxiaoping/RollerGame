@@ -11,6 +11,7 @@ import axios from 'axios'
 @ccclass
 class RaceManage {
     public raceList: RaceItem[] = []
+    public localXiaZhuLimiTime = 9 //本地下注的限制时间 单位s
 
     public requestRaceList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {

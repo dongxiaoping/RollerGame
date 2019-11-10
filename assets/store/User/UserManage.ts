@@ -8,7 +8,7 @@ import axios from 'axios'
 @ccclass
 class UserManage {
     public userInfo: UserItem = null
-    selectChipValue: number = 10 //选中的下注值，默认10
+    selectChipValue: number = 10 //当前用户选中的下注值，默认10
     constructor() {
     }
 

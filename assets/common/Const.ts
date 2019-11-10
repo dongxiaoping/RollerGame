@@ -93,7 +93,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     ROLL_DICE_FINISHED_NOTICE = 3, //摇色子动画结束通知
     DELIVERY_CARD_FINISHED_NOTICE = 4, //发牌动画执行结束通知
     OPEN_CARD_FINISHED_NOTICE = 5, //翻牌动画结束通知
-    OPEN_CARD_REQUEST_NOTICE = 6 //请求翻牌通知
+    OPEN_CARD_REQUEST_NOTICE = 6, //要求本地翻牌通知
+    LOCAL_TIME_XIAZHU_FINISHED_NOTICE = 7, //本地设置的下注段时间完毕通知
 }
 
 export interface LocalNoticeEventPara {
@@ -120,7 +121,7 @@ export const IconValueList = {
     7: ['7_1'],
     8: ['8_1'],
     9: ['9_1', '9_2', '9_3', '9_4', '9_5', '9_6', '9_7', '9_8', '9_9'],
-    0.5: ['1_1']
+    0.5: ['0_1']
 }
 
 export enum MajhongValueType {

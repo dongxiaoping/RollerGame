@@ -41,11 +41,6 @@ class RollEmulator extends RollControlerOb {
                 RaceManage.raceList[oningRaceNum].betInfo[item.userId].landCorner = 100
             }
         })
-        setTimeout(() => {
-            cc.log('修改游戏状态为比大小')
-            cc.log('我是模拟器，我将比赛状态改为比大小')
-            RaceManage.changeRaceState(RaceState.SHOW_DOWN)
-        }, 6000)
     }
 
     responsePlayButtonEvent() {

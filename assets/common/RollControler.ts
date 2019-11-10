@@ -68,6 +68,10 @@ export class RollControlerOb {
                     cc.log('我是控制器，我接到了发牌动画结束的通知，我将比赛状态改为下注')
                     RaceManage.changeRaceState(RaceState.BET)
                     break
+                case LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE: //本地下注时间已过
+                    cc.log('我是模拟器，当前下注时间已过，我将比赛状态改为比大小')
+                    RaceManage.changeRaceState(RaceState.SHOW_DOWN)
+                    break
                 case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
                     cc.log('我是控制器，我接到了开牌动画结束通知，我将比赛状态改为下注')
                     setTimeout(() => {
@@ -75,7 +79,7 @@ export class RollControlerOb {
                         RaceManage.changeRaceState(RaceState.SHOW_RESULT)
                         setTimeout(() => {
                             cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
-                          //  RaceManage.changeRaceState(RaceState.FINISHED)
+                            //  RaceManage.changeRaceState(RaceState.FINISHED)
                         }, 2000)
                     }, 5000)
                     break

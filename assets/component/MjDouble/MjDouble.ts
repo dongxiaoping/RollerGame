@@ -38,6 +38,7 @@ export default class NewClass extends cc.Component {
         let majongResult = RaceManage.raceList[oningRaceNum].majongResult
         oneValue = majongResult[tableLocationType].one
         twoValue = majongResult[tableLocationType].two
+       // debugger
         this.openAnimation(this.one, oneValue, () => {
             setTimeout(() => {
                 this.openAnimation(this.two, twoValue, () => {
