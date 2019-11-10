@@ -13,6 +13,12 @@ class RaceManage {
     public raceList: RaceItem[] = []
     public localXiaZhuLimiTime = 9 //本地下注的限制时间 单位s
 
+
+    //通过用户id获取该用户全场比赛的分数合
+    getScoreByUserId(userId: string): number {
+        return 5
+    }
+
     public requestRaceList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (this.raceList.length > 0) {

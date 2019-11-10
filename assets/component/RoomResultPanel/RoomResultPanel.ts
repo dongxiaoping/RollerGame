@@ -1,20 +1,20 @@
-// Learn TypeScript:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/typescript.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator
+import GameMemberManage from '../../store/GameMember/GameMemberManage'
+import GameMemberItem from '../../store/GameMember/GameMemberItem'
 
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
+    @property(cc.Node)
+    leftList: cc.Node = null;
+    @property(cc.Node)
+    rightList: cc.Node = null;
+    @property(cc.Prefab)
+    userItem: cc.Prefab = null;
+
+    leftUserList: any[] = []
+    rightUserList: any[] = []
 
     @property
     text: string = 'hello';
@@ -23,8 +23,36 @@ export default class NewClass extends cc.Component {
 
     // onLoad () {}
 
-    start () {
+    start() {
+        this.updateShow()
+    }
 
+    async updateShow(){
+        let infoTwo = await GameMemberManage.requestGameMemberList()
+        let memberList = GameMemberManage.gameMenmberList
+        let i = 1
+        memberList.forEach((item: GameMemberItem) => {
+            if (i <= 5) {
+                this.leftUserList.push(item)
+            } else {
+                this.rightUserList.push(item)
+            }
+            i++
+        })
+        
+        this.leftUserList.forEach((item: GameMemberItem) => {
+            let b = cc.instantiate(this.userItem)
+            let jsOb = b.getComponent('RoomResultUserItem')
+            jsOb.initData('', item.nick, '30')
+            this.leftList.addChild(b)
+        })
+
+        this.rightUserList.forEach((item: GameMemberItem) => {
+            let b = cc.instantiate(this.userItem)
+            let jsOb = b.getComponent('RoomResultUserItem')
+            jsOb.initData('', item.nick, '30')
+            this.rightList.addChild(b)
+        })
     }
 
     // update (dt) {}
