@@ -6,7 +6,7 @@ const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
 import User from '../../store/User/UserManage'
-import { EventType} from '../../common/Const'
+import { EventType, RaceStateChangeParam, RaceState } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
 import { eventBus } from '../../common/EventBus'
@@ -22,6 +22,9 @@ export default class NewClass extends cc.Component {
     private deskBg: cc.Sprite = null
     onLandlordSiteUserId: string = null //当前坐在地主位置上的用户ID
 
+    @property(cc.Prefab)
+    private qingXiaZhu: cc.Prefab = null //请下注文字图
+
     private deskSitList = [] //坐的位置信息 如：[userId:location:{x:0,y:3}]
     start() {
         this.showMembers()
@@ -33,6 +36,15 @@ export default class NewClass extends cc.Component {
             cc.log('桌子接收到地主改变通知')
             this.showMembers()
         })
+
+        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
+            let to = info.toState
+            switch (to) {
+                case RaceState.BET:  //下注
+                    this.playingXiaZhuAnimation()
+                    break
+            }
+        })
     }
 
     clearOldMember() {
@@ -42,6 +54,19 @@ export default class NewClass extends cc.Component {
             this.node.parent.getChildByName(name).removeAllChildren()
         })
         this.deskSitList = []
+    }
+
+
+    //执行请下注动画
+    playingXiaZhuAnimation() {
+        let node = cc.instantiate(this.qingXiaZhu)
+        node.parent = this.node.parent
+        node.active = true
+        setTimeout(()=>{
+            node.active = false
+            node.destroy()
+            node.parent.getChildByName('QingXiaZhu').destroy()
+        },1500)
     }
 
     async showMembers() {
@@ -59,7 +84,7 @@ export default class NewClass extends cc.Component {
         if (landLordId === '' || landLordId === null) {
             landLordId = User.userInfo.id
         }
-        if(landLordId === this.onLandlordSiteUserId){ //这个地方存在一个bug 地主没变 但是成员变了 就不会刷新
+        if (landLordId === this.onLandlordSiteUserId) { //这个地方存在一个bug 地主没变 但是成员变了 就不会刷新
             cc.log('地主位置上人员没有变动，不换位置')
             return
         }
