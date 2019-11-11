@@ -1,5 +1,6 @@
 const { ccclass, property } = cc._decorator;
-import { RoomInfo, playMode, roomState } from '../../common/Const'
+import { RoomInfo, playMode, roomState, EventType } from '../../common/Const'
+import { eventBus } from '../../common/EventBus';
 
 @ccclass
 export default class RoomItem {
@@ -9,8 +10,8 @@ export default class RoomItem {
     playCount: number = null
     playMode: playMode = null
     costLimit: number = null
-    _roomState: roomState = null
-    _oningRaceNum: number = null //当前正在进行的比赛场次号 从0开始
+    private _roomState: roomState = null
+    private _oningRaceNum: number = null //当前正在进行的比赛场次号 从0开始
 
     constructor(val: RoomInfo) {
         this.id = val.id
@@ -42,9 +43,12 @@ export default class RoomItem {
     set roomState(val: roomState) {
         if (this._roomState != null) {
             cc.log('房间状态被改变')
+            this._roomState = val
+            eventBus.emit(EventType.ROOM_STATE_CHANGE_EVENT, val)
             cc.log(val)
+        } else {
+            this._roomState = val
         }
-        this._roomState = val
     }
 }
 

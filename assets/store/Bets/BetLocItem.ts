@@ -15,7 +15,7 @@ export default class BetLocItem {
     public _bridg: number = null
     public _skyCorner: number = null
     public _landCorner: number = null
-    public score: number = null //地主的分数是统计面板统计后赋值的
+    public score: number = 0 //地主的分数是统计面板统计后赋值的
 
     constructor(val: BetScore) {
         this.raceId = val.raceId

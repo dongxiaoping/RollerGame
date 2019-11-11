@@ -2,6 +2,7 @@
 const { ccclass, property } = cc._decorator
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
+import RaceManage from '../../store/Races/RaceManage';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -50,7 +51,8 @@ export default class NewClass extends cc.Component {
         this.rightUserList.forEach((item: GameMemberItem) => {
             let b = cc.instantiate(this.userItem)
             let jsOb = b.getComponent('RoomResultUserItem')
-            jsOb.initData('', item.nick, '30')
+            let score = RaceManage.getScoreByUserId(item.userId)
+            jsOb.initData('', item.nick, score)
             this.rightList.addChild(b)
         })
     }

@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
-import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType } from '../common/Const'
+import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
@@ -79,7 +79,7 @@ export class RollControlerOb {
                         RaceManage.changeRaceState(RaceState.SHOW_RESULT)
                         setTimeout(() => {
                             cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
-                            //  RaceManage.changeRaceState(RaceState.FINISHED)
+                            RaceManage.changeRaceState(RaceState.FINISHED)
                         }, 2000)
                     }, 5000)
                     break
@@ -97,7 +97,8 @@ export class RollControlerOb {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         if ((oningRaceNum + 1) === RoomManage.roomItem.playCount) {
             cc.log('所有比赛都完成')
-            cc.log('因为所有比赛都完成了，我准备显示最后的房间比赛结果')
+            cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
+            RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
             return
         }
         if ((oningRaceNum + 1) > RoomManage.roomItem.playCount) {

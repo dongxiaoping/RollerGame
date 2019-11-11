@@ -11,12 +11,14 @@ import axios from 'axios'
 @ccclass
 class RaceManage {
     public raceList: RaceItem[] = []
-    public localXiaZhuLimiTime = 9 //本地下注的限制时间 单位s
-
 
     //通过用户id获取该用户全场比赛的分数合
     getScoreByUserId(userId: string): number {
-        return 5
+        let score: number = 0
+        this.raceList.forEach((item: RaceItem) => {
+            score = score + item.betInfo[userId].score
+        })
+        return score
     }
 
     public requestRaceList(): Promise<PromiseParam> {

@@ -2,10 +2,6 @@ export enum appMode {
     DEV = 1,
 }
 
-export interface Config {
-    appMode: number
-}
-
 export enum TableLocationType {
     SKY = 'sky', //天
     MIDDLE = 'middle', //中
@@ -39,7 +35,8 @@ export interface DiceCountInfo {
 export enum roomState {
     OPEN = 1, //创建,房主没点开始，等待玩家进入
     PLAYING = 2,  //进行中
-    CLOSE = 3   //关闭
+    ALL_RACE_FINISHED  = 3, //所有比赛结束
+    CLOSE = 4   //关闭
 }
 
 export interface Coordinate {

@@ -33,12 +33,27 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private raceResultPanel: cc.Prefab = null //公布单场竞赛结果面板
 
+    @property(cc.Prefab)
+    private roomResultPanel: cc.Prefab = null //房间比赛结束分数显示面板
+
     onEnable() {
         this.showUserIcon()
         this.addListener()
     }
 
     private addListener() {
+        eventBus.on(EventType.ROOM_STATE_CHANGE_EVENT, randEventId(), (state: roomState): void => {
+            switch(state){
+                case roomState.ALL_RACE_FINISHED:
+                    cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
+                    var node = cc.instantiate(this.roomResultPanel)
+                    node.parent = this.node
+                    node.setPosition(0, 0);
+                    node.active = true
+                    break
+            }
+        })
+
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
             let to = info.toState
             let raceNum = info.raceNum
