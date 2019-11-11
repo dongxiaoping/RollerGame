@@ -60,7 +60,8 @@ export enum EventType {
     MEMBER_CHANGE_EVENT = 3,  //人员变动通知  （数据改变触发）
     LOCAL_NOTICE_EVENT = 4,  //本地通知事件 （本地对本地 和数据改变无关）
     LANDLORD_CAHNGE_EVENT = 5,//地主改变通知 （数据改变触发）
-    BET_CHIP_CHANGE_EVENT = 6 //下注改变通知 （数据改变触发）
+    BET_CHIP_CHANGE_EVENT = 6, //下注改变通知 （数据改变触发）
+    RACING_NUM_CHANGE_EVENT = 7 //进行中的比赛场次号改变通知（数据改变触发）
 }
 
 //单场游戏状态

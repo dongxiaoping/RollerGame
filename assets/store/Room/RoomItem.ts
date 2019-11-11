@@ -34,6 +34,7 @@ export default class RoomItem {
             return
         }
         this._oningRaceNum = val
+        eventBus.emit(EventType.RACING_NUM_CHANGE_EVENT, val)
     }
 
     get roomState(): roomState {
