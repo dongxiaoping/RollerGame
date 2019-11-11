@@ -36,6 +36,14 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private roomResultPanel: cc.Prefab = null //房间比赛结束分数显示面板
 
+    @property(cc.Prefab)
+    private middleTopTimePanel: cc.Prefab = null //下注倒计时面板
+
+    @property(cc.Prefab)
+    private middleTopXiaZhuPanel: cc.Prefab = null // 顶部下注分数显示面板
+
+
+
     onEnable() {
         this.showUserIcon()
         this.addListener()
@@ -43,7 +51,7 @@ export default class NewClass extends cc.Component {
 
     private addListener() {
         eventBus.on(EventType.ROOM_STATE_CHANGE_EVENT, randEventId(), (state: roomState): void => {
-            switch(state){
+            switch (state) {
                 case roomState.ALL_RACE_FINISHED:
                     cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
                     var node = cc.instantiate(this.roomResultPanel)
@@ -76,6 +84,19 @@ export default class NewClass extends cc.Component {
                 case RaceState.DEAL:
                     cc.log('房间收到发牌指令，开始发牌流程')
                     this.beginDeal()
+                    break
+                case RaceState.BET:
+                    cc.log('房间收到下注指令，显示下注倒计时面板')
+                    var node = cc.instantiate(this.middleTopTimePanel)
+                    node.parent = this.node
+                    node.setPosition(-168, 251);
+                    node.active = true
+                    if (RoomManage.roomItem.oningRaceNum === 0) {
+                        var node = cc.instantiate(this.middleTopXiaZhuPanel)
+                        node.parent = this.node
+                        node.setPosition(-7.5, 258);
+                        node.active = true
+                    }
                     break
                 case RaceState.SHOW_DOWN: //这个由控制器来响应
                     // cc.log('房间收到比大小指令，开始比大小流程')

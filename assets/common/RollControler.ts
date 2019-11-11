@@ -98,7 +98,9 @@ export class RollControlerOb {
         if ((oningRaceNum + 1) === RoomManage.roomItem.playCount) {
             cc.log('所有比赛都完成')
             cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
-            RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
+            setTimeout(()=>{
+                RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
+            },2000)
             return
         }
         if ((oningRaceNum + 1) > RoomManage.roomItem.playCount) {
