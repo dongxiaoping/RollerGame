@@ -6,6 +6,7 @@ import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
+import { config } from './Config';
 @ccclass
 export class RollControlerOb {
     _isRuning: boolean = false
@@ -80,8 +81,8 @@ export class RollControlerOb {
                         setTimeout(() => {
                             cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
                             RaceManage.changeRaceState(RaceState.FINISHED)
-                        }, 2000)
-                    }, 5000)
+                        }, config.raceResultPanelShowTime)
+                    }, 4000)
                     break
             }
         })

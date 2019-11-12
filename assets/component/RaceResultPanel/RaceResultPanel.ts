@@ -4,7 +4,7 @@ import Room from '../../store/Room/RoomManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
-import { IconValueList } from '../../common/Const'
+import { IconValueList, LocationResultDetail, CompareDxRe } from '../../common/Const'
 import BetLocItem from '../../store/Bets/BetLocItem'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -34,6 +34,13 @@ export default class NewClass extends cc.Component {
     landlord_dian_1: cc.Sprite = null;
     @property(cc.Sprite)
     landlord_dian_2: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    skyWinOrFail: cc.Sprite = null;
+    @property(cc.Sprite)
+    middleWinOrFail: cc.Sprite = null;
+    @property(cc.Sprite)
+    landWinOrFail: cc.Sprite = null;
     start() {
         this.show()
     }
@@ -68,6 +75,8 @@ export default class NewClass extends cc.Component {
         let myUserId = UserManage.userInfo.id
         this.landlordName.string = GameMemberManage.gameMenmberList[landloardId].nick
         let locationResultDetail = raceInfo.getLocationResultDetail()
+        if (locationResultDetail.sky)
+            this.showWinOrFailIcon(locationResultDetail)
         let totalScore: number = 0
         betInfoList.forEach((item: BetLocItem) => {
             totalScore = totalScore + item.getScore(locationResultDetail)
@@ -93,6 +102,42 @@ export default class NewClass extends cc.Component {
             myScore = -totalScore
         }
         this.myScore.string = myScore
+    }
+
+    showWinOrFailIcon(locationResultDetail: LocationResultDetail): void {
+        if(locationResultDetail.sky === CompareDxRe.BIG){
+            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.skyWinOrFail.spriteFrame = myIcon;
+            })
+        }else {
+            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.skyWinOrFail.spriteFrame = myIcon;
+            })
+        }
+        if(locationResultDetail.middle === CompareDxRe.BIG){
+            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.middleWinOrFail.spriteFrame = myIcon;
+            })
+        }else {
+            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.middleWinOrFail.spriteFrame = myIcon;
+            })
+        }
+        if(locationResultDetail.land === CompareDxRe.BIG){
+            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.landWinOrFail.spriteFrame = myIcon;
+            })
+        }else {
+            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.landWinOrFail.spriteFrame = myIcon;
+            })
+        }
     }
 
     //初始化本地数据

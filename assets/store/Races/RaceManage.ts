@@ -21,6 +21,33 @@ class RaceManage {
         return score
     }
 
+    //模拟对指定用户进行下注
+    emulateXiaZhuByUser(userId: string): void {
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        if (this.raceList[oningRaceNum].state !== RaceState.BET) {
+            cc.log('当前不是下注状态，不能下注')
+            return
+        }
+        setTimeout(() => {
+            this.raceList[oningRaceNum].betInfo[userId].landCorner = 10
+        }, 100)
+        setTimeout(() => {
+            this.raceList[oningRaceNum].betInfo[userId].sky = 20
+        }, 300)
+        setTimeout(() => {
+            this.raceList[oningRaceNum].betInfo[userId].bridg = 20
+        }, 300)
+        setTimeout(() => {
+            this.raceList[oningRaceNum].betInfo[userId].land = 50
+        }, 500)
+        setTimeout(() => {
+            this.raceList[oningRaceNum].betInfo[userId].middle = 100
+        }, 800)
+        setTimeout(() => {
+            this.raceList[oningRaceNum].betInfo[userId].skyCorner = 100
+        }, 800)
+    }
+
     public requestRaceList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (this.raceList.length > 0) {

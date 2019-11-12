@@ -9,12 +9,12 @@ export default class BetLocItem {
     public userId: string = null
     public userName: string = null
     public raceId: string = null
-    public _sky: number = null
-    public _land: number = null
-    public _middle: number = null
-    public _bridg: number = null
-    public _skyCorner: number = null
-    public _landCorner: number = null
+    private _sky: number = null
+    private _land: number = null
+    private _middle: number = null
+    private _bridg: number = null
+    private _skyCorner: number = null
+    private _landCorner: number = null
     public score: number = 0 //地主的分数是统计面板统计后赋值的
 
     constructor(val: BetScore) {
