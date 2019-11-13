@@ -50,7 +50,9 @@ export default class NewClass extends cc.Component {
                         }, this.twoLocationIntervalTime);
                     } else {
                         cc.log('全部的翻牌动作执行完毕，发出翻牌动画结束通知')
-                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE } as LocalNoticeEventPara)
+                        setTimeout(()=>{
+                            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE } as LocalNoticeEventPara)
+                        },1000)
                     }
                 })
             }, this.twoIntervalTime)

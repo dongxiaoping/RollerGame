@@ -6,13 +6,14 @@ const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
 import User from '../../store/User/UserManage'
-import { EventType, RaceStateChangeParam, RaceState } from '../../common/Const'
+import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
 import { eventBus } from '../../common/EventBus'
 import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RaceItem from '../../store/Races/RaceItem'
+import RoomManage from '../../store/Room/RoomManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -20,6 +21,10 @@ export default class NewClass extends cc.Component {
     private playUserIcon: cc.Prefab = null //玩家icon
     @property(cc.Sprite)
     private deskBg: cc.Sprite = null
+
+    @property(cc.Prefab)
+    private middleResultWenZi: cc.Prefab = null //比大小通杀 通赔通知
+
     onLandlordSiteUserId: string = null //当前坐在地主位置上的用户ID
 
     @property(cc.Prefab)
@@ -45,6 +50,19 @@ export default class NewClass extends cc.Component {
                     break
             }
         })
+
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    this.playingBiDaXiaAnimation((): void => {
+                         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
+                    })
+                    break
+            }
+        })
+
+
     }
 
     clearOldMember() {
@@ -56,17 +74,38 @@ export default class NewClass extends cc.Component {
         this.deskSitList = []
     }
 
+    //比大小动画 比大小动画结束回调
+    playingBiDaXiaAnimation(func: any) {
+        let oningNum = RoomManage.roomItem.oningRaceNum
+        let result = RaceManage.raceList[oningNum].getLocationResultDetail()
+        let showNode:any = null
+        if ((result.sky === CompareDxRe.BIG && result.middle === CompareDxRe.BIG &&
+            result.land === CompareDxRe.BIG) || (result.sky === CompareDxRe.SMALL &&
+                result.middle === CompareDxRe.SMALL && result.land === CompareDxRe.SMALL)) {
+            cc.log('显示通赔或者通杀')
+            showNode = cc.instantiate(this.middleResultWenZi)
+            showNode.parent = this.node.parent
+            showNode.active = true
+        }
+        setTimeout(() => {
+            if(showNode!==null){
+                showNode.destroy()
+            }
+            func()
+        }, 2000)
+    }
+
 
     //执行请下注动画
     playingXiaZhuAnimation() {
         let node = cc.instantiate(this.qingXiaZhu)
         node.parent = this.node.parent
         node.active = true
-        setTimeout(()=>{
+        setTimeout(() => {
             node.active = false
             node.destroy()
             node.parent.getChildByName('QingXiaZhu').destroy()
-        },1500)
+        }, 1500)
     }
 
     async showMembers() {

@@ -71,8 +71,8 @@ export enum RaceState {
     ROLL_DICE = 3,  //摇色子
     DEAL = 4,  //发牌
     BET = 5,  //下注
-    SHOW_DOWN = 6,  //比大小
-    SHOW_RESULT = 7,  //揭晓结果
+    SHOW_DOWN = 6,  //比大小 包括大小的通知动画 比如通赔
+    SHOW_RESULT = 7,  //揭晓结果 即显示本次比赛分数面板
     FINISHED = 8  //完成
 }
 
@@ -91,8 +91,9 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     ROLL_DICE_FINISHED_NOTICE = 3, //摇色子动画结束通知
     DELIVERY_CARD_FINISHED_NOTICE = 4, //发牌动画执行结束通知
     OPEN_CARD_FINISHED_NOTICE = 5, //翻牌动画结束通知
-    OPEN_CARD_REQUEST_NOTICE = 6, //要求本地翻牌通知
-    LOCAL_TIME_XIAZHU_FINISHED_NOTICE = 7, //本地设置的下注段时间完毕通知
+    SHOW_DOWN_ANIMATION_FINISHED_NOTICE = 6, //比大小动画结束通知
+    OPEN_CARD_REQUEST_NOTICE = 7, //要求本地翻牌通知
+    LOCAL_TIME_XIAZHU_FINISHED_NOTICE = 8, //本地设置的下注段时间完毕通知
 }
 
 export interface LocalNoticeEventPara {

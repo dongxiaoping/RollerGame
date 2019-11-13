@@ -73,16 +73,13 @@ export class RollControlerOb {
                     cc.log('我是模拟器，当前下注时间已过，我将比赛状态改为比大小')
                     RaceManage.changeRaceState(RaceState.SHOW_DOWN)
                     break
-                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-                    cc.log('我是控制器，我接到了开牌动画结束通知，我将比赛状态改为下注')
+                case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
+                    cc.log('我是控制器，我接到了开牌动画结束通知,我将比赛状态改为显示结果')
+                    RaceManage.changeRaceState(RaceState.SHOW_RESULT)
                     setTimeout(() => {
-                        cc.log('比大小已经持续了4s,我将比赛状态改为显示单局结果')
-                        RaceManage.changeRaceState(RaceState.SHOW_RESULT)
-                        setTimeout(() => {
-                            cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
-                            RaceManage.changeRaceState(RaceState.FINISHED)
-                        }, config.raceResultPanelShowTime)
-                    }, 4000)
+                        cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
+                        RaceManage.changeRaceState(RaceState.FINISHED)
+                    }, config.raceResultPanelShowTime)
                     break
             }
         })
@@ -99,9 +96,9 @@ export class RollControlerOb {
         if ((oningRaceNum + 1) === RoomManage.roomItem.playCount) {
             cc.log('所有比赛都完成')
             cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
-            setTimeout(()=>{
+            setTimeout(() => {
                 RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
-            },2000)
+            }, 2000)
             return
         }
         if ((oningRaceNum + 1) > RoomManage.roomItem.playCount) {
