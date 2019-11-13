@@ -22,17 +22,24 @@ class UserManage {
 
     public requestUserInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if (config.appMode === appMode.DEV) {
+            if (config.appMode === appMode.LOCAL_TEST) {
                 this.userInfo = new UserItem(userInfo)
             } else {
-                this.userInfo = new UserItem(emptyUserInfo())
-                // axios
-                // .get('https://www.baidu.com')
-                // .then((response: any): void => {
-                //     console.log(5555555555555555)
-                // })
+                let httpUrl = config.serverAddress + 'race/user/get_user_info_by_id'
+                axios
+                    .get(httpUrl, {
+                        params: {
+                            id: 1
+                        }
+                    })
+                    .then((response: any): void => {
+                        let info = response.data.data
+                        this.userInfo = new UserItem(info)
+                        cc.log(response)
+                        resolve({ result: PromiseResult.SUCCESS, extObject: this.userInfo })
+                    })
             }
-            resolve({ result: PromiseResult.SUCCESS, extObject: this.userInfo })
+ 
         })
     }
 }

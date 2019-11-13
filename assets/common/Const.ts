@@ -1,5 +1,7 @@
 export enum appMode {
-    DEV = 1,
+    LOCAL_TEST = 1,//本地测试模式
+    SERVER_TEST = 2,//服务器测试模式
+    BUILD= 3 //部署模式
 }
 
 export enum TableLocationType {

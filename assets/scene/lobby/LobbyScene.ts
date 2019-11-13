@@ -1,3 +1,5 @@
+import UserManage from "../../store/User/UserManage";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -18,6 +20,11 @@ export default class LobbyScene extends cc.Component {
         this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, ()=>{
             this.showEntryBox()
         })
+        this.initUserInfo()
+    }
+
+    async initUserInfo(){
+        let info = await UserManage.requestUserInfo();
     }
 
     showEntryBox(): void{

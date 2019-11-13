@@ -1,6 +1,4 @@
 const { ccclass, property } = cc._decorator;
-import { eventBus } from '../../common/EventBus'
-import { EventType } from '../../common/Const'
 import { UserInfo, userType } from './UserBase'
 @ccclass
 export default class UserItem {

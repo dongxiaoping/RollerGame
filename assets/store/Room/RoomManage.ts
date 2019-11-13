@@ -14,7 +14,7 @@ class RoomManage {
                 resolve({ result: PromiseResult.SUCCESS, extObject: this.roomItem })
                 return
             }
-            if (config.appMode === appMode.DEV) {
+            if (config.appMode === appMode.LOCAL_TEST) {
                 this.roomItem = new RoomItem(roomInfo as RoomInfo)
             } else {
 

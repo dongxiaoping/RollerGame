@@ -12,7 +12,7 @@ class GameStateInfo {
     //获取指定场次的天、地、中、桥四个位置的结果 弃用
     public requestMjResult(ranceId: string): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if (config.appMode === appMode.DEV) {
+            if (config.appMode === appMode.LOCAL_TEST) {
                 RaceManage.requestRaceList().then((configResult: PromiseParam): void => {
                     let list = configResult.extObject as RaceItem[]
                     cc.log('获取各个牌的点数')

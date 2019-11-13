@@ -54,7 +54,7 @@ class RaceManage {
                 resolve({ result: PromiseResult.SUCCESS, extObject: this.raceList })
                 return
             }
-            if (config.appMode === appMode.DEV) {
+            if (config.appMode === appMode.LOCAL_TEST) {
                 RaceList.forEach((item: raceRecord): void => {
                     this.raceList[item.num] = new RaceItem(item)
                 })

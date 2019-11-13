@@ -34,7 +34,7 @@ class GameMemberManage {
                 resolve({ result: PromiseResult.SUCCESS, extObject: this.gameMenmberList })
                 return
             }
-            if (config.appMode === appMode.DEV) { //从模拟数据获取
+            if (config.appMode === appMode.LOCAL_TEST) { //从模拟数据获取
                 let gameMenmberList = []
                 GameMemberList.forEach((item: GameMember): void => {
                     gameMenmberList[item.userId] = new GameMemberItem(item)

@@ -13,7 +13,7 @@ class BetManage {
                 resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
                 return
             }
-            if (config.appMode === appMode.DEV) {
+            if (config.appMode === appMode.LOCAL_TEST) {
                 BetList.forEach((item: BetRecord): void => {
                     this.betList.push(new BetItem(item))
                 })
