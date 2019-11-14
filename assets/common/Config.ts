@@ -7,7 +7,7 @@ interface Config {
     serverAddress: string //服务器接口地址
 }
 export const config: Config = {
-    appMode: appMode.SERVER_TEST,
+    appMode: appMode.LOCAL_TEST,
     localXiaZhuLimiTime: 3,
     raceResultPanelShowTime: 5000,
     serverAddress: 'http://localhost/phpserver/public/index.php/'

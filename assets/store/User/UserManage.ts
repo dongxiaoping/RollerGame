@@ -24,6 +24,7 @@ class UserManage {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (config.appMode === appMode.LOCAL_TEST) {
                 this.userInfo = new UserItem(userInfo)
+                resolve({ result: PromiseResult.SUCCESS, extObject: this.userInfo })
             } else {
                 let httpUrl = config.serverAddress + 'race/user/get_user_info_by_id'
                 axios

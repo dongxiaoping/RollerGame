@@ -207,7 +207,7 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-      //  RollEmulator.isRuning = true
+        RollEmulator.isRuning = true
         this.showUserIcon()
         this.changeStartButtonState()
         this.initXiaZhuPanel()
