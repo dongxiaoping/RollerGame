@@ -20,7 +20,7 @@ export default class NewClass extends cc.Component {
 
     start() {
         let oningNum = RoomManage.roomItem.oningRaceNum
-        let result = RaceManage.raceList[oningNum].getLocationResultDetail()
+        let result = RaceManage.raceList[oningNum].locationResultDetail
         let landLordId = RaceManage.raceList[0].landlordId
         let userId = UserManage.userInfo.id
         let bgPicUrl: string = ''

@@ -1,8 +1,7 @@
 const { ccclass } = cc._decorator;
 import BetLocItem from '../../store/Bets/BetLocItem'
 import { eventBus } from '../../common/EventBus'
-import { isLandlordMahjongWin } from '../../common/Util'
-import { CompareDxRe, LocationResultDetail, EventType, raceRecord, RaceState, MajongResult, RaceStateChangeParam } from '../../common/Const'
+import { CompareDxRe, LocationResultDetail, EventType, raceRecord, RaceState, MajongResult, RaceStateChangeParam, DiceCountInfo } from '../../common/Const'
 @ccclass
 export default class RaceItem {
     public raceId: string = null
@@ -11,7 +10,8 @@ export default class RaceItem {
     private _landlordId: string = null
     public betInfo: BetLocItem[] = null //下注信息集合
     public majongResult: MajongResult = null //麻将点数信息
-    private locationResultDetail: LocationResultDetail = null //本场比赛各个位置的输赢信息
+    public points: DiceCountInfo = null
+    public locationResultDetail: LocationResultDetail = null //本场比赛各个位置的输赢信息
     constructor(val: raceRecord) {
         this.raceId = val.raceId
         this.num = val.num
@@ -19,72 +19,8 @@ export default class RaceItem {
         this.betInfo = val.betInfo
         this.landlordId = val.landlordId
         this.majongResult = val.majongResult
-    }
-
-    //获取本局比赛位置输赢信息
-    getLocationResultDetail(): LocationResultDetail {
-        if (this.majongResult === null) {
-            return null
-        }
-        if (this.locationResultDetail !== null) {
-            return this.locationResultDetail
-        }
-
-        let locationResultDetail = {
-            sky: CompareDxRe.EQ,
-            land: CompareDxRe.EQ,
-            middle: CompareDxRe.EQ,
-            bridg: CompareDxRe.EQ,
-            sky_corner: CompareDxRe.EQ,
-            land_corner: CompareDxRe.EQ,
-        } as LocationResultDetail
-
-        let isSkyWin = !isLandlordMahjongWin(this.majongResult.landlord, this.majongResult.sky)
-        let isLandWin = !isLandlordMahjongWin(this.majongResult.landlord, this.majongResult.land)
-        let isMiddleWin = !isLandlordMahjongWin(this.majongResult.landlord, this.majongResult.middle)
-        if(isSkyWin){
-            locationResultDetail.sky = CompareDxRe.BIG
-        }else{
-            locationResultDetail.sky = CompareDxRe.SMALL
-        }
-        if(isLandWin){
-            locationResultDetail.land = CompareDxRe.BIG
-        }else{
-            locationResultDetail.land = CompareDxRe.SMALL
-        }
-        if(isMiddleWin){
-            locationResultDetail.middle = CompareDxRe.BIG
-        }else{
-            locationResultDetail.middle = CompareDxRe.SMALL
-        }
-
-        if(isSkyWin && isLandWin){
-            locationResultDetail.bridg = CompareDxRe.BIG
-        }else if(!isSkyWin && !isLandWin) {
-            locationResultDetail.bridg = CompareDxRe.SMALL
-        }else {
-            locationResultDetail.bridg = CompareDxRe.EQ
-        }
-
-        if(isSkyWin && isMiddleWin){
-            locationResultDetail.sky_corner = CompareDxRe.BIG
-        }else if(!isSkyWin && !isMiddleWin) {
-            locationResultDetail.sky_corner = CompareDxRe.SMALL
-        }else {
-            locationResultDetail.sky_corner = CompareDxRe.EQ
-        }
-
-        if(isMiddleWin && isLandWin){
-            locationResultDetail.land_corner = CompareDxRe.BIG
-        }else if(!isMiddleWin && !isLandWin) {
-            locationResultDetail.land_corner = CompareDxRe.SMALL
-        }else {
-            locationResultDetail.land_corner = CompareDxRe.EQ
-        }
-        this.locationResultDetail = locationResultDetail
-        cc.log('比大小信息，发牌的值相关信息：'+ JSON.stringify(this.majongResult))
-        cc.log('比大小信息，各个位置的输赢结果：'+JSON.stringify(locationResultDetail))
-        return this.locationResultDetail
+        this.locationResultDetail = val.locationResultDetail
+        this.points = val.points
     }
 
     get landlordId(): string {

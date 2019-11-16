@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-
+//输入房间号加入房间面板
 @ccclass
 export default class NewClass extends cc.Component {
 

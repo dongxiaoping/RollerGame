@@ -1,7 +1,9 @@
+import BetLocItem from "../store/Bets/BetLocItem"
+
 export enum appMode {
     LOCAL_TEST = 1,//本地测试模式
     SERVER_TEST = 2,//服务器测试模式
-    BUILD= 3 //部署模式
+    BUILD = 3 //部署模式
 }
 
 export enum TableLocationType {
@@ -37,7 +39,7 @@ export interface DiceCountInfo {
 export enum roomState {
     OPEN = 1, //创建,房主没点开始，等待玩家进入
     PLAYING = 2,  //进行中
-    ALL_RACE_FINISHED  = 3, //所有比赛结束
+    ALL_RACE_FINISHED = 3, //所有比赛结束
     CLOSE = 4   //关闭
 }
 
@@ -176,9 +178,18 @@ export interface raceRecord {
     raceId: string
     landlordId: string //地主ID
     num: number //场次编号
-    betInfo?: any[] //下注信息
-    state: RaceState
-    majongResult?: MajongResult
+    betInfo?: BetLocItem[] //下注信息 本地有
+    state: RaceState   //比赛状态
+    majongResult?: MajongResult  //发牌位置的牌值集合 本地有
+    points: DiceCountInfo  //色子点数信息集合
+    locationResultDetail?: LocationResultDetail  //每个下注位置的输赢结果集合 本地有
+    skyResult?:CompareDxRe //接口有 天输赢
+    middleResult?:CompareDxRe //接口有 中输赢
+    landResult?:CompareDxRe //接口有 地输赢
+    skyCornerResult?:CompareDxRe //接口有  天角输赢
+    landCornerResult?:CompareDxRe //接口有 地角输赢
+    bridgResult?:CompareDxRe //接口有 桥输赢
+
 }
 
 export interface MajongResult {
@@ -225,7 +236,7 @@ export interface LocationResultDetail {
 
 //大小比较结果
 export enum CompareDxRe {
-    BIG = 'big',  //大
-    SMALL = 'sm', //小
-    EQ = 'eq' //相等
+    BIG = 'w',  //大
+    SMALL = 's', //小
+    EQ = 'e' //相等
 }

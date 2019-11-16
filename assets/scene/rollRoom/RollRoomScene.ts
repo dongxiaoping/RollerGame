@@ -18,6 +18,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private rollDicePrefab: cc.Prefab = null  //摇色子
 
+    @property(cc.Sprite)
+    private exit: cc.Sprite = null  //退出
+
     @property(cc.Prefab)
     private playButtonPrefab: cc.Prefab = null //播放按钮
 
@@ -47,6 +50,15 @@ export default class NewClass extends cc.Component {
     onEnable() {
         this.showUserIcon()
         this.addListener()
+        this.addClickEvent()
+    }
+
+    //添加面板上组件的一些响应事件
+    private addClickEvent(){
+        this.exit.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+            cc.log('退出到主页')
+            cc.director.loadScene("LobbyScene");
+        })
     }
 
     private addListener() {

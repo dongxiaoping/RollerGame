@@ -6,10 +6,13 @@ const { ccclass, property } = cc._decorator;
 export default class LobbyScene extends cc.Component {
 
     @property(cc.Prefab)
-    EntryBox: cc.Prefab = null;
+    EntryBox: cc.Prefab = null; //输入房间号进入房间面板
 
     @property(cc.Sprite)
-    JoinPart: cc.Sprite = null;
+    JoinPart: cc.Sprite = null; //加入房间图标区
+
+    @property(cc.Sprite)
+    LianXiChang: cc.Sprite = null; 
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -19,6 +22,10 @@ export default class LobbyScene extends cc.Component {
     onEnable() {
         this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, ()=>{
             this.showEntryBox()
+        })
+        this.LianXiChang.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+           cc.log('练习场被点击了')
+           cc.director.loadScene("RollRoomScene");
         })
         this.initUserInfo()
     }
@@ -39,6 +46,7 @@ export default class LobbyScene extends cc.Component {
     }
 
     start() {
+        cc.director.preloadScene('RollRoomScene');//预加载房间，提高进入房间的速度
         console.log('应用启动')
     }
 

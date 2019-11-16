@@ -74,7 +74,7 @@ export default class NewClass extends cc.Component {
 
         let myUserId = UserManage.userInfo.id
         this.landlordName.string = GameMemberManage.gameMenmberList[landloardId].nick
-        let locationResultDetail = raceInfo.getLocationResultDetail()
+        let locationResultDetail = raceInfo.locationResultDetail
         if (locationResultDetail.sky)
             this.showWinOrFailIcon(locationResultDetail)
         let totalScore: number = 0
