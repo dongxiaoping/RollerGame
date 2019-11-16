@@ -234,6 +234,12 @@ export interface LocationResultDetail {
 }
 
 
+//开房付款模式
+export enum CreateRoomPayModel {
+    AA = 1,  //AA制
+    DAI_KAI = 2 //代开
+}
+
 //大小比较结果
 export enum CompareDxRe {
     BIG = 'w',  //大

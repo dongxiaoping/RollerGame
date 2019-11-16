@@ -8,8 +8,14 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Prefab)
     EntryBox: cc.Prefab = null; //输入房间号进入房间面板
 
+    @property(cc.Prefab)
+    CreateRoomPanel: cc.Prefab = null; //创建房间面板
+
     @property(cc.Sprite)
     JoinPart: cc.Sprite = null; //加入房间图标区
+
+    @property(cc.Sprite)
+    CreateRoomPart: cc.Sprite = null; //创建房间图标区
 
     @property(cc.Sprite)
     LianXiChang: cc.Sprite = null; 
@@ -27,6 +33,12 @@ export default class LobbyScene extends cc.Component {
            cc.log('练习场被点击了')
            cc.director.loadScene("RollRoomScene");
         })
+        this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+            cc.log('创建房间被点击了')
+            var node = cc.instantiate(this.CreateRoomPanel)
+            node.parent = this.node
+            node.active = true
+         })
         this.initUserInfo()
     }
 
