@@ -8,6 +8,7 @@ import BetLocItem from '../Bets/BetLocItem'
 import GameMemberItem from '../GameMember/GameMemberItem'
 import RoomManage from '../../store/Room/RoomManage'
 import axios from 'axios'
+import { randFloatNum } from '../../common/Util';
 @ccclass
 class RaceManage {
     public raceList: RaceItem[] = []
@@ -28,24 +29,25 @@ class RaceManage {
             cc.log('当前不是下注状态，不能下注')
             return
         }
+        let ranTime = randFloatNum(1,config.localXiaZhuLimiTime-1)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].landCorner = 10
-        }, 100)
+        }, ranTime*1000)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].sky = 20
-        }, 300)
+        },  ranTime*1000)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].bridg = 20
-        }, 300)
+        },  ranTime*1000)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].land = 50
-        }, 500)
+        },  ranTime*1000)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].middle = 100
-        }, 800)
+        },  ranTime*1000)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].skyCorner = 100
-        }, 800)
+        },  ranTime*1000)
     }
 
     public requestRaceList(): Promise<PromiseParam> {
