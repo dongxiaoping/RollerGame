@@ -13,7 +13,7 @@ export default class NewClass extends cc.Component {
     typeValue: string = ''; //按钮类型
 
     start() {
-        cc.log('按钮类型：' + this.type)
+        cc.log('按钮类型：' + this.typeValue)
     }
 
     onEnable() {

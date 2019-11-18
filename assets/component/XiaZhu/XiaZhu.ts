@@ -41,6 +41,9 @@ export default class NewClass extends cc.Component {
     button_50: cc.Sprite = null
     @property(cc.Sprite)
     button_100: cc.Sprite = null
+
+    ownChipSize: number = 40 //自己下注硬币的大（
+    otherMemberChipSize: number = 20 //其它成员下注硬币的大
     // onLoad () {}
 
     start() {
@@ -62,8 +65,8 @@ export default class NewClass extends cc.Component {
         this.focus_100.node.active = false
     }
 
-    flyAnimation(fromLocation: Coordinate, toLocaiton: Coordinate, val: number) {
-        let node = this.createChip(val)
+    flyAnimation(isOwn: Boolean, fromLocation: Coordinate, toLocaiton: Coordinate, val: number) {
+        let node = this.createChip(isOwn, val)
         node.setPosition(fromLocation.x, fromLocation.y);
         node.active = true
         let action = cc.moveTo(0.7, toLocaiton.x, toLocaiton.y)
@@ -71,12 +74,28 @@ export default class NewClass extends cc.Component {
         node.runAction(b)
     }
 
-    createChip(val: number): any {
-        let node = cc.instantiate(this.chip_10)
+    createChip(isOwn: Boolean, val: number): any {
+        let chip: cc.Prefab
+        if (val === 10) {
+            chip = this.chip_10
+        } else if (val === 20) {
+            chip = this.chip_20
+        } else if (val === 50) {
+            chip = this.chip_50
+        } else {
+            chip = this.chip_100
+        }
+        let node = cc.instantiate(chip)
         let label = node.getChildByName('ValLabel').getComponent(cc.Label)
-        label.fontSize = 10
-        node.width = 20
-        node.height = 20
+        if (isOwn) {
+            label.fontSize = 14
+            node.width = this.ownChipSize
+            node.height = this.ownChipSize
+        } else {
+            label.fontSize = 10
+            node.width = this.otherMemberChipSize
+            node.height = this.otherMemberChipSize
+        }
         node.name = randEventId()
         this.deskChipList.push(node.name)
         let rootOb = this.node.parent
@@ -124,7 +143,15 @@ export default class NewClass extends cc.Component {
             let points = chipPoint[betLocationType]
             let fromLocation: Coordinate
             fromLocation = this.getUserDeskLocation(userId)
-            this.flyAnimation(fromLocation, this.getXiaZhuLocation(points), betValue)
+            let isOwn: Boolean = false //是否是当前用户下的注
+            if (userId === UserManage.userInfo.id) {
+                cc.log('是自己投的注')
+                isOwn = true
+            }
+            if (isOwn) {
+                fromLocation = this.getChipLocationByChipValue(betValue)
+            }
+            this.flyAnimation(isOwn, fromLocation, this.getXiaZhuLocation(points), betValue)
         })
         this.raceStateId = randEventId()
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId, (info: RaceStateChangeParam): void => {
@@ -164,6 +191,27 @@ export default class NewClass extends cc.Component {
             // RaceManage.raceList[oningRaceNum].betInfo[UserManage.userInfo.id].bridg += 100
             // cc.log('100元按钮被点击')
         })
+    }
+
+    getChipLocationByChipValue(val: number): Coordinate {
+        let location: Coordinate = { x: 127, y: -245 }
+        switch (val) {
+            case 10:
+                location = { x: 127, y: -245 }
+                break
+            case 20:
+                location = { x: 223, y: -245 }
+                break
+            case 50:
+                location = { x: 318, y: -245 }
+                break
+            case 100:
+                location = { x: 414, y: -245 }
+                break
+            default:
+                cc.log('下注值异常：' + val)
+        }
+        return location
     }
 
     initFocus() {

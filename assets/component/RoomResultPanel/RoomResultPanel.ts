@@ -14,18 +14,17 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     userItem: cc.Prefab = null;
 
+    @property(cc.Sprite)
+    backButton: cc.Sprite = null;
+
     leftUserList: any[] = []
     rightUserList: any[] = []
 
-    @property
-    text: string = 'hello';
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
     start() {
         this.updateShow()
+        this.backButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            cc.director.loadScene("LobbyScene");
+        })
     }
 
     async updateShow(){

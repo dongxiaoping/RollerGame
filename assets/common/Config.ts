@@ -8,7 +8,7 @@ interface Config {
 }
 export const config: Config = {
     appMode: appMode.LOCAL_TEST,
-    localXiaZhuLimiTime: 3,
+    localXiaZhuLimiTime: 8,
     raceResultPanelShowTime: 5000,
     serverAddress: 'http://localhost/phpserver/public/index.php/'
 }

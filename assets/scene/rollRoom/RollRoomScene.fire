@@ -3254,7 +3254,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "MiddleButton",
+    "_name": "MiddlePart",
     "_objFlags": 0,
     "_parent": {
       "__id__": 75
@@ -3476,7 +3476,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "SkyButton",
+    "_name": "SkyPart",
     "_objFlags": 0,
     "_parent": {
       "__id__": 75
@@ -3516,8 +3516,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -217.788,
-      "y": 83.388,
+      "x": -215.278,
+      "y": 88.408,
       "z": 0
     },
     "_scale": {
@@ -3698,7 +3698,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "BridgButton",
+    "_name": "BridgPart",
     "_objFlags": 0,
     "_parent": {
       "__id__": 75
@@ -3920,7 +3920,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "LandButton",
+    "_name": "LandPart",
     "_objFlags": 0,
     "_parent": {
       "__id__": 75
@@ -4142,7 +4142,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "SkyCornerButton",
+    "_name": "SkyCornerPart",
     "_objFlags": 0,
     "_parent": {
       "__id__": 75
@@ -4364,7 +4364,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "LandCornerButton",
+    "_name": "LandCornerPart",
     "_objFlags": 0,
     "_parent": {
       "__id__": 75

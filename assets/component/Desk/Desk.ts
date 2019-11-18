@@ -190,7 +190,6 @@ export default class NewClass extends cc.Component {
             node.active = true
             j--
         })
-
         cc.log('成员坐落初始化完毕')
     }
 }
