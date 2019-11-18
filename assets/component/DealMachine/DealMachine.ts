@@ -15,6 +15,7 @@ export default class DealMachine extends cc.Component {
     mjDouble: cc.Prefab = null
     mahjongList: any[] = []  //一行显示的
     mjIndex: number = -1 //牌队列当前消耗位置，起牌
+    mahongLong: number = 20 //麻将队列的长度
 
     onEnable() {
         this.initMaj()
@@ -22,8 +23,9 @@ export default class DealMachine extends cc.Component {
 
     //初始麻将列表的显示
     initMaj(): void {
+        this.mjIndex = -1
         let layout = this.node.getChildByName('Layout')
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < this.mahongLong; i++) {
             let node = cc.instantiate(this.mahjongs)
             node.parent = layout
             node.setPosition(0, 0);
@@ -41,7 +43,6 @@ export default class DealMachine extends cc.Component {
             ++count
             if (count >= 4) {
                 cc.log('全部动画执行完毕')
-                // this.toShowMjResult()
                 setTimeout(() => {
                     cc.log('发牌动画执行完毕通知')
                     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
@@ -58,6 +59,15 @@ export default class DealMachine extends cc.Component {
         this.flyAnimation(this.mjIndex, circleList[count], backFun)
     }
 
+    reSetMahjong() {
+        for (let i = 0; i < this.mahongLong; i++) {
+            let t = this.mahjongList[i]
+            t.getChildByName('One').active = true
+            t.getChildByName('Two').active = true
+        }
+        this.mjIndex = 0
+    }
+
     /*未发牌行的指定位置到桌位的发牌动画
      *@mjIndex 未发牌行的指定位置
      *@tableLocation 桌子的位置
@@ -65,8 +75,13 @@ export default class DealMachine extends cc.Component {
      */
     flyAnimation(mjIndex: number, tableLocationType: TableLocationType, func: any) {
         if (this.mahjongList.length <= 0) {
-            return
             cc.log('没有麻将队列')
+            return
+        }
+        if (this.mjIndex >= this.mahjongList.length) {
+            this.reSetMahjong()
+            this.flyAnimation(this.mjIndex, tableLocationType, func)
+            return
         }
         let t = this.mahjongList[this.mjIndex]
         t.getChildByName('One').active = false

@@ -42,6 +42,8 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     button_100: cc.Sprite = null
 
+    flyTime:number = 0.5  //下注硬币飞行时间
+
     ownChipSize: number = 40 //自己下注硬币的大（
     otherMemberChipSize: number = 20 //其它成员下注硬币的大
     // onLoad () {}
@@ -69,7 +71,7 @@ export default class NewClass extends cc.Component {
         let node = this.createChip(isOwn, val)
         node.setPosition(fromLocation.x, fromLocation.y);
         node.active = true
-        let action = cc.moveTo(0.7, toLocaiton.x, toLocaiton.y)
+        let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)
         let b = cc.sequence(action, cc.callFunc(() => { }, this))
         node.runAction(b)
     }

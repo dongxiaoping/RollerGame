@@ -5,7 +5,6 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import User from '../../store/User/UserManage'
 import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
@@ -14,6 +13,7 @@ import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RaceItem from '../../store/Races/RaceItem'
 import RoomManage from '../../store/Room/RoomManage';
+import UserManage from '../../store/User/UserManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -114,6 +114,7 @@ export default class NewClass extends cc.Component {
         let infoTwo = await RaceManage.requestRaceList()
         let raceList = infoTwo.extObject as RaceItem[]
         let ob = await GameMemberManage.requestGameMemberList()
+        let userOb = await UserManage.requestUserInfo()
         let memberList = ob.extObject as GameMemberItem[]
         let isLandlordFind = false
         let leftMembers: any[] = []
@@ -121,7 +122,7 @@ export default class NewClass extends cc.Component {
         let oningRaceNum = Room.roomItem.oningRaceNum
         let landLordId = raceList[oningRaceNum].landlordId
         if (landLordId === '' || landLordId === null) {
-            landLordId = User.userInfo.id
+            landLordId = UserManage.userInfo.id
         }
         if (landLordId === this.onLandlordSiteUserId) { //这个地方存在一个bug 地主没变 但是成员变了 就不会刷新
             cc.log('地主位置上人员没有变动，不换位置')

@@ -54,8 +54,8 @@ export default class NewClass extends cc.Component {
     }
 
     //添加面板上组件的一些响应事件
-    private addClickEvent(){
-        this.exit.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+    private addClickEvent() {
+        this.exit.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('退出到主页')
             cc.director.loadScene("LobbyScene");
         })
@@ -169,12 +169,19 @@ export default class NewClass extends cc.Component {
     //开始发牌流程
     private beginDeal() {
         this.endRollDice()
-        let node = cc.instantiate(this.dealMachine)
-        node.parent = this.node
-        node.setPosition(320, 207);
-        node.active = true
+        let node = this.node.getChildByName('DealMachine')
         let scriptOb = node.getComponent('DealMachine')
         scriptOb.deal(TableLocationType.LAND)
+    }
+
+    initMahjongPanel(){
+        let node = this.node.getChildByName('DealMachine')
+        if (!node) {
+            node = cc.instantiate(this.dealMachine)
+            node.parent = this.node
+            node.setPosition(300, 207);
+            node.active = true
+        }
     }
 
     //摇色子
@@ -223,6 +230,7 @@ export default class NewClass extends cc.Component {
         this.showUserIcon()
         this.changeStartButtonState()
         this.initXiaZhuPanel()
+        this.initMahjongPanel()
     }
 
     //只有初始化了下注面板，才能有投注动画

@@ -29,25 +29,30 @@ class RaceManage {
             cc.log('当前不是下注状态，不能下注')
             return
         }
-        let ranTime = randFloatNum(1,config.localXiaZhuLimiTime-1)
+        let ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].landCorner = 10
-        }, ranTime*1000)
+        }, ranTime * 1000)
+        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].sky = 20
-        },  ranTime*1000)
+        }, ranTime * 1000)
+        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].bridg = 20
-        },  ranTime*1000)
+        }, ranTime * 1000)
+        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].land = 50
-        },  ranTime*1000)
+        }, ranTime * 1000)
+        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].middle = 100
-        },  ranTime*1000)
+        }, ranTime * 1000)
+        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
             this.raceList[oningRaceNum].betInfo[userId].skyCorner = 100
-        },  ranTime*1000)
+        }, ranTime * 1000)
     }
 
     public requestRaceList(): Promise<PromiseParam> {
