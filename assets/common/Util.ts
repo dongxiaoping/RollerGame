@@ -1,4 +1,4 @@
-import { DiceCountInfo, CompareMahjRe, MajhongValueType } from './Const'
+import { DiceCountInfo, MajhongValueType, TableLocationType } from './Const'
 export function randEventId(): string {
     return `roll_${new Date().getTime()}_${Math.ceil(
         Math.random() * 10
@@ -18,6 +18,20 @@ export function getMajhongValueType(majongInfo: DiceCountInfo): MajhongValueType
 export function randFloatNum(n: number, m: number) {
     let c = m - n + 1;
     return Math.random() * c + n;
+}
+
+//获取发牌位置
+export function getFaPaiLocation(diceCountInfo: DiceCountInfo): TableLocationType {
+    let val = (diceCountInfo.one + diceCountInfo.two)
+    if (val === 2 || val === 6 || val === 10) {
+        return TableLocationType.SKY
+    } else if (val === 3 || val === 7 || val === 11) {
+        return TableLocationType.MIDDLE
+    } else if (val === 4 || val === 8 || val === 12) {
+        return TableLocationType.LAND
+    } else {
+        return TableLocationType.LANDLORD
+    }
 }
 
 export function getMahjongValueVoice(majongInfo: DiceCountInfo): void {

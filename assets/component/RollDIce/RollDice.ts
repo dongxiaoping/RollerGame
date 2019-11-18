@@ -4,6 +4,8 @@
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
 import { EventType, LocalNoticeEventPara, LocalNoticeEventType} from '../../common/Const'
+import RoomManage from '../../store/Room/RoomManage';
+import RaceManage from '../../store/Races/RaceManage';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -43,13 +45,13 @@ export default class NewClass extends cc.Component {
 
     //显示色子并返回点数
     showDice(): any {
-        let a = this.randNum(1, 6)
-        cc.loader.loadRes(this.dicePicList[a - 1], (error, img) => {
+        let oningNum = RoomManage.roomItem.oningRaceNum
+        let points = RaceManage.raceList[oningNum].points
+        cc.loader.loadRes(this.dicePicList[points.one - 1], (error, img) => {
             let myIcon = new cc.SpriteFrame(img);
             this.diceOne.spriteFrame = myIcon
         })
-        let b = this.randNum(1, 6)
-        cc.loader.loadRes(this.dicePicList[b - 1], (error, img) => {
+        cc.loader.loadRes(this.dicePicList[points.two - 1], (error, img) => {
             let myIcon = new cc.SpriteFrame(img);
             this.diceTwo.spriteFrame = myIcon
         })

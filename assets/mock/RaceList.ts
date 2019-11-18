@@ -28,7 +28,7 @@ export const RaceList: raceRecord[] = [
             sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
             , middle: { one: 0.5, two: 6 }
         },
-        points: { one: 3, two: 5 },
+        points: { one: 1, two: 1 },
         locationResultDetail: {
             sky: CompareDxRe.BIG,
             land: CompareDxRe.BIG,
@@ -47,7 +47,7 @@ export const RaceList: raceRecord[] = [
             sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
             , middle: { one: 0.5, two: 6 }
         },
-        points: { one: 3, two: 5 },
+        points: { one: 4, two: 5 },
         locationResultDetail: {
             sky: CompareDxRe.BIG,
             land: CompareDxRe.BIG,
@@ -66,7 +66,7 @@ export const RaceList: raceRecord[] = [
             sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
             , middle: { one: 0.5, two: 6 }
         },
-        points: { one: 3, two: 5 },
+        points: { one: 6, two: 6 },
         locationResultDetail: {
             sky: CompareDxRe.BIG,
             land: CompareDxRe.BIG,
@@ -85,7 +85,7 @@ export const RaceList: raceRecord[] = [
             sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
             , middle: { one: 0.5, two: 6 }
         },
-        points: { one: 3, two: 5 },
+        points: { one: 3, two: 1 },
         locationResultDetail: {
             sky: CompareDxRe.BIG,
             land: CompareDxRe.BIG,
@@ -104,7 +104,7 @@ export const RaceList: raceRecord[] = [
             sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
             , middle: { one: 0.5, two: 6 }
         },
-        points: { one: 3, two: 5 },
+        points: { one: 5, two: 5 },
         locationResultDetail: {
             sky: CompareDxRe.BIG,
             land: CompareDxRe.BIG,
@@ -123,7 +123,7 @@ export const RaceList: raceRecord[] = [
             sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
             , middle: { one: 0.5, two: 6 }
         },
-        points: { one: 3, two: 5 },
+        points: { one: 1, two: 5 },
         locationResultDetail: {
             sky: CompareDxRe.BIG,
             land: CompareDxRe.BIG,

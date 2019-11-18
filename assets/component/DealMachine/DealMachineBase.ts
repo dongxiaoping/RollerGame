@@ -22,12 +22,12 @@ export function getLocationByLocaitonType(type: TableLocationType): Coordinate {
 export function getCircleListByLocationType(tableLocationType: TableLocationType): any {
     switch (tableLocationType) {
         case TableLocationType.LAND:
-            return [TableLocationType.LAND, TableLocationType.MIDDLE, TableLocationType.SKY, TableLocationType.LANDLORD]
+            return [TableLocationType.LAND, TableLocationType.LANDLORD, TableLocationType.SKY,TableLocationType.MIDDLE]
         case TableLocationType.LANDLORD:
-            return [TableLocationType.LANDLORD, TableLocationType.LAND, TableLocationType.MIDDLE, TableLocationType.SKY]
+            return [TableLocationType.LANDLORD, TableLocationType.SKY, TableLocationType.MIDDLE, TableLocationType.LAND]
         case TableLocationType.MIDDLE:
-            return [TableLocationType.MIDDLE, TableLocationType.SKY, TableLocationType.LANDLORD, TableLocationType.LAND]
+            return [TableLocationType.MIDDLE, TableLocationType.LAND, TableLocationType.LANDLORD, TableLocationType.SKY]
         case TableLocationType.SKY:
-            return [TableLocationType.SKY, TableLocationType.LANDLORD, TableLocationType.LAND, TableLocationType.MIDDLE]
+            return [TableLocationType.SKY, TableLocationType.MIDDLE, TableLocationType.LAND, TableLocationType.LANDLORD]
     }
 }

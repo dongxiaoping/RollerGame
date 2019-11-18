@@ -6,7 +6,7 @@ import { eventBus } from '../../common/EventBus'
 import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import RoomItem from '../../store/Room/RoomItem'
-import { randEventId } from '../../common/Util'
+import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 @ccclass
@@ -171,7 +171,9 @@ export default class NewClass extends cc.Component {
         this.endRollDice()
         let node = this.node.getChildByName('DealMachine')
         let scriptOb = node.getComponent('DealMachine')
-        scriptOb.deal(TableLocationType.LAND)
+        let oningNum = RoomManage.roomItem.oningRaceNum
+        let loaction = getFaPaiLocation(RaceManage.raceList[oningNum].points)
+        scriptOb.deal(loaction)
     }
 
     initMahjongPanel(){

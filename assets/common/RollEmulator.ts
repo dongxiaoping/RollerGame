@@ -32,8 +32,8 @@ class RollEmulator extends RollControlerOb {
         let landlordId = RaceManage.raceList[oningRaceNum].landlordId
         let memberList = GameMember.gameMenmberList
         memberList.forEach((item: GameMemberItem) => {
-            if (item.userId !== landlordId) {
-                RaceManage.emulateXiaZhuByUser(item.userId )
+            if (item.userId !== landlordId && item.userId !== UserManage.userInfo.id) {
+                RaceManage.emulateXiaZhuByUser(item.userId)
             }
         })
     }
