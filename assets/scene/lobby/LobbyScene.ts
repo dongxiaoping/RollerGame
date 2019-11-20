@@ -1,4 +1,5 @@
 import UserManage from "../../store/User/UserManage";
+import RollEmulator from "../../common/RollEmulator";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,7 +19,16 @@ export default class LobbyScene extends cc.Component {
     CreateRoomPart: cc.Sprite = null; //创建房间图标区
 
     @property(cc.Sprite)
-    LianXiChang: cc.Sprite = null; 
+    LianXiChang: cc.Sprite = null;
+
+    @property(cc.Label)
+    userName: cc.Label = null;
+    @property(cc.Label)
+    userId: cc.Label = null;
+    @property(cc.Label)
+    diamond: cc.Label = null;
+    @property(cc.Label)
+    chipCount: cc.Label = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -26,35 +36,42 @@ export default class LobbyScene extends cc.Component {
     }
 
     onEnable() {
-        this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+        this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.showEntryBox()
         })
-        this.LianXiChang.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-           cc.log('练习场被点击了')
-           cc.director.loadScene("RollRoomScene");
+        this.LianXiChang.node.on(cc.Node.EventType.TOUCH_END, () => {
+            cc.log('练习场被点击了')
+            RollEmulator.isRuning = true
+            setTimeout(()=>{
+                cc.director.loadScene("RollRoomScene");
+            })
         })
-        this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+        this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('创建房间被点击了')
             var node = cc.instantiate(this.CreateRoomPanel)
             node.parent = this.node
             node.active = true
-         })
+        })
         this.initUserInfo()
     }
 
-    async initUserInfo(){
+    async initUserInfo() {
         let info = await UserManage.requestUserInfo();
+        this.userName.string = UserManage.userInfo.nick
+        this.userId.string = 'ID:' + UserManage.userInfo.id
+        this.diamond.string = UserManage.userInfo.diamond + ''
+        this.chipCount.string = UserManage.userInfo.score + ''
     }
 
-    showEntryBox(): void{
+    showEntryBox(): void {
         var node = cc.instantiate(this.EntryBox)
         node.parent = this.node
         node.setPosition(3.687, 1.474);
         node.active = true
     }
 
-    onDisable(){
-        this.JoinPart.node.off(cc.Node.EventType.TOUCH_END, ()=>{})
+    onDisable() {
+        this.JoinPart.node.off(cc.Node.EventType.TOUCH_END, () => { })
     }
 
     start() {

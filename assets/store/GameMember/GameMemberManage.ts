@@ -17,14 +17,22 @@ class GameMemberManage {
             cc.log('玩家成员数据第一次被初始化')
         } else { //对比2次数据变化情况，并对数据的变化发出通知
             list.forEach((item: GameMemberItem, index: any) => {
-                if(typeof(this.gameMenmberList[index]) === 'undefined'){
+                if (typeof (this.gameMenmberList[index]) === 'undefined') {
                     cc.log('有新的成员添加进去')
-                }else if(item.roleType !== this.gameMenmberList[index].roleType){
+                } else if (item.roleType !== this.gameMenmberList[index].roleType) {
                     cc.log('成员状态有修改')
                 }
             })
         }
         this._gameMenmberList = list
+    }
+
+    setGameMemberList(gameMemberList: GameMember[]) {
+        let list = []
+        gameMemberList.forEach((item: GameMember): void => {
+            list[item.userId] = new GameMemberItem(item)
+        })
+        this.gameMenmberList = list
     }
 
     //获取数据并返回，优先从本地获取，本地没有从服务器获取
@@ -35,11 +43,7 @@ class GameMemberManage {
                 return
             }
             if (config.appMode === appMode.LOCAL_TEST) { //从模拟数据获取
-                let gameMenmberList = []
-                GameMemberList.forEach((item: GameMember): void => {
-                    gameMenmberList[item.userId] = new GameMemberItem(item)
-                })
-                this.gameMenmberList = gameMenmberList
+                this.setGameMemberList(GameMemberList)
                 resolve({ result: PromiseResult.SUCCESS, extObject: this.gameMenmberList })
             } else { //从服务器获取
                 //this.updateGameMemberListFromServer()

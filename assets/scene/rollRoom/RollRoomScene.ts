@@ -1,7 +1,6 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { UserInfo } from '../../store/User/UserBase'
-import RollEmulator from "../../common/RollEmulator"
 import { eventBus } from '../../common/EventBus'
 import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
@@ -49,6 +48,9 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.showUserIcon()
+        this.changeStartButtonState()
+        this.initXiaZhuPanel()
+        this.initMahjongPanel()
         this.addListener()
         this.addClickEvent()
     }
@@ -228,11 +230,7 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-        RollEmulator.isRuning = true
-        this.showUserIcon()
-        this.changeStartButtonState()
-        this.initXiaZhuPanel()
-        this.initMahjongPanel()
+
     }
 
     //只有初始化了下注面板，才能有投注动画
@@ -253,11 +251,10 @@ export default class NewClass extends cc.Component {
         //scriptOb.deal(TableLocationType.LAND)
     }
 
-    async changeStartButtonState() {
-        let infoOne = await Room.requestRoomInfo()
-        let roomInfo = infoOne.extObject as RoomItem
-        let InfoTwo = await UserManage.requestUserInfo()
-        let userInfo = InfoTwo.extObject as UserInfo
+    changeStartButtonState() {
+        cc.log('初始化开始按钮')
+        let roomInfo = Room.roomItem
+        let userInfo = UserManage.userInfo
         if (userInfo.id === roomInfo.creatUserId && roomInfo.roomState === roomState.OPEN) {
             var node = cc.instantiate(this.playButtonPrefab)
             node.parent = this.node

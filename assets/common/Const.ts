@@ -183,12 +183,12 @@ export interface raceRecord {
     majongResult?: MajongResult  //发牌位置的牌值集合 本地有
     points: DiceCountInfo  //色子点数信息集合
     locationResultDetail?: LocationResultDetail  //每个下注位置的输赢结果集合 本地有
-    skyResult?:CompareDxRe //接口有 天输赢
-    middleResult?:CompareDxRe //接口有 中输赢
-    landResult?:CompareDxRe //接口有 地输赢
-    skyCornerResult?:CompareDxRe //接口有  天角输赢
-    landCornerResult?:CompareDxRe //接口有 地角输赢
-    bridgResult?:CompareDxRe //接口有 桥输赢
+    skyResult?: CompareDxRe //接口有 天输赢
+    middleResult?: CompareDxRe //接口有 中输赢
+    landResult?: CompareDxRe //接口有 地输赢
+    skyCornerResult?: CompareDxRe //接口有  天角输赢
+    landCornerResult?: CompareDxRe //接口有 地角输赢
+    bridgResult?: CompareDxRe //接口有 桥输赢
 
 }
 
@@ -210,9 +210,13 @@ export interface RoomInfo {
     memberLimit: number  //人员数量限制
     playCount: number  //场次限制
     playMode: playMode  //上庄模式
+    roomFee:number //房间费用
+    roomPay:number //付费模式
     costLimit: number  //消费上限
     roomState: roomState  //房间状态
-    oningRaceNum?: number //当前进行中的场次编号
+    oningRaceNum: number //当前进行中的场次编号
+    creatTime?:string
+    modTime?:string
 }
 
 export interface BetChipChangeInfo {
@@ -233,6 +237,17 @@ export interface LocationResultDetail {
     land_corner: CompareDxRe
 }
 
+export interface ResponseData {
+    data: any,
+    message: string,
+    status: ResponseStatus
+}
+
+export enum ResponseStatus {
+    SUCCESS = 1,
+    FAIL = 0
+}
+
 
 //开房付款模式
 export enum CreateRoomPayModel {
@@ -246,3 +261,5 @@ export enum CompareDxRe {
     SMALL = 's', //小
     EQ = 'e' //相等
 }
+
+

@@ -7,7 +7,10 @@ import GameMember from '../store/GameMember/GameMemberManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
 import { RaceState, roomState, RaceStateChangeParam } from '../common/Const'
 import Room from '../store/Room/RoomManage'
+import { roomInfo } from '../mock/RoomInfo'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
+import { GameMemberList } from '../mock/GameMemberList'
+import { userInfo } from '../mock/UserInfo'
 @ccclass
 class RollEmulator extends RollControlerOb {
     startRun(): void {
@@ -19,10 +22,10 @@ class RollEmulator extends RollControlerOb {
     //初始化本地数据
     async initData() {
         cc.log('模拟器初始化本地数据')
-        let infoOne = await Room.requestRoomInfo()
-        let infoTwo = await GameMemberManage.requestGameMemberList()
-        let infoThree = await UserManage.requestUserInfo()
-        RaceManage.updateBetToRaceInfo() //初始化本地的比赛数据
+        UserManage.setUserInfo(userInfo)
+        Room.setRoomItem(roomInfo)
+        GameMemberManage.setGameMemberList(GameMemberList)
+        RaceManage.updateEmulatorRaceInfo()
     }
 
     //模拟器模拟相关推送数据

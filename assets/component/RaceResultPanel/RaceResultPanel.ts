@@ -143,10 +143,10 @@ export default class NewClass extends cc.Component {
     //初始化本地数据
     async initData() {
         cc.log('模拟器初始化本地数据')
-        let infoOne = await Room.requestRoomInfo()
-        let infoTwo = await GameMemberManage.requestGameMemberList()
-        let infoThree = await UserManage.requestUserInfo()
-        RaceManage.updateBetToRaceInfo() //初始化本地的比赛数据
+        // let infoOne = await Room.requestRoomInfo()
+        // let infoTwo = await GameMemberManage.requestGameMemberList()
+        // let infoThree = await UserManage.requestUserInfo()
+        // RaceManage.updateBetToRaceInfo() //初始化本地的比赛数据
 
         ///////////
         let raceInfo = RaceManage.getPlayingRaceInfo()

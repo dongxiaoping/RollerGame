@@ -89,13 +89,14 @@ class RaceManage {
         this.raceList[oningRaceNum].state = toState
     }
 
-    //将下注信息整合到比赛信息集合中并返回
-    async updateBetToRaceInfo() {
-        let raceInfo = await this.requestRaceList()
-        let raceList = raceInfo.extObject as RaceItem[]
-        let memberInfo = await GameMemberManage.requestGameMemberList()
-        let memberList = memberInfo.extObject as GameMemberItem[]
-        raceList.forEach(raceItem => {
+    //设置模拟器的竞赛信息集合
+    updateEmulatorRaceInfo() {
+        RaceList.forEach((item: raceRecord): void => {
+            this.raceList[item.num] = new RaceItem(item)
+        })
+
+        let memberList = GameMemberManage.gameMenmberList
+        this.raceList.forEach(raceItem => {
             raceItem.betInfo = []
             memberList.forEach(item => {
                 raceItem.betInfo[item.userId] = new BetLocItem({
@@ -111,7 +112,6 @@ class RaceManage {
                 } as BetScore)
             })
         })
-        this.raceList = raceList
         cc.log('本地比赛下注数据初始化完毕')
         cc.log(this.raceList)
     }

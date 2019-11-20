@@ -1,4 +1,6 @@
-import { CreateRoomPayModel } from "../../common/Const";
+import { CreateRoomPayModel, ResponseStatus, RoomInfo } from "../../common/Const";
+import RoomManage from "../../store/Room/RoomManage";
+import UserManage from "../../store/User/UserManage";
 
 const { ccclass, property } = cc._decorator;
 
@@ -108,9 +110,24 @@ export default class NewClass extends cc.Component {
                 return
             }
             cc.log('创建信息：人数：' + renshu + ",局数：" + jushu + ",付款模式:" + payMode + ',下注上限：' + xiazhu)
-
+            this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu)
         })
     }
+
+    async dealCreateRoom(userId: string, renshu: number, jushu: number, payMode: CreateRoomPayModel, xiazhu: number) {
+        let res = await RoomManage.createRoom(userId, renshu, jushu, payMode, xiazhu)
+        if (res.result === ResponseStatus.SUCCESS) {
+            let roomInfo = res.extObject as RoomInfo
+            RoomManage.setRoomItem(roomInfo)
+            this.node.destroy()
+            cc.director.loadScene("RollRoomScene");
+            cc.log('房间创建成功,房间信息：' + JSON.stringify(roomInfo))
+            cc.log('进入游戏房间')
+        } else {
+            cc.log('房间创建失败')
+        }
+    }
+
 
     toggleInit() {
         /////人数

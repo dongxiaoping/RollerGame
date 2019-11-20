@@ -1,4 +1,7 @@
 import { DiceCountInfo, MajhongValueType, TableLocationType } from './Const'
+
+import axios from 'axios'
+import { config } from './Config'
 export function randEventId(): string {
     return `roll_${new Date().getTime()}_${Math.ceil(
         Math.random() * 10
@@ -105,3 +108,11 @@ export function getMahjongValueVoice(majongInfo: DiceCountInfo): void {
             break
     }
 }
+
+export const Ajax = axios.create({
+    baseURL: config.serverAddress,
+    timeout: config.requestTimeoutTime,
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'//'application/json'
+    }
+}) 
