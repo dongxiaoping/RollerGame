@@ -9,7 +9,7 @@ import GameMemberItem from '../store/GameMember/GameMemberItem'
 import { config } from './Config';
 @ccclass
 export class RollControlerOb {
-    _isRuning: boolean = false
+    private _isRuning: boolean = false
     get isRuning() {
         return this._isRuning;
     }

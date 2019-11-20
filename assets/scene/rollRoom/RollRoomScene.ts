@@ -8,6 +8,8 @@ import RoomItem from '../../store/Room/RoomItem'
 import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
+import { rollControler } from '../../common/RollControler';
+import RollEmulator from "../../common/RollEmulator";
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -16,6 +18,9 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     private rollDicePrefab: cc.Prefab = null  //摇色子
+
+    @property(cc.Prefab)
+    private desk: cc.Prefab = null  //桌子
 
     @property(cc.Sprite)
     private exit: cc.Sprite = null  //退出
@@ -47,12 +52,34 @@ export default class NewClass extends cc.Component {
 
 
     onEnable() {
+        if(RollEmulator.isRuning){
+            this.startAfterDataInit()
+            cc.log('进入模拟房间')
+        }else{
+            cc.log('进入游戏房间')
+            this.initGameInfo(RoomManage.roomItem.id,UserManage.userInfo.id)
+        }
+    }
+
+    async initGameInfo(roomId:number,userId:string){
+       let info = await RoomManage.loginRoom(userId,roomId) 
+       cc.log(info)
+    }
+
+    startAfterDataInit(){
         this.showUserIcon()
         this.changeStartButtonState()
         this.initXiaZhuPanel()
         this.initMahjongPanel()
+        this.initDesk()
         this.addListener()
         this.addClickEvent()
+    }
+
+    private initDesk(){
+        let node = cc.instantiate(this.desk)
+        node.parent = this.node
+        node.active = true
     }
 
     //添加面板上组件的一些响应事件

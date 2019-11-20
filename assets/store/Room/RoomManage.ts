@@ -48,19 +48,21 @@ class RoomManage {
         })
     }
 
-    public loginRoom(userId: string, rommId: string): Promise<PromiseParam> {
+    public loginRoom(userId: string, rommId: number): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            Ajax({
-                method: 'GET',
-                url: '/race/room/create_room',
-                data: {
-                    userId: userId,
-                    roomId: rommId
-                }
-            }).then(res => {
-                let info = res.data as ResponseData
-                resolve({ result: ResponseStatus.SUCCESS, extObject: info.data })
-            })
+
+            let httpUrl = config.serverAddress + '/race/room/login_in_room'
+            axios
+                .get(httpUrl, {
+                    params: {
+                        userId: userId,
+                        roomId: rommId
+                    }
+                })
+                .then((res: any): void => {
+                    let info = res.data as ResponseData
+                    resolve({ result: ResponseStatus.SUCCESS, extObject: info.data })
+                })
         })
     }
 
