@@ -1,10 +1,13 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { appMode, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord } from '../../common/Const'
 import { roomInfo } from '../../mock/RoomInfo'
 import axios from 'axios'
 import { Ajax } from '../../common/Util';
+import RaceManage from '../Races/RaceManage';
+import GameMemberManage from '../GameMember/GameMemberManage';
+import BetManage from '../Bets/BetManage';
 @ccclass
 class RoomManage {
     public roomItem: RoomItem = null
@@ -61,7 +64,17 @@ class RoomManage {
                 })
                 .then((res: any): void => {
                     let info = res.data as ResponseData
-                    resolve({ result: ResponseStatus.SUCCESS, extObject: info.data })
+                    let data = info.data;
+                    let roomInfo = data.room as RoomInfo;
+                    let races = data.races as raceRecord[];
+                    let members = data.members as GameMember[];
+                    let betRecords =  data.betRecords as BetRecord[];
+                    this.setRoomItem(roomInfo);
+                    RaceManage.setRaceList(races);
+                    GameMemberManage.setGameMemberList(members);
+                    BetManage.init(members, roomInfo.playCount)
+                    BetManage.setBetList(betRecords);
+                    resolve({ result: ResponseStatus.SUCCESS, extObject: '' })
                 })
         })
     }

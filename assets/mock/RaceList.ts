@@ -1,137 +1,37 @@
-import { DiceCountInfo, raceRecord, RaceState, CompareDxRe } from '../common/Const'
+import { raceRecord, RaceState, CompareDxRe } from '../common/Const'
 export const RaceList: raceRecord[] = [
     {
-        raceId: '1',
-        num: 0,
-        landlordId: '',
-        state: RaceState.NOT_BEGIN,
-        majongResult: {
-            sky: { one: 9, two: 0.5 },
-            land: { one: 1, two: 2 }, landlord: { one: 1, two: 1 }, middle: { one: 5, two: 6 }
-        },
+        id: '1',
+        raceNum: 0,
+        landlordId: '23',
+        playState: RaceState.NOT_BEGIN,
+        landlordScore: { 'one': 3, 'two': 3 },
+        skyScore: { 'one': 3, 'two': 3 },
+        middleScore: { 'one': 3, 'two': 3 },
+        landScore: { 'one': 3, 'two': 3 },
         points: { one: 3, two: 5 },
-        locationResultDetail: {
-            sky: CompareDxRe.BIG,
-            land: CompareDxRe.BIG,
-            middle: CompareDxRe.BIG,
-            bridg: CompareDxRe.BIG,
-            sky_corner: CompareDxRe.BIG,
-            land_corner: CompareDxRe.BIG
-        }
-    },
-    {
-        raceId: '2',
-        num: 1,
-        landlordId: '',
-        state: RaceState.NOT_BEGIN,
-        majongResult: {
-            sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
-            , middle: { one: 0.5, two: 6 }
-        },
-        points: { one: 1, two: 1 },
-        locationResultDetail: {
-            sky: CompareDxRe.BIG,
-            land: CompareDxRe.BIG,
-            middle: CompareDxRe.BIG,
-            bridg: CompareDxRe.BIG,
-            sky_corner: CompareDxRe.BIG,
-            land_corner: CompareDxRe.BIG
-        }
-    },
-    {
-        raceId: '3',
-        num: 2,
-        landlordId: '',
-        state: RaceState.NOT_BEGIN,
-        majongResult: {
-            sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
-            , middle: { one: 0.5, two: 6 }
-        },
-        points: { one: 4, two: 5 },
-        locationResultDetail: {
-            sky: CompareDxRe.BIG,
-            land: CompareDxRe.BIG,
-            middle: CompareDxRe.BIG,
-            bridg: CompareDxRe.BIG,
-            sky_corner: CompareDxRe.BIG,
-            land_corner: CompareDxRe.BIG
-        }
-    },
-    {
-        raceId: '4',
-        num: 3,
-        landlordId: '',
-        state: RaceState.NOT_BEGIN,
-        majongResult: {
-            sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
-            , middle: { one: 0.5, two: 6 }
-        },
-        points: { one: 6, two: 6 },
-        locationResultDetail: {
-            sky: CompareDxRe.BIG,
-            land: CompareDxRe.BIG,
-            middle: CompareDxRe.BIG,
-            bridg: CompareDxRe.BIG,
-            sky_corner: CompareDxRe.BIG,
-            land_corner: CompareDxRe.BIG
-        }
-    },
-    {
-        raceId: '5',
-        num: 4,
-        landlordId: '',
-        state: RaceState.NOT_BEGIN,
-        majongResult: {
-            sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
-            , middle: { one: 0.5, two: 6 }
-        },
-        points: { one: 3, two: 1 },
-        locationResultDetail: {
-            sky: CompareDxRe.BIG,
-            land: CompareDxRe.BIG,
-            middle: CompareDxRe.BIG,
-            bridg: CompareDxRe.BIG,
-            sky_corner: CompareDxRe.BIG,
-            land_corner: CompareDxRe.BIG
-        }
-    },
-    {
-        raceId: '6',
-        num: 5,
-        landlordId: '',
-        state: RaceState.NOT_BEGIN,
-        majongResult: {
-            sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
-            , middle: { one: 0.5, two: 6 }
-        },
-        points: { one: 5, two: 5 },
-        locationResultDetail: {
-            sky: CompareDxRe.BIG,
-            land: CompareDxRe.BIG,
-            middle: CompareDxRe.BIG,
-            bridg: CompareDxRe.BIG,
-            sky_corner: CompareDxRe.BIG,
-            land_corner: CompareDxRe.BIG
-        }
-    },
-    {
-        raceId: '7',
-        num: 6,
-        landlordId: '',
-        state: RaceState.NOT_BEGIN,
-        majongResult: {
-            sky: { one: 3, two: 1 }, land: { one: 6, two: 2 }, landlord: { one: 9, two: 4 }
-            , middle: { one: 0.5, two: 6 }
-        },
-        points: { one: 1, two: 5 },
-        locationResultDetail: {
-            sky: CompareDxRe.BIG,
-            land: CompareDxRe.BIG,
-            middle: CompareDxRe.BIG,
-            bridg: CompareDxRe.BIG,
-            sky_corner: CompareDxRe.BIG,
-            land_corner: CompareDxRe.BIG
-        }
+        landResult: CompareDxRe.BIG,
+        middleResult: CompareDxRe.BIG,
+        bridgResult: CompareDxRe.BIG,
+        landCornerResult: CompareDxRe.BIG,
+        skyCornerResult: CompareDxRe.BIG,
+        skyResult: CompareDxRe.BIG
+    }, {
+        id: '3',
+        raceNum: 2,
+        landlordId: '24',
+        playState: RaceState.NOT_BEGIN,
+        landlordScore: { 'one': 3, 'two': 3 },
+        skyScore: { 'one': 3, 'two': 3 },
+        middleScore: { 'one': 3, 'two': 3 },
+        landScore: { 'one': 3, 'two': 3 },
+        points: { one: 3, two: 5 },
+        landResult: CompareDxRe.BIG,
+        middleResult: CompareDxRe.BIG,
+        bridgResult: CompareDxRe.BIG,
+        landCornerResult: CompareDxRe.BIG,
+        skyCornerResult: CompareDxRe.BIG,
+        skyResult: CompareDxRe.BIG
     }
 
 ]

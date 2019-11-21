@@ -134,11 +134,16 @@ export enum MajhongValueType {
 }
 
 export interface BetRecord {
-    id: string
+    id?: string
+    roomId?:string
+    raceNum:number
+    isWin:CompareDxRe
     userId: string
     raceId: string
     betLocaion: betLocaion
-    moneyValue: number
+    costValue: number
+    creatTime?:string
+    modTime?:string
 }
 
 export interface BetScore {
@@ -165,21 +170,29 @@ export enum memberState {
 }
 
 export interface GameMember {
+    id?:string
+    roomId?:string
     userId: string
     roleType: gameMemberType
     nick: string
     icon: string
     score?: number  //本房间当前成员总分数
-    modTime: number //最后一次修改时间
+    creatTime?:string
+    modTime?:string
     state: memberState
 }
 
 export interface raceRecord {
-    raceId: string
+    id: string
+    roomId?:number
+    raceNum: number //场次编号
+    playState: RaceState   //比赛状态
+    landlordScore?:DiceCountInfo
+    skyScore?:DiceCountInfo
+    middleScore?:DiceCountInfo
+    landScore?:DiceCountInfo
     landlordId: string //地主ID
-    num: number //场次编号
     betInfo?: BetLocItem[] //下注信息 本地有
-    state: RaceState   //比赛状态
     majongResult?: MajongResult  //发牌位置的牌值集合 本地有
     points: DiceCountInfo  //色子点数信息集合
     locationResultDetail?: LocationResultDetail  //每个下注位置的输赢结果集合 本地有
@@ -189,6 +202,8 @@ export interface raceRecord {
     skyCornerResult?: CompareDxRe //接口有  天角输赢
     landCornerResult?: CompareDxRe //接口有 地角输赢
     bridgResult?: CompareDxRe //接口有 桥输赢
+    creatTime?:string
+    modTime?:string
 
 }
 

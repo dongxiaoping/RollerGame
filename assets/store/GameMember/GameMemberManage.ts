@@ -6,7 +6,7 @@ import { GameMemberList } from '../../mock/GameMemberList'
 import axios from 'axios'
 @ccclass
 class GameMemberManage {
-    public _gameMenmberList: GameMemberItem[] = null
+    private _gameMenmberList: GameMemberItem[] = null
 
     get gameMenmberList(): GameMemberItem[] {
         return this._gameMenmberList

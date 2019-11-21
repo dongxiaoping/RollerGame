@@ -11,6 +11,9 @@ import { roomInfo } from '../mock/RoomInfo'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
 import { GameMemberList } from '../mock/GameMemberList'
 import { userInfo } from '../mock/UserInfo'
+import { RaceList } from '../mock/RaceList';
+import BetManage from '../store/Bets/BetManage';
+import { BetList } from '../mock/BetList';
 @ccclass
 class RollEmulator extends RollControlerOb {
     startRun(): void {
@@ -25,7 +28,10 @@ class RollEmulator extends RollControlerOb {
         UserManage.setUserInfo(userInfo)
         Room.setRoomItem(roomInfo)
         GameMemberManage.setGameMemberList(GameMemberList)
-        RaceManage.updateEmulatorRaceInfo()
+        RaceManage.setRaceList(RaceList)
+        BetManage.init(GameMemberList, roomInfo.playCount)
+        BetManage.setBetList(BetList)
+      //  RaceManage.updateEmulatorRaceInfo()
     }
 
     //模拟器模拟相关推送数据

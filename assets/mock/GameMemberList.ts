@@ -8,7 +8,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '苹果',
         icon: 'test/44',
         score:0,
-        modTime:3,
         state:memberState.OnLine
     },
     {
@@ -17,7 +16,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '张三',
         icon: 'test/33',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     },
     {
@@ -26,7 +24,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '二哈',
         icon: 'test/44',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     },
     {
@@ -35,7 +32,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '李四',
         icon: 'test/22',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     },
     {
@@ -44,7 +40,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '飘',
         icon: 'test/22',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     },
     {
@@ -53,7 +48,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '风吹屁屁凉',
         icon: 'test/22',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     },
     {
@@ -62,7 +56,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '这里有眼',
         icon: 'test/22',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     },
     {
@@ -71,7 +64,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '眼在兜里',
         icon: 'test/22',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     },
     {
@@ -80,7 +72,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '眼在兜里没有',
         icon: 'test/22',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     },
     {
@@ -89,7 +80,6 @@ export const GameMemberList: GameMember[] = [ //数据默认第一个是房主
         nick: '测试',
         icon: 'test/22',
         score:0,
-        modTime:4,
         state:memberState.OnLine
     }
 ]

@@ -9,19 +9,41 @@ export default class RaceItem {
     public _state: RaceState = null
     private _landlordId: string = null
     public betInfo: BetLocItem[] = null //下注信息集合
-    public majongResult: MajongResult = null //麻将点数信息
+    public landlordScore: DiceCountInfo = null
+    public skyScore: DiceCountInfo = null
+    public middleScore: DiceCountInfo = null
+    public landScore: DiceCountInfo = null
+
     public points: DiceCountInfo = null
-    public locationResultDetail: LocationResultDetail = null //本场比赛各个位置的输赢信息
+
+    public landResult: CompareDxRe = null
+    public middleResult: CompareDxRe = null
+    public bridgResult: CompareDxRe = null
+    public landCornerResult: CompareDxRe = null
+    public skyCornerResult: CompareDxRe = null
+    public skyResult: CompareDxRe = null
+
     constructor(val: raceRecord) {
-        this.raceId = val.raceId
-        this.num = val.num
-        this.state = val.state
-        this.betInfo = val.betInfo
+        this.raceId = val.id
+        this.num = val.raceNum
+        this.state = val.playState
         this.landlordId = val.landlordId
-        this.majongResult = val.majongResult
-        this.locationResultDetail = val.locationResultDetail
+
+        this.landlordScore = val.landlordScore
+        this.skyScore = val.skyScore
+        this.middleScore = val.middleScore
+        this.landScore = val.landScore
+
         this.points = val.points
+
+        this.landResult = val.landResult
+        this.middleResult = val.middleResult
+        this.bridgResult = val.bridgResult
+        this.landCornerResult = val.landCornerResult
+        this.skyCornerResult = val.skyCornerResult
+        this.skyResult = val.skyResult
     }
+
 
     get landlordId(): string {
         return this._landlordId

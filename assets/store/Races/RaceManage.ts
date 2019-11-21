@@ -9,6 +9,7 @@ import GameMemberItem from '../GameMember/GameMemberItem'
 import RoomManage from '../../store/Room/RoomManage'
 import axios from 'axios'
 import { randFloatNum } from '../../common/Util';
+import BetManage from '../Bets/BetManage';
 @ccclass
 class RaceManage {
     public raceList: RaceItem[] = []
@@ -22,6 +23,12 @@ class RaceManage {
         return score
     }
 
+    setRaceList(list: raceRecord[]) {
+        list.forEach((item: raceRecord): void => {
+            this.raceList[item.raceNum] = new RaceItem(item)
+        })
+    }
+
     //模拟对指定用户进行下注
     emulateXiaZhuByUser(userId: string): void {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
@@ -31,27 +38,27 @@ class RaceManage {
         }
         let ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            this.raceList[oningRaceNum].betInfo[userId].landCorner = 10
+           BetManage.betList[oningRaceNum][userId].landCorner = 10
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            this.raceList[oningRaceNum].betInfo[userId].sky = 20
+            BetManage.betList[oningRaceNum][userId].sky = 20
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            this.raceList[oningRaceNum].betInfo[userId].bridg = 20
+            BetManage.betList[oningRaceNum][userId].bridg = 20
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            this.raceList[oningRaceNum].betInfo[userId].land = 50
+            BetManage.betList[oningRaceNum][userId].land = 50
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            this.raceList[oningRaceNum].betInfo[userId].middle = 100
+            BetManage.betList[oningRaceNum][userId].middle = 100
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            this.raceList[oningRaceNum].betInfo[userId].skyCorner = 100
+            BetManage.betList[oningRaceNum][userId].skyCorner = 100
         }, ranTime * 1000)
     }
 
@@ -62,9 +69,7 @@ class RaceManage {
                 return
             }
             if (config.appMode === appMode.LOCAL_TEST) {
-                RaceList.forEach((item: raceRecord): void => {
-                    this.raceList[item.num] = new RaceItem(item)
-                })
+                this.setRaceList(RaceList)
             } else {
 
             }
@@ -90,31 +95,31 @@ class RaceManage {
     }
 
     //设置模拟器的竞赛信息集合
-    updateEmulatorRaceInfo() {
-        RaceList.forEach((item: raceRecord): void => {
-            this.raceList[item.num] = new RaceItem(item)
-        })
+    // updateEmulatorRaceInfo() {
+    //     RaceList.forEach((item: raceRecord): void => {
+    //         this.raceList[item.num] = new RaceItem(item)
+    //     })
 
-        let memberList = GameMemberManage.gameMenmberList
-        this.raceList.forEach(raceItem => {
-            raceItem.betInfo = []
-            memberList.forEach(item => {
-                raceItem.betInfo[item.userId] = new BetLocItem({
-                    raceId: raceItem.raceId,
-                    userId: item.userId,
-                    userName: item.nick,
-                    sky: 0,
-                    land: 0,
-                    middle: 0,
-                    bridg: 0,
-                    skyCorner: 0,
-                    landCorner: 0,
-                } as BetScore)
-            })
-        })
-        cc.log('本地比赛下注数据初始化完毕')
-        cc.log(this.raceList)
-    }
+    //     let memberList = GameMemberManage.gameMenmberList
+    //     this.raceList.forEach(raceItem => {
+    //         raceItem.betInfo = []
+    //         memberList.forEach(item => {
+    //             raceItem.betInfo[item.userId] = new BetLocItem({
+    //                 raceId: raceItem.raceId,
+    //                 userId: item.userId,
+    //                 userName: item.nick,
+    //                 sky: 0,
+    //                 land: 0,
+    //                 middle: 0,
+    //                 bridg: 0,
+    //                 skyCorner: 0,
+    //                 landCorner: 0,
+    //             } as BetScore)
+    //         })
+    //     })
+    //     cc.log('本地比赛下注数据初始化完毕')
+    //     cc.log(this.raceList)
+    // }
 
 
 }

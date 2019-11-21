@@ -8,7 +8,6 @@ export default class GameMemberItem {
     public icon: string = null
     public score: number = null //积分
     public state: memberState = null
-    public modTime: number = null
 
     constructor(val: GameMember) {
         this.userId = val.userId
@@ -17,6 +16,5 @@ export default class GameMemberItem {
         this.icon = val.icon
         this.score = val.score
         this.state = val.state
-        this.modTime = val.modTime
     }
 }

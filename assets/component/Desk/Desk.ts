@@ -109,13 +109,9 @@ export default class NewClass extends cc.Component {
     }
 
     async showMembers() {
-        let infoOne = await Room.requestRoomInfo()
-        let roomInfo = infoOne.extObject as RoomItem
-        let infoTwo = await RaceManage.requestRaceList()
-        let raceList = infoTwo.extObject as RaceItem[]
-        let ob = await GameMemberManage.requestGameMemberList()
-        let userOb = await UserManage.requestUserInfo()
-        let memberList = ob.extObject as GameMemberItem[]
+        let roomInfo = Room.roomItem
+        let raceList = RaceManage.raceList
+        let memberList = GameMemberManage.gameMenmberList
         let isLandlordFind = false
         let leftMembers: any[] = []
         let rightMembers: any[] = []
