@@ -20,13 +20,13 @@ export default class NewClass extends cc.Component {
 
     start() {
         let oningNum = RoomManage.roomItem.oningRaceNum
-        let result = RaceManage.raceList[oningNum].locationResultDetail
+        let race = RaceManage.raceList[oningNum]
         let landLordId = RaceManage.raceList[0].landlordId
         let userId = UserManage.userInfo.id
         let bgPicUrl: string = ''
         let wenziUrl: string = ''
-        if (result.sky === CompareDxRe.BIG && result.middle === CompareDxRe.BIG &&
-            result.land === CompareDxRe.BIG) {
+        if (race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
+            race.landResult === CompareDxRe.BIG) {
             if (landLordId === userId) {
                 bgPicUrl = 'resultBg/result-bg_2cc9d222_01'
                 wenziUrl = 'resultWenzi/result_47f49bf6_01'
@@ -34,8 +34,8 @@ export default class NewClass extends cc.Component {
                 bgPicUrl = 'resultBg/result-bg_2cc9d222_02'
                 wenziUrl = 'resultWenzi/result_47f49bf6_04'
             }
-        } else if (result.sky === CompareDxRe.SMALL &&
-            result.middle === CompareDxRe.SMALL && result.land === CompareDxRe.SMALL) {
+        } else if (race.skyResult === CompareDxRe.SMALL &&
+            race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL) {
             if (landLordId === userId) {
                 bgPicUrl = 'resultBg/result-bg_2cc9d222_02'
                 wenziUrl = 'resultWenzi/result_47f49bf6_02'

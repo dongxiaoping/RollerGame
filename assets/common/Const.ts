@@ -137,11 +137,14 @@ export interface BetRecord {
     id?: string
     roomId?:string
     raceNum:number
-    isWin:CompareDxRe
     userId: string
-    raceId: string
-    betLocaion: betLocaion
-    costValue: number
+    raceId?: string
+    sky:number
+    middle:number
+    land:number
+    skyCorner:number
+    landCorner:number
+    bridg:number
     creatTime?:string
     modTime?:string
 }

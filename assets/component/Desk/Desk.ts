@@ -77,11 +77,11 @@ export default class NewClass extends cc.Component {
     //比大小动画 比大小动画结束回调
     playingBiDaXiaAnimation(func: any) {
         let oningNum = RoomManage.roomItem.oningRaceNum
-        let result = RaceManage.raceList[oningNum].locationResultDetail
+        let race = RaceManage.raceList[oningNum]
         let showNode:any = null
-        if ((result.sky === CompareDxRe.BIG && result.middle === CompareDxRe.BIG &&
-            result.land === CompareDxRe.BIG) || (result.sky === CompareDxRe.SMALL &&
-                result.middle === CompareDxRe.SMALL && result.land === CompareDxRe.SMALL)) {
+        if ((race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
+            race.landResult === CompareDxRe.BIG) || (race.skyResult === CompareDxRe.SMALL &&
+                race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL)) {
             cc.log('显示通赔或者通杀')
             showNode = cc.instantiate(this.middleResultWenZi)
             showNode.parent = this.node.parent

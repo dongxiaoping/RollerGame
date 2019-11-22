@@ -29,8 +29,8 @@ class RollEmulator extends RollControlerOb {
         Room.setRoomItem(roomInfo)
         GameMemberManage.setGameMemberList(GameMemberList)
         RaceManage.setRaceList(RaceList)
-        BetManage.init(GameMemberList, roomInfo.playCount)
-        BetManage.setBetList(BetList)
+      //  BetManage.init(GameMemberList, roomInfo.playCount)
+      //  BetManage.setBetList(BetList)
       //  RaceManage.updateEmulatorRaceInfo()
     }
 

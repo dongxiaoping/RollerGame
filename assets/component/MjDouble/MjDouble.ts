@@ -32,16 +32,11 @@ export default class NewClass extends cc.Component {
     }
 
     open(tableLocationType: TableLocationType) {
-        let oneValue: number
-        let twoValue: number
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
-        let majongResult = RaceManage.raceList[oningRaceNum].majongResult
-        oneValue = majongResult[tableLocationType].one
-        twoValue = majongResult[tableLocationType].two
-       // debugger
-        this.openAnimation(this.one, oneValue, () => {
+        let majongScore = RaceManage.raceList[oningRaceNum].getMahjongScore(tableLocationType)
+        this.openAnimation(this.one, majongScore.one, () => {
             setTimeout(() => {
-                this.openAnimation(this.two, twoValue, () => {
+                this.openAnimation(this.two, majongScore.two, () => {
                     let nextLocation = this.getNextTableLocation(tableLocationType)
                     if (nextLocation) {  //下个位置的翻牌
                         setTimeout(() => {

@@ -1,13 +1,11 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
-import BetItem from './BetItem'
-import { appMode, PromiseParam, PromiseResult, BetRecord, GameMember, BetScore } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, BetRecord, GameMember, betLocaion, BetScore } from '../../common/Const'
 import { BetList } from '../../mock/BetList'
-import axios from 'axios'
-import BetLocItem from './BetLocItem';
+import Betitem from './BetItem';
 @ccclass
 class BetManage {
-    betList: BetItem[] = [] //场次+用户Id 信息集合
+    betList: Betitem[][]= [] //场次+用户Id 信息集合
 
     public init(memberList: GameMember[], raceCount: number) {
         let list = []
@@ -24,7 +22,7 @@ class BetManage {
                     skyCorner: 0,
                     landCorner: 0,
                 } as BetScore
-                list[j][memberList[i].userId] = new BetLocItem(item)
+                list[j][memberList[i].userId] = new Betitem(item)
             }
         }
         this.betList = list
@@ -39,7 +37,7 @@ class BetManage {
             }
             if (config.appMode === appMode.LOCAL_TEST) {
                 BetList.forEach((item: BetRecord): void => {
-                    this.betList.push(new BetItem(item))
+                 //   this.betList.push(new BetItem(item))
                 })
             } else {
             }
@@ -47,24 +45,23 @@ class BetManage {
         })
     }
 
-    //     this.raceList.forEach(raceItem => {
-    //         raceItem.betInfo = []
-    //         memberList.forEach(item => {
-    //             raceItem.betInfo[item.userId] = new BetLocItem({
-    //                 raceId: raceItem.raceId,
-    //                 userId: item.userId,
-    //                 userName: item.nick,
-    //                 sky: 0,
-    //                 land: 0,
-    //                 middle: 0,
-    //                 bridg: 0,
-    //                 skyCorner: 0,
-    //                 landCorner: 0,
-    //             } as BetScore)
-    //         })
-
-    setBetList(list: BetRecord[]) {
-
+    addBet(oningRaceNum: number, userId: string, location: betLocaion, val: number) {
+        if(typeof(this.betList[oningRaceNum])==='undefined'){
+            this.betList[oningRaceNum] = [];
+        }
+        if(typeof(this.betList[oningRaceNum][userId])==='undefined'){
+            let item =   {
+                userId: userId,
+                sky: 0,
+                land: 0,
+                middle: 0,
+                bridg: 0,
+                skyCorner: 0,
+                landCorner: 0,
+            } as BetRecord
+            this.betList[oningRaceNum][userId] = new Betitem(item)
+        }
+        this.betList[oningRaceNum][userId][location] = val
     }
 }
 

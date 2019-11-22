@@ -18,7 +18,7 @@ export const RaceList: raceRecord[] = [
         skyResult: CompareDxRe.BIG
     }, {
         id: '3',
-        raceNum: 2,
+        raceNum: 1,
         landlordId: '24',
         playState: RaceState.NOT_BEGIN,
         landlordScore: { 'one': 3, 'two': 3 },

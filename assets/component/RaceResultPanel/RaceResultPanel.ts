@@ -1,11 +1,12 @@
 const { ccclass, property } = cc._decorator;
 import RaceManage from '../../store/Races/RaceManage'
-import Room from '../../store/Room/RoomManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
 import { IconValueList, LocationResultDetail, CompareDxRe } from '../../common/Const'
-import BetLocItem from '../../store/Bets/BetLocItem'
+import RaceItem from '../../store/Races/RaceItem';
+import BetManage from '../../store/Bets/BetManage';
+import Betitem from '../../store/Bets/BetItem';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -58,31 +59,28 @@ export default class NewClass extends cc.Component {
         let raceNum = RoomManage.roomItem.oningRaceNum
         cc.log('当前比赛的场次号' + raceNum)
         let raceInfo = RaceManage.raceList[raceNum]
-        let betInfoList = raceInfo.betInfo
-        let majongResult = raceInfo.majongResult
+        let betInfoList = BetManage.betList[raceNum];
         let landloardId = raceInfo.landlordId
         cc.log(raceInfo)
-        this.drawResult(this.sky_dian_1, majongResult.sky.one)
-        this.drawResult(this.sky_dian_2, majongResult.sky.two)
-        this.drawResult(this.middle_dian_1, majongResult.middle.one)
-        this.drawResult(this.middle_dian_2, majongResult.middle.two)
-        this.drawResult(this.land_dian_1, majongResult.land.one)
-        this.drawResult(this.land_dian_2, majongResult.land.two)
-        this.drawResult(this.landlord_dian_1, majongResult.landlord.one)
-        this.drawResult(this.landlord_dian_2, majongResult.landlord.two)
+        this.drawResult(this.sky_dian_1, raceInfo.skyScore.one)
+        this.drawResult(this.sky_dian_2, raceInfo.skyScore.two)
+        this.drawResult(this.middle_dian_1, raceInfo.middleScore.one)
+        this.drawResult(this.middle_dian_2, raceInfo.middleScore.two)
+        this.drawResult(this.land_dian_1, raceInfo.landScore.one)
+        this.drawResult(this.land_dian_2, raceInfo.landScore.two)
+        this.drawResult(this.landlord_dian_1, raceInfo.landlordScore.one)
+        this.drawResult(this.landlord_dian_2, raceInfo.landlordScore.two)
 
 
         let myUserId = UserManage.userInfo.id
         this.landlordName.string = GameMemberManage.gameMenmberList[landloardId].nick
-        let locationResultDetail = raceInfo.locationResultDetail
-        if (locationResultDetail.sky)
-            this.showWinOrFailIcon(locationResultDetail)
+        this.showWinOrFailIcon(raceInfo)
         let totalScore: number = 0
-        betInfoList.forEach((item: BetLocItem) => {
-            totalScore = totalScore + item.getScore(locationResultDetail)
+        betInfoList.forEach((item: Betitem) => {
+            totalScore = totalScore + item.getScore(raceInfo)
         })
         let i = 1
-        betInfoList.forEach((item: BetLocItem) => {
+        betInfoList.forEach((item: Betitem) => {
             let node = cc.instantiate(this.memberScoreItem)
             let nameLabel = node.getChildByName('name').getComponents(cc.Label)
             let scoreLabel = node.getChildByName('score').getComponents(cc.Label)
@@ -97,15 +95,19 @@ export default class NewClass extends cc.Component {
             i++
         })
         this.landlordScore.string = -totalScore + ''
-        let myScore = betInfoList[myUserId].score
-        if (myUserId === landloardId) {
-            myScore = -totalScore
+        try{
+            let myScore = betInfoList[myUserId].score
+            if (myUserId === landloardId) {
+                myScore = -totalScore
+            }
+            this.myScore.string = myScore
+        }catch(e){
+            cc.log('本人不在房间')
         }
-        this.myScore.string = myScore
     }
 
-    showWinOrFailIcon(locationResultDetail: LocationResultDetail): void {
-        if(locationResultDetail.sky === CompareDxRe.BIG){
+    showWinOrFailIcon(raceInfo:RaceItem): void {
+        if(raceInfo.skyResult === CompareDxRe.BIG){
             cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 this.skyWinOrFail.spriteFrame = myIcon;
@@ -116,7 +118,7 @@ export default class NewClass extends cc.Component {
                 this.skyWinOrFail.spriteFrame = myIcon;
             })
         }
-        if(locationResultDetail.middle === CompareDxRe.BIG){
+        if(raceInfo.middleResult === CompareDxRe.BIG){
             cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 this.middleWinOrFail.spriteFrame = myIcon;
@@ -127,7 +129,7 @@ export default class NewClass extends cc.Component {
                 this.middleWinOrFail.spriteFrame = myIcon;
             })
         }
-        if(locationResultDetail.land === CompareDxRe.BIG){
+        if(raceInfo.landResult === CompareDxRe.BIG){
             cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 this.landWinOrFail.spriteFrame = myIcon;

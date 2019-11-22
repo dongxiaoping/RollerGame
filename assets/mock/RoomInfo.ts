@@ -4,7 +4,7 @@ export const roomInfo: RoomInfo = {
     id: 12,
     creatUserId: '23',
     memberLimit: 8,
-    playCount: 7,
+    playCount: 2,
     playMode: playMode.TURN,
     roomFee: 10,
     roomPay: CreateRoomPayModel.AA,

@@ -1,10 +1,9 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RaceItem from './RaceItem'
-import { appMode, PromiseParam, PromiseResult, raceRecord, BetScore, RaceState } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, raceRecord, BetScore, RaceState, betLocaion } from '../../common/Const'
 import { RaceList } from '../../mock/RaceList'
 import GameMemberManage from '../GameMember/GameMemberManage'
-import BetLocItem from '../Bets/BetLocItem'
 import GameMemberItem from '../GameMember/GameMemberItem'
 import RoomManage from '../../store/Room/RoomManage'
 import axios from 'axios'
@@ -18,7 +17,7 @@ class RaceManage {
     getScoreByUserId(userId: string): number {
         let score: number = 0
         this.raceList.forEach((item: RaceItem) => {
-            score = score + item.betInfo[userId].score
+           // score = score + item.betInfo[userId].score
         })
         return score
     }
@@ -38,27 +37,27 @@ class RaceManage {
         }
         let ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-           BetManage.betList[oningRaceNum][userId].landCorner = 10
+           BetManage.addBet(oningRaceNum,userId,betLocaion.LAND_CORNER,10)
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.betList[oningRaceNum][userId].sky = 20
+            BetManage.addBet(oningRaceNum,userId,betLocaion.SKY,20)
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.betList[oningRaceNum][userId].bridg = 20
+            BetManage.addBet(oningRaceNum,userId,betLocaion.BRIDG,20)
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.betList[oningRaceNum][userId].land = 50
+            BetManage.addBet(oningRaceNum,userId,betLocaion.LAND,50)
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.betList[oningRaceNum][userId].middle = 100
+            BetManage.addBet(oningRaceNum,userId,betLocaion.MIDDLE,100)
         }, ranTime * 1000)
         ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.betList[oningRaceNum][userId].skyCorner = 100
+            BetManage.addBet(oningRaceNum,userId,betLocaion.SKY_CORNER,100)
         }, ranTime * 1000)
     }
 

@@ -1,22 +1,20 @@
 const { ccclass } = cc._decorator;
-import BetLocItem from '../../store/Bets/BetLocItem'
 import { eventBus } from '../../common/EventBus'
-import { CompareDxRe, LocationResultDetail, EventType, raceRecord, RaceState, MajongResult, RaceStateChangeParam, DiceCountInfo } from '../../common/Const'
+import { CompareDxRe, LocationResultDetail, EventType, raceRecord, RaceState, MajongResult, RaceStateChangeParam, DiceCountInfo, TableLocationType } from '../../common/Const'
 @ccclass
 export default class RaceItem {
     public raceId: string = null
     public num: number = null
     public _state: RaceState = null
     private _landlordId: string = null
-    public betInfo: BetLocItem[] = null //下注信息集合
     public landlordScore: DiceCountInfo = null
-    public skyScore: DiceCountInfo = null
+    public skyScore: DiceCountInfo = null  //牌值
     public middleScore: DiceCountInfo = null
     public landScore: DiceCountInfo = null
 
     public points: DiceCountInfo = null
 
-    public landResult: CompareDxRe = null
+    public landResult: CompareDxRe = null //输赢结果
     public middleResult: CompareDxRe = null
     public bridgResult: CompareDxRe = null
     public landCornerResult: CompareDxRe = null
@@ -42,6 +40,19 @@ export default class RaceItem {
         this.landCornerResult = val.landCornerResult
         this.skyCornerResult = val.skyCornerResult
         this.skyResult = val.skyResult
+    }
+
+    getMahjongScore(location: TableLocationType) {
+        switch (location) {
+            case TableLocationType.SKY:
+                return this.skyScore;
+            case TableLocationType.MIDDLE:
+                return this.middleScore;
+            case TableLocationType.LAND:
+                return this.landScore;
+            case TableLocationType.LANDLORD:
+                return this.landScore;
+        }
     }
 
 
