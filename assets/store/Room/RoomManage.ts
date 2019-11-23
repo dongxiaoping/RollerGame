@@ -72,8 +72,7 @@ class RoomManage {
                     this.setRoomItem(roomInfo);
                     RaceManage.setRaceList(races);
                     GameMemberManage.setGameMemberList(members);
-                    BetManage.init(members, roomInfo.playCount)
-                    BetManage.setBetList(betRecords);
+                    //BetManage.setBetList(betRecords);
                     resolve({ result: ResponseStatus.SUCCESS, extObject: '' })
                 })
         })

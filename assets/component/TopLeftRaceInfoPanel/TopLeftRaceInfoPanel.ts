@@ -25,11 +25,16 @@ export default class NewClass extends cc.Component {
     }
 
     async initShow() {
-        let info = await RoomManage.requestRoomInfo()
-        let roomInfo = info.extObject as RoomItem
-        this.betLimit.string = '下注上限：' + roomInfo.costLimit
-        this.playCountLimit.string = '当前牌局：1/' + roomInfo.playCount
-        this.playCount = roomInfo.playCount
+        try{
+            let info = await RoomManage.requestRoomInfo()
+            let roomInfo = info.extObject as RoomItem
+            this.betLimit.string = '下注上限：' + roomInfo.costLimit
+            this.playCountLimit.string = '当前牌局：1/' + roomInfo.playCount
+            this.playCount = roomInfo.playCount
+        }catch(e){
+
+        }
+
     }
 
 }

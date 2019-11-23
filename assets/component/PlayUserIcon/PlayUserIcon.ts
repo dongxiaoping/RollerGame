@@ -1,6 +1,4 @@
 const { ccclass, property } = cc._decorator;
-import GameMemberManage from '../../store/GameMember/GameMemberManage'
-import GameMemberItem from '../../store/GameMember/GameMemberItem'
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -14,26 +12,15 @@ export default class NewClass extends cc.Component {
     userIcon: cc.Sprite = null;
 
     start() {
-        this.showInfo()
 
     }
 
-    async showInfo() {
-        let memberList = await GameMemberManage.requestGameMemberList()
-        let list = memberList.extObject as GameMemberItem[]
-        list.forEach((item: GameMemberItem): void => {
-            if (item.userId === this.node.name) {
-                cc.loader.loadRes(item.icon, (error, img) => {
-                    let myIcon = new cc.SpriteFrame(img);
-                    this.userIcon.spriteFrame = myIcon
-                    this.userCount.string = item.score + ''
-                    this.userName.string = item.nick
-                })
-                return
-            }
-            
+    setShow(iconUrl: string, userName: string) {
+        cc.loader.loadRes(iconUrl, (error, img) => {
+            let myIcon = new cc.SpriteFrame(img);
+            this.userIcon.spriteFrame = myIcon
+            this.userCount.string = '0'
+            this.userName.string = userName
         })
     }
-
-    // update (dt) {}
 }

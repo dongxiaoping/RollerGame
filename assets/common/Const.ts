@@ -281,3 +281,10 @@ export enum CompareDxRe {
 }
 
 
+export interface MemberInChairData {
+    userId: string,
+    userName: string,
+    userIcon: string
+}
+
+

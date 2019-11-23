@@ -63,7 +63,7 @@ export default class NewClass extends cc.Component {
 
     async initGameInfo(roomId:number,userId:string){
        let info = await RoomManage.loginRoom(userId,roomId) 
-       cc.log(info)
+       this.startAfterDataInit()
     }
 
     startAfterDataInit(){

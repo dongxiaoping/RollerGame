@@ -52,12 +52,10 @@ export default class NewClass extends cc.Component {
 
     }
 
-    getUserDeskLocation(userId: string): Coordinate {
+    getUserChairPosition(userId: string): Coordinate {
         let node = this.node.parent
-        let scriptOb = node.getChildByName('Desk').getComponent('Desk')
-        let chairName = scriptOb.deskSitList[userId].name
-        let chairNode = node.getChildByName(chairName)
-        return chairNode.getPosition()
+        let deskOb = node.getChildByName('Desk').getComponent('Desk')
+        return deskOb.chairManage.getChairPositionByUserId(userId)
     }
 
     closeAllFocus() {
@@ -144,7 +142,11 @@ export default class NewClass extends cc.Component {
             let betLocationType = betInfo.betLocation
             let points = chipPoint[betLocationType]
             let fromLocation: Coordinate
-            fromLocation = this.getUserDeskLocation(userId)
+            fromLocation = this.getUserChairPosition(userId)
+            if(fromLocation === null){
+                cc.log('没找到用户所在椅子的位置')
+                return
+            }
             let isOwn: Boolean = false //是否是当前用户下的注
             if (userId === UserManage.userInfo.id) {
                 cc.log('是自己投的注')

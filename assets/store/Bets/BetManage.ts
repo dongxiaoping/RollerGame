@@ -7,26 +7,26 @@ import Betitem from './BetItem';
 class BetManage {
     betList: Betitem[][]= [] //场次+用户Id 信息集合
 
-    public init(memberList: GameMember[], raceCount: number) {
-        let list = []
-        for (let j = 0; j < raceCount; j++) {
-            list[j] = []
-            for (let i = 0; i < memberList.length; i++) {
-                let item = {
-                    userId: memberList[i].userId,
-                    userName: memberList[i].nick,
-                    sky: 0,
-                    land: 0,
-                    middle: 0,
-                    bridg: 0,
-                    skyCorner: 0,
-                    landCorner: 0,
-                } as BetScore
-                list[j][memberList[i].userId] = new Betitem(item)
-            }
-        }
-        this.betList = list
-    }
+    // public init(memberList: GameMember[], raceCount: number) {
+    //     let list = []
+    //     for (let j = 0; j < raceCount; j++) {
+    //         list[j] = []
+    //         for (let i = 0; i < memberList.length; i++) {
+    //             let item = {
+    //                 userId: memberList[i].userId,
+    //                 userName: memberList[i].nick,
+    //                 sky: 0,
+    //                 land: 0,
+    //                 middle: 0,
+    //                 bridg: 0,
+    //                 skyCorner: 0,
+    //                 landCorner: 0,
+    //             } as BetScore
+    //             list[j][memberList[i].userId] = new Betitem(item)
+    //         }
+    //     }
+    //     this.betList = list
+    // }
 
 
     public requestBetList(): Promise<PromiseParam> {

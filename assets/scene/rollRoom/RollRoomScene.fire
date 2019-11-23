@@ -53,7 +53,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Canvas",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 1
     },
@@ -3036,7 +3036,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_landlord",
+    "_name": "Member_0",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3090,7 +3090,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_0",
+    "_name": "Member_1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3144,7 +3144,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_1",
+    "_name": "Member_2",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3198,7 +3198,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_2",
+    "_name": "Member_3",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3252,7 +3252,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_3",
+    "_name": "Member_4",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3306,7 +3306,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_4",
+    "_name": "Member_5",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3360,7 +3360,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_5",
+    "_name": "Member_6",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3414,7 +3414,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_6",
+    "_name": "Member_7",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3468,7 +3468,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_7",
+    "_name": "Member_8",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3522,7 +3522,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Member_8",
+    "_name": "Member_9",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2

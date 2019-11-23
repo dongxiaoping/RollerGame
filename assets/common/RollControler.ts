@@ -76,7 +76,7 @@ export class RollControlerOb {
                     RaceManage.changeRaceState(RaceState.SHOW_DOWN)
                     break
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
-                    cc.log('我是控制器，我接到了开牌动画结束通知,我将比赛状态改为显示结果')
+                    cc.log('我是控制器，我接到了比大小动画结束通知,我将比赛状态改为显示结果')
                     RaceManage.changeRaceState(RaceState.SHOW_RESULT)
                     setTimeout(() => {
                         cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')

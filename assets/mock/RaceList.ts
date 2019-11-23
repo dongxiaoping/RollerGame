@@ -3,7 +3,7 @@ export const RaceList: raceRecord[] = [
     {
         id: '1',
         raceNum: 0,
-        landlordId: '23',
+        landlordId: '6666660',
         playState: RaceState.NOT_BEGIN,
         landlordScore: { 'one': 3, 'two': 3 },
         skyScore: { 'one': 3, 'two': 3 },
@@ -19,7 +19,7 @@ export const RaceList: raceRecord[] = [
     }, {
         id: '3',
         raceNum: 1,
-        landlordId: '24',
+        landlordId: '6666660',
         playState: RaceState.NOT_BEGIN,
         landlordScore: { 'one': 3, 'two': 3 },
         skyScore: { 'one': 3, 'two': 3 },

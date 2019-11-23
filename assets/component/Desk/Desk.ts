@@ -5,7 +5,7 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe } from '../../common/Const'
+import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
 import { eventBus } from '../../common/EventBus'
@@ -14,8 +14,9 @@ import RaceManage from '../../store/Races/RaceManage'
 import RaceItem from '../../store/Races/RaceItem'
 import RoomManage from '../../store/Room/RoomManage';
 import UserManage from '../../store/User/UserManage';
+import ChairManage from './ChairManage';
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Desk extends cc.Component {
 
     @property(cc.Prefab)
     private playUserIcon: cc.Prefab = null //玩家icon
@@ -30,8 +31,10 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private qingXiaZhu: cc.Prefab = null //请下注文字图
 
+    private chairManage: ChairManage;
     private deskSitList = [] //坐的位置信息 如：[userId:location:{x:0,y:3}]
     start() {
+        this.chairManage = new ChairManage(cc, this.playUserIcon)
         this.showMembers()
         this.addEventListener()
     }
@@ -55,8 +58,10 @@ export default class NewClass extends cc.Component {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    cc.log('我是桌子，开牌动画结束，我开始执行比大小动画')
                     this.playingBiDaXiaAnimation((): void => {
-                         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
+                        cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
                     })
                     break
             }
@@ -78,7 +83,7 @@ export default class NewClass extends cc.Component {
     playingBiDaXiaAnimation(func: any) {
         let oningNum = RoomManage.roomItem.oningRaceNum
         let race = RaceManage.raceList[oningNum]
-        let showNode:any = null
+        let showNode: any = null
         if ((race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
             race.landResult === CompareDxRe.BIG) || (race.skyResult === CompareDxRe.SMALL &&
                 race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL)) {
@@ -88,7 +93,7 @@ export default class NewClass extends cc.Component {
             showNode.active = true
         }
         setTimeout(() => {
-            if(showNode!==null){
+            if (showNode !== null) {
                 showNode.destroy()
             }
             func()
@@ -108,85 +113,15 @@ export default class NewClass extends cc.Component {
         }, 1500)
     }
 
-    async showMembers() {
-        let roomInfo = Room.roomItem
-        let raceList = RaceManage.raceList
+    showMembers() {
+        this.chairManage.clearAllChair()
         let memberList = GameMemberManage.gameMenmberList
-        let isLandlordFind = false
-        let leftMembers: any[] = []
-        let rightMembers: any[] = []
-        let oningRaceNum = Room.roomItem.oningRaceNum
-        let landLordId = raceList[oningRaceNum].landlordId
-        if (landLordId === '' || landLordId === null) {
-            landLordId = UserManage.userInfo.id
-        }
-        if (landLordId === this.onLandlordSiteUserId) { //这个地方存在一个bug 地主没变 但是成员变了 就不会刷新
-            cc.log('地主位置上人员没有变动，不换位置')
-            return
-        }
-        this.clearOldMember()
-        memberList.forEach((item: GameMemberItem): void => {
-            if (item.userId === landLordId) {
-                let node = cc.instantiate(this.playUserIcon)
-                node.name = item.userId
-                node.parent = this.node.parent.getChildByName('Member_landlord')
-                this.onLandlordSiteUserId = item.userId
-                node.setPosition(0, 0)
-                this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_landlord' }
-                isLandlordFind = true
-                node.active = true
-            } else {
-                if (isLandlordFind) {
-                    leftMembers.push(item)
-                } else {
-                    rightMembers.push(item)
-                }
-            }
+        memberList.forEach((item: GameMemberItem) => {
+            let member = {
+                userId: item.userId, userName: item.nick,
+                userIcon: item.icon
+            } as MemberInChairData
+            this.chairManage.inChair(member)
         })
-        if (!isLandlordFind) {
-            let k = 0
-            let j = 0
-            memberList.forEach((item: GameMemberItem): void => {
-                let node = cc.instantiate(this.playUserIcon)
-                node.name = item.userId
-                if (k === 0) {
-                    node.parent = this.node.parent.getChildByName('Member_landlord')
-                    this.onLandlordSiteUserId = item.userId
-                    node.setPosition(0, 0)
-                    this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_landlord' }
-                    node.active = true
-                } else {
-                    node.parent = this.node.parent.getChildByName('Member_' + j)
-                    node.setPosition(0, 0)
-                    this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_' + j }
-                    node.active = true
-                    j++
-                }
-                k++
-            })
-            return
-        }
-        let i = 0
-        leftMembers.forEach((item: GameMemberItem): void => {
-            let node = cc.instantiate(this.playUserIcon)
-            node.name = item.userId
-            node.parent = this.node.parent.getChildByName('Member_' + i)
-            node.setPosition(0, 0)
-            this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_' + i }
-            node.active = true
-            i++
-        })
-        let j = 8
-        rightMembers = rightMembers.reverse()
-        rightMembers.forEach((item: GameMemberItem): void => {
-            let node = cc.instantiate(this.playUserIcon)
-            node.name = item.userId
-            node.parent = this.node.parent.getChildByName('Member_' + j)
-            node.setPosition(0, 0)
-            this.deskSitList[item.userId] = { userId: item.userId, name: 'Member_' + j }
-            node.active = true
-            j--
-        })
-        cc.log('成员坐落初始化完毕')
     }
 }
