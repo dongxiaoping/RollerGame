@@ -73,7 +73,7 @@ export default class NewClass extends cc.Component {
 
 
         let myUserId = UserManage.userInfo.id
-        this.landlordName.string = GameMemberManage.gameMenmberList[landloardId].nick
+        //this.landlordName.string = GameMemberManage.gameMenmberList[landloardId].nick
         this.showWinOrFailIcon(raceInfo)
         let totalScore: number = 0
         betInfoList.forEach((item: Betitem) => {

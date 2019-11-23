@@ -2,7 +2,7 @@ import { RoomInfo, playMode, roomState, CreateRoomPayModel } from '../common/Con
 
 export const roomInfo: RoomInfo = {
     id: 12,
-    creatUserId: '23',
+    creatUserId: '6666660',
     memberLimit: 8,
     playCount: 2,
     playMode: playMode.TURN,

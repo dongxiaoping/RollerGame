@@ -3,9 +3,8 @@ import { RollControlerOb } from './RollControler'
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage'
-import GameMember from '../store/GameMember/GameMemberManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
-import { RaceState, roomState, RaceStateChangeParam } from '../common/Const'
+import { RaceState, roomState, RaceStateChangeParam, gameMemberType, memberState, GameMember } from '../common/Const'
 import Room from '../store/Room/RoomManage'
 import { roomInfo } from '../mock/RoomInfo'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
@@ -27,11 +26,29 @@ class RollEmulator extends RollControlerOb {
         cc.log('模拟器初始化本地数据')
         UserManage.setUserInfo(userInfo)
         Room.setRoomItem(roomInfo)
-        GameMemberManage.setGameMemberList(GameMemberList)
+
+        let memeberOwn = {
+            userId: '',
+            roleType: gameMemberType.MANAGE,
+            nick: '',
+            icon: '',
+            score: 0,
+            state: memberState.OnLine
+        } as GameMember
+        memeberOwn['userId'] = userInfo['id']
+        memeberOwn['nick'] = userInfo.nick
+        memeberOwn['icon'] = userInfo.icon
+        GameMemberList.splice(0, 0, memeberOwn)
+        let newMembers = [memeberOwn];
+        GameMemberList.forEach((item: GameMember) => {
+            newMembers.push(item)
+        })
+        GameMemberManage.setGameMemberList(newMembers)
+
         RaceManage.setRaceList(RaceList)
-      //  BetManage.init(GameMemberList, roomInfo.playCount)
-      //  BetManage.setBetList(BetList)
-      //  RaceManage.updateEmulatorRaceInfo()
+        //  BetManage.init(GameMemberList, roomInfo.playCount)
+        //  BetManage.setBetList(BetList)
+        //  RaceManage.updateEmulatorRaceInfo()
     }
 
     //模拟器模拟相关推送数据
@@ -39,7 +56,7 @@ class RollEmulator extends RollControlerOb {
         cc.log('模拟器发起模拟下注')
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         let landlordId = RaceManage.raceList[oningRaceNum].landlordId
-        let memberList = GameMember.gameMenmberList
+        let memberList = GameMemberManage.gameMenmberList
         memberList.forEach((item: GameMemberItem) => {
             if (item.userId !== landlordId && item.userId !== UserManage.userInfo.id) {
                 RaceManage.emulateXiaZhuByUser(item.userId)
