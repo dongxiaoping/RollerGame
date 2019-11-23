@@ -8,8 +8,8 @@ import RoomItem from '../../store/Room/RoomItem'
 import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
-import { rollControler } from '../../common/RollControler';
 import RollEmulator from "../../common/RollEmulator";
+import RollControler from '../../common/RollControler';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -52,21 +52,26 @@ export default class NewClass extends cc.Component {
 
 
     onEnable() {
-        if(RollEmulator.isRuning){
+        if (RollEmulator.isRuning && RollControler.isRuning) {
+                cc.log('错误！游戏模拟器和游戏控制器只能开一个')
+                return
+        }
+        if (RollEmulator.isRuning) {
             this.startAfterDataInit()
             cc.log('进入模拟房间')
-        }else{
+        } else {
+            RollControler.start()
             cc.log('进入游戏房间')
-            this.initGameInfo(RoomManage.roomItem.id,UserManage.userInfo.id)
+            this.initGameInfo(RoomManage.roomItem.id, UserManage.userInfo.id)
         }
     }
 
-    async initGameInfo(roomId:number,userId:string){
-       let info = await RoomManage.loginRoom(userId,roomId) 
-       this.startAfterDataInit()
+    async initGameInfo(roomId: number, userId: string) {
+        let info = await RoomManage.loginRoom(userId, roomId)
+        this.startAfterDataInit()
     }
 
-    startAfterDataInit(){
+    startAfterDataInit() {
         this.showUserIcon()
         this.changeStartButtonState()
         this.initXiaZhuPanel()
@@ -76,7 +81,7 @@ export default class NewClass extends cc.Component {
         this.addClickEvent()
     }
 
-    private initDesk(){
+    private initDesk() {
         let node = cc.instantiate(this.desk)
         node.parent = this.node
         node.active = true
@@ -205,7 +210,7 @@ export default class NewClass extends cc.Component {
         scriptOb.deal(loaction)
     }
 
-    initMahjongPanel(){
+    initMahjongPanel() {
         let node = this.node.getChildByName('DealMachine')
         if (!node) {
             node = cc.instantiate(this.dealMachine)
