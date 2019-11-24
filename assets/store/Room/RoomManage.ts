@@ -66,7 +66,17 @@ class RoomManage {
                     let info = res.data as ResponseData
                     let data = info.data;
                     let roomInfo = data.room as RoomInfo;
-                    let races = data.races as raceRecord[];
+
+                    let races = data.races
+                    for(let i=0;i<races.length;i++){
+                        races[i].points = JSON.parse(races[i].points);
+                        races[i].landlordScore= JSON.parse(races[i].landlordScore);
+                        races[i].skyScore= JSON.parse(races[i].skyScore);
+                        races[i].landScore= JSON.parse(races[i].landScore);
+                        races[i].middleScore= JSON.parse(races[i].middleScore);
+                    }
+                    races as raceRecord[];
+
                     let members = data.members as GameMember[];
                     let betRecords =  data.betRecords as BetRecord[];
                     this.setRoomItem(roomInfo);

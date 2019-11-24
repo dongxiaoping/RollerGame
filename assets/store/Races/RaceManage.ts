@@ -93,33 +93,10 @@ class RaceManage {
         this.raceList[oningRaceNum].state = toState
     }
 
-    //设置模拟器的竞赛信息集合
-    // updateEmulatorRaceInfo() {
-    //     RaceList.forEach((item: raceRecord): void => {
-    //         this.raceList[item.num] = new RaceItem(item)
-    //     })
-
-    //     let memberList = GameMemberManage.gameMenmberList
-    //     this.raceList.forEach(raceItem => {
-    //         raceItem.betInfo = []
-    //         memberList.forEach(item => {
-    //             raceItem.betInfo[item.userId] = new BetLocItem({
-    //                 raceId: raceItem.raceId,
-    //                 userId: item.userId,
-    //                 userName: item.nick,
-    //                 sky: 0,
-    //                 land: 0,
-    //                 middle: 0,
-    //                 bridg: 0,
-    //                 skyCorner: 0,
-    //                 landCorner: 0,
-    //             } as BetScore)
-    //         })
-    //     })
-    //     cc.log('本地比赛下注数据初始化完毕')
-    //     cc.log(this.raceList)
-    // }
-
+    changeRaceLandlord(landlordId: string): void {
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        this.raceList[oningRaceNum].landlordId = landlordId
+    }
 
 }
 

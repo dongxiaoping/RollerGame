@@ -25,7 +25,6 @@ export default class RaceItem {
         this.raceId = val.id
         this.num = val.raceNum
         this.state = val.playState
-        this.landlordId = val.landlordId
 
         this.landlordScore = val.landlordScore
         this.skyScore = val.skyScore
@@ -61,13 +60,9 @@ export default class RaceItem {
     }
 
     set landlordId(val: string) {
-        if (this._landlordId != null && this._landlordId != val) {
-            cc.log('地主改变了,下发通知')
-            this._landlordId = val
-            eventBus.emit(EventType.LANDLORD_CAHNGE_EVENT, val)
-        } else {
-            this._landlordId = val
-        }
+        cc.log('地主改变了,下发通知')
+        this._landlordId = val
+        eventBus.emit(EventType.LANDLORD_CAHNGE_EVENT, val)
     }
 
 

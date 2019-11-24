@@ -3,7 +3,7 @@ import RaceManage from '../../store/Races/RaceManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
-import { IconValueList, LocationResultDetail, CompareDxRe } from '../../common/Const'
+import { IconValueList, CompareDxRe } from '../../common/Const'
 import RaceItem from '../../store/Races/RaceItem';
 import BetManage from '../../store/Bets/BetManage';
 import Betitem from '../../store/Bets/BetItem';
@@ -59,7 +59,7 @@ export default class NewClass extends cc.Component {
         let raceNum = RoomManage.roomItem.oningRaceNum
         cc.log('当前比赛的场次号' + raceNum)
         let raceInfo = RaceManage.raceList[raceNum]
-        let betInfoList = BetManage.betList[raceNum];
+        let betInfoList = BetManage.betList[raceNum]?BetManage.betList[raceNum]:[];
         let landloardId = raceInfo.landlordId
         cc.log(raceInfo)
         this.drawResult(this.sky_dian_1, raceInfo.skyScore.one)

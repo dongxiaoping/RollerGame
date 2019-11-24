@@ -60,15 +60,15 @@ export default class NewClass extends cc.Component {
             this.startAfterDataInit()
             cc.log('进入模拟房间')
         } else {
-            RollControler.start()
             cc.log('进入游戏房间')
-            this.initGameInfo(RoomManage.roomItem.id, UserManage.userInfo.id)
+            this.startGame(RoomManage.roomItem.id, UserManage.userInfo.id)
         }
     }
 
-    async initGameInfo(roomId: number, userId: string) {
+    async startGame(roomId: number, userId: string) {
         let info = await RoomManage.loginRoom(userId, roomId)
         this.startAfterDataInit()
+        RollControler.start()
     }
 
     startAfterDataInit() {
@@ -124,8 +124,8 @@ export default class NewClass extends cc.Component {
                     }
                     break
                 case RaceState.CHOICE_LANDLORD:
-                    cc.log('房间收到选地主指令，开始选地主流程') //到了这个环境不是一定弹出地主提示框，要看通知是否轮到当前玩家选地主
-                    // this.choiceLandLord()
+                    cc.log('房间收到选地主指令，开始选地主流程,通知所有玩家抢地主') //只做抢地主
+                     this.choiceLandLord()
                     break
                 case RaceState.DEAL:
                     cc.log('房间收到发牌指令，开始发牌流程')
@@ -160,19 +160,19 @@ export default class NewClass extends cc.Component {
             }
         })
 
-        eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-            let oningRaceNum = RoomManage.roomItem.oningRaceNum
-            if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD) {
-                cc.log('错误！接收到了地主邀请通知，但当前房间状态不是选地主')
-                return
-            }
-            if (UserManage.userInfo.id !== landlordId) {
-                cc.log('接收到了地主邀请通知，但邀请的不是自己')
-            } else {
-                cc.log('当前用户收到邀请，弹出是否当地主提示框')
-                this.choiceLandLord()
-            }
-        })
+        // eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
+        //     let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        //     if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD) {
+        //         cc.log('错误！接收到了地主邀请通知，但当前房间状态不是选地主')
+        //         return
+        //     }
+        //     if (UserManage.userInfo.id !== landlordId) {
+        //         cc.log('接收到了地主邀请通知，但邀请的不是自己')
+        //     } else {
+        //         cc.log('当前用户收到邀请，弹出是否当地主提示框')
+        //         this.choiceLandLord()
+        //     }
+        // })
     }
 
     cleanMhjongOnDesk(): void {

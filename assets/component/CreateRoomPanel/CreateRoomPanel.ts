@@ -118,7 +118,7 @@ export default class NewClass extends cc.Component {
         let res = await RoomManage.createRoom(userId, renshu, jushu, payMode, xiazhu)
         if (res.result === ResponseStatus.SUCCESS) {
             let roomInfo = res.extObject as RoomInfo
-            RoomManage.setRoomItem(roomInfo)
+            RoomManage.setRoomItem(roomInfo) //主要的设置roomId
             this.node.destroy()
             cc.director.loadScene("RollRoomScene");
             cc.log('房间创建成功,房间信息：' + JSON.stringify(roomInfo))

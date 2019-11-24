@@ -195,10 +195,7 @@ export interface raceRecord {
     middleScore?:DiceCountInfo
     landScore?:DiceCountInfo
     landlordId: string //地主ID
-    betInfo?: BetLocItem[] //下注信息 本地有
-    majongResult?: MajongResult  //发牌位置的牌值集合 本地有
     points: DiceCountInfo  //色子点数信息集合
-    locationResultDetail?: LocationResultDetail  //每个下注位置的输赢结果集合 本地有
     skyResult?: CompareDxRe //接口有 天输赢
     middleResult?: CompareDxRe //接口有 中输赢
     landResult?: CompareDxRe //接口有 地输赢
