@@ -1,5 +1,6 @@
 import UserManage from "../../store/User/UserManage";
 import RollEmulator from "../../common/RollEmulator";
+import { isUrlToGameRoom } from "../../common/Util";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,6 +37,10 @@ export default class LobbyScene extends cc.Component {
     }
 
     onEnable() {
+        if(isUrlToGameRoom()){
+            cc.director.loadScene("RollRoomScene")
+            return
+        }
         this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.showEntryBox()
         })
@@ -54,7 +59,7 @@ export default class LobbyScene extends cc.Component {
     }
 
     async initUserInfo() {
-        let info = await UserManage.requestUserInfo();
+        let info = await UserManage.requestVisitorUserInfo();
         this.userName.string = UserManage.userInfo.nick
         this.userId.string = 'ID:' + UserManage.userInfo.id
         this.diamond.string = UserManage.userInfo.diamond + ''

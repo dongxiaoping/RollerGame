@@ -17,8 +17,6 @@ export class RollControler {
         this.isRuning = true
         this.eventReceive()
         this.enterSocketRoom()
-
-
     }
 
     //如果是房主进入，如果房间游戏没开始，需要再socket的里面初始化房间
@@ -35,7 +33,12 @@ export class RollControler {
             ws.send(JSON.stringify(notice));
             cc.log('我是房间创立者，我向服务器发起建立并进入socket房间的websocket通知')
         } else {
-
+            let notice = {
+                type: NoticeType.enterRoom, info: {
+                    roomId: RoomManage.roomItem.id
+                }
+            } as NoticeData
+            ws.send(JSON.stringify(notice));
             cc.log('我是玩家，我向服务器发起进入socket房间的websocket通知')
         }
     }

@@ -5,7 +5,7 @@ import { eventBus } from '../../common/EventBus'
 import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import RoomItem from '../../store/Room/RoomItem'
-import { randEventId, getFaPaiLocation } from '../../common/Util'
+import { randEventId, getFaPaiLocation, isUrlToGameRoom, getUrlParam } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator";
@@ -61,11 +61,21 @@ export default class NewClass extends cc.Component {
             cc.log('进入模拟房间')
         } else {
             cc.log('进入游戏房间')
-            this.startGame(RoomManage.roomItem.id, UserManage.userInfo.id)
+            this.startGame()
         }
     }
 
-    async startGame(roomId: number, userId: string) {
+    async startGame() {
+        let userId = null
+        let roomId = null
+        if(isUrlToGameRoom()){
+            userId = getUrlParam('userId')
+            roomId = getUrlParam('roomId')
+            let userInfo = await UserManage.requestUserInfo(userId)
+        }else{
+            userId = UserManage.userInfo.id
+            roomId = RoomManage.roomItem.id
+        }
         let info = await RoomManage.loginRoom(userId, roomId)
         this.startAfterDataInit()
         RollControler.start()
@@ -244,9 +254,8 @@ export default class NewClass extends cc.Component {
         node.active = true
     }
 
-    async showUserIcon() {
-        let info = await UserManage.requestUserInfo()
-        let userInfo = info.extObject as UserInfo
+     showUserIcon() {
+        let userInfo =  UserManage.userInfo
         // cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {
         //                 let myIcon = new cc.SpriteFrame(img);
         //                 this.userIcon.spriteFrame = myIcon;

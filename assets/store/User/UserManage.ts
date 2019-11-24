@@ -20,11 +20,13 @@ class UserManage {
         this.selectChipValue = val
     }
 
-    setUserInfo(info:UserInfo){
+    setUserInfo(info: UserInfo) {
         this.userInfo = new UserItem(info)
     }
 
-    public requestUserInfo(): Promise<PromiseParam> {
+
+
+    public requestUserInfo(userId: string): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (config.appMode === appMode.LOCAL_TEST) {
                 this.setUserInfo(userInfo)
@@ -34,17 +36,29 @@ class UserManage {
                 axios
                     .get(httpUrl, {
                         params: {
-                            id: 1
+                            id: userId
                         }
                     })
                     .then((response: any): void => {
                         let info = response.data.data
                         this.userInfo = new UserItem(info)
-                        cc.log(response)
                         resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
                     })
             }
- 
+
+        })
+    }
+
+    public requestVisitorUserInfo(): Promise<PromiseParam> {
+        return new Promise((resolve: (param: PromiseParam) => void): void => {
+            let httpUrl = config.serverAddress + '/race/user/create_visit_account'
+            axios
+                .get(httpUrl)
+                .then((response: any): void => {
+                    let info = response.data.data
+                    this.userInfo = new UserItem(info)
+                    resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
+                })
         })
     }
 }

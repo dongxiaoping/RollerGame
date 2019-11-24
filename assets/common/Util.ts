@@ -115,4 +115,22 @@ export const Ajax = axios.create({
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'//'application/json'
     }
-}) 
+})
+
+//截取url中指定的传参
+export function getUrlParam(name: string) {
+    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    let r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}
+
+//是否是Url直接去游戏房间的URL,如果是 要传userId 以及roomId
+export function isUrlToGameRoom(): boolean {
+    let roomId = getUrlParam('roomId')
+    let userId = getUrlParam('userId')
+    if (roomId !== null && userId !== null) {
+        return true
+    }
+    return false
+}
