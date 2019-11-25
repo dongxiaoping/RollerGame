@@ -16,11 +16,11 @@ export default class NewClass extends cc.Component {
     }
 
     setShow(iconUrl: string, userName: string) {
+        this.userCount.string = '0'
+        this.userName.string = userName
         cc.loader.loadRes(iconUrl, (error, img) => {
             let myIcon = new cc.SpriteFrame(img);
             this.userIcon.spriteFrame = myIcon
-            this.userCount.string = '0'
-            this.userName.string = userName
         })
     }
 }

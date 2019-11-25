@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { CompareDxRe, EventType, betLocaion, BetChipChangeInfo, LocationResultDetail, BetScore } from '../../common/Const'
+import { CompareDxRe, EventType, betLocaion, BetChipChangeInfo, LocationResultDetail, BetRecord } from '../../common/Const'
 import RaceItem from '../Races/RaceItem';
 /*
 本地存储的记录
@@ -8,21 +8,19 @@ import RaceItem from '../Races/RaceItem';
 @ccclass
 export default class Betitem {
     public userId: string = null
-    public userName: string = null
-    public raceId: string = null
-    private _sky: number = null
-    private _land: number = null
-    private _middle: number = null
-    private _bridg: number = null
-    private _skyCorner: number = null
-    private _landCorner: number = null
+    public raceNum: number = null
+    private _sky: number = 0
+    private _land: number = 0
+    private _middle: number = 0
+    private _bridg: number = 0
+    private _skyCorner: number = 0
+    private _landCorner: number = 0
     public score: number = 0 //地主的分数是统计面板统计后赋值的
 
-    constructor(val: BetScore) {
-        this.raceId = val.raceId
+    constructor(val: BetRecord) {
+        this.raceNum = val.raceNum
         this.userId = val.userId
         this.sky = val.sky
-        this.userName = val.userName
         this.land = val.land
         this.middle = val.middle
         this.bridg = val.bridg
@@ -34,9 +32,7 @@ export default class Betitem {
         return this._sky
     }
     set sky(val: number) {
-        if (this._sky !== null) {
-            this.valueChangeNotice(betLocaion.SKY, this._sky, val)
-        }
+        this.valueChangeNotice(betLocaion.SKY, this._sky, val)
         this._sky = val
     }
 
@@ -44,9 +40,7 @@ export default class Betitem {
         return this._land
     }
     set land(val: number) {
-        if (this._land !== null) {
-            this.valueChangeNotice(betLocaion.LAND, this._land, val)
-        }
+        this.valueChangeNotice(betLocaion.LAND, this._land, val)
         this._land = val
     }
 
@@ -54,9 +48,7 @@ export default class Betitem {
         return this._middle
     }
     set middle(val: number) {
-        if (this._middle !== null) {
-            this.valueChangeNotice(betLocaion.MIDDLE, this._middle, val)
-        }
+        this.valueChangeNotice(betLocaion.MIDDLE, this._middle, val)
         this._middle = val
     }
 
@@ -64,9 +56,7 @@ export default class Betitem {
         return this._bridg
     }
     set bridg(val: number) {
-        if (this._bridg !== null) {
-            this.valueChangeNotice(betLocaion.BRIDG, this._bridg, val)
-        }
+        this.valueChangeNotice(betLocaion.BRIDG, this._bridg, val)
         this._bridg = val
     }
 
@@ -74,9 +64,7 @@ export default class Betitem {
         return this._skyCorner
     }
     set skyCorner(val: number) {
-        if (this._skyCorner !== null) {
-            this.valueChangeNotice(betLocaion.SKY_CORNER, this._skyCorner, val)
-        }
+        this.valueChangeNotice(betLocaion.SKY_CORNER, this._skyCorner, val)
         this._skyCorner = val
     }
 
@@ -84,14 +72,12 @@ export default class Betitem {
         return this._landCorner
     }
     set landCorner(val: number) {
-        if (this._landCorner !== null) {
-            this.valueChangeNotice(betLocaion.LAND_CORNER, this._landCorner, val)
-        }
+        this.valueChangeNotice(betLocaion.LAND_CORNER, this._landCorner, val)
         this._landCorner = val
     }
 
     valueChangeNotice(locatIon: betLocaion, fromVal: number, toValue: number): void {
-        let info = { raceId: this.raceId, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as BetChipChangeInfo
+        let info = { raceNum: this.raceNum, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as BetChipChangeInfo
         cc.log('投注值改变通知' + JSON.stringify(info))
         eventBus.emit(EventType.BET_CHIP_CHANGE_EVENT, info)
     }
@@ -164,7 +150,7 @@ export default class Betitem {
             case CompareDxRe.EQ:
                 break
         }
-        cc.log('我是' + this.userName + ',比大小信息,我的得分是:' + score)
+        cc.log('我是' + this.userId + ',比大小信息,我的得分是:' + score)
         cc.log(this)
         this.score = score
         return score

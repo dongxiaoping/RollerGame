@@ -1,9 +1,10 @@
 const { ccclass } = cc._decorator;
 import { config, } from '../../common/Config'
-import { appMode, PromiseParam, PromiseResult, GameMember } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, GameMember, EventType, LocalNoticeEventType, LocalNoticeEventPara } from '../../common/Const'
 import GameMemberItem from './GameMemberItem'
 import { GameMemberList } from '../../mock/GameMemberList'
 import axios from 'axios'
+import { eventBus } from '../../common/EventBus';
 @ccclass
 class GameMemberManage {
     private _gameMenmberList: GameMemberItem[] = null
@@ -33,6 +34,20 @@ class GameMemberManage {
             list[item.userId] = new GameMemberItem(item)
         })
         this.gameMenmberList = list
+    }
+
+    addGameMember(gameMember: GameMember) {
+        let userId = gameMember.userId
+        cc.log(typeof (this.gameMenmberList[userId]))
+        if (typeof (this.gameMenmberList[userId]) !== 'undefined') {
+            cc.log('该成员存在')
+            return false
+        }
+        let newMember = new GameMemberItem(gameMember)
+        this._gameMenmberList[gameMember.userId] = newMember
+        cc.log('成员有改变，发出本地通知，新增了玩家')
+        eventBus.emit(EventType.NEW_MEMBER_IN_ROOM, gameMember)
+        return true
     }
 
     //获取数据并返回，优先从本地获取，本地没有从服务器获取
@@ -65,6 +80,13 @@ class GameMemberManage {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             resolve({ result: PromiseResult.SUCCESS, extObject: null })
         })
+    }
+
+    getGameMemberByUserId(userId: string): GameMemberItem {
+        if (typeof (this._gameMenmberList[userId] === 'undefined')) {
+            return null
+        }
+        return this._gameMenmberList[userId]
     }
 }
 

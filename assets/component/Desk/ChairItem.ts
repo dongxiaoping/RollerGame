@@ -1,16 +1,16 @@
-import { ChairState, MemberInChairData, Coordinate } from "../../common/Const";
+import { MemberInChairData, Coordinate } from "../../common/Const";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass} = cc._decorator;
 
 @ccclass
 export default class ChairItem {
     private cc: any
     public memberInChairData: MemberInChairData = null
-    private chairName: string //一个10个椅子 每个椅子的节点都有一个固定名称 依次 Member_0 到Member_9
+    public chairName: string //一个10个椅子 每个椅子的节点都有一个固定名称 依次 Member_0 到Member_9
     private playUserIcon: any = null  //图标预制件
     private playerIconNamePre = 'playerIcon_'
-    constructor(cc: any, chairName: string, playUserIcon: any) {
-        this.cc = cc
+    constructor(ccOb: any, chairName: string, playUserIcon: any) {
+        this.cc = ccOb
         this.chairName = chairName
         this.playUserIcon = playUserIcon
 
@@ -20,22 +20,24 @@ export default class ChairItem {
         if (!this.isChairEmputy()) {
             return false
         }
-        this.memberInChairData = memberInChairData
+        let data = JSON.stringify(memberInChairData)
+        this.memberInChairData = JSON.parse(data)
         let url = "Canvas/" + this.chairName
-        let chairNode = cc.find(url)
-        let userIconNode = cc.instantiate(this.playUserIcon)
+        let chairNode = this.cc.find(url)
+        let userIconNode = this.cc.instantiate(this.playUserIcon)
         userIconNode.name = this.playerIconNamePre + memberInChairData.userId
         userIconNode.setPosition(0, 0)
         userIconNode.parent = chairNode
-        userIconNode.active = true
         let jsOb = userIconNode.getComponent('PlayUserIcon')
         jsOb.setShow(memberInChairData.userIcon, memberInChairData.userName)
+        userIconNode.active = true
+        chairNode.active = true
         return true
     }
 
     public outChair() {
         let url = "Canvas/" + this.chairName
-        let chairNode = cc.find(url)
+        let chairNode = this.cc.find(url)
         chairNode.removeAllChildren()
         this.memberInChairData = null
     }
@@ -47,9 +49,17 @@ export default class ChairItem {
         return true
     }
 
+    getUserInfo() {
+        if (this.memberInChairData !== null) {
+            let data = JSON.stringify(this.memberInChairData)
+            return JSON.parse(data)
+        }
+        return null
+    }
+
     public getChairPosition(): Coordinate {
         let url = "Canvas/" + this.chairName
-        let chairNode = cc.find(url)
+        let chairNode = this.cc.find(url)
         return chairNode.getPosition()
     }
 

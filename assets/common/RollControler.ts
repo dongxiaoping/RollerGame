@@ -2,15 +2,13 @@ const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
 import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState } from '../common/Const'
 import { randEventId } from '../common/Util'
-import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
-import GameMemberManage from '../store/GameMember/GameMemberManage'
-import GameMemberItem from '../store/GameMember/GameMemberItem'
 import { config } from './Config';
 import { ws, NoticeType, NoticeData } from './WebSocketServer';
 import UserManage from '../store/User/UserManage';
+import { RollControlerBase } from './RollControlerBase';
 @ccclass
-export class RollControler {
+export class RollControler extends RollControlerBase{
     public isRuning: boolean = false
     public start() {
         cc.log('游戏控制器被启动')
@@ -27,7 +25,8 @@ export class RollControler {
             let notice = {
                 type: NoticeType.createAndEnterRoom, info: {
                     roomId: RoomManage.roomItem.id,
-                    raceCount: RoomManage.roomItem.playCount
+                    raceCount: RoomManage.roomItem.playCount,
+                    userId: UserManage.userInfo.id
                 }
             } as NoticeData
             ws.send(JSON.stringify(notice));
@@ -35,7 +34,8 @@ export class RollControler {
         } else {
             let notice = {
                 type: NoticeType.enterRoom, info: {
-                    roomId: RoomManage.roomItem.id
+                    roomId: RoomManage.roomItem.id,
+                    userId: UserManage.userInfo.id
                 }
             } as NoticeData
             ws.send(JSON.stringify(notice));
@@ -58,6 +58,7 @@ export class RollControler {
                     break
                 case RaceState.FINISHED:
                     cc.log('我是游戏控制器，我接受到比赛事件，状态改为比赛结束的通知')
+                    this.dealtheRaceFinished()
                     break
             }
         })
@@ -100,6 +101,16 @@ export class RollControler {
         } as NoticeData
         ws.send(JSON.stringify(startRoomGame));
         cc.log('我是游戏控制器，我向服务器发起游戏开始的websocket通知')
+    }
+
+    public dealtheRaceFinished() {
+        cc.log('我是游戏控制器，我将进行中的比赛改为下一场')
+        let nextOningRaceNum = RoomManage.roomItem.oningRaceNum + 1
+        if (nextOningRaceNum >= RoomManage.roomItem.playCount) {
+            cc.log('所有比赛结束')
+            return
+        }
+        RoomManage.roomItem.oningRaceNum = nextOningRaceNum
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {

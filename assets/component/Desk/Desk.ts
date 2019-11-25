@@ -5,7 +5,7 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData } from '../../common/Const'
+import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
 import { eventBus } from '../../common/EventBus'
@@ -32,7 +32,6 @@ export default class Desk extends cc.Component {
     private qingXiaZhu: cc.Prefab = null //请下注文字图
 
     private chairManage: ChairManage;
-    private deskSitList = [] //坐的位置信息 如：[userId:location:{x:0,y:3}]
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
         this.showMembers()
@@ -41,8 +40,17 @@ export default class Desk extends cc.Component {
 
     addEventListener() {
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-            cc.log('桌子接收到地主改变通知')
-            this.showMembers()
+            cc.log('桌子接收到地主改变通知,将该用户挪动到地主椅子')
+            this.chairManage.moveToLandlordChair(landlordId)
+        })
+
+        eventBus.on(EventType.NEW_MEMBER_IN_ROOM, randEventId(), (newMember: GameMember): void => {
+            cc.log('我是桌子，我收到新玩家加入的本地通知,我将玩家入座')
+            let member = {
+                userId: newMember.userId, userName: newMember.nick,
+                userIcon: newMember.icon
+            } as MemberInChairData
+            this.chairManage.inChair(member)
         })
 
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
@@ -68,15 +76,6 @@ export default class Desk extends cc.Component {
         })
 
 
-    }
-
-    clearOldMember() {
-        this.onLandlordSiteUserId = null
-        this.deskSitList.forEach((item: any) => {
-            let name = item.name
-            this.node.parent.getChildByName(name).removeAllChildren()
-        })
-        this.deskSitList = []
     }
 
     //比大小动画 比大小动画结束回调

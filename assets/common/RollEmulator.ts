@@ -10,13 +10,12 @@ import GameMemberManage from '../store/GameMember/GameMemberManage'
 import { GameMemberList } from '../mock/GameMemberList'
 import { userInfo } from '../mock/UserInfo'
 import { RaceList } from '../mock/RaceList';
-import BetManage from '../store/Bets/BetManage';
-import { BetList } from '../mock/BetList';
 import { config } from './Config';
 import { eventBus } from './EventBus';
 import { randEventId } from './Util';
+import { RollControlerBase } from './RollControlerBase';
 @ccclass
-class RollEmulator {
+class RollEmulator extends RollControlerBase{
     public isRuning: boolean = false
     public start() {
         cc.log('游戏模拟器被启动')

@@ -65,7 +65,8 @@ export enum EventType {
     LOCAL_NOTICE_EVENT = 4,  //本地通知事件 （本地对本地 和数据改变无关）
     LANDLORD_CAHNGE_EVENT = 5,//地主改变通知 （数据改变触发）
     BET_CHIP_CHANGE_EVENT = 6, //下注改变通知 （数据改变触发）
-    RACING_NUM_CHANGE_EVENT = 7 //进行中的比赛场次号改变通知（数据改变触发）
+    RACING_NUM_CHANGE_EVENT = 7, //进行中的比赛场次号改变通知（数据改变触发）
+    NEW_MEMBER_IN_ROOM = 8, //有新成员加入房间
 }
 
 //单场游戏状态
@@ -149,17 +150,7 @@ export interface BetRecord {
     modTime?:string
 }
 
-export interface BetScore {
-    raceId: string,
-    userId: string,
-    userName: string,
-    sky: number,
-    land: number,
-    middle: number,
-    bridg: number,
-    skyCorner: number,
-    landCorner: number,
-}
+
 export enum gameMemberType {
     MANAGE = 1, //房主
     PLAYER = 2,  //玩家
@@ -235,7 +226,7 @@ export interface RoomInfo {
 }
 
 export interface BetChipChangeInfo {
-    raceId: string
+    raceNum: number
     userId: string
     betLocation: betLocaion
     fromVal: number
@@ -282,6 +273,14 @@ export interface MemberInChairData {
     userId: string,
     userName: string,
     userIcon: string
+}
+
+export interface BetNoticeData {
+    userId: string,
+    roomId: string,
+    raceNum: number,
+    betLocation: betLocaion
+    betVal:number
 }
 
 

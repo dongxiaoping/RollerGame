@@ -5,7 +5,7 @@ import { BetList } from '../../mock/BetList'
 import Betitem from './BetItem';
 @ccclass
 class BetManage {
-    betList: Betitem[][]= [] //场次+用户Id 信息集合
+    betList: Betitem[][] = [] //场次+用户Id 信息集合
 
     // public init(memberList: GameMember[], raceCount: number) {
     //     let list = []
@@ -37,7 +37,7 @@ class BetManage {
             }
             if (config.appMode === appMode.LOCAL_TEST) {
                 BetList.forEach((item: BetRecord): void => {
-                 //   this.betList.push(new BetItem(item))
+                    //   this.betList.push(new BetItem(item))
                 })
             } else {
             }
@@ -46,12 +46,13 @@ class BetManage {
     }
 
     addBet(oningRaceNum: number, userId: string, location: betLocaion, val: number) {
-        if(typeof(this.betList[oningRaceNum])==='undefined'){
+        if (typeof (this.betList[oningRaceNum]) === 'undefined') {
             this.betList[oningRaceNum] = [];
         }
-        if(typeof(this.betList[oningRaceNum][userId])==='undefined'){
-            let item =   {
+        if (typeof (this.betList[oningRaceNum][userId]) === 'undefined') {
+            let item = {
                 userId: userId,
+                raceNum:oningRaceNum,
                 sky: 0,
                 land: 0,
                 middle: 0,
@@ -61,7 +62,7 @@ class BetManage {
             } as BetRecord
             this.betList[oningRaceNum][userId] = new Betitem(item)
         }
-        this.betList[oningRaceNum][userId][location] = val
+        this.betList[oningRaceNum][userId][location] = this.betList[oningRaceNum][userId][location] + val
     }
 }
 
