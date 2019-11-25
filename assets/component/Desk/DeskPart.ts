@@ -1,10 +1,13 @@
 const { ccclass, property } = cc._decorator;
-import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam } from '../../common/Const'
+import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam, betLocaion } from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus';
 import { randEventId } from '../../common/Util';
+import BetManage from '../../store/Bets/BetManage';
+import { ws, NoticeType, NoticeData } from '../../common/WebSocketServer';
+import RollEmulator from '../../common/RollEmulator';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -90,7 +93,21 @@ export default class NewClass extends cc.Component {
                 return
             }
             this.focus.node.active = false
-            RaceManage.raceList[oningRaceNum].betInfo[UserManage.userInfo.id][this.typeValue] += UserManage.selectChipValue
+            //向服务器发起下注通知
+            if (RollEmulator.isRuning) {
+                BetManage.addBet(oningRaceNum, UserManage.userInfo.id, this.typeValue as betLocaion, UserManage.selectChipValue)
+            } else {
+                let notice = {
+                    type: NoticeType.raceBet, info: {
+                        roomId: RoomManage.roomItem.id,
+                        raceNum: RoomManage.roomItem.oningRaceNum,
+                        betLocation: this.typeValue,
+                        userId: UserManage.userInfo.id,
+                        betVal: UserManage.selectChipValue
+                    }
+                } as NoticeData
+                ws.send(JSON.stringify(notice));
+            }
         })
     }
 

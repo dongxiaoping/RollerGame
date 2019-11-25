@@ -25,7 +25,8 @@ export enum NoticeType {
     startRoomGame = 'startRoomGame', //开始房间的比赛 房主调用
     createAndEnterRoom = 'createAndEnterRoom', //创建并进入房间，这个只有房主才能调用
     landlordSelected = 'landlordSelected', //玩家选择当地主通知
-    enterRoom = 'enterRoom' //普通玩家进入房间
+    enterRoom = 'enterRoom', //普通玩家进入房间
+    raceBet = 'raceBet' //玩家下注通知
 }
 
 let raceStatusDefine = {
