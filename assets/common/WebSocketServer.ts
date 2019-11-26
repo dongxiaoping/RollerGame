@@ -3,6 +3,7 @@ import { roomState, RaceState, GameMember, BetNoticeData } from "./Const";
 import RaceManage from "../store/Races/RaceManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import BetManage from "../store/Bets/BetManage";
+import { RoomGameConfig } from "./RoomGameConfig";
 
 const { ccclass, property } = cc._decorator;
 export let ws: any = new WebSocket("ws://127.0.0.1:2346");
@@ -102,7 +103,6 @@ ws.onmessage = (e: any): void => {
         case 'raceStateFinished':
             message as NoticeInfo
             RaceManage.changeRaceState(RaceState.FINISHED)
-            
             console.log('本场比赛结束');
             break;
         case 'betNotice': //下注通知
@@ -110,5 +110,11 @@ ws.onmessage = (e: any): void => {
             BetManage.addBet(message1.raceNum, message1.userId, message1.betLocation, message1.betVal)
             console.log('下注接收通知');
             break;
+            case 'roomGameConfigSet': //配置
+            let message2 = message as RoomGameConfig
+            RoomManage.setNetRoomGameConfig(message2)
+            console.log('设置游戏配置信息');
+            break;
+            
     }
 }

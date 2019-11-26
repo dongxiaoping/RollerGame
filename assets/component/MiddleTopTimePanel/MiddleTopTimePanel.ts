@@ -1,10 +1,8 @@
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { randEventId } from '../../common/Util'
-
-import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara } from '../../common/Const'
-import RaceManage from '../../store/Races/RaceManage';
+import { EventType, LocalNoticeEventType, LocalNoticeEventPara } from '../../common/Const'
 import { config } from '../../common/Config';
+import RoomManage from '../../store/Room/RoomManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -13,7 +11,7 @@ export default class NewClass extends cc.Component {
 
     start() {
         cc.log('下注时间管理面板收到下注通知，设置本地下注时间定时器')
-        let time = config.localXiaZhuLimiTime
+        let time = RoomManage.getBetTime()
         this.time.string = time.toString()
         let count: number = 0
         let setInter = setInterval(() => {

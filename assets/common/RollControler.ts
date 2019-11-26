@@ -58,7 +58,7 @@ export class RollControler extends RollControlerBase{
                     break
                 case RaceState.FINISHED:
                     cc.log('我是游戏控制器，我接受到比赛事件，状态改为比赛结束的通知')
-                    this.dealtheRaceFinished()
+                    this.dealtheRaceFinished() //将当前进行中的游戏改为下场
                     break
             }
         })
@@ -88,6 +88,7 @@ export class RollControler extends RollControlerBase{
 
                     break
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
+                
                     cc.log('我是游戏控制器，我接受到本地事件，比大小动画结束的通知')
                     break
             }

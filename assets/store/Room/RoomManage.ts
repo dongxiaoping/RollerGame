@@ -7,11 +7,11 @@ import axios from 'axios'
 import { Ajax } from '../../common/Util';
 import RaceManage from '../Races/RaceManage';
 import GameMemberManage from '../GameMember/GameMemberManage';
-import BetManage from '../Bets/BetManage';
+import { RoomGameConfig, roomGameConfig } from '../../common/RoomGameConfig';
 @ccclass
 class RoomManage {
     public roomItem: RoomItem = null
-
+    private netRoomGameConfig: RoomGameConfig = null //网络下发的配置文件信息
     public requestRoomInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (this.roomItem !== null) {
@@ -27,7 +27,51 @@ class RoomManage {
         })
     }
 
-    setRoomItem(theRoomInfo: RoomInfo) {
+    public setNetRoomGameConfig(info: RoomGameConfig) {
+        this.netRoomGameConfig = info
+    }
+
+    //摇色子时间
+    public getRollDiceTime(): number {
+        if (this.netRoomGameConfig !== null) {
+            return this.netRoomGameConfig.rollDiceTime - this.netRoomGameConfig.delayTime
+        }
+        return roomGameConfig.rollDiceTime
+    }
+
+    //发牌时间
+    public getDealTime(): number {
+        if (this.netRoomGameConfig !== null) {
+            return this.netRoomGameConfig.dealTime - this.netRoomGameConfig.delayTime
+        }
+        return roomGameConfig.dealTime
+    }
+
+    //下注时间
+    public getBetTime(): number {
+        if (this.netRoomGameConfig !== null) {
+            return this.netRoomGameConfig.betTime - this.netRoomGameConfig.delayTime
+        }
+        return roomGameConfig.betTime
+    }
+
+    //比大小时间
+    public getShowDownTime(): number {
+        if (this.netRoomGameConfig !== null) {
+            return this.netRoomGameConfig.showDownTime - this.netRoomGameConfig.delayTime
+        }
+        return roomGameConfig.showDownTime
+    }
+
+    //显示结果时间
+    public getShowResultTime(): number {
+        if (this.netRoomGameConfig !== null) {
+            return this.netRoomGameConfig.showResultTime - this.netRoomGameConfig.delayTime
+        }
+        return roomGameConfig.showResultTime
+    }
+
+    public setRoomItem(theRoomInfo: RoomInfo) {
         this.roomItem = new RoomItem(theRoomInfo)
     }
 
@@ -68,17 +112,17 @@ class RoomManage {
                     let roomInfo = data.room as RoomInfo;
 
                     let races = data.races
-                    for(let i=0;i<races.length;i++){
+                    for (let i = 0; i < races.length; i++) {
                         races[i].points = JSON.parse(races[i].points);
-                        races[i].landlordScore= JSON.parse(races[i].landlordScore);
-                        races[i].skyScore= JSON.parse(races[i].skyScore);
-                        races[i].landScore= JSON.parse(races[i].landScore);
-                        races[i].middleScore= JSON.parse(races[i].middleScore);
+                        races[i].landlordScore = JSON.parse(races[i].landlordScore);
+                        races[i].skyScore = JSON.parse(races[i].skyScore);
+                        races[i].landScore = JSON.parse(races[i].landScore);
+                        races[i].middleScore = JSON.parse(races[i].middleScore);
                     }
                     races as raceRecord[];
 
                     let members = data.members as GameMember[];
-                    let betRecords =  data.betRecords as BetRecord[];
+                    let betRecords = data.betRecords as BetRecord[];
                     this.setRoomItem(roomInfo);
                     RaceManage.setRaceList(races);
                     GameMemberManage.setGameMemberList(members);

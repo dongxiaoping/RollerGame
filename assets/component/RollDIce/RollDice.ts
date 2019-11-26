@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, LocalNoticeEventPara, LocalNoticeEventType} from '../../common/Const'
+import { EventType, LocalNoticeEventPara, LocalNoticeEventType } from '../../common/Const'
 import RoomManage from '../../store/Room/RoomManage';
 import RaceManage from '../../store/Races/RaceManage';
 
@@ -18,10 +18,13 @@ export default class NewClass extends cc.Component {
     diceTwo: cc.Sprite = null
 
     private isAdd: boolean = true
-    private oning: boolean = false
+    private oning: boolean = false //是否摆动
     private isFlying: boolean = false
-    private beginTime: number = 0.5 //单位s 开始晃动的时间
-    private endTime: number = 2.5  //单位s 晃动结束的时间
+    private firstKeepStopTime: number //单位s 显示盒子，保持不动
+    private rollKeepTime: number //单位s 晃动持续时间
+    private secondKeepStopTime: number //晃动停止后，保持不动持续时间
+    private diceShowTime: number //点数结果显示持续时间
+
     private dicePicList: string[] = [
         'dice/dice_03205fea_02',
         'dice/dice_03205fea_03',
@@ -31,16 +34,21 @@ export default class NewClass extends cc.Component {
         'dice/dice_03205fea_07',
     ]
     start() {
+        let timeConfig = RoomManage.getRollDiceTime()
+        this.firstKeepStopTime = Math.floor((timeConfig/9) * 100) / 100
+        this.rollKeepTime = Math.floor((timeConfig/9*5) * 100) / 100
+        this.secondKeepStopTime = Math.floor((timeConfig/9) * 100) / 100
+        this.diceShowTime = Math.floor((timeConfig/9*2) * 100) / 100
         setTimeout((): void => {
             this.oning = true
-        }, this.beginTime * 1000)
-        setTimeout((): void => {
-            this.oning = false
             setTimeout((): void => {
-                this.isFlying = true
-                this.showDice()
-            }, 500) //晃动结束开盒子的时间
-        }, this.endTime * 1000)
+                this.oning = false
+                setTimeout((): void => {
+                    this.isFlying = true
+                    this.showDice()
+                }, this.secondKeepStopTime * 1000)
+            }, this.rollKeepTime * 1000)
+        }, this.firstKeepStopTime * 1000)
     }
 
     //显示色子并返回点数
@@ -58,9 +66,9 @@ export default class NewClass extends cc.Component {
         setTimeout(() => {
             cc.log('发出摇色子动画结束通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-               type: LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE
+                type: LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE
             } as LocalNoticeEventPara)
-        }, 1000)
+        }, this.diceShowTime * 1000)
     }
 
     randNum(n: number, m: number): number {
@@ -89,6 +97,8 @@ export default class NewClass extends cc.Component {
             this.boxBody.node.angle = this.boxBody.node.angle - 1
         }
     }
+
+    //摆动动画
     waggle(): void {
         if (this.node.angle === 10) {
             this.isAdd = false

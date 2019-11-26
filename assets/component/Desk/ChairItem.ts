@@ -59,6 +59,9 @@ export default class ChairItem {
 
     public getChairPosition(): Coordinate {
         let url = "Canvas/" + this.chairName
+        if(typeof(this.cc.find(url)) === 'undefined'){
+            return null
+        }
         let chairNode = this.cc.find(url)
         return chairNode.getPosition()
     }

@@ -72,10 +72,11 @@ class RollEmulator extends RollControlerBase{
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
                     cc.log('我是游戏模拟器，我接到了比大小动画结束通知,我将比赛状态改为显示结果')
                     RaceManage.changeRaceState(RaceState.SHOW_RESULT)
+                    let showResultTime = RoomManage.getShowResultTime()
                     setTimeout(() => {
                         cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
                         RaceManage.changeRaceState(RaceState.FINISHED)
-                    }, config.raceResultPanelShowTime)
+                    }, showResultTime*1000)
                     break
             }
         })

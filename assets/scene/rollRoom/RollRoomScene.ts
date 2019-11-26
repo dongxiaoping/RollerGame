@@ -50,6 +50,14 @@ export default class NewClass extends cc.Component {
     private middleTopXiaZhuPanel: cc.Prefab = null // 顶部下注分数显示面板
 
 
+    @property(cc.Label)
+    showRoomNum: cc.Label = null; //房间号显示  
+    @property(cc.Label)
+    showBetLimit: cc.Label = null; //下注限制数显示
+    @property(cc.Label)
+    showPlayCountLimit: cc.Label = null; //牌局进行信息显示
+    @property(cc.Label)
+    showPlayMode: cc.Label = null; //上庄模式显示
 
     onEnable() {
         if (RollEmulator.isRuning && RollControler.isRuning) {
@@ -58,6 +66,7 @@ export default class NewClass extends cc.Component {
         }
         if (RollEmulator.isRuning) {
             this.startAfterDataInit()
+            this.showTopLeftRaceInfo()
             cc.log('进入模拟房间')
         } else {
             cc.log('进入游戏房间')
@@ -79,6 +88,15 @@ export default class NewClass extends cc.Component {
         let info = await RoomManage.loginRoom(userId, roomId)
         this.startAfterDataInit()
         RollControler.start()
+        this.showTopLeftRaceInfo()
+    }
+
+    showTopLeftRaceInfo(){
+        let roomInfo = RoomManage.roomItem
+        this.showRoomNum.string = '房间号：' + roomInfo.id
+        this.showPlayMode.string = '上庄模式：抢庄'
+        this.showBetLimit.string = '下注上限：' + roomInfo.costLimit
+        this.showPlayCountLimit.string = '当前牌局：1/' + roomInfo.playCount
     }
 
     startAfterDataInit() {
@@ -147,12 +165,13 @@ export default class NewClass extends cc.Component {
                     node.parent = this.node
                     node.setPosition(-168, 251);
                     node.active = true
-                    if (RoomManage.roomItem.oningRaceNum === 0) {
-                        var node = cc.instantiate(this.middleTopXiaZhuPanel)
-                        node.parent = this.node
-                        node.setPosition(-7.5, 258);
-                        node.active = true
-                    }
+                    
+                    // if (RoomManage.roomItem.oningRaceNum === 0) {
+                    //     var node = cc.instantiate(this.middleTopXiaZhuPanel)
+                    //     node.parent = this.node
+                    //     node.setPosition(-7.5, 258);
+                    //     node.active = true
+                    // }
                     break
                 case RaceState.SHOW_DOWN: //这个由控制器来响应
                     // cc.log('房间收到比大小指令，开始比大小流程')
@@ -168,6 +187,11 @@ export default class NewClass extends cc.Component {
                     this.cleanChipOnDesk()
                     break
             }
+        })
+
+        eventBus.on(EventType.RACING_NUM_CHANGE_EVENT, randEventId(), (num: number): void => {
+            let roomInfo = RoomManage.roomItem
+            this.showPlayCountLimit.string = '当前牌局：1/' + roomInfo.playCount
         })
 
         // eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {

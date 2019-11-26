@@ -22,10 +22,11 @@ export default class NewClass extends cc.Component {
     halfIcon: cc.SpriteFrame = null
     allIcon: cc.SpriteFrame = null
 
-    singleIntervalTime = 100  //单个动作内部小动作的间隔时间 ms
-    twoIntervalTime = 250  //两张之间的间隔时间
-    twoLocationIntervalTime = 1000 //两个位置之间的发牌间隔时间
-
+    singleIntervalTime = 0.1  //单个动作内部小动作的间隔时间 s  0.3*2*4
+    twoIntervalTime = 0.25  //两张之间的间隔时间 s    0.25*4
+    twoLocationIntervalTime = 1 //两个位置之间的发牌间隔时间 s 1*3
+    amStopKeepTime = 1 //牌全部发完后的停顿时间 s  1
+    //一共 2.5 + 1+3+1 = 7.5s
     localEventId: string
     start() {
 
@@ -42,15 +43,15 @@ export default class NewClass extends cc.Component {
                         setTimeout(() => {
                             cc.log('发出下个位置的翻牌请求,下个位置为' + nextLocation + ',当前位置为：' + tableLocationType)
                             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: nextLocation } as LocalNoticeEventPara)
-                        }, this.twoLocationIntervalTime);
+                        }, this.twoLocationIntervalTime*1000);
                     } else {
                         cc.log('全部的翻牌动作执行完毕，发出翻牌动画结束通知')
                         setTimeout(()=>{
                             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE } as LocalNoticeEventPara)
-                        },1000)
+                        },this.amStopKeepTime*1000)
                     }
                 })
-            }, this.twoIntervalTime)
+            }, this.twoIntervalTime*1000)
         })
     }
 
@@ -87,7 +88,7 @@ export default class NewClass extends cc.Component {
             }
             count++
             cc.log('循环执行翻牌动画')
-        }, this.singleIntervalTime)
+        }, this.singleIntervalTime*1000)
     }
 
     drawResult(ob: cc.Sprite, val: number) {

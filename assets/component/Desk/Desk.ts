@@ -91,12 +91,13 @@ export default class Desk extends cc.Component {
             showNode.parent = this.node.parent
             showNode.active = true
         }
+        let timeSet = RoomManage.getShowDownTime()
         setTimeout(() => {
             if (showNode !== null) {
                 showNode.destroy()
             }
             func()
-        }, 2000)
+        }, (timeSet-7.5)*1000)  //麻将的翻牌动画固定7.5s
     }
 
 

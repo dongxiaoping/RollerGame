@@ -53,7 +53,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Canvas",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 1
     },
@@ -114,10 +114,10 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 97
+        "__id__": 96
       },
       {
-        "__id__": 98
+        "__id__": 97
       }
     ],
     "_prefab": null,
@@ -201,7 +201,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 263.27172275046934
+      "z": 255.47749411640942
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -1172,7 +1172,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 203.42,
+      "width": 120,
       "height": 37.8
     },
     "_anchorPoint": {
@@ -1182,7 +1182,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -48.290000000000006,
+      "x": -90,
       "y": 0.05000000000000071,
       "z": 0
     },
@@ -1218,8 +1218,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "房间号：54354",
-    "_N$string": "房间号：54354",
+    "_string": "房间号：",
+    "_N$string": "房间号：",
     "_fontSize": 30,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3597,9 +3597,6 @@
     "_components": [
       {
         "__id__": 95
-      },
-      {
-        "__id__": 96
       }
     ],
     "_prefab": null,
@@ -3674,7 +3671,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 75,
       "height": 18.9
     },
     "_anchorPoint": {
@@ -3720,8 +3717,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "上庄模式：轮流庄",
-    "_N$string": "上庄模式：轮流庄",
+    "_string": "上庄模式：",
+    "_N$string": "上庄模式：",
     "_fontSize": 15,
     "_lineHeight": 15,
     "_enableWrapText": true,
@@ -4033,22 +4030,6 @@
     "_id": "11G9xPiZBJPYnep1gkV9wi"
   },
   {
-    "__type__": "9cf61qowq5LKK/H8ZAbY1vE",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 85
-    },
-    "_enabled": true,
-    "betLimit": {
-      "__id__": 90
-    },
-    "playCountLimit": {
-      "__id__": 93
-    },
-    "_id": "aa+7rJJ5JFK4aqvaug1qJm"
-  },
-  {
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,
@@ -4108,6 +4089,18 @@
     },
     "middleTopXiaZhuPanel": {
       "__uuid__": "965ff4a2-1a1f-4ece-8a90-4bcb19525677"
+    },
+    "showRoomNum": {
+      "__id__": 27
+    },
+    "showBetLimit": {
+      "__id__": 90
+    },
+    "showPlayCountLimit": {
+      "__id__": 93
+    },
+    "showPlayMode": {
+      "__id__": 87
     },
     "_id": "feJlsZ4RBOK6EdKyA1WVAs"
   }

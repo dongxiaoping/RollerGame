@@ -41,8 +41,9 @@ export default class NewClass extends cc.Component {
     button_50: cc.Sprite = null
     @property(cc.Sprite)
     button_100: cc.Sprite = null
+    chipValueList: number[] = [100, 50, 20, 10] //下注值集合
 
-    flyTime:number = 0.5  //下注硬币飞行时间
+    flyTime: number = 0.5  //下注硬币飞行时间
 
     ownChipSize: number = 40 //自己下注硬币的大（
     otherMemberChipSize: number = 20 //其它成员下注硬币的大
@@ -137,25 +138,7 @@ export default class NewClass extends cc.Component {
         this.pushEventId = randEventId()
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.pushEventId, (betInfo: BetChipChangeInfo): void => {
             cc.log('收到下注值改变通知')
-            let betValue = betInfo.toValue - betInfo.fromVal
-            let userId = betInfo.userId
-            let betLocationType = betInfo.betLocation
-            let points = chipPoint[betLocationType]
-            let fromLocation: Coordinate
-            fromLocation = this.getUserChairPosition(userId)
-            if(fromLocation === null){
-                cc.log('没找到用户所在椅子的位置')
-                return
-            }
-            let isOwn: Boolean = false //是否是当前用户下的注
-            if (userId === UserManage.userInfo.id) {
-                cc.log('是自己投的注')
-                isOwn = true
-            }
-            if (isOwn) {
-                fromLocation = this.getChipLocationByChipValue(betValue)
-            }
-            this.flyAnimation(isOwn, fromLocation, this.getXiaZhuLocation(points), betValue)
+            this.toXiaZhu(betInfo)
         })
         this.raceStateId = randEventId()
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId, (info: RaceStateChangeParam): void => {
@@ -196,6 +179,47 @@ export default class NewClass extends cc.Component {
             // cc.log('100元按钮被点击')
         })
     }
+
+    toXiaZhu(betInfo: BetChipChangeInfo): void {
+        let betValue = betInfo.toValue - betInfo.fromVal
+        let userId = betInfo.userId
+        let betLocationType = betInfo.betLocation
+        let points = chipPoint[betLocationType]
+        let fromLocation: Coordinate
+        fromLocation = this.getUserChairPosition(userId)
+        if (fromLocation === null) {
+            cc.log('没找到用户所在椅子的位置')
+            return
+        }
+        let isOwn: Boolean = false //是否是当前用户下的注
+        if (userId === UserManage.userInfo.id) {
+            cc.log('是自己投的注')
+            isOwn = true
+        }
+        let chipList = this.splitChipList(betValue)
+        chipList.forEach((val: number) => {
+            if (isOwn) {
+                fromLocation = this.getChipLocationByChipValue(val)
+            }
+            this.flyAnimation(isOwn, fromLocation, this.getXiaZhuLocation(points), val)
+        })
+    }
+
+    splitChipList(theVal: number) {
+        let theList = []
+        for (let i = 0; i < this.chipValueList.length; i++) {
+            let targeVal = this.chipValueList[i]
+            while (theVal >= targeVal) {
+                theList.push(targeVal)
+                theVal = theVal - targeVal
+            }
+            if (theVal <= 0) {
+                break
+            }
+        }
+        return theList
+    }
+
 
     getChipLocationByChipValue(val: number): Coordinate {
         let location: Coordinate = { x: 127, y: -245 }

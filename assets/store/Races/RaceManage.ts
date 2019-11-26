@@ -35,27 +35,28 @@ class RaceManage {
             cc.log('当前不是下注状态，不能下注')
             return
         }
-        let ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
+        let localXiaZhuLimiTime = RoomManage.getBetTime()
+        let ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
            BetManage.addBet(oningRaceNum,userId,betLocaion.LAND_CORNER,10)
         }, ranTime * 1000)
-        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
+        ranTime = randFloatNum(1, localXiaZhuLimiTime- 1)
         setTimeout(() => {
             BetManage.addBet(oningRaceNum,userId,betLocaion.SKY,20)
         }, ranTime * 1000)
-        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
             BetManage.addBet(oningRaceNum,userId,betLocaion.BRIDG,20)
         }, ranTime * 1000)
-        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
             BetManage.addBet(oningRaceNum,userId,betLocaion.LAND,50)
         }, ranTime * 1000)
-        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
             BetManage.addBet(oningRaceNum,userId,betLocaion.MIDDLE,100)
         }, ranTime * 1000)
-        ranTime = randFloatNum(1, config.localXiaZhuLimiTime - 1)
+        ranTime = randFloatNum(1, localXiaZhuLimiTime- 1)
         setTimeout(() => {
             BetManage.addBet(oningRaceNum,userId,betLocaion.SKY_CORNER,100)
         }, ranTime * 1000)
