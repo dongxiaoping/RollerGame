@@ -97,7 +97,8 @@ export class RollControler extends RollControlerBase{
     public noticeSocketToBeginGame() {
         let startRoomGame = {
             type: NoticeType.startRoomGame, info: {
-                roomId: RoomManage.roomItem.id
+                roomId: RoomManage.roomItem.id,
+                userId: UserManage.userInfo.id
             }
         } as NoticeData
         ws.send(JSON.stringify(startRoomGame));

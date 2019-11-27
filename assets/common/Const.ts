@@ -136,18 +136,18 @@ export enum MajhongValueType {
 
 export interface BetRecord {
     id?: string
-    roomId?:string
-    raceNum:number
+    roomId?: string
+    raceNum: number
     userId: string
     raceId?: string
-    sky:number
-    middle:number
-    land:number
-    skyCorner:number
-    landCorner:number
-    bridg:number
-    creatTime?:string
-    modTime?:string
+    sky: number
+    middle: number
+    land: number
+    skyCorner: number
+    landCorner: number
+    bridg: number
+    creatTime?: string
+    modTime?: string
 }
 
 
@@ -164,27 +164,27 @@ export enum memberState {
 }
 
 export interface GameMember {
-    id?:string
-    roomId?:string
+    id?: string
+    roomId?: string
     userId: string
     roleType: gameMemberType
     nick: string
     icon: string
     score?: number  //本房间当前成员总分数
-    creatTime?:string
-    modTime?:string
+    creatTime?: string
+    modTime?: string
     state: memberState
 }
 
 export interface raceRecord {
     id: string
-    roomId?:number
+    roomId?: number
     raceNum: number //场次编号
     playState: RaceState   //比赛状态
-    landlordScore?:DiceCountInfo
-    skyScore?:DiceCountInfo
-    middleScore?:DiceCountInfo
-    landScore?:DiceCountInfo
+    landlordScore?: DiceCountInfo
+    skyScore?: DiceCountInfo
+    middleScore?: DiceCountInfo
+    landScore?: DiceCountInfo
     landlordId: string //地主ID
     points: DiceCountInfo  //色子点数信息集合
     skyResult?: CompareDxRe //接口有 天输赢
@@ -193,8 +193,8 @@ export interface raceRecord {
     skyCornerResult?: CompareDxRe //接口有  天角输赢
     landCornerResult?: CompareDxRe //接口有 地角输赢
     bridgResult?: CompareDxRe //接口有 桥输赢
-    creatTime?:string
-    modTime?:string
+    creatTime?: string
+    modTime?: string
 
 }
 
@@ -216,13 +216,13 @@ export interface RoomInfo {
     memberLimit: number  //人员数量限制
     playCount: number  //场次限制
     playMode: playMode  //上庄模式
-    roomFee:number //房间费用
-    roomPay:number //付费模式
+    roomFee: number //房间费用
+    roomPay: number //付费模式
     costLimit: number  //消费上限
     roomState: roomState  //房间状态
     oningRaceNum: number //当前进行中的场次编号
-    creatTime?:string
-    modTime?:string
+    creatTime?: string
+    modTime?: string
 }
 
 export interface BetChipChangeInfo {
@@ -279,8 +279,18 @@ export interface BetNoticeData {
     userId: string,
     roomId: string,
     raceNum: number,
-    betLocation: betLocaion
-    betVal:number
+    betLocation: betLocaion,
+    betVal: number
 }
+
+export interface raceResultData {
+    roomId?: string,
+    raceNum: number,
+    userId: string,
+    score: number,
+    nick: string,
+    icon: string
+}
+
 
 

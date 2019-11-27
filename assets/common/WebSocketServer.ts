@@ -1,5 +1,5 @@
 import RoomManage from "../store/Room/RoomManage";
-import { roomState, RaceState, GameMember, BetNoticeData } from "./Const";
+import { roomState, RaceState, GameMember, BetNoticeData, raceResultData } from "./Const";
 import RaceManage from "../store/Races/RaceManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import BetManage from "../store/Bets/BetManage";
@@ -37,7 +37,7 @@ let raceStatusDefine = {
 let enterRoom = { type: 'enterRoom', info: { roomId: 2234 } };//进入房间事件
 let startRoomGame = { type: 'startRoomGame', info: { roomId: 2234 } };
 let landlordSelected = { type: 'landlordSelected', info: { roomId: 2234, raceNum: 0, landlordId: 4 } }; //用户抢地主
-let createAndEnterRoom = { type: 'createAndEnterRoom', info: { roomId: 2234, raceCount: 4,userId:4 } };
+let createAndEnterRoom = { type: 'createAndEnterRoom', info: { roomId: 2234, raceCount: 4, userId: 4 } };
 ws.onopen = () => {
     // ws.send(JSON.stringify(enterRoom));
     // ws.send(JSON.stringify(startRoomGame));
@@ -96,8 +96,11 @@ ws.onmessage = (e: any): void => {
             console.log('比大小');
             break;
         case 'raceStateShowResult':
-            message as NoticeInfo
+            let resultList = message.resultList as raceResultData[]
+            let raceNum = message.raceNum
+            RaceManage.raceList[raceNum].setRaceResultList(resultList)
             RaceManage.changeRaceState(RaceState.SHOW_RESULT)
+
             console.log('显示结果');
             break;
         case 'raceStateFinished':
@@ -110,11 +113,16 @@ ws.onmessage = (e: any): void => {
             BetManage.addBet(message1.raceNum, message1.userId, message1.betLocation, message1.betVal)
             console.log('下注接收通知');
             break;
-            case 'roomGameConfigSet': //配置
+        case 'roomGameConfigSet': //配置
             let message2 = message as RoomGameConfig
             RoomManage.setNetRoomGameConfig(message2)
             console.log('设置游戏配置信息');
             break;
-            
+        case 'memberOffLine': //有成员从socket房间中退出
+            message as NoticeInfo
+            let userId = message.userId
+            console.log('有成员从socket房间中退出,用户Id'+userId);
+            break;
+
     }
 }

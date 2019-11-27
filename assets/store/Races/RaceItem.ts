@@ -1,6 +1,8 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { CompareDxRe, LocationResultDetail, EventType, raceRecord, RaceState, MajongResult, RaceStateChangeParam, DiceCountInfo, TableLocationType } from '../../common/Const'
+import { CompareDxRe, EventType, raceRecord, RaceState, RaceStateChangeParam, DiceCountInfo, TableLocationType, raceResultData } from '../../common/Const'
+import GameMemberManage from '../GameMember/GameMemberManage';
+import GameMemberItem from '../GameMember/GameMemberItem';
 @ccclass
 export default class RaceItem {
     public raceId: string = null
@@ -21,6 +23,8 @@ export default class RaceItem {
     public skyCornerResult: CompareDxRe = null
     public skyResult: CompareDxRe = null
 
+    public raceResultList: raceResultData[] //成员本局分数统计结果列表
+
     constructor(val: raceRecord) {
         this.raceId = val.id
         this.num = val.raceNum
@@ -39,6 +43,35 @@ export default class RaceItem {
         this.landCornerResult = val.landCornerResult
         this.skyCornerResult = val.skyCornerResult
         this.skyResult = val.skyResult
+    }
+
+    setRaceResultList(list: raceResultData[]): void {
+        function getItemFromResultDataByUserId(userId: string, list: raceResultData[]): raceResultData {
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].userId === userId) {
+                    return list[i]
+                }
+            }
+            return null
+        }
+        let newList: raceResultData[] = []
+        let memberList = GameMemberManage.gameMenmberList
+        memberList.forEach((item: GameMemberItem) => {
+            let userId = item.userId
+            let result = getItemFromResultDataByUserId(userId, list)
+            if (result === null) {
+                newList.push({
+                    raceNum: this.num,
+                    userId: userId,
+                    score: 0,
+                    nick: item.nick,
+                    icon: item.icon,
+                } as raceResultData)
+            } else {
+                newList.push(result)
+            }
+        })
+        this.raceResultList = newList
     }
 
     getMahjongScore(location: TableLocationType) {
