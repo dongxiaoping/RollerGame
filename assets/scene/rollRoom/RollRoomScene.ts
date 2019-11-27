@@ -1,10 +1,8 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
-import { UserInfo } from '../../store/User/UserBase'
 import { eventBus } from '../../common/EventBus'
 import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
-import RoomItem from '../../store/Room/RoomItem'
 import { randEventId, getFaPaiLocation, isUrlToGameRoom, getUrlParam } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -49,6 +47,8 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private middleTopXiaZhuPanel: cc.Prefab = null // 顶部下注分数显示面板
 
+    @property(cc.Prefab)
+    private rapLandlordButton: cc.Prefab = null // 抢地主按钮
 
     @property(cc.Label)
     showRoomNum: cc.Label = null; //房间号显示  
@@ -61,8 +61,8 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         if (RollEmulator.isRuning && RollControler.isRuning) {
-                cc.log('错误！游戏模拟器和游戏控制器只能开一个')
-                return
+            cc.log('错误！游戏模拟器和游戏控制器只能开一个')
+            return
         }
         if (RollEmulator.isRuning) {
             this.startAfterDataInit()
@@ -77,11 +77,11 @@ export default class NewClass extends cc.Component {
     async startGame() {
         let userId = null
         let roomId = null
-        if(isUrlToGameRoom()){
+        if (isUrlToGameRoom()) {
             userId = getUrlParam('userId')
             roomId = getUrlParam('roomId')
             let userInfo = await UserManage.requestUserInfo(userId)
-        }else{
+        } else {
             userId = UserManage.userInfo.id
             roomId = RoomManage.roomItem.id
         }
@@ -91,7 +91,7 @@ export default class NewClass extends cc.Component {
         this.showTopLeftRaceInfo()
     }
 
-    showTopLeftRaceInfo(){
+    showTopLeftRaceInfo() {
         let roomInfo = RoomManage.roomItem
         this.showRoomNum.string = '房间号：' + roomInfo.id
         this.showPlayMode.string = '上庄模式：抢庄'
@@ -152,8 +152,8 @@ export default class NewClass extends cc.Component {
                     }
                     break
                 case RaceState.CHOICE_LANDLORD:
-                    cc.log('房间收到选地主指令，开始选地主流程,通知所有玩家抢地主') //只做抢地主
-                     this.choiceLandLord()
+                    cc.log('房间收到选地主指令，开始选地主流程,玩家显示抢地主按钮')
+                    this.showChoiceLandLordPanel()
                     break
                 case RaceState.DEAL:
                     cc.log('房间收到发牌指令，开始发牌流程')
@@ -165,7 +165,7 @@ export default class NewClass extends cc.Component {
                     node.parent = this.node
                     node.setPosition(-168, 251);
                     node.active = true
-                    
+
                     // if (RoomManage.roomItem.oningRaceNum === 0) {
                     //     var node = cc.instantiate(this.middleTopXiaZhuPanel)
                     //     node.parent = this.node
@@ -191,22 +191,18 @@ export default class NewClass extends cc.Component {
 
         eventBus.on(EventType.RACING_NUM_CHANGE_EVENT, randEventId(), (num: number): void => {
             let roomInfo = RoomManage.roomItem
-            this.showPlayCountLimit.string = '当前牌局：1/' + roomInfo.playCount
+            let count = RoomManage.roomItem.oningRaceNum
+            this.showPlayCountLimit.string = '当前牌局：' + (count + 1) + '/' + roomInfo.playCount
         })
 
-        // eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-        //     let oningRaceNum = RoomManage.roomItem.oningRaceNum
-        //     if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD) {
-        //         cc.log('错误！接收到了地主邀请通知，但当前房间状态不是选地主')
-        //         return
-        //     }
-        //     if (UserManage.userInfo.id !== landlordId) {
-        //         cc.log('接收到了地主邀请通知，但邀请的不是自己')
-        //     } else {
-        //         cc.log('当前用户收到邀请，弹出是否当地主提示框')
-        //         this.choiceLandLord()
-        //     }
-        // })
+        eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
+            let oningRaceNum = RoomManage.roomItem.oningRaceNum
+            if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD) {
+                cc.log('错误！接收到了地主邀请通知，但当前房间状态不是选地主')
+                return
+            }
+            this.closeChoiceLandLordPanel()
+        })
     }
 
     cleanMhjongOnDesk(): void {
@@ -271,15 +267,25 @@ export default class NewClass extends cc.Component {
     }
 
     //选地主
-    private choiceLandLord() {
-        var node = cc.instantiate(this.choiceLandlordPanel)
+    private showChoiceLandLordPanel() {
+        // var node = cc.instantiate(this.choiceLandlordPanel)
+        // node.parent = this.node
+        // node.setPosition(0, 0);
+        // node.active = true
+        var node = cc.instantiate(this.rapLandlordButton)
         node.parent = this.node
-        node.setPosition(0, 0);
+        node.setPosition(358, -198);
         node.active = true
     }
 
-     showUserIcon() {
-        let userInfo =  UserManage.userInfo
+    private closeChoiceLandLordPanel() {
+        if (this.node.getChildByName('RapLandlordButton')) {
+            this.node.getChildByName('RapLandlordButton').destroy()
+        }
+    }
+
+    showUserIcon() {
+        let userInfo = UserManage.userInfo
         // cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {
         //                 let myIcon = new cc.SpriteFrame(img);
         //                 this.userIcon.spriteFrame = myIcon;

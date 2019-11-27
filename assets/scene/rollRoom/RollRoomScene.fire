@@ -201,7 +201,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 255.47749411640942
+      "z": 263.27172275046934
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -4089,6 +4089,9 @@
     },
     "middleTopXiaZhuPanel": {
       "__uuid__": "965ff4a2-1a1f-4ece-8a90-4bcb19525677"
+    },
+    "rapLandlordButton": {
+      "__uuid__": "8c7d4d8d-69db-4ea6-b64c-c998b59d0346"
     },
     "showRoomNum": {
       "__id__": 27
