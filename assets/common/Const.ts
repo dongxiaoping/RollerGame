@@ -268,6 +268,20 @@ export enum CompareDxRe {
     EQ = 'e' //相等
 }
 
+//进入房间的模式
+export enum EnterRoomModel {
+    NUMBER_PANEL = 1,  //数字面板
+    SHARE = 2, //通过分享
+    CREATE_ROOM = 3 //通过创建房间
+}
+
+export interface EnterRoomParam {
+    model: EnterRoomModel,
+    userId: string,
+    roomId: number
+}
+
+
 
 export interface MemberInChairData {
     userId: string,

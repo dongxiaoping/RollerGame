@@ -1,5 +1,4 @@
 import { DiceCountInfo, MajhongValueType, TableLocationType } from './Const'
-
 import axios from 'axios'
 import { config } from './Config'
 export function randEventId(): string {

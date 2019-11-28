@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam } from '../../common/Const'
+import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import { randEventId, getFaPaiLocation, isUrlToGameRoom, getUrlParam } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -75,15 +75,12 @@ export default class NewClass extends cc.Component {
     }
 
     async startGame() {
-        let userId = null
-        let roomId = null
-        if (isUrlToGameRoom()) {
-            userId = getUrlParam('userId')
-            roomId = getUrlParam('roomId')
+
+        let enterRoomParam = RoomManage.getEnterRoomParam()
+        let userId = enterRoomParam.userId
+        let roomId = enterRoomParam.roomId
+        if(enterRoomParam.model === EnterRoomModel.SHARE){
             let userInfo = await UserManage.requestUserInfo(userId)
-        } else {
-            userId = UserManage.userInfo.id
-            roomId = RoomManage.roomItem.id
         }
         let info = await RoomManage.loginRoom(userId, roomId)
         this.startAfterDataInit()

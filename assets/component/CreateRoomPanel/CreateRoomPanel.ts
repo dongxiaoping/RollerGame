@@ -1,4 +1,4 @@
-import { CreateRoomPayModel, ResponseStatus, RoomInfo } from "../../common/Const";
+import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel } from "../../common/Const";
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 
@@ -120,6 +120,11 @@ export default class NewClass extends cc.Component {
             let roomInfo = res.extObject as RoomInfo
             RoomManage.setRoomItem(roomInfo) //主要的设置roomId
             this.node.destroy()
+            RoomManage.setEnterRoomParam({
+                model: EnterRoomModel.CREATE_ROOM,
+                userId: UserManage.userInfo.id,
+                roomId: roomInfo.id
+            } as EnterRoomParam)
             cc.director.loadScene("RollRoomScene");
             cc.log('房间创建成功,房间信息：' + JSON.stringify(roomInfo))
             cc.log('进入游戏房间')

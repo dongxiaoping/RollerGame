@@ -1,7 +1,7 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { appMode, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam } from '../../common/Const'
 import { roomInfo } from '../../mock/RoomInfo'
 import axios from 'axios'
 import { Ajax } from '../../common/Util';
@@ -12,6 +12,7 @@ import { RoomGameConfig, roomGameConfig } from '../../common/RoomGameConfig';
 class RoomManage {
     public roomItem: RoomItem = null
     private netRoomGameConfig: RoomGameConfig = null //网络下发的配置文件信息
+    private enterRoomParam: EnterRoomParam = null //进入房间的传参
     public requestRoomInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (this.roomItem !== null) {
@@ -25,6 +26,14 @@ class RoomManage {
             }
             resolve({ result: PromiseResult.SUCCESS, extObject: this.roomItem })
         })
+    }
+
+    public getEnterRoomParam() {
+        return this.enterRoomParam
+    }
+
+    public setEnterRoomParam(info: EnterRoomParam) {
+        this.enterRoomParam = info
     }
 
     public setNetRoomGameConfig(info: RoomGameConfig) {

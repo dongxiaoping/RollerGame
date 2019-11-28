@@ -1,6 +1,8 @@
 import UserManage from "../../store/User/UserManage";
 import RollEmulator from "../../common/RollEmulator";
-import { isUrlToGameRoom } from "../../common/Util";
+import { isUrlToGameRoom, getUrlParam } from "../../common/Util";
+import RoomManage from "../../store/Room/RoomManage";
+import { EnterRoomModel, EnterRoomParam } from "../../common/Const";
 
 const { ccclass, property } = cc._decorator;
 
@@ -37,7 +39,12 @@ export default class LobbyScene extends cc.Component {
     }
 
     onEnable() {
-        if(isUrlToGameRoom()){
+        if (isUrlToGameRoom()) {
+            RoomManage.setEnterRoomParam({
+                model: EnterRoomModel.SHARE,
+                userId: getUrlParam('userId'),
+                roomId: parseInt(getUrlParam('roomId'))
+            } as EnterRoomParam)
             cc.director.loadScene("RollRoomScene")
             return
         }
