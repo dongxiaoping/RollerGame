@@ -75,7 +75,6 @@ export default class NewClass extends cc.Component {
     }
 
     async startGame() {
-
         let enterRoomParam = RoomManage.getEnterRoomParam()
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId

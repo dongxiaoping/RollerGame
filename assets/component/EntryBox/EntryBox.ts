@@ -1,3 +1,7 @@
+import RoomManage from "../../store/Room/RoomManage";
+import { EnterRoomModel, EnterRoomParam } from "../../common/Const";
+import UserManage from "../../store/User/UserManage";
+
 const { ccclass, property } = cc._decorator;
 //输入房间号加入房间面板
 @ccclass
@@ -80,6 +84,14 @@ export default class NewClass extends cc.Component {
             this.Num.string = this.Num.string.substring(0,this.Num.string.length-1)
         })
         this.Enter.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+            let roomId = parseInt(this.Num.string) 
+            this.node.destroy()
+            RoomManage.setEnterRoomParam({
+                model: EnterRoomModel.NUMBER_PANEL,
+                userId: UserManage.userInfo.id,
+                roomId: roomId
+            } as EnterRoomParam)
+            cc.director.loadScene("RollRoomScene");
             console.log(this.Num.string)
         })
     }
