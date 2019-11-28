@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "ab828384-d5e6-4859-b87d-3f521cb08e00",
+  "uuid": "6ffb4122-a797-42b7-a0ac-c1dc10f24b63",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "tong_5a6b28eb_15": {
+    "landCorner": {
       "ver": "1.0.4",
-      "uuid": "3ee7b9cd-8b69-4b1b-82ab-0618ea0a4888",
-      "rawTextureUuid": "ab828384-d5e6-4859-b87d-3f521cb08e00",
+      "uuid": "7b530b67-4f3e-47fd-a666-5bca16615edc",
+      "rawTextureUuid": "6ffb4122-a797-42b7-a0ac-c1dc10f24b63",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -20,10 +20,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 12,
-      "height": 10,
-      "rawWidth": 12,
-      "rawHeight": 10,
+      "width": 305,
+      "height": 190,
+      "rawWidth": 305,
+      "rawHeight": 190,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
