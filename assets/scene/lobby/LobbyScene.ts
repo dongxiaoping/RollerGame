@@ -53,7 +53,9 @@ export default class LobbyScene extends cc.Component {
         })
         this.LianXiChang.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('练习场被点击了')
-            RollEmulator.start()
+            RoomManage.setEnterRoomParam({
+                model: EnterRoomModel.EMULATOR_ROOM
+            } as EnterRoomParam)
             cc.director.loadScene("RollRoomScene")
         })
         this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {

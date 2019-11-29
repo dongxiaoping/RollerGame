@@ -64,27 +64,26 @@ export default class NewClass extends cc.Component {
             cc.log('错误！游戏模拟器和游戏控制器只能开一个')
             return
         }
-        if (RollEmulator.isRuning) {
-            this.startAfterDataInit()
-            this.showTopLeftRaceInfo()
-            cc.log('进入模拟房间')
-        } else {
-            cc.log('进入游戏房间')
-            this.startGame()
-        }
+        this.startGame()
     }
 
     async startGame() {
         let enterRoomParam = RoomManage.getEnterRoomParam()
+        if(enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM){
+            RollEmulator.start()
+            this.startAfterDataInit()
+            this.showTopLeftRaceInfo()
+            return
+        }
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
         if(enterRoomParam.model === EnterRoomModel.SHARE){
-            let userInfo = await UserManage.requestUserInfo(userId)
+            await UserManage.requestUserInfo(userId)
         }
-        let info = await RoomManage.loginRoom(userId, roomId)
+        await RoomManage.loginRoom(userId, roomId)
         this.startAfterDataInit()
-        RollControler.start()
         this.showTopLeftRaceInfo()
+        RollControler.start()
     }
 
     showTopLeftRaceInfo() {

@@ -272,7 +272,8 @@ export enum CompareDxRe {
 export enum EnterRoomModel {
     NUMBER_PANEL = 1,  //数字面板
     SHARE = 2, //通过分享
-    CREATE_ROOM = 3 //通过创建房间
+    CREATE_ROOM = 3, //通过创建房间
+    EMULATOR_ROOM = 4 //模拟房间
 }
 
 export interface EnterRoomParam {
@@ -285,8 +286,8 @@ export interface EnterRoomParam {
 
 export interface MemberInChairData {
     userId: string,
-    userName: string,
-    userIcon: string
+    userName?: string,
+    userIcon?: string //模拟房间不用传这些
 }
 
 export interface BetNoticeData {
