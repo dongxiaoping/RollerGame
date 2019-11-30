@@ -70,19 +70,18 @@ export default class NewClass extends cc.Component {
     async startGame() {
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if(enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM){
-            RollEmulator.start()
-            this.startAfterDataInit()
-            this.showTopLeftRaceInfo()
+            cc.log('进入了模拟房间')
+            this.enterEmulatorRoom()
             return
         }
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
         if(enterRoomParam.model === EnterRoomModel.SHARE){
+            cc.log('进入了分享房间')
             await UserManage.requestUserInfo(userId)
         }
         await RoomManage.loginRoom(userId, roomId)
-        this.startAfterDataInit()
-        this.showTopLeftRaceInfo()
+        this.initRoom()
         RollControler.start()
     }
 
@@ -94,12 +93,20 @@ export default class NewClass extends cc.Component {
         this.showPlayCountLimit.string = '当前牌局：1/' + roomInfo.playCount
     }
 
-    startAfterDataInit() {
+    enterEmulatorRoom(){
+        RollEmulator.start()
+        this.initRoom()
+        let landlordId = RaceManage.raceList[0].landlordId
+        RaceManage.changeRaceLandlord(landlordId, 8, 0)
+    }
+
+    initRoom() {
         this.showUserIcon()
         this.changeStartButtonState()
         this.initXiaZhuPanel()
         this.initMahjongPanel()
         this.initDesk()
+        this.showTopLeftRaceInfo()
         this.addListener()
         this.addClickEvent()
     }
@@ -269,7 +276,7 @@ export default class NewClass extends cc.Component {
         // node.active = true
         var node = cc.instantiate(this.rapLandlordButton)
         node.parent = this.node
-        node.setPosition(358, -198);
+        node.setPosition(295, -261);
         node.active = true
     }
 

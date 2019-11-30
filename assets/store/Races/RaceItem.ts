@@ -28,7 +28,7 @@ export default class RaceItem {
     constructor(val: raceRecord) {
         this.raceId = val.id
         this.num = val.raceNum
-        this.state = val.playState
+        this._state = val.playState
 
         this.landlordScore = val.landlordScore
         this.skyScore = val.skyScore
@@ -36,7 +36,7 @@ export default class RaceItem {
         this.landScore = val.landScore
 
         this.points = val.points
-
+        this._landlordId = val.landlordId 
         this.landResult = val.landResult
         this.middleResult = val.middleResult
         this.bridgResult = val.bridgResult
@@ -96,6 +96,10 @@ export default class RaceItem {
         cc.log('地主改变了,下发通知')
         this._landlordId = val
         eventBus.emit(EventType.LANDLORD_CAHNGE_EVENT, val)
+    }
+
+    setLandlordIdWithoutNotice(val: string){
+        this._landlordId = val
     }
 
 

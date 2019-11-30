@@ -50,8 +50,7 @@ class RollEmulator extends RollControlerBase{
                     this.responsePlayButtonEvent()
                     break
                 case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT: //响应本地是否选择当地主结果
-                    cc.log('响应本地是否选择当地主')
-                    this.responseLocalBeLandlordDeal(info.info)
+                    cc.log('响应本地是否选择当地主')//弃用
                     break
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //响应摇色子动画结束通知
                     cc.log('响应摇色子动画结束通知,修改状态为发牌')
@@ -83,7 +82,7 @@ class RollEmulator extends RollControlerBase{
     }
 
     //初始化本地数据
-    async initData() {
+     initData() {
         cc.log('模拟器初始化本地数据')
         UserManage.setUserInfo(userInfo)
         Room.setRoomItem(roomInfo)
@@ -132,26 +131,24 @@ class RollEmulator extends RollControlerBase{
         cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将进行中的比赛场次设置为0，我开始了比赛')
         RoomManage.roomItem.oningRaceNum = 0
         cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将第一个房间状态改为选地主')
-        RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
-        cc.log('邀请当前用户当地主')
-        RaceManage.raceList[0].landlordId = UserManage.userInfo.id
+        RaceManage.changeRaceState(RaceState.ROLL_DICE)
     }
 
-    responseLocalBeLandlordDeal(wantLandlord: boolean) {
-        cc.log('游戏模拟器接收到用户是否愿意当地主通知')
-        let userId = UserManage.userInfo.id
-        let oningRaceNum = RoomManage.roomItem.oningRaceNum
-        if (wantLandlord) {
-            RaceManage.raceList[oningRaceNum].landlordId = userId
-        } else {
-            RaceManage.raceList[oningRaceNum].landlordId = '24'
-        }
-        setTimeout(() => {
-            cc.log('模拟器开启摇色子环节')
-            cc.log('我是模拟器，我收到了本地用户是否愿意当地主的通知，我将比赛状态改为摇色子')
-            RaceManage.changeRaceState(RaceState.ROLL_DICE)
-        }, 1000)
-    }
+    // responseLocalBeLandlordDeal(wantLandlord: boolean) {
+    //     cc.log('游戏模拟器接收到用户是否愿意当地主通知')
+    //     let userId = UserManage.userInfo.id
+    //     let oningRaceNum = RoomManage.roomItem.oningRaceNum
+    //     if (wantLandlord) {
+    //         RaceManage.raceList[oningRaceNum].landlordId = userId
+    //     } else {
+    //         RaceManage.raceList[oningRaceNum].landlordId = '24'
+    //     }
+    //     setTimeout(() => {
+    //         cc.log('模拟器开启摇色子环节')
+    //         cc.log('我是模拟器，我收到了本地用户是否愿意当地主的通知，我将比赛状态改为摇色子')
+    //         RaceManage.changeRaceState(RaceState.ROLL_DICE)
+    //     }, 1000)
+    // }
 
     //启动下场比赛
     toStartNextRace(): void {
@@ -174,14 +171,6 @@ class RollEmulator extends RollControlerBase{
         setTimeout(() => {
             RoomManage.roomItem.oningRaceNum = nextRaceNum
             cc.log('我是游戏模拟器，我开始了下局比赛，所以直接将下场比赛状态改为摇色子')
-            let i = 0
-            GameMemberManage.gameMenmberList.forEach((item: GameMemberItem) => {
-                if (i === nextRaceNum) {
-                    cc.log('我是游戏模拟器，因为开始了下场比赛，我随机修改了地主值')
-                    RaceManage.raceList[nextRaceNum].landlordId = item.userId
-                }
-                i++
-            })
             RaceManage.changeRaceState(RaceState.ROLL_DICE)
         }, 3000)
     }

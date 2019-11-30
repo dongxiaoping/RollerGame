@@ -17,7 +17,7 @@ class RaceManage {
     getScoreByUserId(userId: string): number {
         let score: number = 0
         this.raceList.forEach((item: RaceItem) => {
-           // score = score + item.betInfo[userId].score
+            // score = score + item.betInfo[userId].score
         })
         return score
     }
@@ -38,27 +38,27 @@ class RaceManage {
         let localXiaZhuLimiTime = RoomManage.getBetTime()
         let ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
-           BetManage.addBet(oningRaceNum,userId,betLocaion.LAND_CORNER,10)
-        }, ranTime * 1000)
-        ranTime = randFloatNum(1, localXiaZhuLimiTime- 1)
-        setTimeout(() => {
-            BetManage.addBet(oningRaceNum,userId,betLocaion.SKY,20)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND_CORNER, 10)
         }, ranTime * 1000)
         ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.addBet(oningRaceNum,userId,betLocaion.BRIDG,20)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY, 20)
         }, ranTime * 1000)
         ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.addBet(oningRaceNum,userId,betLocaion.LAND,50)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.BRIDG, 20)
         }, ranTime * 1000)
         ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.addBet(oningRaceNum,userId,betLocaion.MIDDLE,100)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND, 50)
         }, ranTime * 1000)
-        ranTime = randFloatNum(1, localXiaZhuLimiTime- 1)
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         setTimeout(() => {
-            BetManage.addBet(oningRaceNum,userId,betLocaion.SKY_CORNER,100)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.MIDDLE, 100)
+        }, ranTime * 1000)
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
+        setTimeout(() => {
+            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY_CORNER, 100)
         }, ranTime * 1000)
     }
 
@@ -94,9 +94,20 @@ class RaceManage {
         this.raceList[oningRaceNum].state = toState
     }
 
-    changeRaceLandlord(landlordId: string): void {
+    //说明
+    changeRaceLandlord(landlordId: string, landlordLastCount: number, fromRaceNum: number): void {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        if (fromRaceNum !== oningRaceNum) {
+            cc.log('错误,下发的抢庄当前场次和本地当前场次不一致')
+            return
+        }
+        let totalCount = RoomManage.roomItem.playCount
         this.raceList[oningRaceNum].landlordId = landlordId
+        for (let i = 1; i < landlordLastCount; i++) {
+            if (oningRaceNum + i < totalCount){
+                this.raceList[oningRaceNum + i].setLandlordIdWithoutNotice(landlordId)
+            }
+        }
     }
 
 }

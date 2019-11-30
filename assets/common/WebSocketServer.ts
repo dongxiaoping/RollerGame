@@ -19,6 +19,7 @@ export interface NoticeInfo {
     raceNum?: number //当前是第几局
     raceCount?: number //房间比赛有几场
     landlordId?: string //当前局的地主ID
+    landlordLastCount?: number //一次选中坐庄持续的场次数
     userId?: string
 }
 
@@ -72,7 +73,9 @@ ws.onmessage = (e: any): void => {
             break;
         case 'landlordSelected': //接收地主被选中通知
             message as NoticeInfo
-            RaceManage.changeRaceLandlord(landlordId)
+            let landlordLastCount = message.landlordLastCount
+            let fromRaceNum = message.raceNum
+            RaceManage.changeRaceLandlord(landlordId, landlordLastCount, fromRaceNum)
             console.log('socket收到游戏地主被选中通知');
             break;
         case 'raceStateRollDice':
@@ -121,7 +124,7 @@ ws.onmessage = (e: any): void => {
         case 'memberOffLine': //有成员从socket房间中退出
             message as NoticeInfo
             let userId = message.userId
-            console.log('有成员从socket房间中退出,用户Id'+userId);
+            console.log('有成员从socket房间中退出,用户Id' + userId);
             break;
 
     }

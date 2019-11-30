@@ -20,8 +20,8 @@ export default class RoomItem {
         this.playCount = val.playCount
         this.playMode = val.playMode
         this.costLimit = val.costLimit
-        this.roomState = val.roomState
-        this.oningRaceNum = val.oningRaceNum
+        this._roomState = val.roomState
+        this._oningRaceNum = val.oningRaceNum
     }
 
     get oningRaceNum(): number {
@@ -29,7 +29,7 @@ export default class RoomItem {
     }
 
     set oningRaceNum(val: number) {
-        if (this._oningRaceNum != null && (this._oningRaceNum >= val)) {
+        if (this._oningRaceNum != null && (this._oningRaceNum > val)) {
             cc.log('进行中场次号设置异常，当前的场次号：' + this._oningRaceNum + ',要设置的场次号:' + val)
             return
         }
