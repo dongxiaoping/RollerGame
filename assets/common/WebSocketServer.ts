@@ -103,7 +103,6 @@ ws.onmessage = (e: any): void => {
             let raceNum = message.raceNum
             RaceManage.raceList[raceNum].setRaceResultList(resultList)
             RaceManage.changeRaceState(RaceState.SHOW_RESULT)
-
             console.log('显示结果');
             break;
         case 'raceStateFinished':

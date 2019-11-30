@@ -10,6 +10,6 @@ export const roomGameConfig: RoomGameConfig = {
     rollDiceTime : 4,
     dealTime : 6,
     betTime : 12,
-    showDownTime : 6,
+    showDownTime : 9, //不能小于7s
     showResultTime : 6
 }

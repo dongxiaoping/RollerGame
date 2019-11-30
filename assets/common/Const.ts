@@ -300,7 +300,7 @@ export interface BetNoticeData {
 
 export interface raceResultData {
     roomId?: string,
-    raceNum: number,
+    raceNum?: number,
     userId: string,
     score: number,
     nick: string,

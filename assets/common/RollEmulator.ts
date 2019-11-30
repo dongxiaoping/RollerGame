@@ -14,6 +14,7 @@ import { config } from './Config';
 import { eventBus } from './EventBus';
 import { randEventId } from './Util';
 import { RollControlerBase } from './RollControlerBase';
+import { RaceResultListOne } from '../mock/RaceResultList';
 @ccclass
 class RollEmulator extends RollControlerBase{
     public isRuning: boolean = false
@@ -68,6 +69,7 @@ class RollEmulator extends RollControlerBase{
                     break
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
                     cc.log('我是游戏模拟器，我接到了比大小动画结束通知,我将比赛状态改为显示结果')
+                    RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(RaceResultListOne)
                     RaceManage.changeRaceState(RaceState.SHOW_RESULT)
                     let showResultTime = RoomManage.getShowResultTime()
                     setTimeout(() => {

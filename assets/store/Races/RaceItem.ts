@@ -68,6 +68,7 @@ export default class RaceItem {
                     icon: item.icon,
                 } as raceResultData)
             } else {
+                
                 newList.push(result)
             }
         })
