@@ -82,22 +82,23 @@ export default class Desk extends cc.Component {
     playingBiDaXiaAnimation(func: any) {
         let oningNum = RoomManage.roomItem.oningRaceNum
         let race = RaceManage.raceList[oningNum]
-        let showNode: any = null
+        let middleResultAmimation: any = null
         if ((race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
             race.landResult === CompareDxRe.BIG) || (race.skyResult === CompareDxRe.SMALL &&
                 race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL)) {
             cc.log('显示通赔或者通杀')
-            showNode = cc.instantiate(this.middleResultWenZi)
-            showNode.parent = this.node.parent
-            showNode.active = true
+            middleResultAmimation = cc.instantiate(this.middleResultWenZi)
+            middleResultAmimation.parent = this.node.parent
+            middleResultAmimation.active = true
         }
         let timeSet = RoomManage.getShowDownTime()
         setTimeout(() => {
-            if (showNode !== null) {
-                showNode.destroy()
+            if (middleResultAmimation !== null) {
+                middleResultAmimation.destroy()
+                cc.log('关闭通赔通杀显示面板')
             }
             func()
-        }, (timeSet-7.5)*1000)  //麻将的翻牌动画固定7.5s
+        }, (timeSet - 7.5) * 1000)  //麻将的翻牌动画固定7.5s
     }
 
 

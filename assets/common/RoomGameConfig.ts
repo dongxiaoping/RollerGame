@@ -7,9 +7,9 @@ export interface RoomGameConfig {
     delayTime?:number //服务器和客户端之间的延迟时间
 }
 export const roomGameConfig: RoomGameConfig = {
-    rollDiceTime : 6,
+    rollDiceTime : 4,
     dealTime : 6,
-    betTime : 6,
+    betTime : 12,
     showDownTime : 6,
     showResultTime : 6
 }

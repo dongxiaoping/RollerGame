@@ -83,7 +83,7 @@ export default class RaceItem {
             case TableLocationType.LAND:
                 return this.landScore;
             case TableLocationType.LANDLORD:
-                return this.landScore;
+                return this.landlordScore;
         }
     }
 

@@ -35,10 +35,10 @@ export default class NewClass extends cc.Component {
     ]
     start() {
         let timeConfig = RoomManage.getRollDiceTime()
-        this.firstKeepStopTime = Math.floor((timeConfig/9) * 100) / 100
-        this.rollKeepTime = Math.floor((timeConfig/9*5) * 100) / 100
-        this.secondKeepStopTime = Math.floor((timeConfig/9) * 100) / 100
-        this.diceShowTime = Math.floor((timeConfig/9*2) * 100) / 100
+        this.firstKeepStopTime = Math.floor((timeConfig / 9 * 2) * 100) / 100
+        this.rollKeepTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
+        this.secondKeepStopTime = Math.floor((timeConfig / 9) * 100) / 100
+        this.diceShowTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
         setTimeout((): void => {
             this.oning = true
             setTimeout((): void => {
@@ -65,7 +65,7 @@ export default class NewClass extends cc.Component {
         })
         setTimeout(() => {
             cc.log('发出摇色子动画结束通知')
-            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { //请除动作在房间里面处理
                 type: LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE
             } as LocalNoticeEventPara)
         }, this.diceShowTime * 1000)

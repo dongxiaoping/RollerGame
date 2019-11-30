@@ -19,6 +19,7 @@ export default class NewClass extends cc.Component {
     // onLoad () {}
 
     start() {
+        let that = this
         let oningNum = RoomManage.roomItem.oningRaceNum
         let race = RaceManage.raceList[oningNum]
         let landLordId = RaceManage.raceList[0].landlordId
@@ -46,12 +47,15 @@ export default class NewClass extends cc.Component {
         }
         cc.loader.loadRes(bgPicUrl, (error, img) => {
             let myIcon = new cc.SpriteFrame(img);
-            this.bg.spriteFrame = myIcon;
+            that.bg.spriteFrame = myIcon;
         })
         cc.loader.loadRes(wenziUrl, (error, img) => {
             let myIcon = new cc.SpriteFrame(img);
-            this.wenZi.spriteFrame = myIcon;
+            that.wenZi.spriteFrame = myIcon;
         })
+    }
+    onEnable(){
+
     }
 
     // update (dt) {}

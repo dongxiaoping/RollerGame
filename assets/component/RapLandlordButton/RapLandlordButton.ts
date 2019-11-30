@@ -15,7 +15,7 @@ export default class NewClass extends cc.Component {
             this.node.destroy()
         })
     }
-    update(dt) { 
-        this.focus.node.rotation=this.focus.node.rotation+0.2
+    update(dt) {
+        this.focus.node.angle = this.focus.node.angle + 0.2
     }
 }

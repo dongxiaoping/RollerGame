@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel } from '../../common/Const'
+import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import { randEventId, getFaPaiLocation, isUrlToGameRoom, getUrlParam } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -69,14 +69,14 @@ export default class NewClass extends cc.Component {
 
     async startGame() {
         let enterRoomParam = RoomManage.getEnterRoomParam()
-        if(enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM){
+        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
             cc.log('进入了模拟房间')
             this.enterEmulatorRoom()
             return
         }
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
-        if(enterRoomParam.model === EnterRoomModel.SHARE){
+        if (enterRoomParam.model === EnterRoomModel.SHARE) {
             cc.log('进入了分享房间')
             await UserManage.requestUserInfo(userId)
         }
@@ -93,7 +93,7 @@ export default class NewClass extends cc.Component {
         this.showPlayCountLimit.string = '当前牌局：1/' + roomInfo.playCount
     }
 
-    enterEmulatorRoom(){
+    enterEmulatorRoom() {
         RollEmulator.start()
         this.initRoom()
         let landlordId = RaceManage.raceList[0].landlordId
@@ -126,6 +126,14 @@ export default class NewClass extends cc.Component {
     }
 
     private addListener() {
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //摇色子结束
+                    this.endRollDice() //清除摇色子页面
+                    break
+            }
+        })
         eventBus.on(EventType.ROOM_STATE_CHANGE_EVENT, randEventId(), (state: roomState): void => {
             switch (state) {
                 case roomState.ALL_RACE_FINISHED:
@@ -234,7 +242,6 @@ export default class NewClass extends cc.Component {
 
     //开始发牌流程
     private beginDeal() {
-        this.endRollDice()
         let node = this.node.getChildByName('DealMachine')
         let scriptOb = node.getComponent('DealMachine')
         let oningNum = RoomManage.roomItem.oningRaceNum

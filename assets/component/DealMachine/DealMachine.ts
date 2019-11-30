@@ -18,7 +18,7 @@ export default class DealMachine extends cc.Component {
     mjIndex: number = -1 //牌队列当前消耗位置，起牌
     mahongLong: number = 20 //麻将队列的长度
     mahjongFlyTime: number //单位s  一张牌的发牌动画持续时间
-    mahjongShowKeepTime:number //单位s 发牌结束后停顿显示持续时间
+    mahjongShowKeepTime: number //单位s 发牌结束后停顿显示持续时间
     onEnable() {
         this.initMaj()
     }
@@ -40,8 +40,8 @@ export default class DealMachine extends cc.Component {
     //从指定桌位开始，向4个排位进行发牌
     deal(tableLocationType: TableLocationType): void {
         let timeConfig = RoomManage.getDealTime()
-        this.mahjongShowKeepTime = Math.floor((timeConfig/3) * 100) / 100
-        this.mahjongFlyTime = Math.floor((timeConfig/6) * 100) / 100
+        this.mahjongShowKeepTime = Math.floor((timeConfig / 3) * 100) / 100
+        this.mahjongFlyTime = Math.floor((timeConfig / 6) * 100) / 100
         let count = 0
         let circleList = getCircleListByLocationType(tableLocationType)
         function backFun() {
@@ -53,7 +53,7 @@ export default class DealMachine extends cc.Component {
                     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                         type: LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE
                     } as LocalNoticeEventPara)
-                }, this.mahjongShowKeepTime*1000)
+                }, this.mahjongShowKeepTime * 1000)
             } else {
                 cc.log('当前动画执行完毕')
                 ++this.mjIndex
@@ -100,7 +100,22 @@ export default class DealMachine extends cc.Component {
         node.active = true
 
         let location = getLocationByLocaitonType(tableLocationType)
-        let action = cc.moveTo(this.mahjongFlyTime, location.x, location.y)
+        let flyTime: number
+        switch (tableLocationType) {
+            case TableLocationType.LAND:
+                    flyTime = this.mahjongFlyTime*0.6
+                break
+            case TableLocationType.LANDLORD:
+                    flyTime = this.mahjongFlyTime*0.7
+                break
+            case TableLocationType.MIDDLE:
+                    flyTime = this.mahjongFlyTime*1
+                break
+            case TableLocationType.SKY:
+                    flyTime = this.mahjongFlyTime*0.9
+                break
+        }
+        let action = cc.moveTo(flyTime, location.x, location.y)
         let b = cc.sequence(action, cc.callFunc(func, this))
         node.runAction(b)
     }

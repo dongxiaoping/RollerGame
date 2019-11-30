@@ -55,9 +55,7 @@ class RollEmulator extends RollControlerBase{
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //响应摇色子动画结束通知
                     cc.log('响应摇色子动画结束通知,修改状态为发牌')
                     cc.log('我是游戏模拟器，我接到了摇色子动画结束的通知，我将比赛状态改为发牌')
-                    setTimeout(() => {
                         RaceManage.changeRaceState(RaceState.DEAL)
-                    }, 2000)
                     break
                 case LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE:
                     cc.log('响应发牌动画结束通知,将状态改为下注')

@@ -133,3 +133,10 @@ export function isUrlToGameRoom(): boolean {
     }
     return false
 }
+
+export function getDistanceBetweenTwoPoints(x1: number, y1: number, x2: number, y2: number) {
+    let a = x1 - x2;
+    let b = y1 - y2;
+    let result = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+    return result;
+}

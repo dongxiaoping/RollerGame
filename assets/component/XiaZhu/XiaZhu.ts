@@ -47,7 +47,6 @@ export default class NewClass extends cc.Component {
 
     ownChipSize: number = 40 //自己下注硬币的大（
     otherMemberChipSize: number = 20 //其它成员下注硬币的大
-    // onLoad () {}
 
     start() {
 
@@ -277,5 +276,10 @@ export default class NewClass extends cc.Component {
         eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.pushEventId)
     }
 
-    // update (dt) {}
+    update(dt) {
+        this.focus_10.node.angle = this.focus_10.node.angle + 0.2
+        this.focus_20.node.angle = this.focus_20.node.angle + 0.2
+        this.focus_50.node.angle = this.focus_50.node.angle + 0.2
+        this.focus_100.node.angle = this.focus_100.node.angle + 0.2
+    }
 }

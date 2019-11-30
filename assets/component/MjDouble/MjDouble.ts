@@ -35,6 +35,8 @@ export default class NewClass extends cc.Component {
     open(tableLocationType: TableLocationType) {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         let majongScore = RaceManage.raceList[oningRaceNum].getMahjongScore(tableLocationType)
+        cc.log('当前翻牌位置：'+tableLocationType)
+        cc.log(majongScore)
         this.openAnimation(this.one, majongScore.one, () => {
             setTimeout(() => {
                 this.openAnimation(this.two, majongScore.two, () => {
