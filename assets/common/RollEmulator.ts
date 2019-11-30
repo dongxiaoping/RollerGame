@@ -157,6 +157,7 @@ class RollEmulator extends RollControlerBase{
             cc.log('所有比赛都完成')
             cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
             setTimeout(() => {
+                RaceManage.setGameOverResultList(RaceResultListOne)
                 RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
             }, 2000)
             return

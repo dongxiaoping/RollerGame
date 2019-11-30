@@ -453,7 +453,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 75,
+      "width": 50,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -499,8 +499,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "轮流庄",
-    "_N$string": "轮流庄",
+    "_string": "抢庄",
+    "_N$string": "抢庄",
     "_fontSize": 25,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -1022,6 +1022,15 @@
     },
     "userItem": {
       "__uuid__": "a18d5118-8175-4f4c-ab28-5746aaf75061"
+    },
+    "roomModel": {
+      "__id__": 13
+    },
+    "roomNum": {
+      "__id__": 10
+    },
+    "raceCount": {
+      "__id__": 16
     },
     "backButton": {
       "__id__": 7

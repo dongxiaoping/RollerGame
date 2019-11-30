@@ -1,7 +1,7 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RaceItem from './RaceItem'
-import { appMode, PromiseParam, PromiseResult, raceRecord, BetScore, RaceState, betLocaion } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, raceRecord, BetScore, RaceState, betLocaion, raceResultData } from '../../common/Const'
 import { RaceList } from '../../mock/RaceList'
 import GameMemberManage from '../GameMember/GameMemberManage'
 import GameMemberItem from '../GameMember/GameMemberItem'
@@ -12,20 +12,16 @@ import BetManage from '../Bets/BetManage';
 @ccclass
 class RaceManage {
     public raceList: RaceItem[] = []
-
-    //通过用户id获取该用户全场比赛的分数合
-    getScoreByUserId(userId: string): number {
-        let score: number = 0
-        this.raceList.forEach((item: RaceItem) => {
-            // score = score + item.betInfo[userId].score
-        })
-        return score
-    }
-
+    public gameOverResultList: raceResultData[] //所有场次比赛的结果统计
+    
     setRaceList(list: raceRecord[]) {
         list.forEach((item: raceRecord): void => {
             this.raceList[item.raceNum] = new RaceItem(item)
         })
+    }
+
+    setGameOverResultList(list:raceResultData[]){
+        this.gameOverResultList = list
     }
 
     //模拟对指定用户进行下注

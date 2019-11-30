@@ -1,7 +1,7 @@
 import { RoomInfo, playMode, roomState, CreateRoomPayModel } from '../common/Const'
 
 export const roomInfo: RoomInfo = {
-    id: 12,
+    id: 88888,
     creatUserId: '6666660',
     memberLimit: 8,
     playCount: 2,
