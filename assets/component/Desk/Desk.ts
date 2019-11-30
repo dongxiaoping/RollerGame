@@ -74,8 +74,6 @@ export default class Desk extends cc.Component {
                     break
             }
         })
-
-
     }
 
     //比大小动画 比大小动画结束回调

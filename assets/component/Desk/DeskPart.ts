@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam, betLocaion } from '../../common/Const'
+import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam, betLocaion, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe } from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
@@ -56,6 +56,8 @@ export default class NewClass extends cc.Component {
             }
         })
 
+
+
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
             let to = info.toState
             switch (to) {
@@ -72,6 +74,30 @@ export default class NewClass extends cc.Component {
     }
 
     addClickEvent() {
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    cc.log('开牌动画结束，我开始执行比大小动画')
+                    let localString = this.typeValue + 'Result'
+                    let oningNum = RoomManage.roomItem.oningRaceNum
+                    if (RaceManage.raceList[oningNum][localString] === CompareDxRe.BIG) {
+                        this.focus.node.active = true
+                        setTimeout(() => {
+                            this.focus.node.active = false
+                        }, 600)
+                        setTimeout(() => {
+                            this.focus.node.active = true
+                        }, 900)
+                        setTimeout(() => {
+                            this.focus.node.active = false
+                        }, 1200)
+                    }
+
+                    break
+            }
+        })
+
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
             let oningRaceNum = RoomManage.roomItem.oningRaceNum
             if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
@@ -80,10 +106,10 @@ export default class NewClass extends cc.Component {
             if (RaceManage.raceList[oningRaceNum].landlordId === UserManage.userInfo.id) {
                 return
             }
-            this.focus.node.active = true
         })
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
             let oningRaceNum = RoomManage.roomItem.oningRaceNum
+            this.focus.node.active = false
             if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
                 cc.log('当前不是下注环节，不能下注')
                 return
@@ -92,7 +118,6 @@ export default class NewClass extends cc.Component {
                 cc.log('地主不能下注')
                 return
             }
-            this.focus.node.active = false
             //向服务器发起下注通知
             if (RollEmulator.isRuning) {
                 BetManage.addBet(oningRaceNum, UserManage.userInfo.id, this.typeValue as betLocaion, UserManage.selectChipValue)
