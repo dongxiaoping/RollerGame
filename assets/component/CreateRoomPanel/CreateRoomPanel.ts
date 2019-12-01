@@ -109,6 +109,7 @@ export default class NewClass extends cc.Component {
                 cc.log('下注上限不能为空')
                 return
             }
+            jushu = 2  //TODO
             cc.log('创建信息：人数：' + renshu + ",局数：" + jushu + ",付款模式:" + payMode + ',下注上限：' + xiazhu)
             this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu)
         })

@@ -28,8 +28,8 @@ export const RaceList: raceRecord[] = [
         points: { one: 1, two: 1 },
         landResult: CompareDxRe.SMALL,
         middleResult: CompareDxRe.BIG,
-        bridgResult: CompareDxRe.BIG,
-        landCornerResult: CompareDxRe.BIG,
+        bridgResult: CompareDxRe.EQ,
+        landCornerResult: CompareDxRe.EQ,
         skyCornerResult: CompareDxRe.BIG,
         skyResult: CompareDxRe.BIG
     }

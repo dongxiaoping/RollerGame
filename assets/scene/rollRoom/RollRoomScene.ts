@@ -173,7 +173,7 @@ export default class NewClass extends cc.Component {
                     cc.log('房间收到下注指令，显示下注倒计时面板')
                     var node = cc.instantiate(this.middleTopTimePanel)
                     node.parent = this.node
-                    node.setPosition(-168, 251);
+                    node.setPosition(-168, 235);
                     node.active = true
 
                     // if (RoomManage.roomItem.oningRaceNum === 0) {

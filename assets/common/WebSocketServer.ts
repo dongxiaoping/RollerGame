@@ -125,6 +125,13 @@ ws.onmessage = (e: any): void => {
             let userId = message.userId
             console.log('有成员从socket房间中退出,用户Id' + userId);
             break;
+        case 'allRaceFinished': //所有游戏结束
+            let roomResult = message.roomResult as raceResultData[]
+            console.log('所有游戏执行完毕,设置房间比赛结果');
+            RaceManage.setGameOverResultList(roomResult)
+            RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
+            break;
+
 
     }
 }
