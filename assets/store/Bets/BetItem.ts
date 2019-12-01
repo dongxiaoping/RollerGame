@@ -15,7 +15,6 @@ export default class Betitem {
     private _bridg: number = 0
     private _skyCorner: number = 0
     private _landCorner: number = 0
-    public score: number = 0 //地主的分数是统计面板统计后赋值的
 
     constructor(val: BetRecord) {
         this.raceNum = val.raceNum
@@ -77,7 +76,7 @@ export default class Betitem {
     }
 
     valueChangeNotice(locatIon: betLocaion, fromVal: number, toValue: number): void {
-        if(toValue === 0){
+        if (toValue === 0) {
             cc.log('初始下注值为0')
             return
         }
@@ -87,9 +86,10 @@ export default class Betitem {
     }
 
     //根据各个位置的输赢、获取当前场次，当前用户，当前时刻的得分
-    getScore(raceInfo: RaceItem): number {
+    getScore(skyResult: CompareDxRe, middleResult: CompareDxRe, landResult: CompareDxRe,
+        skyCornerResult: CompareDxRe, bridgResult: CompareDxRe, landCornerResult: CompareDxRe): number {
         let score: number = 0
-        switch (raceInfo.skyResult) {
+        switch (skyResult) {
             case CompareDxRe.BIG:
                 score = score + this.sky
                 break
@@ -100,7 +100,7 @@ export default class Betitem {
                 break
         }
 
-        switch (raceInfo.middleResult) {
+        switch (middleResult) {
             case CompareDxRe.BIG:
                 score = score + this.middle
                 break
@@ -111,7 +111,7 @@ export default class Betitem {
                 break
         }
 
-        switch (raceInfo.landResult) {
+        switch (landResult) {
             case CompareDxRe.BIG:
                 score = score + this.land
                 break
@@ -122,7 +122,7 @@ export default class Betitem {
                 break
         }
 
-        switch (raceInfo.bridgResult) {
+        switch (bridgResult) {
             case CompareDxRe.BIG:
                 score = score + this.bridg
                 break
@@ -133,7 +133,7 @@ export default class Betitem {
                 break
         }
 
-        switch (raceInfo.landCornerResult) {
+        switch (landCornerResult) {
             case CompareDxRe.BIG:
                 score = score + this.landCorner
                 break
@@ -144,7 +144,7 @@ export default class Betitem {
                 break
         }
 
-        switch (raceInfo.skyCornerResult) {
+        switch (skyCornerResult) {
             case CompareDxRe.BIG:
                 score = score + this.skyCorner
                 break
@@ -154,9 +154,6 @@ export default class Betitem {
             case CompareDxRe.EQ:
                 break
         }
-        cc.log('我是' + this.userId + ',比大小信息,我的得分是:' + score)
-        cc.log(this)
-        this.score = score
         return score
     }
 }

@@ -1,27 +1,48 @@
 const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RaceItem from './RaceItem'
-import { appMode, PromiseParam, PromiseResult, raceRecord, BetScore, RaceState, betLocaion, raceResultData } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, raceRecord, RaceState, betLocaion, raceResultData, CompareDxRe } from '../../common/Const'
 import { RaceList } from '../../mock/RaceList'
-import GameMemberManage from '../GameMember/GameMemberManage'
-import GameMemberItem from '../GameMember/GameMemberItem'
 import RoomManage from '../../store/Room/RoomManage'
 import axios from 'axios'
 import { randFloatNum } from '../../common/Util';
 import BetManage from '../Bets/BetManage';
+import Betitem from '../Bets/BetItem';
 @ccclass
 class RaceManage {
     public raceList: RaceItem[] = []
     public gameOverResultList: raceResultData[] //所有场次比赛的结果统计
-    
+
     setRaceList(list: raceRecord[]) {
         list.forEach((item: raceRecord): void => {
             this.raceList[item.raceNum] = new RaceItem(item)
         })
     }
 
-    setGameOverResultList(list:raceResultData[]){
+    setGameOverResultList(list: raceResultData[]) {
         this.gameOverResultList = list
+    }
+
+    /*在本地计算指定场次、指定用户的比赛得分
+     *@raceNum 比赛场次
+     *@userId 用户ID
+    */
+    getUserTheRaceScore(raceNum: number, userId: string) {
+        let score = 0
+        let raceItem = this.raceList[raceNum]
+        if (userId === this.raceList[raceNum].landlordId) {
+            BetManage.betList[raceNum].forEach((item: Betitem) => {
+                score -= item.getScore(raceItem.skyResult, raceItem.middleResult, raceItem.landResult,
+                    raceItem.skyCornerResult, raceItem.bridgResult, raceItem.landCornerResult)
+            })
+            return score
+        }
+        if (typeof (BetManage.betList[raceNum][userId]) === 'undefined') {
+            return score
+        }
+        let userBetitem = BetManage.betList[raceNum][userId] as Betitem
+        return userBetitem.getScore(raceItem.skyResult, raceItem.middleResult, raceItem.landResult,
+            raceItem.skyCornerResult, raceItem.bridgResult, raceItem.landCornerResult)
     }
 
     //模拟对指定用户进行下注
@@ -100,7 +121,7 @@ class RaceManage {
         let totalCount = RoomManage.roomItem.playCount
         this.raceList[oningRaceNum].landlordId = landlordId
         for (let i = 1; i < landlordLastCount; i++) {
-            if (oningRaceNum + i < totalCount){
+            if (oningRaceNum + i < totalCount) {
                 this.raceList[oningRaceNum + i].setLandlordIdWithoutNotice(landlordId)
             }
         }

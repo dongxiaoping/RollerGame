@@ -71,29 +71,19 @@ export default class NewClass extends cc.Component {
         this.showWinOrFailIcon(raceInfo)
         let raceResultList = RaceManage.raceList[raceNum].raceResultList
         let i = 0
-        let landlordScore: number = 0
-        raceResultList.forEach((item: raceResultData) => {
-            landlordScore -= item.score
-        })
-        this.landlordScore.string = landlordScore + ''
-        if (UserManage.userInfo.id === landloardId) {
-            this.myScore.string = landlordScore + ''
-        }
-
         raceResultList.forEach((item: raceResultData) => {
             i++
             let node = cc.instantiate(this.memberScoreItem)
             let nameLabel = node.getChildByName('name').getComponents(cc.Label)
             let scoreLabel = node.getChildByName('score').getComponents(cc.Label)
             nameLabel[0].string = i + '. ' + item.nick
-            if(item.userId === landloardId){
-                scoreLabel[0].string = landlordScore + ''
+            if (item.userId === landloardId) {
                 this.landlordName.string = item.nick
-            }else{
-                scoreLabel[0].string = item.score + ''
+                this.landlordScore.string = item.score + ''
             }
+            scoreLabel[0].string = item.score + ''
             node.parent = this.node.getChildByName('MemberList')
-            if (UserManage.userInfo.id === item.userId && UserManage.userInfo.id !== landloardId) {
+            if (UserManage.userInfo.id === item.userId) {
                 this.myScore.string = item.score + ''
             }
         })

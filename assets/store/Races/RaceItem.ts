@@ -23,7 +23,7 @@ export default class RaceItem {
     public skyCornerResult: CompareDxRe = null
     public skyResult: CompareDxRe = null
 
-    public raceResultList: raceResultData[] //成员本局分数统计结果列表
+    public raceResultList: raceResultData[] //成员本局分数统计结果列表 这个指是从服务器下发的
 
     constructor(val: raceRecord) {
         this.raceId = val.id

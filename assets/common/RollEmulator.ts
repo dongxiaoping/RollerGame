@@ -3,18 +3,16 @@ import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
-import { RaceState, roomState, RaceStateChangeParam, gameMemberType, memberState, GameMember, LocalNoticeEventType, EventType, LocalNoticeEventPara, TableLocationType } from '../common/Const'
+import { RaceState, roomState, RaceStateChangeParam, gameMemberType, memberState, GameMember, LocalNoticeEventType, EventType, LocalNoticeEventPara, TableLocationType, raceResultData } from '../common/Const'
 import Room from '../store/Room/RoomManage'
 import { roomInfo } from '../mock/RoomInfo'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
 import { GameMemberList } from '../mock/GameMemberList'
 import { userInfo } from '../mock/UserInfo'
 import { RaceList } from '../mock/RaceList';
-import { config } from './Config';
 import { eventBus } from './EventBus';
 import { randEventId } from './Util';
 import { RollControlerBase } from './RollControlerBase';
-import { RaceResultListOne } from '../mock/RaceResultList';
 @ccclass
 class RollEmulator extends RollControlerBase{
     public isRuning: boolean = false
@@ -69,7 +67,8 @@ class RollEmulator extends RollControlerBase{
                     break
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
                     cc.log('我是游戏模拟器，我接到了比大小动画结束通知,我将比赛状态改为显示结果')
-                    RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(RaceResultListOne)
+                    let raceResultListOne = this.getRaceResultList(RoomManage.roomItem.oningRaceNum)
+                    RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(raceResultListOne)
                     RaceManage.changeRaceState(RaceState.SHOW_RESULT)
                     let showResultTime = RoomManage.getShowResultTime()
                     setTimeout(() => {
@@ -79,6 +78,16 @@ class RollEmulator extends RollControlerBase{
                     break
             }
         })
+    }
+
+    getRaceResultList(raceNum:number){
+        let list = []
+        GameMemberManage.gameMenmberList.forEach((item:GameMemberItem)=>{
+            let addItem = {userId:item.userId,score:null,nick:item.nick,icon:item.icon} as raceResultData
+            addItem.score = RaceManage.getUserTheRaceScore(raceNum, item.userId)
+            list.push(addItem)
+        })
+        return list
     }
 
     //初始化本地数据
@@ -157,7 +166,7 @@ class RollEmulator extends RollControlerBase{
             cc.log('所有比赛都完成')
             cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
             setTimeout(() => {
-                RaceManage.setGameOverResultList(RaceResultListOne)
+                //RaceManage.setGameOverResultList(RaceResultListOne)
                 RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
             }, 2000)
             return
