@@ -14,7 +14,7 @@ import { eventBus } from './EventBus';
 import { randEventId } from './Util';
 import { RollControlerBase } from './RollControlerBase';
 @ccclass
-class RollEmulator extends RollControlerBase{
+class RollEmulator extends RollControlerBase {
     public isRuning: boolean = false
     public start() {
         cc.log('游戏模拟器被启动')
@@ -54,7 +54,7 @@ class RollEmulator extends RollControlerBase{
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //响应摇色子动画结束通知
                     cc.log('响应摇色子动画结束通知,修改状态为发牌')
                     cc.log('我是游戏模拟器，我接到了摇色子动画结束的通知，我将比赛状态改为发牌')
-                        RaceManage.changeRaceState(RaceState.DEAL)
+                    RaceManage.changeRaceState(RaceState.DEAL)
                     break
                 case LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE:
                     cc.log('响应发牌动画结束通知,将状态改为下注')
@@ -74,24 +74,51 @@ class RollEmulator extends RollControlerBase{
                     setTimeout(() => {
                         cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
                         RaceManage.changeRaceState(RaceState.FINISHED)
-                    }, showResultTime*1000)
+                    }, showResultTime * 1000)
                     break
             }
         })
     }
 
-    getRaceResultList(raceNum:number){
+    getRaceResultList(raceNum: number): raceResultData[] {
         let list = []
-        GameMemberManage.gameMenmberList.forEach((item:GameMemberItem)=>{
-            let addItem = {userId:item.userId,score:null,nick:item.nick,icon:item.icon} as raceResultData
+        GameMemberManage.gameMenmberList.forEach((item: GameMemberItem) => {
+            let addItem = { userId: item.userId, score: null, nick: item.nick, icon: item.icon } as raceResultData
             addItem.score = RaceManage.getUserTheRaceScore(raceNum, item.userId)
             list.push(addItem)
         })
         return list
     }
 
+    getRoomResultList(): raceResultData[] {
+        let raceCount = RoomManage.roomItem.playCount
+        let list = this.getRaceResultList(0)
+        for (let i = 1; i < raceCount; i++) {
+            let otherList = this.getRaceResultList(i)
+            list = this.mergeRaceResult(list, otherList)
+        }
+        return list
+    }
+
+    mergeRaceResult(listOne: raceResultData[], listTwo: raceResultData[]): raceResultData[] {
+        for (let i = 0; i < listOne.length; i++) {
+            let item = listOne[i]
+            let itemExist = false
+            for (let j = 0; j < listTwo.length; j++) {
+                if (item.userId === listTwo[j].userId) {
+                    itemExist = true
+                    listTwo[j].score += item.score
+                }
+            }
+            if (!itemExist) {
+                listTwo.push(item)
+            }
+        }
+        return listTwo
+    }
+
     //初始化本地数据
-     initData() {
+    initData() {
         cc.log('模拟器初始化本地数据')
         UserManage.setUserInfo(userInfo)
         Room.setRoomItem(roomInfo)
@@ -113,11 +140,7 @@ class RollEmulator extends RollControlerBase{
             newMembers.push(item)
         })
         GameMemberManage.setGameMemberList(newMembers)
-
         RaceManage.setRaceList(RaceList)
-        //  BetManage.init(GameMemberList, roomInfo.playCount)
-        //  BetManage.setBetList(BetList)
-        //  RaceManage.updateEmulatorRaceInfo()
     }
 
     //模拟器模拟相关推送数据
@@ -143,22 +166,6 @@ class RollEmulator extends RollControlerBase{
         RaceManage.changeRaceState(RaceState.ROLL_DICE)
     }
 
-    // responseLocalBeLandlordDeal(wantLandlord: boolean) {
-    //     cc.log('游戏模拟器接收到用户是否愿意当地主通知')
-    //     let userId = UserManage.userInfo.id
-    //     let oningRaceNum = RoomManage.roomItem.oningRaceNum
-    //     if (wantLandlord) {
-    //         RaceManage.raceList[oningRaceNum].landlordId = userId
-    //     } else {
-    //         RaceManage.raceList[oningRaceNum].landlordId = '24'
-    //     }
-    //     setTimeout(() => {
-    //         cc.log('模拟器开启摇色子环节')
-    //         cc.log('我是模拟器，我收到了本地用户是否愿意当地主的通知，我将比赛状态改为摇色子')
-    //         RaceManage.changeRaceState(RaceState.ROLL_DICE)
-    //     }, 1000)
-    // }
-
     //启动下场比赛
     toStartNextRace(): void {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
@@ -166,7 +173,7 @@ class RollEmulator extends RollControlerBase{
             cc.log('所有比赛都完成')
             cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
             setTimeout(() => {
-                //RaceManage.setGameOverResultList(RaceResultListOne)
+                RaceManage.setGameOverResultList(this.getRoomResultList())
                 RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
             }, 2000)
             return
