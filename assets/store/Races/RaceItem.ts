@@ -36,13 +36,22 @@ export default class RaceItem {
         this.landScore = val.landScore
 
         this.points = val.points
-        this._landlordId = val.landlordId 
+        this._landlordId = val.landlordId
         this.landResult = val.landResult
         this.middleResult = val.middleResult
         this.bridgResult = val.bridgResult
         this.landCornerResult = val.landCornerResult
         this.skyCornerResult = val.skyCornerResult
         this.skyResult = val.skyResult
+    }
+
+    getUserRaceScore(userId: string): number {
+        for (let i = 0; i < this.raceResultList.length; i++) {
+            if (this.raceResultList[i].userId === userId) {
+                return this.raceResultList[i].score
+            }
+        }
+        return 0
     }
 
     setRaceResultList(list: raceResultData[]): void {
@@ -68,7 +77,7 @@ export default class RaceItem {
                     icon: item.icon,
                 } as raceResultData)
             } else {
-                
+
                 newList.push(result)
             }
         })
@@ -99,7 +108,7 @@ export default class RaceItem {
         eventBus.emit(EventType.LANDLORD_CAHNGE_EVENT, val)
     }
 
-    setLandlordIdWithoutNotice(val: string){
+    setLandlordIdWithoutNotice(val: string) {
         this._landlordId = val
     }
 

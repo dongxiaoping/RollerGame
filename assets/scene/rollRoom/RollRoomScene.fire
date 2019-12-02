@@ -201,7 +201,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 263.27172275046934
+      "z": 255.47749411640942
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -2301,7 +2301,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22.25,
+      "width": 11.12,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -2311,7 +2311,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 10.125,
+      "x": 4.559999999999999,
       "y": 0,
       "z": 0
     },
@@ -2347,8 +2347,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "20",
-    "_N$string": "20",
+    "_string": "0",
+    "_N$string": "0",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -4104,6 +4104,9 @@
     },
     "showPlayMode": {
       "__id__": 87
+    },
+    "userScoreLabel": {
+      "__id__": 53
     },
     "_id": "feJlsZ4RBOK6EdKyA1WVAs"
   }

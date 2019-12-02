@@ -68,6 +68,8 @@ export default class NewClass extends cc.Component {
                 case RaceState.FINISHED:
                     this.bg.node.active = false
                     this.betScore.string = ''
+                    this.ownScore = 0
+                    this.allScore = 0
                     break
             }
         })

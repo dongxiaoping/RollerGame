@@ -1,9 +1,9 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType } from '../../common/Const'
+import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
-import { randEventId, getFaPaiLocation, isUrlToGameRoom, getUrlParam } from '../../common/Util'
+import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator";
@@ -59,6 +59,11 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     showPlayMode: cc.Label = null; //上庄模式显示
 
+    @property(cc.Label)
+    userScoreLabel: cc.Label = null; //用户房间分数面板
+
+    userWinScore:number = 0
+    userXiaZhuScore:number = 0
     onEnable() {
         if (RollEmulator.isRuning && RollControler.isRuning) {
             cc.log('错误！游戏模拟器和游戏控制器只能开一个')
@@ -126,6 +131,14 @@ export default class NewClass extends cc.Component {
     }
 
     private addListener() {
+        eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, randEventId(), (betInfo: BetChipChangeInfo): void => {
+            if (betInfo.userId == UserManage.userInfo.id) {
+                let costVal = betInfo.toValue - betInfo.fromVal
+                this.userXiaZhuScore += costVal
+                this.userScoreLabel.string = (this.userWinScore - this.userXiaZhuScore) + ''
+            }
+        })
+
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
@@ -192,6 +205,12 @@ export default class NewClass extends cc.Component {
                     break
                 case RaceState.FINISHED:
                     cc.log('房间收到比赛结束通知，清空页面上次比赛信息')
+                    cc.log('房间收到比赛结束通知，修改当前用户分数显示')
+                    let winVal = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getUserRaceScore(UserManage.userInfo.id)
+                    this.userWinScore = this.userWinScore + winVal
+                    this.userScoreLabel.string = this.userWinScore + ''
+                    this.userXiaZhuScore = 0
+
                     this.toCloseRaceResultPanel()
                     this.cleanMhjongOnDesk()
                     this.cleanChipOnDesk()

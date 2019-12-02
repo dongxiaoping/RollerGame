@@ -29,7 +29,7 @@ export default class ChairItem {
         userIconNode.setPosition(0, 0)
         userIconNode.parent = chairNode
         let jsOb = userIconNode.getComponent('PlayUserIcon')
-        jsOb.setShow(memberInChairData.userIcon, memberInChairData.userName)
+        jsOb.setShow(memberInChairData.userIcon, memberInChairData.userName, memberInChairData.userId)
         userIconNode.active = true
         chairNode.active = true
         return true

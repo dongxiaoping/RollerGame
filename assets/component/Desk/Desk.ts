@@ -5,7 +5,7 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember } from '../../common/Const'
+import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo } from '../../common/Const'
 import RoomItem from '../../store/Room/RoomItem'
 import Room from '../../store/Room/RoomManage'
 import { eventBus } from '../../common/EventBus'
