@@ -201,7 +201,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 255.47749411640942
+      "z": 263.27172275046934
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -3066,7 +3066,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -5.019,
+      "x": 1.9809999999999999,
       "y": 213.334,
       "z": 0
     },
@@ -4087,8 +4087,8 @@
     "middleTopTimePanel": {
       "__uuid__": "221b308c-730c-405e-80b4-797815d50975"
     },
-    "middleTopXiaZhuPanel": {
-      "__uuid__": "965ff4a2-1a1f-4ece-8a90-4bcb19525677"
+    "middleTopScorePanel": {
+      "__uuid__": "b2516b66-cc2e-4105-a09f-eaffc0b37886"
     },
     "rapLandlordButton": {
       "__uuid__": "8c7d4d8d-69db-4ea6-b64c-c998b59d0346"

@@ -45,7 +45,7 @@ export default class NewClass extends cc.Component {
     private middleTopTimePanel: cc.Prefab = null //下注倒计时面板
 
     @property(cc.Prefab)
-    private middleTopXiaZhuPanel: cc.Prefab = null // 顶部下注分数显示面板
+    private middleTopScorePanel: cc.Prefab = null // 顶部下注分数显示面板
 
     @property(cc.Prefab)
     private rapLandlordButton: cc.Prefab = null // 抢地主按钮
@@ -186,15 +186,13 @@ export default class NewClass extends cc.Component {
                     cc.log('房间收到下注指令，显示下注倒计时面板')
                     var node = cc.instantiate(this.middleTopTimePanel)
                     node.parent = this.node
-                    node.setPosition(-168, 235);
+                    node.setPosition(-215, 218);
                     node.active = true
 
-                    // if (RoomManage.roomItem.oningRaceNum === 0) {
-                    //     var node = cc.instantiate(this.middleTopXiaZhuPanel)
-                    //     node.parent = this.node
-                    //     node.setPosition(-7.5, 258);
-                    //     node.active = true
-                    // }
+                    var node = cc.instantiate(this.middleTopScorePanel)
+                    node.parent = this.node
+                    node.setPosition(15, 238);
+                    node.active = true
                     break
                 case RaceState.SHOW_DOWN: //这个由控制器来响应
                     // cc.log('房间收到比大小指令，开始比大小流程')
@@ -336,7 +334,6 @@ export default class NewClass extends cc.Component {
     initXiaZhuPanel() {
         var node = cc.instantiate(this.xiaZhu)
         node.parent = this.node
-        node.setPosition(189.261, -236.576);
         node.getChildByName('Layout').active = false
         node.active = true
         cc.log('初始化下注功能')
@@ -344,6 +341,7 @@ export default class NewClass extends cc.Component {
     //初始化下注功能
     showXiaZhuPanel() {
         let node = this.node.getChildByName('XiaZhu')
+        node.setPosition(250, -260);
         node.getChildByName('Layout').active = true
         cc.log('显示下注面板')
         // let scriptOb = node.getComponent('DealMachine')
