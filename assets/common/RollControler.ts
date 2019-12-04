@@ -1,4 +1,3 @@
-const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
 import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData } from '../common/Const'
 import { randEventId } from '../common/Util'
@@ -7,12 +6,10 @@ import { config } from './Config';
 import { ws, NoticeType, NoticeData } from './WebSocketServer';
 import UserManage from '../store/User/UserManage';
 import { RollControlerBase } from './RollControlerBase';
-@ccclass
+
 export class RollControler extends RollControlerBase {
-    public isRuning: boolean = false
     public start() {
         cc.log('游戏控制器被启动')
-        this.isRuning = true
         this.eventReceive()
         this.enterSocketRoom()
     }
@@ -141,5 +138,4 @@ export class RollControler extends RollControlerBase {
         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
     }
 }
-
-export default new RollControler()
+export default RollControler

@@ -62,13 +62,11 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     userScoreLabel: cc.Label = null; //用户房间分数面板
 
+    controller:any = null //游戏控制器
+
     userWinScore:number = 0
     userXiaZhuScore:number = 0
     onEnable() {
-        if (RollEmulator.isRuning && RollControler.isRuning) {
-            cc.log('错误！游戏模拟器和游戏控制器只能开一个')
-            return
-        }
         this.startGame()
     }
 
@@ -87,7 +85,8 @@ export default class NewClass extends cc.Component {
         }
         await RoomManage.loginRoom(userId, roomId)
         this.initRoom()
-        RollControler.start()
+        this.controller = new RollControler()
+        this.controller.start()
     }
 
     showTopLeftRaceInfo() {
@@ -99,7 +98,8 @@ export default class NewClass extends cc.Component {
     }
 
     enterEmulatorRoom() {
-        RollEmulator.start()
+        this.controller = new RollEmulator()
+        this.controller.start()
         this.initRoom()
         let landlordId = RaceManage.raceList[0].landlordId
         RaceManage.changeRaceLandlord(landlordId, 8, 0)
@@ -126,6 +126,9 @@ export default class NewClass extends cc.Component {
     private addClickEvent() {
         this.exit.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('退出到主页')
+            console.log(this.controller)
+            this.controller.close()
+            this.controller = null
             cc.director.loadScene("LobbyScene");
         })
     }
@@ -327,7 +330,9 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-
+        setTimeout(()=>{
+            cc.director.preloadScene('LobbyScene');//预加载
+        },2000)
     }
 
     //只有初始化了下注面板，才能有投注动画
@@ -366,6 +371,9 @@ export default class NewClass extends cc.Component {
     closeStartButton(): void {
         let ob = this.node.getChildByName('PlayButton')
         ob.destroy()
+    }
+    onDisable(){
+
     }
 
     // update (dt) {}

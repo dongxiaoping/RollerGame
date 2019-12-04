@@ -35,7 +35,7 @@ export default class NewClass extends cc.Component {
     open(tableLocationType: TableLocationType) {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         let majongScore = RaceManage.raceList[oningRaceNum].getMahjongScore(tableLocationType)
-        cc.log('当前翻牌位置：'+tableLocationType)
+        cc.log('当前翻牌位置：' + tableLocationType)
         cc.log(majongScore)
         this.openAnimation(this.one, majongScore.one, () => {
             setTimeout(() => {
@@ -45,15 +45,15 @@ export default class NewClass extends cc.Component {
                         setTimeout(() => {
                             cc.log('发出下个位置的翻牌请求,下个位置为' + nextLocation + ',当前位置为：' + tableLocationType)
                             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: nextLocation } as LocalNoticeEventPara)
-                        }, this.twoLocationIntervalTime*1000);
+                        }, this.twoLocationIntervalTime * 1000);
                     } else {
                         cc.log('全部的翻牌动作执行完毕，发出翻牌动画结束通知')
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE } as LocalNoticeEventPara)
-                        },this.amStopKeepTime*1000)
+                        }, this.amStopKeepTime * 1000)
                     }
                 })
-            }, this.twoIntervalTime*1000)
+            }, this.twoIntervalTime * 1000)
         })
     }
 
@@ -74,23 +74,28 @@ export default class NewClass extends cc.Component {
     openAnimation(ob: cc.Sprite, val: number, callBack: any) {
         let count = 1
         let setIn = setInterval(() => {
-            switch (count) {
-                case 1:
-                    ob.spriteFrame = this.oneThirdIcon
-                    break;
-                case 2:
-                    ob.spriteFrame = this.halfIcon
-                    break;
-                case 3:
-                    ob.spriteFrame = this.allIcon
-                    this.drawResult(ob, val)
-                    clearInterval(setIn)
-                    callBack()
-                    break;
+            try {
+                switch (count) {
+                    case 1:
+                        ob.spriteFrame = this.oneThirdIcon
+                        break;
+                    case 2:
+                        ob.spriteFrame = this.halfIcon
+                        break;
+                    case 3:
+                        ob.spriteFrame = this.allIcon
+                        this.drawResult(ob, val)
+                        clearInterval(setIn)
+                        callBack()
+                        break;
+                }
+                count++
+                cc.log('循环执行翻牌动画')
+            } catch (e) {
+                cc.log('定时器出错')
+                clearInterval(setIn)
             }
-            count++
-            cc.log('循环执行翻牌动画')
-        }, this.singleIntervalTime*1000)
+        }, this.singleIntervalTime * 1000)
     }
 
     drawResult(ob: cc.Sprite, val: number) {

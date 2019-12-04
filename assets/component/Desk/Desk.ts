@@ -106,9 +106,11 @@ export default class Desk extends cc.Component {
         node.parent = this.node.parent
         node.active = true
         setTimeout(() => {
-            node.active = false
-            node.destroy()
-            node.parent.getChildByName('QingXiaZhu').destroy()
+            try {
+                node.active = false
+                node.destroy()
+                node.parent.getChildByName('QingXiaZhu').destroy()
+            } catch (e) { }
         }, 1500)
     }
 

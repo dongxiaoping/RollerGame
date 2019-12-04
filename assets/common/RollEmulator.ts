@@ -1,9 +1,8 @@
-const { ccclass, property } = cc._decorator;
 import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
-import { RaceState, roomState, RaceStateChangeParam, gameMemberType, memberState, GameMember, LocalNoticeEventType, EventType, LocalNoticeEventPara, TableLocationType, raceResultData, BetNoticeData } from '../common/Const'
+import { RaceState, roomState, RaceStateChangeParam, gameMemberType, memberState, GameMember, LocalNoticeEventType, EventType, LocalNoticeEventPara, TableLocationType, raceResultData, BetNoticeData, betLocaion } from '../common/Const'
 import Room from '../store/Room/RoomManage'
 import { roomInfo } from '../mock/RoomInfo'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
@@ -14,12 +13,12 @@ import { eventBus } from './EventBus';
 import { randEventId } from './Util';
 import { RollControlerBase } from './RollControlerBase';
 import BetManage from '../store/Bets/BetManage';
-@ccclass
+import { randFloatNum } from '../common/Util';
 class RollEmulator extends RollControlerBase {
-    public isRuning: boolean = false
+    eventIdList: string[] = []
+    public setTimeoutList: any[] = []
     public start() {
         cc.log('游戏模拟器被启动')
-        this.isRuning = true
         this.initData()
         this.eventReceive()
     }
@@ -27,7 +26,9 @@ class RollEmulator extends RollControlerBase {
     //添加事件接受
     eventReceive() {
         //比赛流程状态改变通知
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
+        let eventId = randEventId()
+        this.eventIdList.push(eventId)
+        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, eventId, (info: RaceStateChangeParam): void => {
             let to = info.toState
             switch (to) {
                 case RaceState.SHOW_DOWN: //比大小
@@ -43,7 +44,9 @@ class RollEmulator extends RollControlerBase {
         })
 
         //本地事件通知
-        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
+        let eventIdTwo = randEventId()
+        this.eventIdList.push(eventIdTwo)
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, eventIdTwo, (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.PLAY_BUTTON_EVENT:  //游戏开始按钮被点击
@@ -77,7 +80,7 @@ class RollEmulator extends RollControlerBase {
                         RaceManage.changeRaceState(RaceState.FINISHED)
                     }, showResultTime * 1000)
                     break
-                    case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件
+                case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件
                     let betInfo = info.info as BetNoticeData
                     BetManage.addBet(betInfo.raceNum, betInfo.userId, betInfo.betLocation, betInfo.betVal)
                     break
@@ -156,9 +159,56 @@ class RollEmulator extends RollControlerBase {
         let memberList = GameMemberManage.gameMenmberList
         memberList.forEach((item: GameMemberItem) => {
             if (item.userId !== landlordId && item.userId !== UserManage.userInfo.id) {
-                RaceManage.emulateXiaZhuByUser(item.userId)
+                this.emulateXiaZhuByUser(item.userId)
             }
         })
+    }
+
+    //模拟对指定用户进行下注
+    emulateXiaZhuByUser(userId: string): void {
+        let oningRaceNum = RoomManage.roomItem.oningRaceNum
+        if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
+            cc.log('当前不是下注状态，不能下注')
+            return
+        }
+        let localXiaZhuLimiTime = RoomManage.getBetTime()
+        let ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
+
+        let setTimeOutOne = setTimeout(() => {
+            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND_CORNER, 10)
+        }, ranTime * 1000)
+        this.setTimeoutList.push(setTimeOutOne)
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
+
+        let setTimeOutTwo = setTimeout(() => {
+            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY, 20)
+        }, ranTime * 1000)
+        this.setTimeoutList.push(setTimeOutTwo)
+
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
+        let setTimeOut7 = setTimeout(() => {
+            BetManage.addBet(oningRaceNum, userId, betLocaion.BRIDG, 20)
+        }, ranTime * 1000)
+        this.setTimeoutList.push(setTimeOut7)
+
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
+        let setTimeOut8 = setTimeout(() => {
+            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND, 50)
+        }, ranTime * 1000)
+        this.setTimeoutList.push(setTimeOut8)
+
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
+        let setTimeOut9 = setTimeout(() => {
+            BetManage.addBet(oningRaceNum, userId, betLocaion.MIDDLE, 100)
+        }, ranTime * 1000)
+        this.setTimeoutList.push(setTimeOut9)
+
+        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
+        let setTimeOut10 = setTimeout(() => {
+            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY_CORNER, 100)
+        }, ranTime * 1000)
+        this.setTimeoutList.push(setTimeOut10)
+
     }
 
     responsePlayButtonEvent() {
@@ -203,6 +253,12 @@ class RollEmulator extends RollControlerBase {
         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
     }
 
+    close(): void {
+        super.close()
+        this.setTimeoutList.forEach((item: any) => {
+            clearTimeout(item)
+        })
+    }
 }
 
-export default new RollEmulator()
+export default RollEmulator

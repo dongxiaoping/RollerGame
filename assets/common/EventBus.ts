@@ -26,6 +26,10 @@ class EventBus {
     }
   }
 
+  clearAll(){
+    this.listeners = {}
+  }
+
   //添加事件监听,只能触发一次
   once(eventType: EventType, listenerId: string, fn: any): void {
     this.on(eventType, listenerId, fn, true)

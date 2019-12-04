@@ -23,7 +23,7 @@ export default class RaceItem {
     public skyCornerResult: CompareDxRe = null
     public skyResult: CompareDxRe = null
 
-    public raceResultList: raceResultData[] //成员本局分数统计结果列表 这个指是从服务器下发的
+    public raceResultList: raceResultData[] = null //成员本局分数统计结果列表 这个指是从服务器下发的
 
     constructor(val: raceRecord) {
         this.raceId = val.id
@@ -46,6 +46,9 @@ export default class RaceItem {
     }
 
     getUserRaceScore(userId: string): number {
+        if(this.raceResultList === null){
+            return 0
+        }
         for (let i = 0; i < this.raceResultList.length; i++) {
             if (this.raceResultList[i].userId === userId) {
                 return this.raceResultList[i].score

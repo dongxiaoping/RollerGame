@@ -5,7 +5,6 @@ import { appMode, PromiseParam, PromiseResult, raceRecord, RaceState, betLocaion
 import { RaceList } from '../../mock/RaceList'
 import RoomManage from '../../store/Room/RoomManage'
 import axios from 'axios'
-import { randFloatNum } from '../../common/Util';
 import BetManage from '../Bets/BetManage';
 import Betitem from '../Bets/BetItem';
 @ccclass
@@ -43,40 +42,6 @@ class RaceManage {
         let userBetitem = BetManage.betList[raceNum][userId] as Betitem
         return userBetitem.getScore(raceItem.skyResult, raceItem.middleResult, raceItem.landResult,
             raceItem.skyCornerResult, raceItem.bridgResult, raceItem.landCornerResult)
-    }
-
-    //模拟对指定用户进行下注
-    emulateXiaZhuByUser(userId: string): void {
-        let oningRaceNum = RoomManage.roomItem.oningRaceNum
-        if (this.raceList[oningRaceNum].state !== RaceState.BET) {
-            cc.log('当前不是下注状态，不能下注')
-            return
-        }
-        let localXiaZhuLimiTime = RoomManage.getBetTime()
-        let ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
-        setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND_CORNER, 10)
-        }, ranTime * 1000)
-        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
-        setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY, 20)
-        }, ranTime * 1000)
-        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
-        setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.BRIDG, 20)
-        }, ranTime * 1000)
-        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
-        setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND, 50)
-        }, ranTime * 1000)
-        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
-        setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.MIDDLE, 100)
-        }, ranTime * 1000)
-        ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
-        setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY_CORNER, 100)
-        }, ranTime * 1000)
     }
 
     public requestRaceList(): Promise<PromiseParam> {

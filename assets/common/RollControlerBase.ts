@@ -1,5 +1,7 @@
-const {ccclass} = cc._decorator;
-@ccclass
-export class RollControlerBase {
+import { eventBus } from "./EventBus";
 
+export class RollControlerBase {
+    close() {
+        eventBus.clearAll()
+    }
 }
