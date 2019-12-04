@@ -1,6 +1,6 @@
 const { ccclass } = cc._decorator;
 import { eventBus } from '../common/EventBus'
-import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState } from '../common/Const'
+import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RoomManage from '../store/Room/RoomManage'
 import { config } from './Config';
@@ -8,7 +8,7 @@ import { ws, NoticeType, NoticeData } from './WebSocketServer';
 import UserManage from '../store/User/UserManage';
 import { RollControlerBase } from './RollControlerBase';
 @ccclass
-export class RollControler extends RollControlerBase{
+export class RollControler extends RollControlerBase {
     public isRuning: boolean = false
     public start() {
         cc.log('游戏控制器被启动')
@@ -88,8 +88,12 @@ export class RollControler extends RollControlerBase{
 
                     break
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
-                
                     cc.log('我是游戏控制器，我接受到本地事件，比大小动画结束的通知')
+                    break
+                case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件
+                    let betInfo = info.info as BetNoticeData
+                    let notice = { type: NoticeType.raceBet, info: betInfo } as NoticeData
+                    ws.send(JSON.stringify(notice));
                     break
             }
         })

@@ -99,6 +99,7 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     SHOW_DOWN_ANIMATION_FINISHED_NOTICE = 6, //比大小动画结束通知
     OPEN_CARD_REQUEST_NOTICE = 7, //要求本地翻牌通知
     LOCAL_TIME_XIAZHU_FINISHED_NOTICE = 8, //本地设置的下注段时间完毕通知
+    LOCAL_BET_CLICK_NOTICE = 9 //本地下注按钮点击通知
 }
 
 export interface LocalNoticeEventPara {
@@ -136,7 +137,7 @@ export enum MajhongValueType {
 
 export interface BetRecord {
     id?: string
-    roomId?: string
+    roomId?: number
     raceNum: number
     userId: string
     raceId?: string
@@ -165,7 +166,7 @@ export enum memberState {
 
 export interface GameMember {
     id?: string
-    roomId?: string
+    roomId?: number
     userId: string
     roleType: gameMemberType
     nick: string
@@ -292,14 +293,14 @@ export interface MemberInChairData {
 
 export interface BetNoticeData {
     userId: string,
-    roomId: string,
+    roomId: number,
     raceNum: number,
     betLocation: betLocaion,
     betVal: number
 }
 
 export interface raceResultData {
-    roomId?: string,
+    roomId?: number,
     raceNum?: number,
     userId: string,
     score: number,

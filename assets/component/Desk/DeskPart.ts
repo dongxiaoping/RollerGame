@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam, betLocaion, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe } from '../../common/Const'
+import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam, betLocaion, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, BetNoticeData } from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
@@ -120,21 +120,13 @@ export default class NewClass extends cc.Component {
                 cc.log('地主不能下注')
                 return
             }
-            //向服务器发起下注通知
-            if (RollEmulator.isRuning) {
-                BetManage.addBet(oningRaceNum, UserManage.userInfo.id, this.typeValue as betLocaion, UserManage.selectChipValue)
-            } else {
-                let notice = {
-                    type: NoticeType.raceBet, info: {
-                        roomId: RoomManage.roomItem.id,
-                        raceNum: RoomManage.roomItem.oningRaceNum,
-                        betLocation: this.typeValue,
-                        userId: UserManage.userInfo.id,
-                        betVal: UserManage.selectChipValue
-                    }
-                } as NoticeData
-                ws.send(JSON.stringify(notice));
-            }
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                type: LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE,
+                info: {
+                    roomId: RoomManage.roomItem.id, raceNum: RoomManage.roomItem.oningRaceNum,
+                    betLocation: this.typeValue, userId: UserManage.userInfo.id, betVal: UserManage.selectChipValue
+                } as BetNoticeData
+            })
         })
     }
 

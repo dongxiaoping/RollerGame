@@ -3,7 +3,7 @@ import RaceManage from '../store/Races/RaceManage'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
-import { RaceState, roomState, RaceStateChangeParam, gameMemberType, memberState, GameMember, LocalNoticeEventType, EventType, LocalNoticeEventPara, TableLocationType, raceResultData } from '../common/Const'
+import { RaceState, roomState, RaceStateChangeParam, gameMemberType, memberState, GameMember, LocalNoticeEventType, EventType, LocalNoticeEventPara, TableLocationType, raceResultData, BetNoticeData } from '../common/Const'
 import Room from '../store/Room/RoomManage'
 import { roomInfo } from '../mock/RoomInfo'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
@@ -13,6 +13,7 @@ import { RaceList } from '../mock/RaceList';
 import { eventBus } from './EventBus';
 import { randEventId } from './Util';
 import { RollControlerBase } from './RollControlerBase';
+import BetManage from '../store/Bets/BetManage';
 @ccclass
 class RollEmulator extends RollControlerBase {
     public isRuning: boolean = false
@@ -75,6 +76,10 @@ class RollEmulator extends RollControlerBase {
                         cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
                         RaceManage.changeRaceState(RaceState.FINISHED)
                     }, showResultTime * 1000)
+                    break
+                    case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件
+                    let betInfo = info.info as BetNoticeData
+                    BetManage.addBet(betInfo.raceNum, betInfo.userId, betInfo.betLocation, betInfo.betVal)
                     break
             }
         })
