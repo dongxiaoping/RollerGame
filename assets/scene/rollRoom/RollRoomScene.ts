@@ -62,10 +62,10 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     userScoreLabel: cc.Label = null; //用户房间分数面板
 
-    controller:any = null //游戏控制器
+    controller: any = null //游戏控制器
 
-    userWinScore:number = 0
-    userXiaZhuScore:number = 0
+    userWinScore: number = 0
+    userXiaZhuScore: number = 0
     onEnable() {
         this.startGame()
     }
@@ -201,6 +201,10 @@ export default class NewClass extends cc.Component {
                     // cc.log('房间收到比大小指令，开始比大小流程')
                     break
                 case RaceState.SHOW_RESULT:
+                    node = this.node.getChildByName('MiddleTopScorePanel')
+                    node.active = false
+                    node.destroy()
+                    
                     cc.log('控制器公布结果')
                     this.toShowRaceResultPanel()
                     break
@@ -330,9 +334,9 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-        setTimeout(()=>{
+        setTimeout(() => {
             cc.director.preloadScene('LobbyScene');//预加载
-        },2000)
+        }, 2000)
     }
 
     //只有初始化了下注面板，才能有投注动画
@@ -372,7 +376,7 @@ export default class NewClass extends cc.Component {
         let ob = this.node.getChildByName('PlayButton')
         ob.destroy()
     }
-    onDisable(){
+    onDisable() {
 
     }
 

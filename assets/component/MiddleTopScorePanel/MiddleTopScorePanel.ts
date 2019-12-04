@@ -13,7 +13,6 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Label)
     totalScore: cc.Label = null
-    eventId: string = null
     eventIdOne: string = null
     totalScoreVal: number = 0
     userScoreVal: number = 0
@@ -21,16 +20,6 @@ export default class NewClass extends cc.Component {
 
     }
     onEnable() {
-        this.eventId = randEventId()
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, this.eventId, (info: RaceStateChangeParam): void => {
-            let to = info.toState
-            switch (to) {
-                case RaceState.SHOW_RESULT:
-                    this.node.active = false
-                    this.destroy()
-                    break
-            }
-        })
         this.eventIdOne = randEventId()
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdOne, (betInfo: BetChipChangeInfo): void => {
             let costVal = betInfo.toValue - betInfo.fromVal
@@ -45,6 +34,6 @@ export default class NewClass extends cc.Component {
     onDisable() {
         this.totalScoreVal = 0
         this.userScoreVal = 0
-        eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.eventId)
+        eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdOne)
     }
 }
