@@ -1,6 +1,7 @@
-import { DiceCountInfo, MajhongValueType, TableLocationType } from './Const'
+import { DiceCountInfo, MajhongValueType, TableLocationType, raceResultData } from './Const'
 import axios from 'axios'
 import { config } from './Config'
+import GameMemberItem from '../store/GameMember/GameMemberItem'
 export function randEventId(): string {
     return `roll_${new Date().getTime()}_${Math.ceil(
         Math.random() * 10
@@ -139,4 +140,32 @@ export function getDistanceBetweenTwoPoints(x1: number, y1: number, x2: number, 
     let b = y1 - y2;
     let result = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     return result;
+}
+
+export function getItemFromResultDataByUserId(userId: string, list: raceResultData[]): raceResultData {
+    for (let i = 0; i < list.length; i++) {
+        if (list[i].userId === userId) {
+            return list[i]
+        }
+    }
+    return null
+}
+
+export function getMemeberResultScoreList(list: raceResultData[], memberList: GameMemberItem[]) {
+    let newList: raceResultData[] = []
+    memberList.forEach((item: GameMemberItem) => {
+        let userId = item.userId
+        let result = getItemFromResultDataByUserId(userId, list)
+        if (result === null) {
+            newList.push({
+                userId: userId,
+                score: 0,
+                nick: item.nick,
+                icon: item.icon,
+            } as raceResultData)
+        } else {
+            newList.push(result)
+        }
+    })
+    return newList
 }

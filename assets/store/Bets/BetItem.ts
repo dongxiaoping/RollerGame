@@ -5,7 +5,6 @@ import RaceItem from '../Races/RaceItem';
 /*
 本地存储的记录
 */
-@ccclass
 export default class Betitem {
     public userId: string = null
     public raceNum: number = null
@@ -73,6 +72,11 @@ export default class Betitem {
     set landCorner(val: number) {
         this.valueChangeNotice(betLocaion.LAND_CORNER, this._landCorner, val)
         this._landCorner = val
+    }
+
+    //获取当前在各个位置的下注值和
+    getXiaZhuVal(){
+        return this.sky + this.middle + this.land + this.skyCorner + this.bridg + this.landCorner
     }
 
     valueChangeNotice(locatIon: betLocaion, fromVal: number, toValue: number): void {

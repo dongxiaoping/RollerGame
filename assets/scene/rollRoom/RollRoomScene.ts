@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo } from '../../common/Const'
+import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -83,7 +83,11 @@ export default class NewClass extends cc.Component {
             cc.log('进入了分享房间')
             await UserManage.requestUserInfo(userId)
         }
-        await RoomManage.loginRoom(userId, roomId)
+        let result = await RoomManage.loginRoom(userId, roomId)
+        if (result.result === ResponseStatus.FAIL) {
+            cc.log('房间不存在或已开始，退出到首页')
+            return
+        }
         this.initRoom()
         this.controller = new RollControler()
         this.controller.start()
@@ -125,11 +129,10 @@ export default class NewClass extends cc.Component {
     //添加面板上组件的一些响应事件
     private addClickEvent() {
         this.exit.node.on(cc.Node.EventType.TOUCH_END, () => {
-            cc.log('退出到主页')
-            console.log(this.controller)
-            this.controller.close()
-            this.controller = null
-            cc.director.loadScene("LobbyScene");
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                type: LocalNoticeEventType.TO_LOBBY_EVENT,
+                info: null
+            } as LocalNoticeEventPara)
         })
     }
 
@@ -147,6 +150,12 @@ export default class NewClass extends cc.Component {
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //摇色子结束
                     this.endRollDice() //清除摇色子页面
+                    break
+                case LocalNoticeEventType.TO_LOBBY_EVENT:
+                    cc.log('退出到主页')
+                    this.controller.close()
+                    this.controller = null
+                    cc.director.loadScene("LobbyScene");
                     break
             }
         })
@@ -204,7 +213,7 @@ export default class NewClass extends cc.Component {
                     node = this.node.getChildByName('MiddleTopScorePanel')
                     node.active = false
                     node.destroy()
-                    
+
                     cc.log('控制器公布结果')
                     this.toShowRaceResultPanel()
                     break
@@ -230,9 +239,9 @@ export default class NewClass extends cc.Component {
         })
 
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-            let oningRaceNum = RoomManage.roomItem.oningRaceNum
+            let oningRaceNum = RoomManage.roomItem.oningRaceNum //地主改变通知
             if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD) {
-                cc.log('错误！接收到了地主邀请通知，但当前房间状态不是选地主')
+                cc.log('错误！接收到了地主改变通知，但当前房间状态不是选地主')
                 return
             }
             this.closeChoiceLandLordPanel()

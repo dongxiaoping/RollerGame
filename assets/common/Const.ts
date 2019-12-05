@@ -99,7 +99,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     SHOW_DOWN_ANIMATION_FINISHED_NOTICE = 6, //比大小动画结束通知
     OPEN_CARD_REQUEST_NOTICE = 7, //要求本地翻牌通知
     LOCAL_TIME_XIAZHU_FINISHED_NOTICE = 8, //本地设置的下注段时间完毕通知
-    LOCAL_BET_CLICK_NOTICE = 9 //本地下注按钮点击通知
+    LOCAL_BET_CLICK_NOTICE = 9, //本地下注按钮点击通知
+    TO_LOBBY_EVENT = 10 //返回到大厅通知
 }
 
 export interface LocalNoticeEventPara {

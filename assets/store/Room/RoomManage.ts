@@ -8,7 +8,6 @@ import { Ajax } from '../../common/Util';
 import RaceManage from '../Races/RaceManage';
 import GameMemberManage from '../GameMember/GameMemberManage';
 import { RoomGameConfig, roomGameConfig } from '../../common/RoomGameConfig';
-@ccclass
 class RoomManage {
     public roomItem: RoomItem = null
     private netRoomGameConfig: RoomGameConfig = null //网络下发的配置文件信息
@@ -117,6 +116,10 @@ class RoomManage {
                 })
                 .then((res: any): void => {
                     let info = res.data as ResponseData
+                    if (info.status === ResponseStatus.FAIL) { //加入房间失败
+                        resolve({ result: ResponseStatus.FAIL, extObject: '' })
+                        return 
+                    }
                     let data = info.data;
                     let roomInfo = data.room as RoomInfo;
 
@@ -131,11 +134,9 @@ class RoomManage {
                     races as raceRecord[];
 
                     let members = data.members as GameMember[];
-                    let betRecords = data.betRecords as BetRecord[];
                     this.setRoomItem(roomInfo);
                     RaceManage.setRaceList(races);
                     GameMemberManage.setGameMemberList(members);
-                    //BetManage.setBetList(betRecords);
                     resolve({ result: ResponseStatus.SUCCESS, extObject: '' })
                 })
         })

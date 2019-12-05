@@ -173,9 +173,7 @@ export default class NewClass extends cc.Component {
             this.closeAllFocus()
             this.focus_100.node.active = true
             UserManage.setSelectChipValue(100)
-            // let oningRaceNum = RoomManage.roomItem.oningRaceNum
-            // RaceManage.raceList[oningRaceNum].betInfo[UserManage.userInfo.id].bridg += 100
-            // cc.log('100元按钮被点击')
+            cc.log('100元按钮被点击')
         })
     }
 

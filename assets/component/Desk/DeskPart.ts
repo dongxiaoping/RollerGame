@@ -120,6 +120,17 @@ export default class NewClass extends cc.Component {
                 cc.log('地主不能下注')
                 return
             }
+            let limitCount = RoomManage.roomItem.costLimit
+            let xiaZhuVal = 0
+            if (typeof BetManage.betList[oningRaceNum] !== "undefined" &&
+                typeof BetManage.betList[oningRaceNum][UserManage.userInfo.id] !== "undefined") {
+                xiaZhuVal = BetManage.betList[oningRaceNum][UserManage.userInfo.id].getXiaZhuVal()
+
+            }
+            if (xiaZhuVal + UserManage.selectChipValue > limitCount) {
+                cc.log('下注超限')
+                return
+            }
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                 type: LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE,
                 info: {

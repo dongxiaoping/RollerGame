@@ -1,4 +1,3 @@
-const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RaceItem from './RaceItem'
 import { appMode, PromiseParam, PromiseResult, raceRecord, RaceState, betLocaion, raceResultData, CompareDxRe } from '../../common/Const'
@@ -7,7 +6,8 @@ import RoomManage from '../../store/Room/RoomManage'
 import axios from 'axios'
 import BetManage from '../Bets/BetManage';
 import Betitem from '../Bets/BetItem';
-@ccclass
+import GameMemberManage from '../GameMember/GameMemberManage';
+import { getMemeberResultScoreList } from '../../common/Util';
 class RaceManage {
     public raceList: RaceItem[] = []
     public gameOverResultList: raceResultData[] //所有场次比赛的结果统计
@@ -19,7 +19,7 @@ class RaceManage {
     }
 
     setGameOverResultList(list: raceResultData[]) {
-        this.gameOverResultList = list
+        this.gameOverResultList = getMemeberResultScoreList(list, GameMemberManage.gameMenmberList)
     }
 
     /*在本地计算指定场次、指定用户的比赛得分

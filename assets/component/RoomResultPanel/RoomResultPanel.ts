@@ -4,7 +4,8 @@ import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
 import RaceManage from '../../store/Races/RaceManage';
 import RoomManage from '../../store/Room/RoomManage';
-import { raceResultData } from '../../common/Const';
+import { raceResultData, LocalNoticeEventType, LocalNoticeEventPara, EventType } from '../../common/Const';
+import { eventBus } from '../../common/EventBus';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -32,7 +33,10 @@ export default class NewClass extends cc.Component {
     start() {
         this.updateShow()
         this.backButton.node.on(cc.Node.EventType.TOUCH_END, () => {
-            cc.director.loadScene("LobbyScene");
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                type: LocalNoticeEventType.TO_LOBBY_EVENT,
+                info: null
+            } as LocalNoticeEventPara)
         })
     }
 

@@ -135,7 +135,10 @@ export class RollControler extends RollControlerBase {
     //显示结果麻将结果通知
     toShowMjResult(): void {
         cc.log('发出翻牌通知')
-        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
+        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+            type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE,
+            info: TableLocationType.LANDLORD
+        } as LocalNoticeEventPara)
     }
 }
 export default RollControler
