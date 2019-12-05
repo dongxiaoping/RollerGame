@@ -59,6 +59,14 @@ export default class Desk extends cc.Component {
                 case RaceState.BET:  //下注
                     this.playingXiaZhuAnimation()
                     break
+                case RaceState.FINISHED:
+                    this.node.getChildByName('SkyPart').getComponent('DeskPart').toClearn()
+                    this.node.getChildByName('MiddlePart').getComponent('DeskPart').toClearn()
+                    this.node.getChildByName('LandPart').getComponent('DeskPart').toClearn()
+                    this.node.getChildByName('SkyCornerPart').getComponent('DeskPart').toClearn()
+                    this.node.getChildByName('BridgPart').getComponent('DeskPart').toClearn()
+                    this.node.getChildByName('LandCornerPart').getComponent('DeskPart').toClearn()
+                    break
             }
         })
 

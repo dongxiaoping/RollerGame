@@ -49,30 +49,17 @@ export default class NewClass extends cc.Component {
                 if (UserManage.userInfo.id === userId) {
                     this.ownScore = this.ownScore + betValue
                 }
-                if (!this.bg.node.active) {
-                    this.bg.node.active = true
-                }
+                this.bg.node.active = true
                 this.betScore.string = this.ownScore + ' / ' + this.allScore
             }
         })
+    }
 
-
-
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
-            let to = info.toState
-            switch (to) {
-                case RaceState.BET:  //下注
-                    //this.bg.node.active = true
-                    //cc.log('收到下注通知，显示分数看板：' + this.typeValue)
-                    break
-                case RaceState.FINISHED:
-                    this.bg.node.active = false
-                    this.betScore.string = ''
-                    this.ownScore = 0
-                    this.allScore = 0
-                    break
-            }
-        })
+    toClearn() {
+        this.bg.node.active = false
+        this.betScore.string = ''
+        this.ownScore = 0
+        this.allScore = 0
     }
 
     addClickEvent() {

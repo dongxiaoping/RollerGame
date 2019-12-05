@@ -44,7 +44,7 @@ export default class NewClass extends cc.Component {
         let roomInfo = RoomManage.roomItem
         this.roomNum.string = '房间号：' + roomInfo.id
         this.raceCount.string = '总局数：' + roomInfo.playCount + '局'
-
+        
         let resultList = RaceManage.gameOverResultList
         let i = 1
         resultList.forEach((item: raceResultData) => {
