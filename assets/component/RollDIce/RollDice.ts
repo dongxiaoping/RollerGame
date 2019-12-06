@@ -39,16 +39,16 @@ export default class NewClass extends cc.Component {
         this.rollKeepTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
         this.secondKeepStopTime = Math.floor((timeConfig / 9) * 100) / 100
         this.diceShowTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
-        setTimeout((): void => {
+        this.scheduleOnce(() => {
             this.oning = true
-            setTimeout((): void => {
+            this.scheduleOnce(() => {
                 this.oning = false
-                setTimeout((): void => {
+                this.scheduleOnce(() => {
                     this.isFlying = true
                     this.showDice()
-                }, this.secondKeepStopTime * 1000)
-            }, this.rollKeepTime * 1000)
-        }, this.firstKeepStopTime * 1000)
+                }, this.secondKeepStopTime);
+            }, this.rollKeepTime);
+        }, this.firstKeepStopTime);
     }
 
     //显示色子并返回点数
@@ -63,12 +63,12 @@ export default class NewClass extends cc.Component {
             let myIcon = new cc.SpriteFrame(img);
             this.diceTwo.spriteFrame = myIcon
         })
-        setTimeout(() => {
+        this.scheduleOnce(() => {
             cc.log('发出摇色子动画结束通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { //请除动作在房间里面处理
                 type: LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE
             } as LocalNoticeEventPara)
-        }, this.diceShowTime * 1000)
+        }, this.diceShowTime);
     }
 
     randNum(n: number, m: number): number {

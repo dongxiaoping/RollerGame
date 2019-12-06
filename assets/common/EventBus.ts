@@ -1,5 +1,6 @@
 import { EventType } from '../common/Const'
-
+const { ccclass } = cc._decorator;
+@ccclass
 class EventBus {
   private listeners: any = {}
 
@@ -37,36 +38,36 @@ class EventBus {
 
   //触发事件
   emit(eventType: EventType, fnArgs: any): void {
-    setTimeout((): void => {
-      try {
-        let deleteArray = []
-        if (this.listeners[eventType]) {
-          for (let listenerId in this.listeners[eventType]) {
-            let listener = this.listeners[eventType][listenerId]
-            if (listener) {
-              if (listener.once) {
-                deleteArray.push({ eventType: eventType, listenerId: listenerId })
-              }
-              if (typeof listener.fn === 'function') {
-                try {
-                  listener.fn(fnArgs)
-                } catch (err) {
-                  console.log(err)
-                }
-              } else {
-                deleteArray.push({ eventType: eventType, listenerId: listenerId })
+    try {
+      let deleteArray = []
+      if (this.listeners[eventType]) {
+        for (let listenerId in this.listeners[eventType]) {
+          let listener = this.listeners[eventType][listenerId]
+          if (listener) {
+            if (listener.once) {
+              deleteArray.push({ eventType: eventType, listenerId: listenerId })
+            }
+            if (typeof listener.fn === 'function') {
+              try {
+                listener.fn(fnArgs)
+              } catch (err) {
+                console.log(err)
               }
             } else {
               deleteArray.push({ eventType: eventType, listenerId: listenerId })
             }
+          } else {
+            deleteArray.push({ eventType: eventType, listenerId: listenerId })
           }
         }
-        for (let i = 0, len = deleteArray.length; i < len; i++) {
-          let del = deleteArray[i]
-          this.off(del.eventType, del.listenerId)
-        }
-      } catch (e) { }
-    })
+      }
+      for (let i = 0, len = deleteArray.length; i < len; i++) {
+        let del = deleteArray[i]
+        this.off(del.eventType, del.listenerId)
+      }
+    } catch (e) {
+      cc.log('触发器报错')
+     }
   }
 }
 

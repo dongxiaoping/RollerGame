@@ -33,12 +33,14 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Label)
     chipCount: cc.Label = null;
 
+    emulatorRoomHasClick: boolean = false
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
     }
 
     onEnable() {
+        this.initUserInfo()
         if (isUrlToGameRoom()) {
             RoomManage.setEnterRoomParam({
                 model: EnterRoomModel.SHARE,
@@ -48,11 +50,17 @@ export default class LobbyScene extends cc.Component {
             cc.director.loadScene("RollRoomScene")
             return
         }
+
         this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.showEntryBox()
         })
         this.LianXiChang.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('练习场被点击了')
+            if(this.emulatorRoomHasClick){
+                cc.log('练习场不能重复点击！')
+                return
+            }
+            this.emulatorRoomHasClick = true
             RoomManage.setEnterRoomParam({
                 model: EnterRoomModel.EMULATOR_ROOM
             } as EnterRoomParam)
@@ -60,14 +68,17 @@ export default class LobbyScene extends cc.Component {
         })
         this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('创建房间被点击了')
+            if (typeof this.node.getChildByName('CreateRoomPanel') !== 'undefined') {
+                cc.log('创建房间已存在！')
+                return
+            }
             var node = cc.instantiate(this.CreateRoomPanel)
             node.parent = this.node
             node.active = true
         })
-        this.initUserInfo()
     }
 
-    async initUserInfo() {
+    async initUserInfo() { //这个地方要改
         let info = await UserManage.requestVisitorUserInfo();
         this.userName.string = UserManage.userInfo.nick
         this.userId.string = 'ID:' + UserManage.userInfo.id

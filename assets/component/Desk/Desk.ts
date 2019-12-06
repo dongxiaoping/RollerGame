@@ -5,15 +5,11 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo } from '../../common/Const'
-import RoomItem from '../../store/Room/RoomItem'
-import Room from '../../store/Room/RoomManage'
+import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo, betLocaion, DiceCountInfo, TableLocationType } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
-import RaceItem from '../../store/Races/RaceItem'
 import RoomManage from '../../store/Room/RoomManage';
-import UserManage from '../../store/User/UserManage';
 import ChairManage from './ChairManage';
 @ccclass
 export default class Desk extends cc.Component {
@@ -30,6 +26,11 @@ export default class Desk extends cc.Component {
 
     @property(cc.Prefab)
     private qingXiaZhu: cc.Prefab = null //请下注文字图
+
+    @property([cc.Prefab])
+    private majongValueLabelZhen: cc.Prefab[] = [] //麻将值文字显示图 //整点的文字 0 为鄙十
+    @property([cc.Prefab])
+    private majongValueLabelHalf: cc.Prefab[] = []  //半点文字显示图 0 为对子
 
     private chairManage: ChairManage;
     start() {
@@ -57,15 +58,11 @@ export default class Desk extends cc.Component {
             let to = info.toState
             switch (to) {
                 case RaceState.BET:  //下注
+                    this.deskPartsToOpen()
                     this.playingXiaZhuAnimation()
                     break
                 case RaceState.FINISHED:
-                    this.node.getChildByName('SkyPart').getComponent('DeskPart').toClearn()
-                    this.node.getChildByName('MiddlePart').getComponent('DeskPart').toClearn()
-                    this.node.getChildByName('LandPart').getComponent('DeskPart').toClearn()
-                    this.node.getChildByName('SkyCornerPart').getComponent('DeskPart').toClearn()
-                    this.node.getChildByName('BridgPart').getComponent('DeskPart').toClearn()
-                    this.node.getChildByName('LandCornerPart').getComponent('DeskPart').toClearn()
+                    this.deskPartsToClean()
                     break
             }
         })
@@ -82,6 +79,77 @@ export default class Desk extends cc.Component {
                     break
             }
         })
+
+        eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, randEventId(), (betInfo: BetChipChangeInfo): void => {
+            this.deskPartToBet(betInfo)
+        })
+    }
+
+    //对应文字麻将点数文字显示
+    toMahjongValueLabelShow(location: TableLocationType, majongScore: DiceCountInfo) {
+        // let node = cc.instantiate(this.desk)
+        // node.parent = this.node
+        // node.active = true
+        let mahjongLabelPre = null
+        let val: number = 0
+        if (majongScore.one === majongScore.two) {
+            //  this.majongVoiceHalf[0].play() //对子
+       //     mahjongLabelPre = 
+            return
+        }
+        if (majongScore.one === 0.5 && majongScore.two === 0.5) {
+            //  this.majongVoiceZhenDian[1].play()
+            return
+        }
+        if (majongScore.one === 0.5 || majongScore.two === 0.5) { //半点
+            val = majongScore.one === 0.5 ? majongScore.two : majongScore.two
+            //  this.majongVoiceHalf[val].play()
+            return
+        }
+        val = majongScore.two + majongScore.one
+        if (val >= 10) {
+            val -= 10
+        }
+        //  this.majongVoiceZhenDian[val].play()
+    }
+
+    //向指定位置下注
+    deskPartToBet(betInfo: BetChipChangeInfo) {
+        let betLocationType = betInfo.betLocation
+        if (betLocationType === betLocaion.SKY) {
+            this.node.getChildByName('SkyPart').getComponent('DeskPart').toBet(betInfo)
+        } else if (betLocationType === betLocaion.MIDDLE) {
+            this.node.getChildByName('MiddlePart').getComponent('DeskPart').toBet(betInfo)
+        } else if (betLocationType === betLocaion.LAND) {
+            this.node.getChildByName('LandPart').getComponent('DeskPart').toBet(betInfo)
+        } else if (betLocationType === betLocaion.SKY_CORNER) {
+            this.node.getChildByName('SkyCornerPart').getComponent('DeskPart').toBet(betInfo)
+        } else if (betLocationType === betLocaion.BRIDG) {
+            this.node.getChildByName('BridgPart').getComponent('DeskPart').toBet(betInfo)
+        } else if (betLocationType === betLocaion.LAND_CORNER) {
+            this.node.getChildByName('LandCornerPart').getComponent('DeskPart').toBet(betInfo)
+        } else {
+            cc.log('下注异常，没有找到位置')
+        }
+
+    }
+
+    deskPartsToClean() {
+        this.node.getChildByName('SkyPart').getComponent('DeskPart').toClearn()
+        this.node.getChildByName('MiddlePart').getComponent('DeskPart').toClearn()
+        this.node.getChildByName('LandPart').getComponent('DeskPart').toClearn()
+        this.node.getChildByName('SkyCornerPart').getComponent('DeskPart').toClearn()
+        this.node.getChildByName('BridgPart').getComponent('DeskPart').toClearn()
+        this.node.getChildByName('LandCornerPart').getComponent('DeskPart').toClearn()
+    }
+
+    deskPartsToOpen() {
+        this.node.getChildByName('SkyPart').getComponent('DeskPart').toOpen()
+        this.node.getChildByName('MiddlePart').getComponent('DeskPart').toOpen()
+        this.node.getChildByName('LandPart').getComponent('DeskPart').toOpen()
+        this.node.getChildByName('SkyCornerPart').getComponent('DeskPart').toOpen()
+        this.node.getChildByName('BridgPart').getComponent('DeskPart').toOpen()
+        this.node.getChildByName('LandCornerPart').getComponent('DeskPart').toOpen()
     }
 
     //比大小动画 比大小动画结束回调
@@ -98,13 +166,13 @@ export default class Desk extends cc.Component {
             middleResultAmimation.active = true
         }
         let timeSet = RoomManage.getShowDownTime()
-        setTimeout(() => {
+        this.scheduleOnce(() => {
             if (middleResultAmimation !== null) {
                 middleResultAmimation.destroy()
                 cc.log('关闭通赔通杀显示面板')
             }
             func()
-        }, (timeSet - 7.5) * 1000)  //麻将的翻牌动画固定7.5s
+        }, timeSet - 7.5);//麻将的翻牌动画固定7.5s
     }
 
 
@@ -113,13 +181,13 @@ export default class Desk extends cc.Component {
         let node = cc.instantiate(this.qingXiaZhu)
         node.parent = this.node.parent
         node.active = true
-        setTimeout(() => {
+        this.scheduleOnce(() => {
             try {
                 node.active = false
                 node.destroy()
                 node.parent.getChildByName('QingXiaZhu').destroy()
             } catch (e) { }
-        }, 1500)
+        }, 1.5);
     }
 
     showMembers() {

@@ -1,5 +1,3 @@
-import BetLocItem from "../store/Bets/BetLocItem"
-
 export enum appMode {
     LOCAL_TEST = 1,//本地测试模式
     SERVER_TEST = 2,//服务器测试模式
@@ -86,7 +84,6 @@ export enum RaceState {
 export interface RaceStateChangeParam {
     raceId: string
     raceNum: number
-    fromState: RaceState
     toState: RaceState
 }
 

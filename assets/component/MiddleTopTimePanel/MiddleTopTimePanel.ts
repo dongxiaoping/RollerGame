@@ -14,25 +14,18 @@ export default class NewClass extends cc.Component {
         let time = RoomManage.getBetTime()
         this.time.string = time.toString()
         let count: number = 0
-        let setInter = setInterval(() => {
-            try {
-                count++
-                if (count > time) {
-                    clearInterval(setInter)
-                    cc.log('本地下注时间结束，发出本地下注时间已过通知')
-                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                        type: LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE
-                    } as LocalNoticeEventPara)
-                    this.node.active = false
-                    this.node.destroy()
-                } else {
-                    this.time.string = (time - count).toString()
-                }
-            } catch (e) {
-                cc.log('定时器出错')
-                clearInterval(setInter)
+        this.schedule(() => {
+            count++
+            let showTime = time - count
+            this.time.string = showTime.toString()
+            if (showTime <= 0) {
+                eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                    type: LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE
+                } as LocalNoticeEventPara)
+                this.node.active = false
+                this.node.destroy()
             }
-        }, 1000)
+        }, 1, time, 1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
     }
 
 }

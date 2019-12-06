@@ -18,7 +18,7 @@ export default class NewClass extends cc.Component {
     private desk: cc.Prefab = null  //桌子
     @property
     text: string = 'hello';
-
+    scheduleOnceOb: any = null
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -84,7 +84,10 @@ export default class NewClass extends cc.Component {
         node.active = true
     }
     start() {
-        this.initDesk()
+        this.scheduleOnce(function() { //定时器
+          console.log(6666666666666)
+        }, 3);
+        //this.initDesk()
         // var arr = [
         //     { "raceNum": "1001", "userId": "值1", "value": "1" },
         //     { "raceNum": "1001", "userId": "值1", "value": "2" },

@@ -96,9 +96,10 @@ export default class RaceItem {
     set state(val: RaceState) {
         if (this._state != null) {
             cc.log('单场游戏状态改变了,下发通知')
-            eventBus.emit(EventType.RACE_STATE_CHANGE_EVENT, {
-                fromState: this._state, toState: val, raceId: this.raceId, raceNum: this.num
-            } as RaceStateChangeParam)
+            this._state = val
+            let raceChangeInfo =  {toState: val, raceId: this.raceId, raceNum: this.num} as RaceStateChangeParam
+            cc.log(raceChangeInfo)
+            eventBus.emit(EventType.RACE_STATE_CHANGE_EVENT, raceChangeInfo)
         }
         this._state = val
     }

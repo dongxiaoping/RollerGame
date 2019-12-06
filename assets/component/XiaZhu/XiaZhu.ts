@@ -46,7 +46,7 @@ export default class NewClass extends cc.Component {
     flyTime: number = 0.5  //下注硬币飞行时间
 
     ownChipSize: number = 40 //自己下注硬币的大（
-    otherMemberChipSize: number = 20 //其它成员下注硬币的大
+    otherMemberChipSize: number = 25 //其它成员下注硬币的大
 
     start() {
 

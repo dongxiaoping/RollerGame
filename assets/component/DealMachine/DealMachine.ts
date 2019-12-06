@@ -48,12 +48,12 @@ export default class DealMachine extends cc.Component {
             ++count
             if (count >= 4) {
                 cc.log('全部动画执行完毕')
-                setTimeout(() => {
+                this.scheduleOnce(() => {
                     cc.log('发牌动画执行完毕通知')
                     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                         type: LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE
                     } as LocalNoticeEventPara)
-                }, this.mahjongShowKeepTime * 1000)
+                }, this.mahjongShowKeepTime);
             } else {
                 cc.log('当前动画执行完毕')
                 ++this.mjIndex
@@ -103,16 +103,16 @@ export default class DealMachine extends cc.Component {
         let flyTime: number
         switch (tableLocationType) {
             case TableLocationType.LAND:
-                    flyTime = this.mahjongFlyTime*0.6
+                flyTime = this.mahjongFlyTime * 0.6
                 break
             case TableLocationType.LANDLORD:
-                    flyTime = this.mahjongFlyTime*0.7
+                flyTime = this.mahjongFlyTime * 0.7
                 break
             case TableLocationType.MIDDLE:
-                    flyTime = this.mahjongFlyTime*1
+                flyTime = this.mahjongFlyTime * 1
                 break
             case TableLocationType.SKY:
-                    flyTime = this.mahjongFlyTime*0.9
+                flyTime = this.mahjongFlyTime * 0.9
                 break
         }
         let action = cc.moveTo(flyTime, location.x, location.y)

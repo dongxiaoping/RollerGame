@@ -6,8 +6,6 @@ import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus';
 import { randEventId } from '../../common/Util';
 import BetManage from '../../store/Bets/BetManage';
-import { ws, NoticeType, NoticeData } from '../../common/WebSocketServer';
-import RollEmulator from '../../common/RollEmulator';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -25,41 +23,44 @@ export default class NewClass extends cc.Component {
 
     ownScore: number = 0 // 当前用户当前位置的下注值
     allScore: number = 0 // 所有用户当前位置的下注值
-
+    touchLock: boolean = false //防止点击速率过快
     start() {
         cc.log('按钮类型：' + this.typeValue)
-
+        this.toClearn()
     }
 
     onEnable() {
-        this.focus.node.active = false
-        this.bg.node.active = false  //初始化时隐藏分数面板
         this.addClickEvent()
-        this.addListener()
     }
 
-    addListener() {
-        eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, randEventId(), (betInfo: BetChipChangeInfo): void => {
-            let betLocationType = betInfo.betLocation
-            let userId = betInfo.userId
-            let betValue = betInfo.toValue - betInfo.fromVal
-            if (this.typeValue === betLocationType) {
-                this.allScore = this.allScore + betValue
-                cc.log(this.typeValue + '位置接收到下注通知')
-                if (UserManage.userInfo.id === userId) {
-                    this.ownScore = this.ownScore + betValue
-                }
-                this.bg.node.active = true
-                this.betScore.string = this.ownScore + ' / ' + this.allScore
+    toBet(betInfo: BetChipChangeInfo) {
+        let userId = betInfo.userId
+        let betLocationType = betInfo.betLocation
+        let betValue = betInfo.toValue - betInfo.fromVal
+        if (this.typeValue === betLocationType) {
+            this.allScore = this.allScore + betValue
+            cc.log(this.typeValue + '位置接收到下注通知')
+            if (UserManage.userInfo.id === userId) {
+                this.ownScore = this.ownScore + betValue
             }
-        })
+            this.betScore.string = this.ownScore + ' / ' + this.allScore
+        }
     }
 
     toClearn() {
         this.bg.node.active = false
+        this.focus.node.active = false
         this.betScore.string = ''
         this.ownScore = 0
         this.allScore = 0
+    }
+
+    toOpen() {
+        this.bg.node.active = true
+        this.focus.node.active = false
+        this.ownScore = 0
+        this.allScore = 0
+        this.betScore.string =  '0 / 0'
     }
 
     addClickEvent() {
@@ -72,15 +73,15 @@ export default class NewClass extends cc.Component {
                     let oningNum = RoomManage.roomItem.oningRaceNum
                     if (RaceManage.raceList[oningNum][localString] === CompareDxRe.BIG) {
                         this.focus.node.active = true
-                        setTimeout(() => {
+                        this.scheduleOnce(() => {
                             this.focus.node.active = false
-                        }, 600)
-                        setTimeout(() => {
+                        }, 0.6);
+                        this.scheduleOnce(() => {
                             this.focus.node.active = true
-                        }, 900)
-                        setTimeout(() => {
+                        }, 0.9);
+                        this.scheduleOnce(() => {
                             this.focus.node.active = false
-                        }, 1200)
+                        }, 1.2);
                     }
 
                     break
@@ -88,6 +89,9 @@ export default class NewClass extends cc.Component {
         })
 
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
+            if (this.touchLock) {
+                return
+            }
             let oningRaceNum = RoomManage.roomItem.oningRaceNum
             if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
                 return
@@ -97,8 +101,15 @@ export default class NewClass extends cc.Component {
             }
         })
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (this.touchLock) {
+                return
+            }
+            this.scheduleOnce(() => { //定时器
+                this.touchLock = false
+            }, 0.15);
             let oningRaceNum = RoomManage.roomItem.oningRaceNum
             this.focus.node.active = false
+
             if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
                 cc.log('当前不是下注环节，不能下注')
                 return

@@ -64,10 +64,15 @@ export default class NewClass extends cc.Component {
 
     controller: any = null //游戏控制器
 
+    @property(cc.AudioSource)
+    backMusic: cc.AudioSource = null; //背景音乐  this.backMusic.play() this.backMusic.pause();
+    
+
     userWinScore: number = 0
     userXiaZhuScore: number = 0
     onEnable() {
         this.startGame()
+        this.backMusic.play()
     }
 
     async startGame() {
@@ -343,9 +348,7 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
-        setTimeout(() => {
-            cc.director.preloadScene('LobbyScene');//预加载
-        }, 2000)
+        cc.director.preloadScene('LobbyScene');//预加载
     }
 
     //只有初始化了下注面板，才能有投注动画
