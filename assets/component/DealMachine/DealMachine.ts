@@ -19,6 +19,8 @@ export default class DealMachine extends cc.Component {
     mahongLong: number = 20 //麻将队列的长度
     mahjongFlyTime: number //单位s  一张牌的发牌动画持续时间
     mahjongShowKeepTime: number //单位s 发牌结束后停顿显示持续时间
+    @property(cc.AudioSource)
+    fapaiVoice: cc.AudioSource = null //发牌语音
     onEnable() {
         this.initMaj()
     }
@@ -117,6 +119,7 @@ export default class DealMachine extends cc.Component {
         }
         let action = cc.moveTo(flyTime, location.x, location.y)
         let b = cc.sequence(action, cc.callFunc(func, this))
+        this.fapaiVoice.play()
         node.runAction(b)
     }
 

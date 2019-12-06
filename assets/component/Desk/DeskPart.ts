@@ -99,8 +99,10 @@ export default class NewClass extends cc.Component {
             if (RaceManage.raceList[oningRaceNum].landlordId === UserManage.userInfo.id) {
                 return
             }
+            this.focus.node.active = true
         })
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.focus.node.active = false
             if (this.touchLock) {
                 return
             }
