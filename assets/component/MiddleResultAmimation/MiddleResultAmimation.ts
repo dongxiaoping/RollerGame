@@ -14,6 +14,12 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     wenZi: cc.Sprite = null;
 
+    @property(cc.AudioSource)
+    tongsha: cc.AudioSource = null //通杀语音
+
+    @property(cc.AudioSource)
+    tongpei: cc.AudioSource = null //通赔语音
+
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -28,6 +34,7 @@ export default class NewClass extends cc.Component {
         let wenziUrl: string = ''
         if (race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
             race.landResult === CompareDxRe.BIG) {
+            this.tongpei.play()
             if (landLordId === userId) {
                 bgPicUrl = 'resultBg/result-bg_2cc9d222_01'
                 wenziUrl = 'resultWenzi/result_47f49bf6_01'
@@ -37,6 +44,7 @@ export default class NewClass extends cc.Component {
             }
         } else if (race.skyResult === CompareDxRe.SMALL &&
             race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL) {
+            this.tongsha.play()
             if (landLordId === userId) {
                 bgPicUrl = 'resultBg/result-bg_2cc9d222_02'
                 wenziUrl = 'resultWenzi/result_47f49bf6_02'
@@ -54,7 +62,7 @@ export default class NewClass extends cc.Component {
             that.wenZi.spriteFrame = myIcon;
         })
     }
-    onEnable(){
+    onEnable() {
 
     }
 

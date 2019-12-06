@@ -48,6 +48,9 @@ export default class NewClass extends cc.Component {
     ownChipSize: number = 40 //自己下注硬币的大（
     otherMemberChipSize: number = 25 //其它成员下注硬币的大
 
+    @property(cc.AudioSource)
+    chipBetVoice: cc.AudioSource = null //硬币声音语音
+
     start() {
 
     }
@@ -71,6 +74,7 @@ export default class NewClass extends cc.Component {
         node.active = true
         let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)
         let b = cc.sequence(action, cc.callFunc(() => { }, this))
+        this.chipBetVoice.play()
         node.runAction(b)
     }
 
@@ -198,6 +202,7 @@ export default class NewClass extends cc.Component {
             if (isOwn) {
                 fromLocation = this.getChipLocationByChipValue(val)
             }
+
             this.flyAnimation(isOwn, fromLocation, this.getXiaZhuLocation(points), val)
         })
     }

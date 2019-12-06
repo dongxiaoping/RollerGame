@@ -32,6 +32,10 @@ export default class Desk extends cc.Component {
     @property([cc.Prefab])
     private majongValueLabelHalf: cc.Prefab[] = []  //半点文字显示图 0 为对子
 
+    
+    @property(cc.AudioSource)
+    qingxiazhu: cc.AudioSource = null //请下注语音
+
     private chairManage: ChairManage;
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
@@ -178,6 +182,7 @@ export default class Desk extends cc.Component {
 
     //执行请下注动画
     playingXiaZhuAnimation() {
+        this.qingxiazhu.play()
         let node = cc.instantiate(this.qingXiaZhu)
         node.parent = this.node.parent
         node.active = true

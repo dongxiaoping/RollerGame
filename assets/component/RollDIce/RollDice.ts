@@ -25,6 +25,10 @@ export default class NewClass extends cc.Component {
     private secondKeepStopTime: number //晃动停止后，保持不动持续时间
     private diceShowTime: number //点数结果显示持续时间
 
+    @property(cc.AudioSource)
+    yaosaiziVoice: cc.AudioSource = null //摇色子声音语音
+    
+
     private dicePicList: string[] = [
         'dice/dice_03205fea_02',
         'dice/dice_03205fea_03',
@@ -34,6 +38,7 @@ export default class NewClass extends cc.Component {
         'dice/dice_03205fea_07',
     ]
     start() {
+        this.yaosaiziVoice.play()
         let timeConfig = RoomManage.getRollDiceTime()
         this.firstKeepStopTime = Math.floor((timeConfig / 9 * 2) * 100) / 100
         this.rollKeepTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
@@ -45,6 +50,7 @@ export default class NewClass extends cc.Component {
                 this.oning = false
                 this.scheduleOnce(() => {
                     this.isFlying = true
+                    this.yaosaiziVoice.pause()
                     this.showDice()
                 }, this.secondKeepStopTime);
             }, this.rollKeepTime);
