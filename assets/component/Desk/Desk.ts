@@ -36,6 +36,7 @@ export default class Desk extends cc.Component {
 
     mahjongResulNodes: any[] = [] //麻将结果文字标签节点，需要在结束后销毁，所以保存实例化node
 
+
     private chairManage: ChairManage;
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
@@ -49,6 +50,17 @@ export default class Desk extends cc.Component {
             item.destroy()
         })
         this.mahjongResulNodes = []
+    }
+
+    showBetLimitTip() {
+        let node = this.node.getChildByName('OverBetLimitTip')
+        if (node.active) {
+            return
+        }
+        node.active = true
+        this.scheduleOnce(() => {
+            this.node.getChildByName('OverBetLimitTip').active = false
+        }, 3);
     }
 
     addEventListener() {

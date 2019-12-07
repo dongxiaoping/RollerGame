@@ -129,6 +129,7 @@ export default class NewClass extends cc.Component {
             }
             if (xiaZhuVal + UserManage.selectChipValue > limitCount) {
                 cc.log('下注超限')
+                this.node.parent.getComponent('Desk').showBetLimitTip()
                 return
             }
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
