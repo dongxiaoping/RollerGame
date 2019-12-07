@@ -11,6 +11,7 @@ import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage';
 import ChairManage from './ChairManage';
+import { getLocationByLocaitonType } from '../DealMachine/DealMachineBase';
 @ccclass
 export default class Desk extends cc.Component {
 
@@ -27,20 +28,27 @@ export default class Desk extends cc.Component {
     @property(cc.Prefab)
     private qingXiaZhu: cc.Prefab = null //请下注文字图
 
-    @property([cc.Prefab])
-    private majongValueLabelZhen: cc.Prefab[] = [] //麻将值文字显示图 //整点的文字 0 为鄙十
-    @property([cc.Prefab])
-    private majongValueLabelHalf: cc.Prefab[] = []  //半点文字显示图 0 为对子
+    @property(cc.Prefab)
+    private majongResultLabel: cc.Prefab = null  //麻将分数文字标签
 
-    
     @property(cc.AudioSource)
     qingxiazhu: cc.AudioSource = null //请下注语音
+
+    mahjongResulNodes: any[] = [] //麻将结果文字标签节点，需要在结束后销毁，所以保存实例化node
 
     private chairManage: ChairManage;
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
         this.showMembers()
         this.addEventListener()
+    }
+
+    cleanMahjongResulNodes() {
+        this.mahjongResulNodes.forEach((item: any) => {
+            item.active = false
+            item.destroy()
+        })
+        this.mahjongResulNodes = []
     }
 
     addEventListener() {
@@ -67,6 +75,7 @@ export default class Desk extends cc.Component {
                     break
                 case RaceState.FINISHED:
                     this.deskPartsToClean()
+                    this.cleanMahjongResulNodes()
                     break
             }
         })
@@ -81,6 +90,11 @@ export default class Desk extends cc.Component {
                         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
                     })
                     break
+                case LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE:
+                    let tableLocationType = info.info as TableLocationType
+                    let majongScore = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getMahjongScore(tableLocationType)
+                    this.toMahjongValueLabelShow(tableLocationType, majongScore)
+                    break
             }
         })
 
@@ -90,32 +104,17 @@ export default class Desk extends cc.Component {
     }
 
     //对应文字麻将点数文字显示
-    toMahjongValueLabelShow(location: TableLocationType, majongScore: DiceCountInfo) {
-        // let node = cc.instantiate(this.desk)
-        // node.parent = this.node
-        // node.active = true
-        let mahjongLabelPre = null
-        let val: number = 0
-        if (majongScore.one === majongScore.two) {
-            //  this.majongVoiceHalf[0].play() //对子
-       //     mahjongLabelPre = 
-            return
-        }
-        if (majongScore.one === 0.5 && majongScore.two === 0.5) {
-            //  this.majongVoiceZhenDian[1].play()
-            return
-        }
-        if (majongScore.one === 0.5 || majongScore.two === 0.5) { //半点
-            val = majongScore.one === 0.5 ? majongScore.two : majongScore.two
-            //  this.majongVoiceHalf[val].play()
-            return
-        }
-        val = majongScore.two + majongScore.one
-        if (val >= 10) {
-            val -= 10
-        }
-        //  this.majongVoiceZhenDian[val].play()
+    toMahjongValueLabelShow(tableLocationType: TableLocationType, majongScore: DiceCountInfo) {
+        let location = getLocationByLocaitonType(tableLocationType)
+        let node = cc.instantiate(this.majongResultLabel)
+        node.parent = this.node.parent
+        node.setPosition(location.x, location.y - 50);
+        node.getComponent('MahjongResultLabel').showResultWenZi(majongScore)
+        node.active = true
+        this.mahjongResulNodes.push(node)
     }
+
+
 
     //向指定位置下注
     deskPartToBet(betInfo: BetChipChangeInfo) {

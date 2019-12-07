@@ -105,16 +105,16 @@ export default class DealMachine extends cc.Component {
         let flyTime: number
         switch (tableLocationType) {
             case TableLocationType.LAND:
-                flyTime = this.mahjongFlyTime * 0.6
+                flyTime = this.mahjongFlyTime * 0.5
                 break
             case TableLocationType.LANDLORD:
-                flyTime = this.mahjongFlyTime * 0.7
+                flyTime = this.mahjongFlyTime * 0.6
                 break
             case TableLocationType.MIDDLE:
-                flyTime = this.mahjongFlyTime * 1
+                flyTime = this.mahjongFlyTime * 0.7
                 break
             case TableLocationType.SKY:
-                flyTime = this.mahjongFlyTime * 0.9
+                flyTime = this.mahjongFlyTime * 0.7
                 break
         }
         let action = cc.moveTo(flyTime, location.x, location.y)

@@ -8,7 +8,7 @@ export const roomInfo: RoomInfo = {
     playMode: playMode.TURN,
     roomFee: 10,
     roomPay: CreateRoomPayModel.AA,
-    costLimit: 200,
+    costLimit: 400,
     roomState: roomState.OPEN,
     oningRaceNum: 0
 }

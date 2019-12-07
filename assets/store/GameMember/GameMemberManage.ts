@@ -9,6 +9,10 @@ import { eventBus } from '../../common/EventBus';
 class GameMemberManage {
     private _gameMenmberList: GameMemberItem[] = null
 
+    public reSet(){
+        this._gameMenmberList = null
+    }
+
     get gameMenmberList(): GameMemberItem[] {
         return this._gameMenmberList
     }

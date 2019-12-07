@@ -18,6 +18,13 @@ class RaceManage {
         })
     }
 
+    public reSet(){
+        this.raceList = []
+        this.gameOverResultList = null
+    }
+
+
+
     setGameOverResultList(list: raceResultData[]) {
         this.gameOverResultList = getMemeberResultScoreList(list, GameMemberManage.gameMenmberList)
     }

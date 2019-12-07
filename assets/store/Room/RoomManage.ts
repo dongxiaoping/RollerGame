@@ -1,4 +1,3 @@
-const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
 import { appMode, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam } from '../../common/Const'
@@ -8,6 +7,7 @@ import { Ajax } from '../../common/Util';
 import RaceManage from '../Races/RaceManage';
 import GameMemberManage from '../GameMember/GameMemberManage';
 import { RoomGameConfig, roomGameConfig } from '../../common/RoomGameConfig';
+import BetManage from '../Bets/BetManage';
 class RoomManage {
     public roomItem: RoomItem = null
     private netRoomGameConfig: RoomGameConfig = null //网络下发的配置文件信息
@@ -25,6 +25,14 @@ class RoomManage {
             }
             resolve({ result: PromiseResult.SUCCESS, extObject: this.roomItem })
         })
+    }
+
+    public reSet(){
+        this.roomItem = null
+        this.netRoomGameConfig = null
+        RaceManage.reSet()
+        GameMemberManage.reSet()
+        BetManage.reSet()
     }
 
     public getEnterRoomParam() {

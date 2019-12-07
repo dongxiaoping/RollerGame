@@ -71,6 +71,7 @@ export default class NewClass extends cc.Component {
     userWinScore: number = 0
     userXiaZhuScore: number = 0
     onEnable() {
+        RoomManage.reSet() //清楚上次房间的数据记录
         this.startGame()
         this.backMusic.play()
     }
