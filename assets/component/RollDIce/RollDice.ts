@@ -41,7 +41,7 @@ export default class NewClass extends cc.Component {
         let timeConfig = RoomManage.getRollDiceTime()
         this.firstKeepStopTime = Math.floor((timeConfig / 9 * 2) * 100) / 100
         this.rollKeepTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
-        this.secondKeepStopTime = Math.floor((timeConfig / 9) * 100) / 100
+        this.secondKeepStopTime = Math.floor((timeConfig / 9/2) * 100) / 100
         this.diceShowTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
         this.scheduleOnce(() => {
             this.oning = true
@@ -49,10 +49,9 @@ export default class NewClass extends cc.Component {
             this.scheduleOnce(() => {
                 this.oning = false
                 this.scheduleOnce(() => {
-                    this.isFlying = true
                     this.yaosaiziVoice.pause()
                     this.showDice()
-                }, this.secondKeepStopTime);
+                }, this.secondKeepStopTime)
             }, this.rollKeepTime);
         }, this.firstKeepStopTime);
     }
@@ -64,6 +63,7 @@ export default class NewClass extends cc.Component {
         cc.loader.loadRes(this.dicePicList[points.one - 1], (error, img) => {
             let myIcon = new cc.SpriteFrame(img);
             this.diceOne.spriteFrame = myIcon
+            this.isFlying = true
         })
         cc.loader.loadRes(this.dicePicList[points.two - 1], (error, img) => {
             let myIcon = new cc.SpriteFrame(img);

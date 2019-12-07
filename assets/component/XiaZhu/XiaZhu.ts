@@ -43,7 +43,7 @@ export default class NewClass extends cc.Component {
     button_100: cc.Sprite = null
     chipValueList: number[] = [100, 50, 20, 10] //下注值集合
 
-    flyTime: number = 0.5  //下注硬币飞行时间
+    flyTime: number = 0.35  //下注硬币飞行时间
 
     ownChipSize: number = 40 //自己下注硬币的大（
     otherMemberChipSize: number = 25 //其它成员下注硬币的大

@@ -52,6 +52,14 @@ export default class Desk extends cc.Component {
         this.mahjongResulNodes = []
     }
 
+    //请下注之桌子闪动动画
+    deskShanDong() {
+        let node = this.node.getChildByName('DeskShanDong')
+        this.schedule(() => {
+            node.active = node.active ? false : true
+        }, 0.3, 3, 0.1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
+    }
+
     showBetLimitTip() {
         let node = this.node.getChildByName('OverBetLimitTip')
         if (node.active) {
@@ -84,6 +92,7 @@ export default class Desk extends cc.Component {
                 case RaceState.BET:  //下注
                     this.deskPartsToOpen()
                     this.playingXiaZhuAnimation()
+                    this.deskShanDong()
                     break
                 case RaceState.FINISHED:
                     this.deskPartsToClean()
@@ -120,7 +129,7 @@ export default class Desk extends cc.Component {
         let location = getLocationByLocaitonType(tableLocationType)
         let node = cc.instantiate(this.majongResultLabel)
         node.parent = this.node.parent
-        node.setPosition(location.x, location.y - 50);
+        node.setPosition(location.x, location.y - 20);
         node.getComponent('MahjongResultLabel').showResultWenZi(majongScore)
         node.active = true
         this.mahjongResulNodes.push(node)

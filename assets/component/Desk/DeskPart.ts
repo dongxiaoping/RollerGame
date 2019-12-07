@@ -63,6 +63,8 @@ export default class NewClass extends cc.Component {
         this.betScore.string =  '0 / 0'
     }
 
+    
+
     addClickEvent() {
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type

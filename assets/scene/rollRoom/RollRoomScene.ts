@@ -171,7 +171,7 @@ export default class NewClass extends cc.Component {
                     cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
                     var node = cc.instantiate(this.roomResultPanel)
                     node.parent = this.node
-                    node.setPosition(0, 0);
+                    node.setPosition(0, -70);
                     node.active = true
                     break
             }
