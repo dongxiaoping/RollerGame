@@ -66,7 +66,7 @@ export default class NewClass extends cc.Component {
 
     @property(cc.AudioSource)
     backMusic: cc.AudioSource = null; //背景音乐  this.backMusic.play() this.backMusic.pause();
-    
+
 
     userWinScore: number = 0
     userXiaZhuScore: number = 0
@@ -112,7 +112,9 @@ export default class NewClass extends cc.Component {
         this.controller.start()
         this.initRoom()
         let landlordId = RaceManage.raceList[0].landlordId
-        RaceManage.changeRaceLandlord(landlordId, 8, 0)
+        this.scheduleOnce(() => {
+            RaceManage.changeRaceLandlord(landlordId, 8, 0)
+        }, 1);
     }
 
     initRoom() {
@@ -244,8 +246,10 @@ export default class NewClass extends cc.Component {
         })
 
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
+            cc.log('接收到地主改变通知')
             let oningRaceNum = RoomManage.roomItem.oningRaceNum //地主改变通知
-            if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD) {
+            if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD &&
+                RaceManage.raceList[oningRaceNum].state !== RaceState.NOT_BEGIN) {
                 cc.log('错误！接收到了地主改变通知，但当前房间状态不是选地主')
                 return
             }

@@ -73,6 +73,7 @@ export default class Desk extends cc.Component {
 
     addEventListener() {
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
+            cc.log('接收到地主改变通知')
             cc.log('桌子接收到地主改变通知,将该用户挪动到地主椅子')
             this.chairManage.moveToLandlordChair(landlordId)
         })
