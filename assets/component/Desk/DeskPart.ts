@@ -63,33 +63,24 @@ export default class NewClass extends cc.Component {
         this.betScore.string =  '0 / 0'
     }
 
-    
+    winFocusAmination(){
+        let localString = this.typeValue + 'Result'
+        let oningNum = RoomManage.roomItem.oningRaceNum
+        if (RaceManage.raceList[oningNum][localString] === CompareDxRe.BIG) {
+            this.focus.node.active = true
+            this.scheduleOnce(() => {
+                this.focus.node.active = false
+            }, 0.6);
+            this.scheduleOnce(() => {
+                this.focus.node.active = true
+            }, 0.9);
+            this.scheduleOnce(() => {
+                this.focus.node.active = false
+            }, 1.2);
+        }
+    }
 
     addClickEvent() {
-        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
-            let localNoticeEventType = info.type
-            switch (localNoticeEventType) {
-                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-                    cc.log('开牌动画结束，我开始执行比大小动画')
-                    let localString = this.typeValue + 'Result'
-                    let oningNum = RoomManage.roomItem.oningRaceNum
-                    if (RaceManage.raceList[oningNum][localString] === CompareDxRe.BIG) {
-                        this.focus.node.active = true
-                        this.scheduleOnce(() => {
-                            this.focus.node.active = false
-                        }, 0.6);
-                        this.scheduleOnce(() => {
-                            this.focus.node.active = true
-                        }, 0.9);
-                        this.scheduleOnce(() => {
-                            this.focus.node.active = false
-                        }, 1.2);
-                    }
-
-                    break
-            }
-        })
-
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
             if (this.touchLock) {
                 return

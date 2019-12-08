@@ -36,7 +36,7 @@ export default class Desk extends cc.Component {
 
     mahjongResulNodes: any[] = [] //麻将结果文字标签节点，需要在结束后销毁，所以保存实例化node
 
-    showResultStopTime:number = 1 //麻将开牌后停留显示时间
+    showResultStopTime: number = 1 //麻将开牌后停留显示时间
     private chairManage: ChairManage;
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
@@ -105,6 +105,7 @@ export default class Desk extends cc.Component {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    this.winFocusAmination()
                     this.scheduleOnce(() => {
                         cc.log('我是桌子，开牌动画结束，我开始执行比大小动画')
                         this.playingBiDaXiaAnimation((): void => {
@@ -124,6 +125,16 @@ export default class Desk extends cc.Component {
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, randEventId(), (betInfo: BetChipChangeInfo): void => {
             this.deskPartToBet(betInfo)
         })
+    }
+
+    //桌子赢模块闪动提示
+    winFocusAmination() {
+        this.node.getChildByName('SkyPart').getComponent('DeskPart').winFocusAmination()
+        this.node.getChildByName('MiddlePart').getComponent('DeskPart').winFocusAmination()
+        this.node.getChildByName('LandPart').getComponent('DeskPart').winFocusAmination()
+        this.node.getChildByName('SkyCornerPart').getComponent('DeskPart').winFocusAmination()
+        this.node.getChildByName('BridgPart').getComponent('DeskPart').winFocusAmination()
+        this.node.getChildByName('LandCornerPart').getComponent('DeskPart').winFocusAmination()
     }
 
     //对应文字麻将点数文字显示
