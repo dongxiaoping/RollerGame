@@ -52,11 +52,19 @@ export default class LobbyScene extends cc.Component {
         }
 
         this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, () => {
-            this.showEntryBox()
+            if (this.node.getChildByName('EntryBox') !== null) {
+                cc.log('进入房间数字面板已存在')
+                return
+            }
+            this.closeCreateRoomPanel()
+            var node = cc.instantiate(this.EntryBox)
+            node.parent = this.node
+            node.setPosition(3.687, 1.474);
+            node.active = true
         })
         this.LianXiChang.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('练习场被点击了')
-            if(this.emulatorRoomHasClick){
+            if (this.emulatorRoomHasClick) {
                 cc.log('练习场不能重复点击！')
                 return
             }
@@ -68,14 +76,33 @@ export default class LobbyScene extends cc.Component {
         })
         this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('创建房间被点击了')
-            if (typeof this.node.getChildByName('CreateRoomPanel') !== 'undefined') {
+            if (this.node.getChildByName('CreateRoomPanel') !== null) {
                 cc.log('创建房间已存在！')
                 return
             }
+            this.closeEntryBox()
             var node = cc.instantiate(this.CreateRoomPanel)
             node.parent = this.node
             node.active = true
         })
+    }
+
+    //关闭数字进房间面板
+    closeEntryBox() {
+        let node = this.node.getChildByName('EntryBox')
+        if (node !== null) {
+            node.active = false
+            node.destroy()
+        }
+    }
+
+    //关闭创建房间面板
+    closeCreateRoomPanel() {
+        let node = this.node.getChildByName('CreateRoomPanel')
+        if (node !== null) {
+            node.active = false
+            node.destroy()
+        }
     }
 
     async initUserInfo() { //这个地方要改
@@ -84,13 +111,6 @@ export default class LobbyScene extends cc.Component {
         this.userId.string = 'ID:' + UserManage.userInfo.id
         this.diamond.string = UserManage.userInfo.diamond + ''
         this.chipCount.string = UserManage.userInfo.score + ''
-    }
-
-    showEntryBox(): void {
-        var node = cc.instantiate(this.EntryBox)
-        node.parent = this.node
-        node.setPosition(3.687, 1.474);
-        node.active = true
     }
 
     onDisable() {
