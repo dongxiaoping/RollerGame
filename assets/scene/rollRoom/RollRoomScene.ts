@@ -219,7 +219,6 @@ export default class NewClass extends cc.Component {
                     node = this.node.getChildByName('MiddleTopScorePanel')
                     node.active = false
                     node.destroy()
-
                     cc.log('控制器公布结果')
                     this.toShowRaceResultPanel()
                     break

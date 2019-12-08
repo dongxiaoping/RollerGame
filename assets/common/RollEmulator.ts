@@ -244,7 +244,7 @@ class RollEmulator extends RollControlerBase {
             RoomManage.roomItem.oningRaceNum = nextRaceNum
             cc.log('我是游戏模拟器，我开始了下局比赛，所以直接将下场比赛状态改为摇色子')
             RaceManage.changeRaceState(RaceState.ROLL_DICE)
-        }, 3000)
+        }, 2000)
     }
 
     //显示结果麻将结果通知

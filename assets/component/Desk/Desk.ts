@@ -36,7 +36,7 @@ export default class Desk extends cc.Component {
 
     mahjongResulNodes: any[] = [] //麻将结果文字标签节点，需要在结束后销毁，所以保存实例化node
 
-
+    showResultStopTime:number = 1 //麻将开牌后停留显示时间
     private chairManage: ChairManage;
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
@@ -105,11 +105,13 @@ export default class Desk extends cc.Component {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-                    cc.log('我是桌子，开牌动画结束，我开始执行比大小动画')
-                    this.playingBiDaXiaAnimation((): void => {
-                        cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
-                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
-                    })
+                    this.scheduleOnce(() => {
+                        cc.log('我是桌子，开牌动画结束，我开始执行比大小动画')
+                        this.playingBiDaXiaAnimation((): void => {
+                            cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
+                            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
+                        })
+                    }, this.showResultStopTime); //开牌结束停留时间
                     break
                 case LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE:
                     let tableLocationType = info.info as TableLocationType
