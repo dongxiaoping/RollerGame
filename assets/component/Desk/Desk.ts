@@ -36,7 +36,7 @@ export default class Desk extends cc.Component {
 
     mahjongResulNodes: any[] = [] //麻将结果文字标签节点，需要在结束后销毁，所以保存实例化node
 
-    showResultStopTime: number = 1 //麻将开牌后停留显示时间
+    showResultStopTime: number = 3 //麻将开牌后停留显示时间
     private chairManage: ChairManage;
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)

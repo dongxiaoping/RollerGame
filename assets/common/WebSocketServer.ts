@@ -4,9 +4,10 @@ import RaceManage from "../store/Races/RaceManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import BetManage from "../store/Bets/BetManage";
 import { RoomGameConfig } from "./RoomGameConfig";
+import { config } from "./Config";
 
 const { ccclass, property } = cc._decorator;
-export let ws: any = new WebSocket("ws://127.0.0.1:2346");
+export let ws: any = new WebSocket(config.websocketAddress);
 
 export interface NoticeData {
     type: NoticeType
