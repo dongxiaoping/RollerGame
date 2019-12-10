@@ -3,7 +3,6 @@ import RaceItem from './RaceItem'
 import { appMode, PromiseParam, PromiseResult, raceRecord, RaceState, betLocaion, raceResultData, CompareDxRe } from '../../common/Const'
 import { RaceList } from '../../mock/RaceList'
 import RoomManage from '../../store/Room/RoomManage'
-import axios from 'axios'
 import BetManage from '../Bets/BetManage';
 import Betitem from '../Bets/BetItem';
 import GameMemberManage from '../GameMember/GameMemberManage';

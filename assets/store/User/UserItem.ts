@@ -1,6 +1,5 @@
-const { ccclass, property } = cc._decorator;
 import { UserInfo, userType } from './UserBase'
-@ccclass
+
 export default class UserItem {
     public id: string = null
     public icon: string = null

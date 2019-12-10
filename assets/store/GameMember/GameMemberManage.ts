@@ -1,11 +1,8 @@
-const { ccclass } = cc._decorator;
 import { config, } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult, GameMember, EventType, LocalNoticeEventType, LocalNoticeEventPara } from '../../common/Const'
 import GameMemberItem from './GameMemberItem'
 import { GameMemberList } from '../../mock/GameMemberList'
-import axios from 'axios'
 import { eventBus } from '../../common/EventBus';
-@ccclass
 class GameMemberManage {
     private _gameMenmberList: GameMemberItem[] = null
 

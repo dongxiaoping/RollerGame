@@ -1,11 +1,10 @@
-const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult, ResponseStatus } from '../../common/Const'
 import { userInfo } from '../../mock/UserInfo'
 import UserItem from './UserItem'
 import axios from 'axios'
 import { UserInfo } from './UserBase';
-@ccclass
+
 class UserManage {
     public userInfo: UserItem = null
     selectChipValue: number = 10 //当前用户选中的下注值，默认10

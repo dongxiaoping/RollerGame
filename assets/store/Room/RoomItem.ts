@@ -1,8 +1,6 @@
-const { ccclass, property } = cc._decorator;
 import { RoomInfo, playMode, roomState, EventType } from '../../common/Const'
 import { eventBus } from '../../common/EventBus';
 
-@ccclass
 export default class RoomItem {
     id: number = null
     creatUserId: string = null

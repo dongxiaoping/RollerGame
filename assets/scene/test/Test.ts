@@ -26,11 +26,11 @@ export default class NewClass extends cc.Component {
 
     // onLoad () {}
     start() {
-        let node = cc.instantiate(this.fexshu)
-        node.parent = this.node
-        node.setPosition(100, 100);
-        node.getComponent('MahjongResultLabel').showResultWenZi({one:1,two:2})
-        node.active = true
+        // let node = cc.instantiate(this.fexshu)
+        // node.parent = this.node
+        // node.setPosition(100, 100);
+        // node.getComponent('MahjongResultLabel').showResultWenZi({one:1,two:2})
+        // node.active = true
         // cc.loader.loadRes('ziMajongZhi/zi_2', (error, img) => {
         //     let myIcon = new cc.SpriteFrame(img);
         //     this.node.getChildByName('Bg').  spriteFrame = myIcon;

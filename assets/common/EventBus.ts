@@ -1,6 +1,5 @@
 import { EventType } from '../common/Const'
-const { ccclass } = cc._decorator;
-@ccclass
+
 class EventBus {
   private listeners: any = {}
 

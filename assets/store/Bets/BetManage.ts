@@ -1,9 +1,7 @@
-const { ccclass } = cc._decorator;
 import { config } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult, BetRecord, GameMember, betLocaion } from '../../common/Const'
 import { BetList } from '../../mock/BetList'
 import Betitem from './BetItem';
-@ccclass
 class BetManage {
     public betList: Betitem[][] = [] //场次+用户Id 信息集合
     public requestBetList(): Promise<PromiseParam> {

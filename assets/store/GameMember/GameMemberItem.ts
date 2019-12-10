@@ -1,6 +1,4 @@
-const { ccclass } = cc._decorator;
 import { GameMember, gameMemberType, memberState } from '../../common/Const'
-@ccclass
 export default class GameMemberItem {
     public userId: string = null
     public roleType: gameMemberType = null

@@ -1,8 +1,5 @@
 import { MemberInChairData, Coordinate } from "../../common/Const";
 
-const { ccclass} = cc._decorator;
-
-@ccclass
 export default class ChairItem {
     private cc: any
     public memberInChairData: MemberInChairData = null

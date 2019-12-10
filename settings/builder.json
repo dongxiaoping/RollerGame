@@ -14,7 +14,7 @@
     "orientation": "portrait",
     "subContext": ""
   },
-  "encryptJs": true,
+  "encryptJs": false,
   "excludeScenes": [
     "0c103ecc-190a-49af-ba00-5d7047bedc9c"
   ],
@@ -31,7 +31,7 @@
     "portrait": false,
     "upsideDown": false
   },
-  "packageName": "org.cocos2d.RollerGame",
+  "packageName": "com.yueyuandong.rollapp",
   "qqplay": {
     "REMOTE_SERVER_ROOT": "",
     "orientation": "portrait",
