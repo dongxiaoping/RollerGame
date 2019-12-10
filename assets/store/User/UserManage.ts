@@ -2,7 +2,7 @@ import { config } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult, ResponseStatus } from '../../common/Const'
 import { userInfo } from '../../mock/UserInfo'
 import UserItem from './UserItem'
-import axios from 'axios'
+import http from '../../common/Http'
 import { UserInfo } from './UserBase';
 
 class UserManage {
@@ -31,18 +31,12 @@ class UserManage {
                 this.setUserInfo(userInfo)
                 resolve({ result: PromiseResult.SUCCESS, extObject: this.userInfo })
             } else {
-                let httpUrl = config.serverAddress + '/race/user/get_user_info_by_id'
-                axios
-                    .get(httpUrl, {
-                        params: {
-                            id: userId
-                        }
-                    })
-                    .then((response: any): void => {
-                        let info = response.data.data
-                        this.userInfo = new UserItem(info)
-                        resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
-                    })
+                let httpUrl = config.serverAddress + '/race/user/get_user_info_by_id?id=' + userId
+                http.getWithUrl(httpUrl, (status: boolean, info: any) => {
+                    let userInfo = info.data as UserInfo
+                    this.userInfo = new UserItem(userInfo)
+                    resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
+                })
             }
 
         })
@@ -51,13 +45,11 @@ class UserManage {
     public requestVisitorUserInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             let httpUrl = config.serverAddress + '/race/user/create_visit_account'
-            axios
-                .get(httpUrl)
-                .then((response: any): void => {
-                    let info = response.data.data
-                    this.userInfo = new UserItem(info)
-                    resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
-                })
+            http.getWithUrl(httpUrl, (status: boolean, info: any) => {
+                let userInfo = info.data as UserInfo
+                this.userInfo = new UserItem(userInfo)
+                resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
+            })
         })
     }
 }

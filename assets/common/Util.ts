@@ -1,6 +1,4 @@
 import { DiceCountInfo, MajhongValueType, TableLocationType, raceResultData } from './Const'
-import axios from 'axios'
-import { config } from './Config'
 import GameMemberItem from '../store/GameMember/GameMemberItem'
 export function randEventId(): string {
     return `roll_${new Date().getTime()}_${Math.ceil(
@@ -37,13 +35,7 @@ export function getFaPaiLocation(diceCountInfo: DiceCountInfo): TableLocationTyp
     }
 }
 
-export const Ajax = axios.create({
-    baseURL: config.serverAddress,
-    timeout: config.requestTimeoutTime,
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'//'application/json'
-    }
-})
+
 
 //截取url中指定的传参
 export function getUrlParam(name: string) {

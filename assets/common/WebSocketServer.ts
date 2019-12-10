@@ -6,7 +6,6 @@ import BetManage from "../store/Bets/BetManage";
 import { RoomGameConfig } from "./RoomGameConfig";
 import { config } from "./Config";
 
-const { ccclass, property } = cc._decorator;
 export let ws: any = new WebSocket(config.websocketAddress);
 
 export interface NoticeData {
