@@ -5,7 +5,7 @@ export const RaceList: raceRecord[] = [
         raceNum: 0,
         landlordId: '6666661',
         playState: RaceState.NOT_BEGIN,
-        landlordScore: { 'one': 9, 'two': 0.5 },
+        landlordScore: { 'one': 2, 'two': 8 },
         skyScore: { 'one': 3, 'two': 4 },
         middleScore: { 'one': 4, 'two': 1 },
         landScore: { 'one': 3, 'two': 5 },

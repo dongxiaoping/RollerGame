@@ -34,6 +34,11 @@ export default class NewClass extends cc.Component {
     @property([cc.AudioSource])
     majongVoiceHalf: cc.AudioSource[] = []; //半点的报音 0 为对子
 
+    @property(cc.AudioSource)
+    kaipaiVoice: cc.AudioSource = null; //开牌
+    @property(cc.AudioSource)
+    erbagangVoice: cc.AudioSource = null; //二八杠
+
     start() {
 
     }
@@ -71,6 +76,11 @@ export default class NewClass extends cc.Component {
             this.majongVoiceHalf[0].play() //对子
             return
         }
+
+        if ((majongScore.one === 2 && majongScore.two === 8) || (majongScore.one === 8 && majongScore.two === 2)) {
+            this.erbagangVoice.play()
+            return
+        }
         if (majongScore.one === 0.5 && majongScore.two === 0.5) {
             this.majongVoiceZhenDian[1].play()
             return
@@ -102,11 +112,13 @@ export default class NewClass extends cc.Component {
     }
 
     openAnimation(ob: cc.Sprite, val: number, callBack: any) {
+
         let count = 1
         this.schedule(() => {
             if (count === 1) {
                 ob.spriteFrame = this.oneThirdIcon
             } else if (count === 2) {
+                this.kaipaiVoice.play()
                 ob.spriteFrame = this.halfIcon
             } else if (count === 3) {
                 ob.spriteFrame = this.allIcon
