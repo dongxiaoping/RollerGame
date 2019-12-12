@@ -1,10 +1,11 @@
 import RoomManage from "../store/Room/RoomManage";
-import { roomState, RaceState, GameMember, BetNoticeData, raceResultData } from "./Const";
+import { roomState, RaceState, GameMember, BetNoticeData, raceResultData, EventType } from "./Const";
 import RaceManage from "../store/Races/RaceManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import BetManage from "../store/Bets/BetManage";
 import { RoomGameConfig } from "./RoomGameConfig";
 import { config } from "./Config";
+import { eventBus } from "./EventBus";
 
 export let ws: any = new WebSocket(config.websocketAddress);
 
@@ -131,7 +132,9 @@ ws.onmessage = (e: any): void => {
             RaceManage.setGameOverResultList(roomResult)
             RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
             break;
-
-
+        case 'createRoomResultNotice': //创建房间结果通知
+            let state = message.state
+            eventBus.emit(EventType.SOCKET_CREAT_ROOM_SUCCESS, null)
+            break;
     }
 }

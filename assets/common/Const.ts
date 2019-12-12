@@ -65,6 +65,7 @@ export enum EventType {
     BET_CHIP_CHANGE_EVENT = 6, //下注改变通知 （数据改变触发）
     RACING_NUM_CHANGE_EVENT = 7, //进行中的比赛场次号改变通知（数据改变触发）
     NEW_MEMBER_IN_ROOM = 8, //有新成员加入房间
+    SOCKET_CREAT_ROOM_SUCCESS = 9,  //websocket创建房间成功通知
 }
 
 //单场游戏状态

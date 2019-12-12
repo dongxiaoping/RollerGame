@@ -92,6 +92,7 @@ export default class NewClass extends cc.Component {
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {
             cc.log('房间不存在或已开始，退出到首页')
+            cc.director.loadScene("LobbyScene");
             return
         }
         this.initRoom()
@@ -119,7 +120,6 @@ export default class NewClass extends cc.Component {
 
     initRoom() {
         this.showUserIcon()
-        this.changeStartButtonState()
         this.initXiaZhuPanel()
         this.initMahjongPanel()
         this.initDesk()
@@ -151,6 +151,10 @@ export default class NewClass extends cc.Component {
                 this.userXiaZhuScore += costVal
                 this.userScoreLabel.string = (this.userWinScore - this.userXiaZhuScore) + ''
             }
+        })
+
+        eventBus.on(EventType.SOCKET_CREAT_ROOM_SUCCESS, randEventId(), (info:any): void => {
+            this.changeStartButtonState()
         })
 
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
