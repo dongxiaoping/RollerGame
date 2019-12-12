@@ -18,18 +18,19 @@ export default class NewClass extends cc.Component {
         'ziMajongZhi/zi_half_8_5',
         'ziMajongZhi/zi_half_9_5'
     ]
-    majongValueLabelZhen:string[]=[
+    majongValueLabelZhen: string[] = [
         'ziMajongZhi/zi_0',  //鄙十
-        'ziMajongZhi/zi_1',  
-        'ziMajongZhi/zi_2',  
-        'ziMajongZhi/zi_3',  
-        'ziMajongZhi/zi_4',  
-        'ziMajongZhi/zi_5',  
-        'ziMajongZhi/zi_6',  
-        'ziMajongZhi/zi_7',  
-        'ziMajongZhi/zi_8',  
+        'ziMajongZhi/zi_1',
+        'ziMajongZhi/zi_2',
+        'ziMajongZhi/zi_3',
+        'ziMajongZhi/zi_4',
+        'ziMajongZhi/zi_5',
+        'ziMajongZhi/zi_6',
+        'ziMajongZhi/zi_7',
+        'ziMajongZhi/zi_8',
         'ziMajongZhi/zi_9'
     ]
+    erbagang: string = 'ziMajongZhi/erbagang'
     start() {
 
     }
@@ -44,6 +45,9 @@ export default class NewClass extends cc.Component {
 
     getLabelUrlByDiceCountInfo(majongScore: DiceCountInfo): string {
         let val: number = 0
+        if ((majongScore.one === 2 && majongScore.two === 8) || (majongScore.one === 8 && majongScore.two === 2)) {
+            return this.erbagang
+        }
         if (majongScore.one === majongScore.two) {
             return this.majongValueLabelHalf[0]
         }

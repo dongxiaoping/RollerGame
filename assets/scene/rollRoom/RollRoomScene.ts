@@ -67,6 +67,10 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     backMusic: cc.AudioSource = null; //背景音乐  this.backMusic.play() this.backMusic.pause();
 
+    @property(cc.AudioSource)
+    qinQiangZhuangVoice: cc.AudioSource = null;
+    @property(cc.AudioSource)
+    woQiangVoice: cc.AudioSource = null;
 
     userWinScore: number = 0
     userXiaZhuScore: number = 0
@@ -112,6 +116,7 @@ export default class NewClass extends cc.Component {
         this.controller = new RollEmulator()
         this.controller.start()
         this.initRoom()
+        this.changeStartButtonState()
         let landlordId = RaceManage.raceList[0].landlordId
         this.scheduleOnce(() => {
             RaceManage.changeRaceLandlord(landlordId, 8, 0)
@@ -153,7 +158,7 @@ export default class NewClass extends cc.Component {
             }
         })
 
-        eventBus.on(EventType.SOCKET_CREAT_ROOM_SUCCESS, randEventId(), (info:any): void => {
+        eventBus.on(EventType.SOCKET_CREAT_ROOM_SUCCESS, randEventId(), (info: any): void => {
             this.changeStartButtonState()
         })
 
@@ -168,6 +173,10 @@ export default class NewClass extends cc.Component {
                     this.controller.close()
                     this.controller = null
                     cc.director.loadScene("LobbyScene");
+                    break
+                case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT:
+                    cc.log('本地抢地主')
+                    this.woQiangVoice.play()
                     break
             }
         })
@@ -323,14 +332,11 @@ export default class NewClass extends cc.Component {
 
     //选地主
     private showChoiceLandLordPanel() {
-        // var node = cc.instantiate(this.choiceLandlordPanel)
-        // node.parent = this.node
-        // node.setPosition(0, 0);
-        // node.active = true
         var node = cc.instantiate(this.rapLandlordButton)
         node.parent = this.node
         node.setPosition(295, -261);
         node.active = true
+        this.qinQiangZhuangVoice.play()
     }
 
     private closeChoiceLandLordPanel() {

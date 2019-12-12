@@ -53,9 +53,6 @@ ws.onmessage = (e: any): void => {
     var type = info.type
     var message = info.info
     console.log(JSON.stringify(info));
-    let roomId = message.roomId ? message.roomId : null
-    let raceNum = message.raceNum ? message.raceNum : null
-    let landlordId = message.landlordId ? message.landlordId : null
     switch (type) {
         case 'gameBegin':
             message as NoticeInfo
@@ -76,6 +73,7 @@ ws.onmessage = (e: any): void => {
             message as NoticeInfo
             let landlordLastCount = message.landlordLastCount
             let fromRaceNum = message.raceNum
+            let landlordId = typeof message.landlordId ? message.landlordId : null
             RaceManage.changeRaceLandlord(landlordId, landlordLastCount, fromRaceNum)
             console.log('socket收到游戏地主被选中通知');
             break;
