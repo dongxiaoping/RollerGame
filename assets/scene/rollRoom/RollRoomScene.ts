@@ -139,6 +139,11 @@ export default class NewClass extends cc.Component {
         node.active = true
     }
 
+    //异常比赛结束后，清除桌子，同时也防止异常情况下（页面最小化），部分组件没有清除，这里做二次清除
+    private clearnRaceDesk(){
+        this.endRollDice()
+    }
+
     //添加面板上组件的一些响应事件
     private addClickEvent() {
         this.exit.node.on(cc.Node.EventType.TOUCH_END, () => {
@@ -248,6 +253,7 @@ export default class NewClass extends cc.Component {
                     this.toCloseRaceResultPanel()
                     this.cleanMhjongOnDesk()
                     this.cleanChipOnDesk()
+                    this.clearnRaceDesk()
                     break
             }
         })
