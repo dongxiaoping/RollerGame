@@ -75,18 +75,23 @@ export default class Betitem {
     }
 
     //获取当前在各个位置的下注值和
-    getXiaZhuVal(){
+    getXiaZhuVal() {
         return this.sky + this.middle + this.land + this.skyCorner + this.bridg + this.landCorner
     }
 
     valueChangeNotice(locatIon: betLocaion, fromVal: number, toValue: number): void {
-        if (toValue === 0) {
-            cc.log('初始下注值为0')
+        if (fromVal === 0 && toValue === 0) {
             return
         }
-        let info = { raceNum: this.raceNum, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as BetChipChangeInfo
-        cc.log('投注值改变通知' + JSON.stringify(info))
-        eventBus.emit(EventType.BET_CHIP_CHANGE_EVENT, info)
+        if (fromVal !== 0 && toValue === 0) {
+            let info = { raceNum: this.raceNum, userId: this.userId, betLocation: locatIon } as BetChipChangeInfo
+            cc.log('投注取消通知')
+            eventBus.emit(EventType.BET_CANCE_NOTICE, info)
+        } else {
+            let info = { raceNum: this.raceNum, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as BetChipChangeInfo
+            cc.log('投注值改变通知' + JSON.stringify(info))
+            eventBus.emit(EventType.BET_CHIP_CHANGE_EVENT, info)
+        }
     }
 
     //根据各个位置的输赢、获取当前场次，当前用户，当前时刻的得分

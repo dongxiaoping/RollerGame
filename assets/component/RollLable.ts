@@ -92,38 +92,42 @@ export default class RollLable extends cc.Component {
     }
 
     _rollText(): void {
-        //var self = this;
-        if (this._strings.length > 0) {
-            setTimeout(function () {
-                var d = this.label.node.x + this._d1;
-                var x = - this._d1;
-                var t = d / this.speed;
-                this.label.node.runAction(cc.sequence(
-                    cc.moveTo(t, cc.v2(x, this.label.node.y)),
-                    cc.callFunc(function () {
-                        this._strings.shift();
-                        if (this._strings.length > 0) {
-                            this.label.node.x = 0;
-                            this.label.string = this._strings[0];
-                            this._d1 = this.label.node.width;
-                            this._d2 = this.label.node.width - this._d1;
-                            for (var i = 1; i < this._strings.length; i++) {
-                                if (this.label.node.x + this._d1 + this._d2 < this.mask.node.width + this._d1) {
-                                    this.label.string = this.label.string + this._strings[i];
-                                    this._d2 = this.label.node.width - this._d1;
-                                } else {
-                                    break;
+        try {
+            //var self = this;
+            if (this._strings.length > 0) {
+                setTimeout(function () {
+                    var d = this.label.node.x + this._d1;
+                    var x = - this._d1;
+                    var t = d / this.speed;
+                    this.label.node.runAction(cc.sequence(
+                        cc.moveTo(t, cc.v2(x, this.label.node.y)),
+                        cc.callFunc(function () {
+                            this._strings.shift();
+                            if (this._strings.length > 0) {
+                                this.label.node.x = 0;
+                                this.label.string = this._strings[0];
+                                this._d1 = this.label.node.width;
+                                this._d2 = this.label.node.width - this._d1;
+                                for (var i = 1; i < this._strings.length; i++) {
+                                    if (this.label.node.x + this._d1 + this._d2 < this.mask.node.width + this._d1) {
+                                        this.label.string = this.label.string + this._strings[i];
+                                        this._d2 = this.label.node.width - this._d1;
+                                    } else {
+                                        break;
+                                    }
                                 }
+                                this._rollText();
+                            } else {
+                                setTimeout((): void => {
+                                    this.addText(this.label.string)
+                                }, 5 * 1000)
                             }
-                            this._rollText();
-                        } else {
-                            setTimeout((): void => {
-                                this.addText(this.label.string)
-                            }, 5 * 1000)
-                        }
-                    }.bind(this))
-                ));
-            }.bind(this), 800);
+                        }.bind(this))
+                    ));
+                }.bind(this), 800);
+            }
+        } catch (e) {
+            console.log(e)
         }
     }
 

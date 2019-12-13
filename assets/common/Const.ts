@@ -66,6 +66,7 @@ export enum EventType {
     RACING_NUM_CHANGE_EVENT = 7, //进行中的比赛场次号改变通知（数据改变触发）
     NEW_MEMBER_IN_ROOM = 8, //有新成员加入房间
     SOCKET_CREAT_ROOM_SUCCESS = 9,  //websocket创建房间成功通知
+    BET_CANCE_NOTICE = 10,//用户取消下注通知
 }
 
 //单场游戏状态
@@ -229,8 +230,8 @@ export interface BetChipChangeInfo {
     raceNum: number
     userId: string
     betLocation: betLocaion
-    fromVal: number
-    toValue: number
+    fromVal?: number
+    toValue?: number
 }
 
 //每个位置的输赢 true表示赢 false 表示输
@@ -295,7 +296,7 @@ export interface BetNoticeData {
     roomId: number,
     raceNum: number,
     betLocation: betLocaion,
-    betVal: number
+    betVal?: number
 }
 
 export interface raceResultData {

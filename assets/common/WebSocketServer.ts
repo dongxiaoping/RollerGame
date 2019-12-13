@@ -7,11 +7,28 @@ import { RoomGameConfig } from "./RoomGameConfig";
 import { config } from "./Config";
 import { eventBus } from "./EventBus";
 
-export let ws: any = new WebSocket(config.websocketAddress);
+export let ws: any = null
 
 export interface NoticeData {
     type: NoticeType
     info: NoticeInfo
+}
+
+export function closeWs() {
+    if (ws !== null) {
+        ws.close()
+        cc.log('关闭socket连接')
+    }
+    ws = null
+}
+
+export function onOpenWs() {
+    if (ws === null) {
+        ws = new WebSocket(config.websocketAddress)
+        ws.onopen = onopen
+        ws.onmessage = onmessage
+        cc.log('开启socket连接')
+    }
 }
 
 ///////////////////////////////////
@@ -29,7 +46,9 @@ export enum NoticeType {
     createAndEnterRoom = 'createAndEnterRoom', //创建并进入房间，这个只有房主才能调用
     landlordSelected = 'landlordSelected', //玩家选择当地主通知
     enterRoom = 'enterRoom', //普通玩家进入房间
-    raceBet = 'raceBet' //玩家下注通知
+    raceBet = 'raceBet', //玩家下注通知
+    cancelRaceBet = 'cancelRaceBet' //取消指定区域的下注
+
 }
 
 let raceStatusDefine = {
@@ -40,7 +59,7 @@ let enterRoom = { type: 'enterRoom', info: { roomId: 2234 } };//进入房间事�
 let startRoomGame = { type: 'startRoomGame', info: { roomId: 2234 } };
 let landlordSelected = { type: 'landlordSelected', info: { roomId: 2234, raceNum: 0, landlordId: 4 } }; //用户抢地主
 let createAndEnterRoom = { type: 'createAndEnterRoom', info: { roomId: 2234, raceCount: 4, userId: 4 } };
-ws.onopen = () => {
+function onopen() {
     // ws.send(JSON.stringify(enterRoom));
     // ws.send(JSON.stringify(startRoomGame));
     // setTimeout(() => {
@@ -48,7 +67,7 @@ ws.onopen = () => {
     // }, 5000);
 }
 
-ws.onmessage = (e: any): void => {
+function onmessage(e: any): void {
     var info = JSON.parse(e.data)
     var type = info.type
     var message = info.info
@@ -133,6 +152,10 @@ ws.onmessage = (e: any): void => {
         case 'createRoomResultNotice': //创建房间结果通知
             let state = message.state
             eventBus.emit(EventType.SOCKET_CREAT_ROOM_SUCCESS, null)
+            break;
+        case 'cancelBetSuccessNotice': //删除下注成功通知
+            message as BetNoticeData
+            BetManage.cancelBet(message)
             break;
     }
 }

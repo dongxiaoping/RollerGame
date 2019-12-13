@@ -8,6 +8,7 @@ import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator";
 import RollControler from '../../common/RollControler';
+import { onOpenWs, closeWs } from '../../common/WebSocketServer';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -75,6 +76,7 @@ export default class NewClass extends cc.Component {
     userWinScore: number = 0
     userXiaZhuScore: number = 0
     onEnable() {
+        onOpenWs()
         RoomManage.reSet() //清楚上次房间的数据记录
         this.startGame()
         this.backMusic.play()
@@ -178,6 +180,7 @@ export default class NewClass extends cc.Component {
                     this.controller.close()
                     this.controller = null
                     cc.director.loadScene("LobbyScene");
+                    this.destroy()
                     break
                 case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT:
                     cc.log('本地抢地主')
@@ -229,7 +232,7 @@ export default class NewClass extends cc.Component {
 
                     var node = cc.instantiate(this.middleTopScorePanel)
                     node.parent = this.node
-                    node.setPosition(15, 238);
+                    node.setPosition(15, 258);
                     node.active = true
                     break
                 case RaceState.SHOW_DOWN: //这个由控制器来响应
@@ -340,7 +343,7 @@ export default class NewClass extends cc.Component {
     private showChoiceLandLordPanel() {
         var node = cc.instantiate(this.rapLandlordButton)
         node.parent = this.node
-        node.setPosition(295, -261);
+        node.setPosition(308, -220);
         node.active = true
         this.qinQiangZhuangVoice.play()
     }
@@ -409,7 +412,7 @@ export default class NewClass extends cc.Component {
         ob.destroy()
     }
     onDisable() {
-
+        closeWs()
     }
 
     // update (dt) {}

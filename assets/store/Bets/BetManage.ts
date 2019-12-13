@@ -1,5 +1,5 @@
 import { config } from '../../common/Config'
-import { appMode, PromiseParam, PromiseResult, BetRecord, GameMember, betLocaion } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, BetRecord, GameMember, betLocaion, BetNoticeData } from '../../common/Const'
 import { BetList } from '../../mock/BetList'
 import Betitem from './BetItem';
 class BetManage {
@@ -20,8 +20,19 @@ class BetManage {
         })
     }
 
-    public reSet(){
+    public reSet() {
         this.betList = []
+    }
+
+    public cancelBet(info: BetNoticeData) {
+        let partLocation = info.betLocation
+        let userId = info.userId
+        let onRaceNum = info.raceNum
+        try {
+            this.betList[onRaceNum][userId][partLocation] = 0
+        } catch (e) {
+            cc.log(e)
+        }
     }
 
     addBet(oningRaceNum: number, userId: string, location: betLocaion, val: number) {
@@ -31,7 +42,7 @@ class BetManage {
         if (typeof (this.betList[oningRaceNum][userId]) === 'undefined') {
             let item = {
                 userId: userId,
-                raceNum:oningRaceNum,
+                raceNum: oningRaceNum,
                 sky: 0,
                 land: 0,
                 middle: 0,

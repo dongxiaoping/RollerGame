@@ -4,8 +4,8 @@ import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus';
-import { randEventId } from '../../common/Util';
 import BetManage from '../../store/Bets/BetManage';
+import { ws, NoticeType, NoticeData } from '../../common/WebSocketServer';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -60,10 +60,10 @@ export default class NewClass extends cc.Component {
         this.focus.node.active = false
         this.ownScore = 0
         this.allScore = 0
-        this.betScore.string =  '0 / 0'
+        this.betScore.string = '0 / 0'
     }
 
-    winFocusAmination(){
+    winFocusAmination() {
         let localString = this.typeValue + 'Result'
         let oningNum = RoomManage.roomItem.oningRaceNum
         if (RaceManage.raceList[oningNum][localString] === CompareDxRe.BIG) {
@@ -79,8 +79,37 @@ export default class NewClass extends cc.Component {
             }, 1.2);
         }
     }
+    getDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
+        var radLat1 = lat1 * Math.PI / 180.0;
+        var radLat2 = lat2 * Math.PI / 180.0;
+        var a = radLat1 - radLat2;
+        var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+        var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+            Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+        s = s * 6378.137;// EARTH_RADIUS;
+        s = Math.round(s * 10000) / 10000;
+        return s;
+    }
 
     addClickEvent() {
+        this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
+            cc.log('滑动事件')
+            let dx = Math.abs(event.currentTouch._point.x - event.currentTouch._startPoint.x);
+            let dy = Math.abs(event.currentTouch._point.y - event.currentTouch._startPoint.y);
+            var dis = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            cc.log(dis)
+            //  event.cu
+            // let notice = {
+            //     type: NoticeType.cancelRaceBet, info: {
+            //         userId: UserManage.userInfo.id,
+            //         roomId: RoomManage.roomItem.id,
+            //         raceNum: RoomManage.roomItem.oningRaceNum,
+            //         betLocation: this.typeValue
+            //     } as BetNoticeData
+            // } as NoticeData
+            // ws.send(JSON.stringify(notice));
+        })
+
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
             if (this.touchLock) {
                 return

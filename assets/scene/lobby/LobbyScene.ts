@@ -62,7 +62,7 @@ export default class LobbyScene extends cc.Component {
             node.setPosition(3.687, 1.474);
             node.active = true
         })
-        this.LianXiChang.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.LianXiChang.node.on(cc.Node.EventType.TOUCH_START, () => {
             cc.log('练习场被点击了')
             if (this.emulatorRoomHasClick) {
                 cc.log('练习场不能重复点击！')
