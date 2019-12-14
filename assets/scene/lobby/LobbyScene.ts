@@ -33,7 +33,7 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Label)
     chipCount: cc.Label = null;
 
-    emulatorRoomHasClick: boolean = false
+    emulatorRoomHasClick: boolean = true
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
@@ -50,41 +50,6 @@ export default class LobbyScene extends cc.Component {
             cc.director.loadScene("RollRoomScene")
             return
         }
-
-        this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, () => {
-            if (this.node.getChildByName('EntryBox') !== null) {
-                cc.log('进入房间数字面板已存在')
-                return
-            }
-            this.closeCreateRoomPanel()
-            var node = cc.instantiate(this.EntryBox)
-            node.parent = this.node
-            node.setPosition(3.687, 1.474);
-            node.active = true
-        })
-        this.LianXiChang.node.on(cc.Node.EventType.TOUCH_START, () => {
-            cc.log('练习场被点击了')
-            if (this.emulatorRoomHasClick) {
-                cc.log('练习场不能重复点击！')
-                return
-            }
-            this.emulatorRoomHasClick = true
-            RoomManage.setEnterRoomParam({
-                model: EnterRoomModel.EMULATOR_ROOM
-            } as EnterRoomParam)
-            cc.director.loadScene("RollRoomScene")
-        })
-        this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
-            cc.log('创建房间被点击了')
-            if (this.node.getChildByName('CreateRoomPanel') !== null) {
-                cc.log('创建房间已存在！')
-                return
-            }
-            this.closeEntryBox()
-            var node = cc.instantiate(this.CreateRoomPanel)
-            node.parent = this.node
-            node.active = true
-        })
     }
 
     //关闭数字进房间面板
@@ -120,6 +85,43 @@ export default class LobbyScene extends cc.Component {
     start() {
         cc.director.preloadScene('RollRoomScene');//预加载房间，提高进入房间的速度
         console.log('应用启动')
+        this.scheduleOnce(() => {
+            this.emulatorRoomHasClick = false
+        }, 1.5);
+        this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (this.node.getChildByName('EntryBox') !== null) {
+                cc.log('进入房间数字面板已存在')
+                return
+            }
+            this.closeCreateRoomPanel()
+            var node = cc.instantiate(this.EntryBox)
+            node.parent = this.node
+            node.setPosition(3.687, 1.474);
+            node.active = true
+        })
+        this.LianXiChang.node.on(cc.Node.EventType.TOUCH_START, () => {
+            cc.log('练习场被点击了')
+            if (this.emulatorRoomHasClick) {
+                cc.log('练习场不能重复点击或者点击过早！')
+                return
+            }
+            this.emulatorRoomHasClick = true
+            RoomManage.setEnterRoomParam({
+                model: EnterRoomModel.EMULATOR_ROOM
+            } as EnterRoomParam)
+            cc.director.loadScene("RollRoomScene")
+        })
+        this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
+            cc.log('创建房间被点击了')
+            if (this.node.getChildByName('CreateRoomPanel') !== null) {
+                cc.log('创建房间已存在！')
+                return
+            }
+            this.closeEntryBox()
+            var node = cc.instantiate(this.CreateRoomPanel)
+            node.parent = this.node
+            node.active = true
+        })
     }
 
     // update (dt) {}
