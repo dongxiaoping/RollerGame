@@ -104,6 +104,7 @@ export default class NewClass extends cc.Component {
         this.initRoom()
         this.controller = new RollControler()
         this.controller.start()
+        this.node.getChildByName('WechatShare').active = true
     }
 
     showTopLeftRaceInfo() {
@@ -153,6 +154,10 @@ export default class NewClass extends cc.Component {
                 type: LocalNoticeEventType.TO_LOBBY_EVENT,
                 info: null
             } as LocalNoticeEventPara)
+        })
+
+        this.node.getChildByName('WechatShare').on(cc.Node.EventType.TOUCH_END, () => {
+            cc.log('分享按钮被点击了')
         })
     }
 

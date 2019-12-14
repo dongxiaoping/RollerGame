@@ -192,7 +192,7 @@
       "array": [
         0,
         0,
-        257.2095449239783,
+        265.00377355803823,
         0,
         0,
         0,
@@ -854,7 +854,7 @@
       "__id__": 2
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 20
@@ -1119,7 +1119,7 @@
       "__id__": 23
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 25
@@ -1243,7 +1243,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        19.5,
+        91.5,
         0,
         0,
         0,
@@ -1337,7 +1337,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -107.5,
+        -45.5,
         0,
         0,
         0,
@@ -1447,10 +1447,10 @@
     "_N$startAxis": 0,
     "_N$paddingLeft": 0,
     "_N$paddingRight": 0,
-    "_N$paddingTop": 0,
+    "_N$paddingTop": 55,
     "_N$paddingBottom": 0,
     "_N$spacingX": 0,
-    "_N$spacingY": 20,
+    "_N$spacingY": 30,
     "_N$verticalDirection": 1,
     "_N$horizontalDirection": 0,
     "_N$affectedByScale": false,
