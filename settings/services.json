@@ -1,6 +1,30 @@
 {
 	"game": {
-		"name": "未知游戏",
-		"appid": "UNKNOW"
-	}
+		"name": "滚筒子",
+		"appid": "660312147",
+		"cid": "13472"
+	},
+	"configs": [
+		{
+			"appid": "660312147",
+			"services": [
+				{
+					"service_id": "235",
+					"enable": false
+				},
+				{
+					"service_id": "242",
+					"enable": true
+				},
+				{
+					"service_id": "241",
+					"enable": false
+				}
+			]
+		},
+		{
+			"appid": "UNKNOW"
+		}
+	],
+	"needExecNative": true
 }

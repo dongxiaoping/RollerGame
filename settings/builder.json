@@ -1,7 +1,8 @@
 {
   "android-instant": {
-    "REMOTE_SERVER_ROOT": "",
+    "REMOTE_SERVER_ROOT": "http://192.168.0.104:7456/preview-android-instant/",
     "host": "",
+    "packageName": "com.yueyuandong.rollapp",
     "pathPattern": "",
     "recordPath": "",
     "scheme": "https",
@@ -48,5 +49,16 @@
     "subContext": ""
   },
   "xxteaKey": "8f510ebd-5e20-49",
-  "zipCompressJs": true
+  "zipCompressJs": true,
+  "android": {
+    "packageName": "com.yueyuandong.rollapp"
+  },
+  "ios": {
+    "packageName": "com.yueyuandong.rollapp"
+  },
+  "mac": {
+    "packageName": "com.yueyuandong.rollapp"
+  },
+  "win32": {},
+  "includeAnySDK": null
 }
