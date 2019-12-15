@@ -19,6 +19,9 @@ export default class LobbyScene extends cc.Component {
     JoinPart: cc.Sprite = null; //加入房间图标区
 
     @property(cc.Sprite)
+    ruleButton: cc.Sprite = null; //玩法按钮
+
+    @property(cc.Sprite)
     CreateRoomPart: cc.Sprite = null; //创建房间图标区
 
     @property(cc.Sprite)
@@ -111,6 +114,11 @@ export default class LobbyScene extends cc.Component {
             } as EnterRoomParam)
             cc.director.loadScene("RollRoomScene")
         })
+
+        this.ruleButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+            this.node.getChildByName('PlayRule').active = true
+        })
+        
         this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('创建房间被点击了')
             if (this.node.getChildByName('CreateRoomPanel') !== null) {

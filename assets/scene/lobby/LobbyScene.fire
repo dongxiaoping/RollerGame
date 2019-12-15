@@ -102,10 +102,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 192
+        "__id__": 193
       },
       {
-        "__id__": 193
+        "__id__": 194
       }
     ],
     "_prefab": null,
@@ -4364,10 +4364,17 @@
       },
       {
         "__id__": 105
+      },
+      {
+        "__id__": 190
       }
     ],
-    "_active": true,
-    "_components": [],
+    "_active": false,
+    "_components": [
+      {
+        "__id__": 192
+      }
+    ],
     "_prefab": null,
     "_opacity": 255,
     "_color": {
@@ -4558,13 +4565,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 190
+        "__id__": 188
       },
       {
         "__id__": 110
       },
       {
-        "__id__": 191
+        "__id__": 189
       }
     ],
     "_prefab": null,
@@ -4633,10 +4640,10 @@
         "__id__": 109
       },
       {
-        "__id__": 188
+        "__id__": 186
       },
       {
-        "__id__": 189
+        "__id__": 187
       }
     ],
     "_prefab": null,
@@ -4856,7 +4863,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 620,
-      "height": 3000
+      "height": 1200
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5117,33 +5124,30 @@
       },
       {
         "__id__": 182
-      },
-      {
-        "__id__": 184
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 186
+        "__id__": 184
       },
       {
-        "__id__": 187
+        "__id__": 185
       }
     ],
     "_prefab": null,
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 610,
-      "height": 3173.3999999999996
+      "height": 1027.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5155,7 +5159,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -1586.6999999999998,
+        -513.9,
         0,
         0,
         0,
@@ -5187,7 +5191,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 117
@@ -5197,15 +5201,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 154,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5217,7 +5221,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        1473.3000000000002,
+        476.1,
         0,
         0,
         0,
@@ -5240,7 +5244,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "a5+a2C/M5L7IHZ0wTsX0tI"
+    "_id": "17+25FskxIqZam193GJwRF"
   },
   {
     "__type__": "cc.Label",
@@ -5256,10 +5260,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "33333333333",
-    "_N$string": "33333333333",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "一、基本玩法：",
+    "_N$string": "一、基本玩法：",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5270,7 +5274,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "7fDOjHIEpM74bhcqncWPpO"
+    "_id": "74r+mTylJAkLETEz6vSRT2"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -5280,7 +5284,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 119
@@ -5290,15 +5294,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 575.24,
-      "height": 113.4
+      "width": 568.35,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5310,7 +5314,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        1383.3000000000002,
+        446.1,
         0,
         0,
         0,
@@ -5333,7 +5337,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "70Xx801+lAz6N7Gp1oOlZM"
+    "_id": "ffrJdrx9JC6r5qwQZsDsdH"
   },
   {
     "__type__": "cc.Label",
@@ -5349,10 +5353,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "33333wwwww",
-    "_N$string": "33333wwwww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "1.游戏由庄家和闲家组成，游戏中至少需要一个闲家和庄家",
+    "_N$string": "1.游戏由庄家和闲家组成，游戏中至少需要一个闲家和庄家",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5363,7 +5367,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "98qLNXkoNDLLKLAuUKWAwT"
+    "_id": "4clMx3yfhLXbLjgn0O9Mdk"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -5373,7 +5377,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 121
@@ -5383,15 +5387,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 584.96,
-      "height": 113.4
+      "width": 602.58,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5403,7 +5407,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        1293.3000000000002,
+        416.1,
         0,
         0,
         0,
@@ -5426,7 +5430,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "f2pnin2V9ENr9SRszltN5h"
+    "_id": "a6BACsI8RChpvdlryeQjbf"
   },
   {
     "__type__": "cc.Label",
@@ -5442,10 +5446,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwwwwwwww",
-    "_N$string": "wwwwwwwww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "2.有玩家上庄，游戏将进行发牌，总共4副牌，分别发在庄家位",
+    "_N$string": "2.有玩家上庄，游戏将进行发牌，总共4副牌，分别发在庄家位",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5456,7 +5460,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "82UfSgn1hKiITKbl5snScB"
+    "_id": "03L5VO8X1OEKTbnkvEMpRW"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -5466,7 +5470,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 123
@@ -5476,15 +5480,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 584.96,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5496,7 +5500,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        1203.3000000000002,
+        386.1,
         0,
         0,
         0,
@@ -5519,7 +5523,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "eb/7KkEO5CQrCxLl3u3FLF"
+    "_id": "54E9T8hKNH6oQNECPyh+2S"
   },
   {
     "__type__": "cc.Label",
@@ -5535,10 +5539,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwwwwwwww",
-    "_N$string": "wwwwwwwww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "及天、中、地上；由骰子摇动所得点数，决定发牌的顺序，每",
+    "_N$string": "及天、中、地上；由骰子摇动所得点数，决定发牌的顺序，每",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5549,7 +5553,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "bfE3u+jJxOwKuN0Ojj+VR+"
+    "_id": "2bsbc+aFRD5bq7UwjnMnMn"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -5559,7 +5563,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 125
@@ -5569,15 +5573,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 584.96,
-      "height": 113.4
+      "width": 188.24,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5589,7 +5593,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        1113.3000000000002,
+        356.1,
         0,
         0,
         0,
@@ -5612,7 +5616,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "1cJFfPZANO/Zv75PAGAQSd"
+    "_id": "8fobgBUSxH1ILAn8JYm1ne"
   },
   {
     "__type__": "cc.Label",
@@ -5628,10 +5632,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwwwwwwww",
-    "_N$string": "wwwwwwwww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "一个位置发2张牌；",
+    "_N$string": "一个位置发2张牌；",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5642,7 +5646,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "ba4BwIU3BP67zdTquJw0/V"
+    "_id": "6d+1K5DFhOCYuKFzHXVZ1S"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -5652,7 +5656,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 127
@@ -5662,15 +5666,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 584.96,
-      "height": 113.4
+      "width": 590.35,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5682,7 +5686,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        1023.3000000000002,
+        326.1,
         0,
         0,
         0,
@@ -5705,7 +5709,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "6drhN4eANOabiD9PgTxWcE"
+    "_id": "1c138I4LBCs4Xez+tcx3PL"
   },
   {
     "__type__": "cc.Label",
@@ -5721,10 +5725,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwwwwwwww",
-    "_N$string": "wwwwwwwww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "3.发好牌后，闲家可在桌面上的天、中、地、天角、地角和桥",
+    "_N$string": "3.发好牌后，闲家可在桌面上的天、中、地、天角、地角和桥",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5735,7 +5739,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "6eaXFsVFBB7qfuV4zkFCzp"
+    "_id": "414JMJ8xRCFJEbgUBlxAla"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -5745,7 +5749,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 129
@@ -5755,15 +5759,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 444.73,
-      "height": 113.4
+      "width": 462,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5775,7 +5779,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        933.3000000000002,
+        296.1,
         0,
         0,
         0,
@@ -5798,7 +5802,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "29/UMq/DxAD6mME+tqOSCS"
+    "_id": "42LQe0a0xPv5YHWQo1pj7z"
   },
   {
     "__type__": "cc.Label",
@@ -5814,10 +5818,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwrrrrrrrrry",
-    "_N$string": "wwrrrrrrrrry",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "进行下注；闲家都可以在每个下注区进行下注；",
+    "_N$string": "进行下注；闲家都可以在每个下注区进行下注；",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5828,7 +5832,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "91X3+y+/ZGSLWf27C5mceD"
+    "_id": "f2ui+LYbNHNL0tHSBkdlmt"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -5838,7 +5842,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 131
@@ -5848,15 +5852,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 540,
-      "height": 113.4
+      "width": 590.35,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5868,7 +5872,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        843.3000000000002,
+        266.1,
         0,
         0,
         0,
@@ -5891,7 +5895,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "3eOxae82NNs7r3fh/F6CFO"
+    "_id": "23KxXIacRFybNg9ggBZC1P"
   },
   {
     "__type__": "cc.Label",
@@ -5907,10 +5911,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "yyyyyyyyyyyy",
-    "_N$string": "yyyyyyyyyyyy",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "4.闲家下好注后，游戏将进行开牌，并显示玩家的输赢情况；",
+    "_N$string": "4.闲家下好注后，游戏将进行开牌，并显示玩家的输赢情况；",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5921,7 +5925,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "39oMTHQllOzonxJo83u6ms"
+    "_id": "dadSe0mFVOabpE3YFh4ykH"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -5931,7 +5935,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 133
@@ -5941,15 +5945,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 449.82,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5961,7 +5965,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        753.3000000000002,
+        236.10000000000002,
         0,
         0,
         0,
@@ -5984,7 +5988,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "c6Dgpum6tL0Ktat8Vy9Bmu"
+    "_id": "43Te7bbB1PQKbR40dABXff"
   },
   {
     "__type__": "cc.Label",
@@ -6000,10 +6004,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "yyyyyyrrrrrr",
-    "_N$string": "yyyyyyrrrrrr",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "若天、中、地中的点数比庄家大，则闲家可赢得对应位置相应",
+    "_N$string": "若天、中、地中的点数比庄家大，则闲家可赢得对应位置相应",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6014,7 +6018,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "d6jgUytbJMTb5V8PqZnFyT"
+    "_id": "a02Wr6ANBJhY5QhmoGhFxl"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6024,7 +6028,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 135
@@ -6034,15 +6038,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 329.68,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6054,7 +6058,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        663.3000000000002,
+        206.10000000000002,
         0,
         0,
         0,
@@ -6077,7 +6081,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "f9oSbe9ndNwqqHTzAtEQ7y"
+    "_id": "bbOKpeGOtL9Lfga7WkWuJe"
   },
   {
     "__type__": "cc.Label",
@@ -6093,10 +6097,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "rrrrrrrrrrr",
-    "_N$string": "rrrrrrrrrrr",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "的筹码数，否则输掉筹码；注天角、地角、桥三个位置的输赢",
+    "_N$string": "的筹码数，否则输掉筹码；注天角、地角、桥三个位置的输赢",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6107,7 +6111,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "41wV+W4lhPqYT0AcviAHkw"
+    "_id": "d20f7DQ2JK0pOkmLzoH9o2"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6117,7 +6121,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 137
@@ -6127,15 +6131,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 584.96,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6147,7 +6151,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        573.3000000000002,
+        176.10000000000002,
         0,
         0,
         0,
@@ -6170,7 +6174,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "e5B/BdIPNKOLlrmeWcjoTQ"
+    "_id": "d8U5OeRHxBNpRpm0W/w5r/"
   },
   {
     "__type__": "cc.Label",
@@ -6186,10 +6190,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwwwwwwww",
-    "_N$string": "wwwwwwwww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "（以天角为例）为：必须天、中发牌位置的点数大于庄家时，",
+    "_N$string": "（以天角为例）为：必须天、中发牌位置的点数大于庄家时，",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6200,7 +6204,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "22iEFC4BhGqLLxFCZulbJq"
+    "_id": "719BYF0pJCBoit9NHuL6q2"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6210,7 +6214,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 139
@@ -6220,15 +6224,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 440,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6240,7 +6244,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        483.3000000000002,
+        146.10000000000002,
         0,
         0,
         0,
@@ -6263,7 +6267,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "c2xsQMiLxIZ4GysFEyvHI6"
+    "_id": "06hdApRLZKjIow7jEPjYRV"
   },
   {
     "__type__": "cc.Label",
@@ -6279,10 +6283,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "则天角赢，若都小于庄家，天角输，否则平；",
+    "_N$string": "则天角赢，若都小于庄家，天角输，否则平；",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6293,7 +6297,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "caoyX7DbRMw5SGnZMlD8ay"
+    "_id": "beZT8q9dhH4bvmPy1nrxJl"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6303,7 +6307,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 141
@@ -6313,15 +6317,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 590.35,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6333,7 +6337,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        393.3000000000002,
+        116.10000000000002,
         0,
         0,
         0,
@@ -6356,7 +6360,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "c6l+WVtEZByrNM/FHFiDh8"
+    "_id": "2dOYg+w6xMVbbtgmciEkpG"
   },
   {
     "__type__": "cc.Label",
@@ -6372,10 +6376,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "5.做庄模式：分轮流庄、抢坐庄、霸王庄；轮流庄表示按加入",
+    "_N$string": "5.做庄模式：分轮流庄、抢坐庄、霸王庄；轮流庄表示按加入",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6386,7 +6390,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "56QzSH215L1KI2q44rWF9Q"
+    "_id": "56Hu3gBx5EWJhS79+hf+h3"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6396,7 +6400,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 143
@@ -6406,15 +6410,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6426,7 +6430,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        303.3000000000002,
+        86.10000000000002,
         0,
         0,
         0,
@@ -6449,7 +6453,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "70r0CPziRDv5DRnF57fIxw"
+    "_id": "aeFX230CFHdIkLRe6moiAD"
   },
   {
     "__type__": "cc.Label",
@@ -6465,10 +6469,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "房间的顺序轮流做庄；抢坐庄表示每次庄家下庄时，所有人进",
+    "_N$string": "房间的顺序轮流做庄；抢坐庄表示每次庄家下庄时，所有人进",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6479,7 +6483,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "04Jegzhp9N6YHtlWBBHQkv"
+    "_id": "d6IgyJV4xBUKVXPniOBnc6"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6489,7 +6493,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 145
@@ -6499,15 +6503,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6519,7 +6523,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        213.30000000000018,
+        56.10000000000002,
         0,
         0,
         0,
@@ -6542,7 +6546,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "bf/8SJUkhM95DXJZsPQ9Nc"
+    "_id": "72Ijok8/hAhKk05SlrFCa5"
   },
   {
     "__type__": "cc.Label",
@@ -6558,10 +6562,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "行抢坐庄，谁先抢到谁坐庄；霸王庄表示创建房间的玩家将一",
+    "_N$string": "行抢坐庄，谁先抢到谁坐庄；霸王庄表示创建房间的玩家将一",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6572,7 +6576,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "70+8xIgGBHELz5prPPxOdF"
+    "_id": "e8OAX0zOJFRrnyWgTT2xd1"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6582,7 +6586,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 147
@@ -6592,15 +6596,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 242,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6612,7 +6616,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        123.30000000000018,
+        26.100000000000023,
         0,
         0,
         0,
@@ -6635,7 +6639,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "34TD7hjthOG5p6xb17dOkc"
+    "_id": "14EDS8QOZM+ZU1Nort2W64"
   },
   {
     "__type__": "cc.Label",
@@ -6651,10 +6655,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "直坐庄，直到游戏结束；",
+    "_N$string": "直坐庄，直到游戏结束；",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6665,7 +6669,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "968FGlUQxG0ZjTiCFwxMwg"
+    "_id": "0bTXEm/hREQJUojMGxkIk/"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6675,7 +6679,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 149
@@ -6685,15 +6689,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 172.35,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6705,7 +6709,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        33.30000000000018,
+        -3.8999999999999773,
         0,
         0,
         0,
@@ -6728,7 +6732,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "310OXlOL1MjZ7MNlxjGqS9"
+    "_id": "f90Nrh51FKWKET2fPjeR74"
   },
   {
     "__type__": "cc.Label",
@@ -6744,10 +6748,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "6.点数计算方式：",
+    "_N$string": "6.点数计算方式：",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6758,7 +6762,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "16Qgxzm3tPArv9tkoKitQu"
+    "_id": "99E+UWJFNMVKkK4Wwlao5U"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6768,7 +6772,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 151
@@ -6778,15 +6782,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 266.46,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6798,7 +6802,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -56.69999999999982,
+        -33.89999999999998,
         0,
         0,
         0,
@@ -6821,7 +6825,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "e81Zk5LstJDL/jiEh795HX"
+    "_id": "8fezdo539KPKKTSzTfInv8"
   },
   {
     "__type__": "cc.Label",
@@ -6837,10 +6841,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "  对子：2张牌的点数一样；",
+    "_N$string": "  对子：2张牌的点数一样；",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6851,7 +6855,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "9aD6l6hx9PmJI/Pjrg0AAB"
+    "_id": "66AqibGpVGhrh3nO9gU9G/"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6861,7 +6865,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 153
@@ -6871,15 +6875,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 574.46,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6891,7 +6895,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -146.69999999999982,
+        -63.89999999999998,
         0,
         0,
         0,
@@ -6914,7 +6918,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "339zk3KLpKr6uo15sEg7zp"
+    "_id": "daYxnW+ZhGHIklORglt9Sh"
   },
   {
     "__type__": "cc.Label",
@@ -6930,10 +6934,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "  点数：2张牌点数相加，取相加得到的数的个位数为点数；",
+    "_N$string": "  点数：2张牌点数相加，取相加得到的数的个位数为点数；",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6944,7 +6948,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "b6XxJhhWtLhrQuVYoKc1Kx"
+    "_id": "b6NR6JzttEbrrfJmUfueYi"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -6954,7 +6958,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 155
@@ -6964,15 +6968,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 388.7,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6984,7 +6988,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -236.69999999999982,
+        -93.89999999999998,
         0,
         0,
         0,
@@ -7007,7 +7011,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "0bGD/zKeZGTJMo/lwdnYgA"
+    "_id": "38i8kel/FNB7WpgOcy1bBw"
   },
   {
     "__type__": "cc.Label",
@@ -7023,10 +7027,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "  鄙十：2张牌中，两张牌加起来等于0；",
+    "_N$string": "  鄙十：2张牌中，两张牌加起来等于0；",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7037,7 +7041,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "63GDBQC1RBn4y5J9LrlWWy"
+    "_id": "d32ZjEivZIR7QBiYa3kqz4"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7047,7 +7051,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 157
@@ -7057,15 +7061,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 550.59,
-      "height": 113.4
+      "width": 172.35,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7077,7 +7081,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -326.6999999999998,
+        -123.89999999999998,
         0,
         0,
         0,
@@ -7100,7 +7104,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "23C6MvbQNDl5LwBAawJxF6"
+    "_id": "38u909NxBI4aH6GUfGEeu0"
   },
   {
     "__type__": "cc.Label",
@@ -7116,10 +7120,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeee",
-    "_N$string": "eeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "7.大小比较方式：",
+    "_N$string": "7.大小比较方式：",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7130,7 +7134,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "8bEnGq3ohKv7OtbLQYtV5M"
+    "_id": "2bNdX65LZP3avjCiWluBGt"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7140,7 +7144,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 159
@@ -7150,15 +7154,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 580.47,
-      "height": 113.4
+      "width": 314.11,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7170,7 +7174,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -416.6999999999998,
+        -153.89999999999998,
         0,
         0,
         0,
@@ -7193,7 +7197,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "2azRFi9mFG/ZmwWogsYALT"
+    "_id": "863PN23GpOiqyxwRQojUp2"
   },
   {
     "__type__": "cc.Label",
@@ -7209,10 +7213,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeww",
-    "_N$string": "eeeeeeeeeww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": " 【对子】》【点数】》【没点】",
+    "_N$string": " 【对子】》【点数】》【没点】",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7223,7 +7227,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "a8q0siNcNNlqi1lC7aDJqc"
+    "_id": "d0T3hvrKlF9rcxEy17/u+o"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7233,7 +7237,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 161
@@ -7243,15 +7247,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 584.96,
-      "height": 113.4
+      "width": 600.11,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7263,7 +7267,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -506.6999999999998,
+        -183.89999999999998,
         0,
         0,
         0,
@@ -7286,7 +7290,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "9aYver56FNl6PSOAPY05ne"
+    "_id": "9d0ql09hFDM7g6PeIpl0F9"
   },
   {
     "__type__": "cc.Label",
@@ -7302,10 +7306,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwwwwwwww",
-    "_N$string": "wwwwwwwww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": " 【对子】比【对子】，哪个对子的其中一张牌点数大，哪个对",
+    "_N$string": " 【对子】比【对子】，哪个对子的其中一张牌点数大，哪个对",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7316,7 +7320,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "97vB2T6+9F2bV6lHATgX2P"
+    "_id": "67Y0vXQJxOOIvnELOmrAAL"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7326,7 +7330,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 163
@@ -7336,15 +7340,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 584.96,
-      "height": 113.4
+      "width": 44,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7356,7 +7360,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -596.6999999999998,
+        -213.89999999999998,
         0,
         0,
         0,
@@ -7379,7 +7383,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "dfYdWIVMhH9KQ5tBkJm6Ni"
+    "_id": "0dYNZkjmlEkZyjtV4m6rVw"
   },
   {
     "__type__": "cc.Label",
@@ -7395,10 +7399,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwwwwwwww",
-    "_N$string": "wwwwwwwww",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "子赢",
+    "_N$string": "子赢",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7409,7 +7413,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "51J4eKCm5Hj5sy38H0YcMH"
+    "_id": "b9ENO+R5JK6IqXC5EXYvbg"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7419,7 +7423,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 165
@@ -7429,15 +7433,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 605.13,
-      "height": 113.4
+      "width": 600.11,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7449,7 +7453,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -686.6999999999998,
+        -243.89999999999998,
         0,
         0,
         0,
@@ -7472,7 +7476,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "06WU+gfvZC9JU7HAtW9sZJ"
+    "_id": "cdDvW4zaxMlYXOkn+MjRZJ"
   },
   {
     "__type__": "cc.Label",
@@ -7488,10 +7492,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "wwwwwwweee",
-    "_N$string": "wwwwwwweee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": " 【点数】比【点数】，哪个点数大，哪个大；点数一样时，拿",
+    "_N$string": " 【点数】比【点数】，哪个点数大，哪个大；点数一样时，拿",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7502,7 +7506,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "8e2ZBDkXpER4SZ+/Nqnhge"
+    "_id": "99Zfo4httHQY+ZiZcCH3MM"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7512,7 +7516,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 167
@@ -7522,15 +7526,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7542,7 +7546,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -776.6999999999998,
+        -273.9,
         0,
         0,
         0,
@@ -7565,7 +7569,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "c5ybxARIRDyY2vPLgxRpMH"
+    "_id": "5eeIDIIyJMxoJ2niUnl/0Y"
   },
   {
     "__type__": "cc.Label",
@@ -7581,10 +7585,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "其中一张牌比较，哪家的单张牌点数大，哪家赢；点数及两张",
+    "_N$string": "其中一张牌比较，哪家的单张牌点数大，哪家赢；点数及两张",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7595,7 +7599,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "6fgtcgekJE4K31XNWIB6fO"
+    "_id": "5dOCH6tdVDD5dWyGDLD4Y/"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7605,7 +7609,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 169
@@ -7615,15 +7619,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 220,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7635,7 +7639,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -866.6999999999998,
+        -303.9,
         0,
         0,
         0,
@@ -7658,7 +7662,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "18V56j3NZKgZFd6AmnJfoI"
+    "_id": "69DXYtkMBLOrPZEe2KeKEU"
   },
   {
     "__type__": "cc.Label",
@@ -7674,10 +7678,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "牌都一样时，庄家赢。",
+    "_N$string": "牌都一样时，庄家赢。",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7688,7 +7692,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "f7vVonHTRPLrF8qL9hAEKp"
+    "_id": "035QcuN3hAJaIWWOnoqwIW"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7698,7 +7702,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 171
@@ -7708,15 +7712,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 292.11,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7728,7 +7732,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -956.6999999999998,
+        -333.9,
         0,
         0,
         0,
@@ -7751,7 +7755,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "81gkn6gYNG747HNVs1Z2CY"
+    "_id": "95SXW0NLNNlq1tSlvkiyFT"
   },
   {
     "__type__": "cc.Label",
@@ -7767,10 +7771,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": " 【点数】比【鄙十】，点数赢",
+    "_N$string": " 【点数】比【鄙十】，点数赢",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7781,7 +7785,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "18dQU/NRdKAplB5v7YPdmG"
+    "_id": "cfz/k2cexLYLyVaUtbLKDN"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7791,7 +7795,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 173
@@ -7801,15 +7805,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 292.11,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7821,7 +7825,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -1046.6999999999998,
+        -363.9,
         0,
         0,
         0,
@@ -7844,7 +7848,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "14ynzKw2NDcKNMC5r9Lbxy"
+    "_id": "51QVi5/fxKVL0oHlnSWc2h"
   },
   {
     "__type__": "cc.Label",
@@ -7860,10 +7864,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": " 【鄙十】比【鄙十】，庄家赢",
+    "_N$string": " 【鄙十】比【鄙十】，庄家赢",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7874,7 +7878,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "cf3fJJUPNLaID4lI3R8spb"
+    "_id": "34FCBEL5ZAPokVnqXnj0dD"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7884,7 +7888,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 175
@@ -7894,15 +7898,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7914,7 +7918,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -1136.6999999999998,
+        -393.9,
         0,
         0,
         0,
@@ -7937,7 +7941,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "d81mQiYQ5OSaYBi8jW+wO6"
+    "_id": "d5AnhB6GtCTqR1yga6Bwvb"
   },
   {
     "__type__": "cc.Label",
@@ -7953,10 +7957,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "【天角】、【地角】、【桥】这三门和【庄】的输赢则由【天",
+    "_N$string": "【天角】、【地角】、【桥】这三门和【庄】的输赢则由【天",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7967,7 +7971,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "ceULt+JCZK8I4gQu8o+zy6"
+    "_id": "3bHvcVMD9A2L7eR/gDzO/9"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -7977,7 +7981,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 177
@@ -7987,15 +7991,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8007,7 +8011,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -1226.6999999999998,
+        -423.9,
         0,
         0,
         0,
@@ -8030,7 +8034,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "ab3Q62XTFCnZQLz8Jy4J83"
+    "_id": "99vJSJUwlKlYRSIr0wZguf"
   },
   {
     "__type__": "cc.Label",
@@ -8046,10 +8050,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "】、【地】、【中】三门的输赢定。如：【天】和【地】都比",
+    "_N$string": "】、【地】、【中】三门的输赢定。如：【天】和【地】都比",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -8060,7 +8064,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "96sUerwZ5CnY0PZUhYVo2W"
+    "_id": "a0oHnoLFxOwIjHMyINMZvo"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -8070,7 +8074,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 179
@@ -8080,15 +8084,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 594,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8100,7 +8104,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -1316.6999999999998,
+        -453.9,
         0,
         0,
         0,
@@ -8123,7 +8127,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "9bLgAKeCFF5o84GFi4s/rU"
+    "_id": "95CezVEQ9KF6wTR/h7vjVq"
   },
   {
     "__type__": "cc.Label",
@@ -8139,10 +8143,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "庄家点数大，那么【桥】为赢家；假如一大一小，那么【庄】",
+    "_N$string": "庄家点数大，那么【桥】为赢家；假如一大一小，那么【庄】",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -8153,7 +8157,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "a1qqUEO2tJEKR6yQROSuxV"
+    "_id": "d95uk/Wv9BLb106aGmhjK8"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -8163,7 +8167,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 181
@@ -8173,15 +8177,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 550,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8193,7 +8197,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -1406.6999999999998,
+        -483.9,
         0,
         0,
         0,
@@ -8216,7 +8220,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "d8SZaNSyBOU5fERC4Jz3Vc"
+    "_id": "6eR4ANrJhCkJG5gIgtZSN3"
   },
   {
     "__type__": "cc.Label",
@@ -8232,10 +8236,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": "和【桥】平局，都比【庄】小，则【庄】赢；以此类推！",
+    "_N$string": "和【桥】平局，都比【庄】小，则【庄】赢；以此类推！",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -8246,7 +8250,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "abrhhKT11ENLgNIAnLtI+z"
+    "_id": "3ewm+S02JE6KiCQkgd9E/q"
   },
   {
     "__type__": "cc.PrivateNode",
@@ -8256,7 +8260,7 @@
       "__id__": 115
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 183
@@ -8266,15 +8270,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
+      "r": 255,
+      "g": 248,
+      "b": 248,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600.64,
-      "height": 113.4
+      "width": 410.78,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8286,7 +8290,7 @@
       "ctor": "Float64Array",
       "array": [
         -305,
-        -1496.6999999999998,
+        -513.9,
         0,
         0,
         0,
@@ -8309,7 +8313,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "c5JbYsCXdMF5hY6FMIdSgw"
+    "_id": "2cItE2hR5CoZ72Ls0SAu6L"
   },
   {
     "__type__": "cc.Label",
@@ -8325,10 +8329,10 @@
       }
     ],
     "_useOriginalSize": true,
-    "_string": "eeeeeeeeeeee",
-    "_N$string": "eeeeeeeeeeee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
+    "_string": " 注：单张牌大小比较规则：7>6>...>2>1。",
+    "_N$string": " 注：单张牌大小比较规则：7>6>...>2>1。",
+    "_fontSize": 22,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -8339,100 +8343,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "8emT9Vlw5AQKs/r3FlwOVt"
-  },
-  {
-    "__type__": "cc.PrivateNode",
-    "_name": "RICHTEXT_CHILD",
-    "_objFlags": 1024,
-    "_parent": {
-      "__id__": 115
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 185
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 123,
-      "g": 175,
-      "b": 32,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 150.16,
-      "height": 113.4
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        -305,
-        -1586.6999999999998,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "showInEditor": false,
-    "_id": "7f2fydpHtE3KPnPOoWEsya"
-  },
-  {
-    "__type__": "cc.Label",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 184
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_useOriginalSize": true,
-    "_string": "eee",
-    "_N$string": "eee",
-    "_fontSize": 90,
-    "_lineHeight": 90,
-    "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_N$horizontalAlign": 0,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": "69w9ouC/JBSZyDIEUUnyfZ"
+    "_id": "861yiKqxVEc7SD5uxyKfnD"
   },
   {
     "__type__": "cc.RichText",
@@ -8444,12 +8355,12 @@
     "_enabled": true,
     "_fontFamily": "Arial",
     "_isSystemFontUsed": true,
-    "_N$string": "3333333333333333wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwrrrrrrrrryyyyyyyyyyyyyyyyyyyrrrrrrrrrrrrrrrrrwwwwwwwwweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeewwwwwwwwwwwwwwwwwwwwwwwwwwweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "_N$string": "一、基本玩法：\n1.游戏由庄家和闲家组成，游戏中至少需要一个闲家和庄家\n2.有玩家上庄，游戏将进行发牌，总共4副牌，分别发在庄家位及天、中、地上；由骰子摇动所得点数，决定发牌的顺序，每一个位置发2张牌；\n3.发好牌后，闲家可在桌面上的天、中、地、天角、地角和桥进行下注；闲家都可以在每个下注区进行下注；\n4.闲家下好注后，游戏将进行开牌，并显示玩家的输赢情况；若天、中、地中的点数比庄家大，则闲家可赢得对应位置相应的筹码数，否则输掉筹码；注天角、地角、桥三个位置的输赢（以天角为例）为：必须天、中发牌位置的点数大于庄家时，则天角赢，若都小于庄家，天角输，否则平；\n5.做庄模式：分轮流庄、抢坐庄、霸王庄；轮流庄表示按加入房间的顺序轮流做庄；抢坐庄表示每次庄家下庄时，所有人进行抢坐庄，谁先抢到谁坐庄；霸王庄表示创建房间的玩家将一直坐庄，直到游戏结束；\n6.点数计算方式：\n  对子：2张牌的点数一样；\n  点数：2张牌点数相加，取相加得到的数的个位数为点数；\n  鄙十：2张牌中，两张牌加起来等于0；\n7.大小比较方式：\n 【对子】》【点数】》【没点】\n 【对子】比【对子】，哪个对子的其中一张牌点数大，哪个对子赢\n 【点数】比【点数】，哪个点数大，哪个大；点数一样时，拿其中一张牌比较，哪家的单张牌点数大，哪家赢；点数及两张牌都一样时，庄家赢。\n 【点数】比【鄙十】，点数赢\n 【鄙十】比【鄙十】，庄家赢\n【天角】、【地角】、【桥】这三门和【庄】的输赢则由【天】、【地】、【中】三门的输赢定。如：【天】和【地】都比庄家点数大，那么【桥】为赢家；假如一大一小，那么【庄】和【桥】平局，都比【庄】小，则【庄】赢；以此类推！\n 注：单张牌大小比较规则：7>6>...>2>1。",
     "_N$horizontalAlign": 0,
-    "_N$fontSize": 90,
+    "_N$fontSize": 22,
     "_N$font": null,
     "_N$maxWidth": 610,
-    "_N$lineHeight": 90,
+    "_N$lineHeight": 30,
     "_N$imageAtlas": null,
     "_N$handleTouchEvent": true,
     "_id": "4d9s9B41FMhb70sxm18h2N"
@@ -8555,9 +8466,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "9bbda31e-ad49-43c9-aaf2-f7d9896bac69"
-    },
+    "_spriteFrame": null,
     "_type": 1,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -8600,6 +8509,116 @@
     "_id": "d2ZGdga91C/I0DUOqS+2Vb"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Close",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 101
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 191
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 39,
+      "height": 40
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        286.911,
+        177.28,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "4csxxKMc5Ot5GVOpiykJg7"
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 190
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "55338520-3b60-42a5-bab7-60019aceb1bc"
+    },
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": "94ga5XDHFEW57czkj/T/9+"
+  },
+  {
+    "__type__": "a9fa2eeHnxNw4qH3Xg3aqH0",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 101
+    },
+    "_enabled": true,
+    "label": {
+      "__id__": 184
+    },
+    "close": {
+      "__id__": 191
+    },
+    "_id": "16GErwMLhLDryRQhuRA0/g"
+  },
+  {
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,
@@ -8632,6 +8651,9 @@
     },
     "JoinPart": {
       "__id__": 10
+    },
+    "ruleButton": {
+      "__id__": 27
     },
     "CreateRoomPart": {
       "__id__": 16
