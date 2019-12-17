@@ -111,6 +111,7 @@ export default class NewClass extends cc.Component {
             }
             jushu = 4  //TODO
             cc.log('创建信息：人数：' + renshu + ",局数：" + jushu + ",付款模式:" + payMode + ',下注上限：' + xiazhu)
+            cc.log('start_game_test:面板创建游戏')
             this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu)
         })
     }
@@ -126,6 +127,7 @@ export default class NewClass extends cc.Component {
                 userId: UserManage.userInfo.id,
                 roomId: roomInfo.id
             } as EnterRoomParam)
+            cc.log('start_game_test:创建成功，跳转到房间页面，用户ID:' + UserManage.userInfo.id + ',房间ID:' + roomInfo.id)
             cc.director.loadScene("RollRoomScene");
             cc.log('房间创建成功,房间信息：' + JSON.stringify(roomInfo))
             cc.log('进入游戏房间')

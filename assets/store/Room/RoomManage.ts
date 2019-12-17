@@ -70,7 +70,7 @@ class RoomManage {
         return roomGameConfig.betTime
     }
 
-    //比大小时间
+    //开牌动画时间
     public getShowDownTime(): number {
         if (this.netRoomGameConfig !== null) {
             return this.netRoomGameConfig.showDownTime - this.netRoomGameConfig.delayTime
@@ -78,7 +78,15 @@ class RoomManage {
         return roomGameConfig.showDownTime
     }
 
-    //显示结果时间
+    //结果显示停留时间 s
+    public showResultKeepTime(): number {
+        if (this.netRoomGameConfig !== null) {
+            return this.netRoomGameConfig.showResultKeepTime - this.netRoomGameConfig.delayTime
+        }
+        return roomGameConfig.showResultKeepTime
+    }
+
+    //结果面板显示时间
     public getShowResultTime(): number {
         if (this.netRoomGameConfig !== null) {
             return this.netRoomGameConfig.showResultTime - this.netRoomGameConfig.delayTime

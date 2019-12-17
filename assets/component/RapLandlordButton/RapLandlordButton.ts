@@ -1,5 +1,5 @@
 import { eventBus } from "../../common/EventBus";
-import { EventType, LocalNoticeEventType } from "../../common/Const";
+import { EventType, LocalNoticeEventType, LocalNoticeEventPara } from "../../common/Const";
 const { ccclass, property } = cc._decorator;
 
 @ccclass

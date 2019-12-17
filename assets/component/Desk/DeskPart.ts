@@ -93,21 +93,7 @@ export default class NewClass extends cc.Component {
 
     addClickEvent() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
-            cc.log('滑动事件')
-            let dx = Math.abs(event.currentTouch._point.x - event.currentTouch._startPoint.x);
-            let dy = Math.abs(event.currentTouch._point.y - event.currentTouch._startPoint.y);
-            var dis = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-            cc.log(dis)
-            //  event.cu
-            // let notice = {
-            //     type: NoticeType.cancelRaceBet, info: {
-            //         userId: UserManage.userInfo.id,
-            //         roomId: RoomManage.roomItem.id,
-            //         raceNum: RoomManage.roomItem.oningRaceNum,
-            //         betLocation: this.typeValue
-            //     } as BetNoticeData
-            // } as NoticeData
-            // ws.send(JSON.stringify(notice));
+
         })
 
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
@@ -123,7 +109,11 @@ export default class NewClass extends cc.Component {
             }
             this.focus.node.active = true
         })
-        this.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
+            let isTouchMove = this.touchMoveEvent(event)
+            if (isTouchMove) {
+                return
+            }
             this.focus.node.active = false
             if (this.touchLock) {
                 return
@@ -164,5 +154,25 @@ export default class NewClass extends cc.Component {
         })
     }
 
+    touchMoveEvent(event: any) {
+        let dx = Math.abs(event.currentTouch._point.x - event.currentTouch._startPoint.x)
+        let dy = Math.abs(event.currentTouch._point.y - event.currentTouch._startPoint.y)
+        var dis = parseFloat(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)).toFixed(2));
+        cc.log(dis)
+        if (dis < 70) {
+            return false
+        }
+        cc.log('执行删除动作')
+        let notice = {
+            type: NoticeType.cancelRaceBet, info: {
+                userId: UserManage.userInfo.id,
+                roomId: RoomManage.roomItem.id,
+                raceNum: RoomManage.roomItem.oningRaceNum,
+                betLocation: this.typeValue
+            } as BetNoticeData
+        } as NoticeData
+        ws.send(JSON.stringify(notice));
+        return true
+    }
     // update (dt) {}
 }

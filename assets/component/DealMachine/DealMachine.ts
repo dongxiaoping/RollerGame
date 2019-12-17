@@ -43,7 +43,7 @@ export default class DealMachine extends cc.Component {
     deal(tableLocationType: TableLocationType): void {
         let timeConfig = RoomManage.getDealTime()
         this.mahjongShowKeepTime = Math.floor((timeConfig / 3) * 100) / 100
-        this.mahjongFlyTime = Math.floor((timeConfig / 6) * 100) / 100
+        this.mahjongFlyTime = Math.floor((timeConfig / 6) * 100) / 100 //4个
         let count = 0
         let circleList = getCircleListByLocationType(tableLocationType)
         function backFun() {
@@ -105,16 +105,16 @@ export default class DealMachine extends cc.Component {
         let flyTime: number
         switch (tableLocationType) {
             case TableLocationType.LAND:
-                flyTime = this.mahjongFlyTime * 0.5
+                flyTime = this.mahjongFlyTime*0.7
                 break
             case TableLocationType.LANDLORD:
-                flyTime = this.mahjongFlyTime * 0.6
+                flyTime = this.mahjongFlyTime
                 break
             case TableLocationType.MIDDLE:
-                flyTime = this.mahjongFlyTime * 0.7
+                flyTime = this.mahjongFlyTime*1.2
                 break
             case TableLocationType.SKY:
-                flyTime = this.mahjongFlyTime * 0.7
+                flyTime = this.mahjongFlyTime*1.1
                 break
         }
         let action = cc.moveTo(flyTime, location.x, location.y)

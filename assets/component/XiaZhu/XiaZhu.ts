@@ -51,6 +51,9 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     chipBetVoice: cc.AudioSource = null //硬币声音语音
 
+    @property(cc.AudioSource)
+    ownChipBetVoice: cc.AudioSource = null //自己下注附加的声音
+
     start() {
 
     }
@@ -73,8 +76,12 @@ export default class NewClass extends cc.Component {
         node.setPosition(fromLocation.x, fromLocation.y);
         node.active = true
         let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)
-        let b = cc.sequence(action, cc.callFunc(() => { }, this))
-        this.chipBetVoice.play()
+        let b = cc.sequence(action, cc.callFunc(() => {
+            this.chipBetVoice.play()
+        }, this))
+        if(isOwn){
+            this.ownChipBetVoice.play()
+        }
         node.runAction(b)
     }
 

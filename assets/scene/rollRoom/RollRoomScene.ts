@@ -171,6 +171,7 @@ export default class NewClass extends cc.Component {
         })
 
         eventBus.on(EventType.SOCKET_CREAT_ROOM_SUCCESS, randEventId(), (info: any): void => {
+            cc.log('start_game_test:房间收到socket创建虚拟房成功通知，显示开发游戏按钮')
             this.changeStartButtonState()
         })
 
@@ -221,7 +222,7 @@ export default class NewClass extends cc.Component {
                     }
                     break
                 case RaceState.CHOICE_LANDLORD:
-                    cc.log('房间收到选地主指令，开始选地主流程,玩家显示抢地主按钮')
+                    cc.log('start_game_test:房间收到选地主指令，开始选地主流程,玩家显示抢地主按钮，到此按钮出现')
                     this.showChoiceLandLordPanel()
                     break
                 case RaceState.DEAL:
@@ -406,7 +407,7 @@ export default class NewClass extends cc.Component {
             node.parent = this.node
             node.setPosition(-124.514, -268.949);
             node.active = true
-            cc.log('是房主，并且房间游戏没有开始，显示开始游戏按钮')
+            cc.log('start_game_test:是房主，并且房间游戏没有开始，显示开始游戏按钮')
         } else {
             cc.log('不是房主，或者房间游戏已开始，不显示开始游戏按钮')
         }

@@ -19,7 +19,7 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
-            console.log('开始游戏按钮被点击')
+            console.log('start_game_test:开始游戏按钮被点击')
             this.node.parent.getChildByName('WechatShare').active = false
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {type: LocalNoticeEventType.PLAY_BUTTON_EVENT} as LocalNoticeEventPara)
             this.node.destroy()

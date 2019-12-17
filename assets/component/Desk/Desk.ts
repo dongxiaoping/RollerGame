@@ -36,7 +36,6 @@ export default class Desk extends cc.Component {
 
     mahjongResulNodes: any[] = [] //麻将结果文字标签节点，需要在结束后销毁，所以保存实例化node
 
-    showResultStopTime: number = 3 //麻将开牌后停留显示时间
     private chairManage: ChairManage;
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
@@ -108,12 +107,13 @@ export default class Desk extends cc.Component {
                 case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
                     this.winFocusAmination()
                     this.scheduleOnce(() => {
+                        this.playingBiDaXiaAnimation((): void => { })
+                    }, 0.3);
+                    this.scheduleOnce(() => {
                         cc.log('我是桌子，开牌动画结束，我开始执行比大小动画')
-                        this.playingBiDaXiaAnimation((): void => {
-                            cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
-                            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
-                        })
-                    }, this.showResultStopTime); //开牌结束停留时间
+                        cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
+                    }, RoomManage.showResultKeepTime());
                     break
                 case LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE:
                     let tableLocationType = info.info as TableLocationType
@@ -203,14 +203,13 @@ export default class Desk extends cc.Component {
             middleResultAmimation.parent = this.node.parent
             middleResultAmimation.active = true
         }
-        let timeSet = RoomManage.getShowDownTime()
         this.scheduleOnce(() => {
             if (middleResultAmimation !== null) {
                 middleResultAmimation.destroy()
                 cc.log('关闭通赔通杀显示面板')
             }
             func()
-        }, timeSet - 7.5);//麻将的翻牌动画固定7.5s
+        }, 1.5);
     }
 
 

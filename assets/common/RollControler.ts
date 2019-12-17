@@ -65,7 +65,7 @@ export class RollControler extends RollControlerBase {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.PLAY_BUTTON_EVENT:
-                    cc.log('我是游戏控制器，我接受到本地事件，游戏开始按钮被点击的通知')
+                    cc.log('start_game_test:我是游戏控制器，我接受到本地事件，游戏开始按钮被点击的通知')
                     this.noticeSocketToBeginGame()
                     break
                 case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT:
@@ -103,7 +103,8 @@ export class RollControler extends RollControlerBase {
             }
         } as NoticeData
         ws.send(JSON.stringify(startRoomGame));
-        cc.log('我是游戏控制器，我向服务器发起游戏开始的websocket通知')
+        cc.log('start_game_test:我是游戏控制器，我向服务器发起游戏开始的websocket通知')
+        cc.log('start_game_test:' + JSON.stringify(startRoomGame))
     }
 
     public dealtheRaceFinished() {

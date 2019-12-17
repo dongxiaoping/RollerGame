@@ -22,11 +22,9 @@ export default class NewClass extends cc.Component {
     halfIcon: cc.SpriteFrame = null
     allIcon: cc.SpriteFrame = null
 
-    singleIntervalTime = 0.1  //单个动作内部小动作的间隔时间 s  0.3*2*4
-    twoIntervalTime = 0.25  //两张之间的间隔时间 s    0.25*4
-    twoLocationIntervalTime = 1 //两个位置之间的发牌间隔时间 s 1*3
-    amStopKeepTime = 1 //牌全部发完后的停顿时间 s  1
-    //一共 2.5 + 1+3+1 = 7.5s
+    singleIntervalTime = 0.25 //翻牌 2个
+    twoIntervalTime = 0.1  //两张之间的停顿时间 s  
+    twoLocationIntervalTime = 0.4 //两个位置之间的发牌间隔时间 s 
     localEventId: string
 
     @property([cc.AudioSource])
@@ -40,7 +38,10 @@ export default class NewClass extends cc.Component {
     erbagangVoice: cc.AudioSource = null; //二八杠
 
     start() {
-
+        let timeSet = RoomManage.getShowDownTime() / 4
+        this.singleIntervalTime = timeSet * this.singleIntervalTime
+        this.twoIntervalTime = timeSet * this.twoIntervalTime
+        this.twoLocationIntervalTime = timeSet * this.twoLocationIntervalTime
     }
 
     open(tableLocationType: TableLocationType) {
@@ -48,9 +49,9 @@ export default class NewClass extends cc.Component {
         let majongScore = RaceManage.raceList[oningRaceNum].getMahjongScore(tableLocationType)
         cc.log('当前翻牌位置：' + tableLocationType)
         cc.log(majongScore)
-        this.toVoiceNotice(majongScore)
         this.openAnimation(this.one, majongScore.one, () => {
             this.scheduleOnce(() => {
+                this.toVoiceNotice(majongScore)
                 this.openAnimation(this.two, majongScore.two, () => {
                     let nextLocation = this.getNextTableLocation(tableLocationType)
                     if (nextLocation) {  //下个位置的翻牌
@@ -60,9 +61,7 @@ export default class NewClass extends cc.Component {
                         }, this.twoLocationIntervalTime);
                     } else {
                         cc.log('全部的翻牌动作执行完毕，发出翻牌动画结束通知')
-                        this.scheduleOnce(() => {
-                            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE } as LocalNoticeEventPara)
-                        }, this.amStopKeepTime);
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE } as LocalNoticeEventPara)
                     }
                 })
             }, this.twoIntervalTime);
@@ -112,7 +111,6 @@ export default class NewClass extends cc.Component {
     }
 
     openAnimation(ob: cc.Sprite, val: number, callBack: any) {
-
         let count = 1
         this.schedule(() => {
             if (count === 1) {
@@ -126,7 +124,7 @@ export default class NewClass extends cc.Component {
                 callBack()
             }
             count++
-        }, this.singleIntervalTime, 2, 0.1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
+        }, this.singleIntervalTime/3, 2, 0.1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
     }
 
     drawResult(ob: cc.Sprite, val: number) {

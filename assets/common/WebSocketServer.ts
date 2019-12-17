@@ -86,7 +86,7 @@ function onmessage(e: any): void {
         case 'raceStateChoiceLandlord': //接收选地主通知
             message as NoticeInfo
             RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
-            console.log('socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' + RoomManage.roomItem.oningRaceNum);
+            console.log('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' + RoomManage.roomItem.oningRaceNum);
             break;
         case 'landlordSelected': //接收地主被选中通知
             message as NoticeInfo
