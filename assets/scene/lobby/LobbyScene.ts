@@ -18,6 +18,9 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Sprite)
     JoinPart: cc.Sprite = null; //加入房间图标区
 
+    @property(cc.Prefab)
+    SetPanel: cc.Prefab = null; //设置面板
+
     @property(cc.Sprite)
     ruleButton: cc.Sprite = null; //玩法按钮
 
@@ -26,6 +29,12 @@ export default class LobbyScene extends cc.Component {
 
     @property(cc.Sprite)
     LianXiChang: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    setButton: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    exitButton: cc.Sprite = null;
 
     @property(cc.Label)
     userName: cc.Label = null;
@@ -113,6 +122,19 @@ export default class LobbyScene extends cc.Component {
                 model: EnterRoomModel.EMULATOR_ROOM
             } as EnterRoomParam)
             cc.director.loadScene("RollRoomScene")
+        })
+
+        this.setButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+            cc.log('设置按钮被点击')
+            var node = cc.instantiate(this.SetPanel)
+            node.parent = this.node
+            node.setPosition(0, 0);
+            node.active = true
+        })
+        
+        
+        this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+            cc.log('退出按钮被点击')
         })
 
         this.ruleButton.node.on(cc.Node.EventType.TOUCH_START, () => {
