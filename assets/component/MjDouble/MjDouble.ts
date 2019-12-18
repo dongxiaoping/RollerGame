@@ -9,6 +9,7 @@ import { EventType, IconValueList, LocalNoticeEventPara, LocalNoticeEventType } 
 import { randEventId } from '../../common/Util'
 import RoomManage from '../../store/Room/RoomManage'
 import RaceManage from '../../store/Races/RaceManage'
+import ConfigManage from '../../store/Config/ConfigManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -72,28 +73,38 @@ export default class NewClass extends cc.Component {
     toVoiceNotice(majongScore: DiceCountInfo) {
         let val: number = 0
         if (majongScore.one === majongScore.two) {
-            this.majongVoiceHalf[0].play() //对子
+            if (ConfigManage.isTxMusicOpen()) {
+                this.majongVoiceHalf[0].play() //对子
+            }
             return
         }
 
         if ((majongScore.one === 2 && majongScore.two === 8) || (majongScore.one === 8 && majongScore.two === 2)) {
-            this.erbagangVoice.play()
+            if (ConfigManage.isTxMusicOpen()) {
+                this.erbagangVoice.play()
+            }
             return
         }
         if (majongScore.one === 0.5 && majongScore.two === 0.5) {
-            this.majongVoiceZhenDian[1].play()
+            if (ConfigManage.isTxMusicOpen()) {
+                this.majongVoiceZhenDian[1].play()
+            }
             return
         }
         if (majongScore.one === 0.5 || majongScore.two === 0.5) { //半点
             val = majongScore.one === 0.5 ? majongScore.two : majongScore.one
-            this.majongVoiceHalf[val].play()
+            if (ConfigManage.isTxMusicOpen()) {
+                this.majongVoiceHalf[val].play()
+            }
             return
         }
         val = majongScore.two + majongScore.one
         if (val >= 10) {
             val -= 10
         }
-        this.majongVoiceZhenDian[val].play()
+        if (ConfigManage.isTxMusicOpen()) {
+            this.majongVoiceZhenDian[val].play()
+        }
     }
 
     getNextTableLocation(tableLocationType: TableLocationType): TableLocationType {
@@ -116,7 +127,9 @@ export default class NewClass extends cc.Component {
             if (count === 1) {
                 ob.spriteFrame = this.oneThirdIcon
             } else if (count === 2) {
-                this.kaipaiVoice.play()
+                if (ConfigManage.isTxMusicOpen()) {
+                    this.kaipaiVoice.play()
+                }
                 ob.spriteFrame = this.halfIcon
             } else if (count === 3) {
                 ob.spriteFrame = this.allIcon

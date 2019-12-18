@@ -11,6 +11,7 @@ class RoomManage {
     public roomItem: RoomItem = null
     private netRoomGameConfig: RoomGameConfig = null //网络下发的配置文件信息
     private enterRoomParam: EnterRoomParam = null //进入房间的传参
+
     public requestRoomInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (this.roomItem !== null) {

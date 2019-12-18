@@ -6,6 +6,7 @@ import { randEventId, randFloatNum } from '../../common/Util'
 import { BetChipChangeInfo, EventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 import UserManage from '../../store/User/UserManage'
+import ConfigManage from '../../store/Config/ConfigManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -77,9 +78,11 @@ export default class NewClass extends cc.Component {
         node.active = true
         let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)
         let b = cc.sequence(action, cc.callFunc(() => {
-            this.chipBetVoice.play()
+            if (ConfigManage.isTxMusicOpen()) {
+                this.chipBetVoice.play()
+            }
         }, this))
-        if(isOwn){
+        if (isOwn && ConfigManage.isTxMusicOpen()) {
             this.ownChipBetVoice.play()
         }
         node.runAction(b)

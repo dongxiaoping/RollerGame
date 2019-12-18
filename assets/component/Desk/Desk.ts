@@ -12,6 +12,7 @@ import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage';
 import ChairManage from './ChairManage';
 import { getLocationByLocaitonType } from '../DealMachine/DealMachineBase';
+import ConfigManage from '../../store/Config/ConfigManage';
 @ccclass
 export default class Desk extends cc.Component {
 
@@ -215,7 +216,9 @@ export default class Desk extends cc.Component {
 
     //执行请下注动画
     playingXiaZhuAnimation() {
-        this.qingxiazhu.play()
+        if(ConfigManage.isTxMusicOpen()){
+            this.qingxiazhu.play()
+        }
         let node = cc.instantiate(this.qingXiaZhu)
         node.parent = this.node.parent
         node.active = true

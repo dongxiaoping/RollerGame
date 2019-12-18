@@ -9,6 +9,7 @@ import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator";
 import RollControler from '../../common/RollControler';
 import { onOpenWs, closeWs } from '../../common/WebSocketServer';
+import ConfigManage from '../../store/Config/ConfigManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -51,6 +52,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private rapLandlordButton: cc.Prefab = null // 抢地主按钮
 
+    @property(cc.Prefab)
+    SetPanel: cc.Prefab = null; //设置面板
+
     @property(cc.Label)
     showRoomNum: cc.Label = null; //房间号显示  
     @property(cc.Label)
@@ -64,6 +68,9 @@ export default class NewClass extends cc.Component {
     userScoreLabel: cc.Label = null; //用户房间分数面板
 
     controller: any = null //游戏控制器
+
+    @property(cc.Sprite)
+    setButton: cc.Sprite = null;
 
     @property(cc.AudioSource)
     backMusic: cc.AudioSource = null; //背景音乐  this.backMusic.play() this.backMusic.pause();
@@ -143,7 +150,7 @@ export default class NewClass extends cc.Component {
     }
 
     //异常比赛结束后，清除桌子，同时也防止异常情况下（页面最小化），部分组件没有清除，这里做二次清除
-    private clearnRaceDesk(){
+    private clearnRaceDesk() {
         this.endRollDice()
     }
 
@@ -162,6 +169,14 @@ export default class NewClass extends cc.Component {
     }
 
     private addListener() {
+        this.setButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+            cc.log('设置按钮被点击')
+            var node = cc.instantiate(this.SetPanel)
+            node.parent = this.node
+            node.setPosition(0, 0);
+            node.active = true
+        })
+
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, randEventId(), (betInfo: BetChipChangeInfo): void => {
             if (betInfo.userId == UserManage.userInfo.id) {
                 let costVal = betInfo.toValue - betInfo.fromVal
@@ -190,7 +205,17 @@ export default class NewClass extends cc.Component {
                     break
                 case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT:
                     cc.log('本地抢地主')
-                    this.woQiangVoice.play()
+                    if (ConfigManage.isTxMusicOpen()) {
+                        this.woQiangVoice.play()
+                    }
+                    break
+                case LocalNoticeEventType.BACK_MUSIC_STATE_CHANGE_NOTICE:
+                    let isOpen = info.info
+                    if (isOpen) {
+                        this.backMusic.play()
+                    } else {
+                        this.backMusic.stop()
+                    }
                     break
             }
         })
@@ -351,7 +376,9 @@ export default class NewClass extends cc.Component {
         node.parent = this.node
         node.setPosition(308, -220);
         node.active = true
-        this.qinQiangZhuangVoice.play()
+        if (ConfigManage.isTxMusicOpen()) {
+            this.qinQiangZhuangVoice.play()
+        }
     }
 
     private closeChoiceLandLordPanel() {

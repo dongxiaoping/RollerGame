@@ -4858,6 +4858,9 @@
     "rapLandlordButton": {
       "__uuid__": "8c7d4d8d-69db-4ea6-b64c-c998b59d0346"
     },
+    "SetPanel": {
+      "__uuid__": "f1987185-be09-48fb-a546-99a539889df8"
+    },
     "showRoomNum": {
       "__id__": 27
     },
@@ -4872,6 +4875,9 @@
     },
     "userScoreLabel": {
       "__id__": 61
+    },
+    "setButton": {
+      "__id__": 19
     },
     "backMusic": {
       "__id__": 105

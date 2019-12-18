@@ -2,6 +2,7 @@ import RoomManage from "../../store/Room/RoomManage";
 import RaceManage from "../../store/Races/RaceManage";
 import { CompareDxRe } from "../../common/Const";
 import UserManage from "../../store/User/UserManage";
+import ConfigManage from "../../store/Config/ConfigManage";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,7 +35,10 @@ export default class NewClass extends cc.Component {
         let wenziUrl: string = ''
         if (race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
             race.landResult === CompareDxRe.BIG) {
-            this.tongpei.play()
+            if (ConfigManage.isTxMusicOpen()) {
+                this.tongpei.play()
+            }
+
             if (landLordId === userId) {
                 bgPicUrl = 'resultBg/result-bg_2cc9d222_01'
                 wenziUrl = 'resultWenzi/result_47f49bf6_01'
@@ -44,7 +48,10 @@ export default class NewClass extends cc.Component {
             }
         } else if (race.skyResult === CompareDxRe.SMALL &&
             race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL) {
-            this.tongsha.play()
+            if (ConfigManage.isTxMusicOpen()) {
+                this.tongsha.play()
+            }
+
             if (landLordId === userId) {
                 bgPicUrl = 'resultBg/result-bg_2cc9d222_02'
                 wenziUrl = 'resultWenzi/result_47f49bf6_02'

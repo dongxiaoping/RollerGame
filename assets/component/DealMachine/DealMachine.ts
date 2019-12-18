@@ -6,6 +6,7 @@ import { getLocationByLocaitonType, getCircleListByLocationType } from './DealMa
 import { eventBus } from '../../common/EventBus'
 import { EventType, LocalNoticeEventType, LocalNoticeEventPara } from '../../common/Const'
 import RoomManage from '../../store/Room/RoomManage';
+import ConfigManage from '../../store/Config/ConfigManage';
 @ccclass
 export default class DealMachine extends cc.Component {
 
@@ -119,7 +120,9 @@ export default class DealMachine extends cc.Component {
         }
         let action = cc.moveTo(flyTime, location.x, location.y)
         let b = cc.sequence(action, cc.callFunc(func, this))
-        this.fapaiVoice.play()
+        if(ConfigManage.isTxMusicOpen()){
+            this.fapaiVoice.play()
+        }
         node.runAction(b)
     }
 

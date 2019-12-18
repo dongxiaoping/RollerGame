@@ -6,6 +6,7 @@ import { eventBus } from '../../common/EventBus'
 import { EventType, LocalNoticeEventPara, LocalNoticeEventType } from '../../common/Const'
 import RoomManage from '../../store/Room/RoomManage';
 import RaceManage from '../../store/Races/RaceManage';
+import ConfigManage from '../../store/Config/ConfigManage';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -45,7 +46,9 @@ export default class NewClass extends cc.Component {
         this.diceShowTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
         this.scheduleOnce(() => {
             this.oning = true
-            this.yaosaiziVoice.play()
+            if (ConfigManage.isTxMusicOpen()) {
+                this.yaosaiziVoice.play()
+            }
             this.scheduleOnce(() => {
                 this.oning = false
                 this.scheduleOnce(() => {
