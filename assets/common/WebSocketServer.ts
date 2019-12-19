@@ -6,6 +6,7 @@ import BetManage from "../store/Bets/BetManage";
 import { RoomGameConfig } from "./RoomGameConfig";
 import { config } from "./Config";
 import { eventBus } from "./EventBus";
+import UserManage from "../store/User/UserManage";
 
 export let ws: any = null
 onOpenWs() //开启socket服务
@@ -78,6 +79,7 @@ function onmessage(e: any): void {
             message as NoticeInfo
             console.log('socket收到游戏开始通知,我将游戏状态设置为开始');
             RoomManage.roomItem.roomState = roomState.PLAYING
+            UserManage.costDiamondInRoom(RoomManage.roomItem.id, UserManage.userInfo.id)
             break;
         case 'newMemberInRoom':
             message as GameMember

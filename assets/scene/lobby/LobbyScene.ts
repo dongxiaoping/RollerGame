@@ -49,9 +49,6 @@ export default class LobbyScene extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-    }
-
-    onEnable() {
         this.initUserInfo()
         if (isUrlToGameRoom()) {
             RoomManage.setEnterRoomParam({
@@ -62,6 +59,9 @@ export default class LobbyScene extends cc.Component {
             cc.director.loadScene("RollRoomScene")
             return
         }
+    }
+
+    onEnable() {
     }
 
     //关闭数字进房间面板

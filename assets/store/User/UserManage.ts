@@ -52,6 +52,16 @@ class UserManage {
             })
         })
     }
+
+    //游戏开始，扣钻流程
+    public costDiamondInRoom(roomId: number, userId: string): Promise<PromiseParam> {
+        return new Promise((resolve: (param: PromiseParam) => void): void => {
+            let httpUrl = config.serverAddress + '/race/user/cost_diamond_in_room?userId=' + userId + '&roomId=' + roomId
+            http.getWithUrl(httpUrl, (status: boolean, info: any) => {
+
+            })
+        })
+    }
 }
 
 export default new UserManage()
