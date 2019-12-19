@@ -8,7 +8,7 @@ import { config } from "./Config";
 import { eventBus } from "./EventBus";
 
 export let ws: any = null
-
+onOpenWs() //开启socket服务
 export interface NoticeData {
     type: NoticeType
     info: NoticeInfo
@@ -46,6 +46,7 @@ export enum NoticeType {
     createAndEnterRoom = 'createAndEnterRoom', //创建并进入房间，这个只有房主才能调用
     landlordSelected = 'landlordSelected', //玩家选择当地主通知
     enterRoom = 'enterRoom', //普通玩家进入房间
+    outRoom = 'outRoom', //玩家退出socket的房间，如果房间比赛未开始，同时也会退出数据库中的房间
     raceBet = 'raceBet', //玩家下注通知
     cancelRaceBet = 'cancelRaceBet' //取消指定区域的下注
 

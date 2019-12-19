@@ -8,8 +8,8 @@ import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator";
 import RollControler from '../../common/RollControler';
-import { onOpenWs, closeWs } from '../../common/WebSocketServer';
 import ConfigManage from '../../store/Config/ConfigManage';
+import { NoticeType, NoticeData, ws } from '../../common/WebSocketServer';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -83,7 +83,6 @@ export default class NewClass extends cc.Component {
     userWinScore: number = 0
     userXiaZhuScore: number = 0
     onEnable() {
-        onOpenWs()
         RoomManage.reSet() //清楚上次房间的数据记录
         this.startGame()
         this.backMusic.play()
@@ -445,7 +444,17 @@ export default class NewClass extends cc.Component {
         ob.destroy()
     }
     onDisable() {
-        closeWs()
+        let enterRoomParam = RoomManage.getEnterRoomParam()
+        if (enterRoomParam.model !== EnterRoomModel.EMULATOR_ROOM) {
+            let notice = {
+                type: NoticeType.outRoom, info: {
+                    roomId: RoomManage.roomItem.id,
+                    userId: UserManage.userInfo.id
+                }
+            } as NoticeData
+            ws.send(JSON.stringify(notice));
+            cc.log('我是玩家，我向服务器发起退出房间通知')
+        }
     }
 
     // update (dt) {}
