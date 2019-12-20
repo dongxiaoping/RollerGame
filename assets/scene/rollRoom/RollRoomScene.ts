@@ -85,7 +85,9 @@ export default class NewClass extends cc.Component {
     onEnable() {
         RoomManage.reSet() //清楚上次房间的数据记录
         this.startGame()
-        this.backMusic.play()
+        if (ConfigManage.isBackMusicOpen()) {
+            this.backMusic.play()
+        }
     }
 
     async startGame() {

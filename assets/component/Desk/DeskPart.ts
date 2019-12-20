@@ -6,6 +6,7 @@ import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus';
 import BetManage from '../../store/Bets/BetManage';
 import { ws, NoticeType, NoticeData } from '../../common/WebSocketServer';
+import ConfigManage from '../../store/Config/ConfigManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -18,12 +19,16 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     bg: cc.Sprite = null //下注分数显示区背景
 
+    @property(cc.AudioSource)
+    overBetLimitVoice: cc.AudioSource = null //下注超限语音
+
     @property(cc.Label)
     betScore: cc.Label = null //本次比赛当前位置下注分数 如：4/8  4表示当前用户下注的  8表示全部用户的
 
     ownScore: number = 0 // 当前用户当前位置的下注值
     allScore: number = 0 // 所有用户当前位置的下注值
     touchLock: boolean = false //防止点击速率过快
+    overBetLimitLock: boolean = false //超限锁，防止超限反复点击
     start() {
         cc.log('按钮类型：' + this.typeValue)
         this.toClearn()
@@ -115,7 +120,7 @@ export default class NewClass extends cc.Component {
                 return
             }
             this.focus.node.active = false
-            if (this.touchLock) {
+            if (this.touchLock || this.overBetLimitLock) {
                 return
             }
             this.scheduleOnce(() => { //定时器
@@ -141,6 +146,13 @@ export default class NewClass extends cc.Component {
             }
             if (xiaZhuVal + UserManage.selectChipValue > limitCount) {
                 cc.log('下注超限')
+                this.overBetLimitLock = true
+                this.scheduleOnce(() => {
+                    this.overBetLimitLock = false
+                }, 2);
+                if (ConfigManage.isTxMusicOpen()) {
+                    this.overBetLimitVoice.play()
+                }
                 this.node.parent.getComponent('Desk').showBetLimitTip()
                 return
             }
