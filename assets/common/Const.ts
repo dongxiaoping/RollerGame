@@ -310,4 +310,11 @@ export interface raceResultData {
 }
 
 
+export interface chipObData {
+    userId: string,
+    chipVal: number,
+    betLocation: betLocaion
+}
+
+
 

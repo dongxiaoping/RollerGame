@@ -274,6 +274,7 @@ export default class NewClass extends cc.Component {
                     node.destroy()
                     cc.log('控制器公布结果')
                     this.toShowRaceResultPanel()
+                    this.closeXiaZhuPanel()
                     break
                 case RaceState.FINISHED:
                     cc.log('房间收到比赛结束通知，清空页面上次比赛信息')
@@ -414,14 +415,18 @@ export default class NewClass extends cc.Component {
         node.active = true
         cc.log('初始化下注功能')
     }
-    //初始化下注功能
+    //显示下注面板
     showXiaZhuPanel() {
         let node = this.node.getChildByName('XiaZhu')
         node.setPosition(250, -260);
         node.getChildByName('Layout').active = true
         cc.log('显示下注面板')
-        // let scriptOb = node.getComponent('DealMachine')
-        //scriptOb.deal(TableLocationType.LAND)
+    }
+
+    //关闭下注面板
+    closeXiaZhuPanel() {
+        let node = this.node.getChildByName('XiaZhu')
+        node.getChildByName('Layout').active = false
     }
 
     changeStartButtonState() {

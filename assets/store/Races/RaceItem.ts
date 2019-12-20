@@ -1,5 +1,5 @@
 import { eventBus } from '../../common/EventBus'
-import { CompareDxRe, EventType, raceRecord, RaceState, RaceStateChangeParam, DiceCountInfo, TableLocationType, raceResultData } from '../../common/Const'
+import { CompareDxRe, EventType, raceRecord, RaceState, RaceStateChangeParam, DiceCountInfo, TableLocationType, raceResultData, betLocaion } from '../../common/Const'
 import GameMemberManage from '../GameMember/GameMemberManage';
 import { getMemeberResultScoreList } from '../../common/Util';
 
@@ -56,6 +56,25 @@ export default class RaceItem {
         return 0
     }
 
+    getLocationResult(location: betLocaion): CompareDxRe{
+        switch (location) {
+            case betLocaion.SKY:
+                return this.skyResult
+            case betLocaion.MIDDLE:
+                return this.middleResult
+            case betLocaion.LAND:
+                return this.landResult
+            case betLocaion.SKY_CORNER:
+                return this.skyCornerResult
+            case betLocaion.BRIDG:
+                return this.bridgResult
+            case betLocaion.LAND_CORNER:
+                return this.landCornerResult
+        }
+        cc.log('位置错误')
+        return null
+    }
+
     setRaceResultList(list: raceResultData[]): void {
         this.raceResultList = getMemeberResultScoreList(list, GameMemberManage.gameMenmberList)
     }
@@ -97,7 +116,7 @@ export default class RaceItem {
         if (this._state != null) {
             cc.log('单场游戏状态改变了,下发通知')
             this._state = val
-            let raceChangeInfo =  {toState: val, raceId: this.raceId, raceNum: this.num} as RaceStateChangeParam
+            let raceChangeInfo = { toState: val, raceId: this.raceId, raceNum: this.num } as RaceStateChangeParam
             cc.log(raceChangeInfo)
             eventBus.emit(EventType.RACE_STATE_CHANGE_EVENT, raceChangeInfo)
         }

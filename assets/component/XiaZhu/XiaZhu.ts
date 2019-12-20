@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
-import { BetChipChangeInfo, EventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState } from '../../common/Const'
+import { BetChipChangeInfo, EventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState, chipObData } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 import UserManage from '../../store/User/UserManage'
 import ConfigManage from '../../store/Config/ConfigManage';
@@ -72,8 +72,8 @@ export default class NewClass extends cc.Component {
         this.focus_100.node.active = false
     }
 
-    flyAnimation(isOwn: Boolean, fromLocation: Coordinate, toLocaiton: Coordinate, val: number) {
-        let node = this.createChip(isOwn, val)
+    flyAnimation(isOwn: Boolean, fromLocation: Coordinate, toLocaiton: Coordinate, val: number, chipInfo: chipObData) {
+        let node = this.createChip(isOwn, val, chipInfo)
         node.setPosition(fromLocation.x, fromLocation.y);
         node.active = true
         let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)
@@ -88,7 +88,7 @@ export default class NewClass extends cc.Component {
         node.runAction(b)
     }
 
-    createChip(isOwn: Boolean, val: number): any {
+    createChip(isOwn: Boolean, val: number, chipInfo: chipObData): any {
         let chip: cc.Prefab
         if (val === 10) {
             chip = this.chip_10
@@ -101,6 +101,8 @@ export default class NewClass extends cc.Component {
         }
         let node = cc.instantiate(chip)
         let label = node.getChildByName('ValLabel').getComponent(cc.Label)
+        //设置chip信息
+        node.getComponent('Chip').initData(chipInfo)
         if (isOwn) {
             label.fontSize = 14
             node.width = this.ownChipSize
@@ -212,10 +214,16 @@ export default class NewClass extends cc.Component {
             if (isOwn) {
                 fromLocation = this.getChipLocationByChipValue(val)
             }
-
-            this.flyAnimation(isOwn, fromLocation, this.getXiaZhuLocation(points), val)
+            let chipInfo = { userId: userId, chipVal: val, betLocation: betLocationType } as chipObData
+            this.flyAnimation(isOwn, fromLocation, this.getXiaZhuLocation(points), val, chipInfo)
         })
     }
+
+    // userId: string,
+    // val: number,
+    // betLocation: betLocaion,
+    // fromLocation: Coordinate,
+    // toLocaiton: Coordinate
 
     splitChipList(theVal: number) {
         let theList = []
