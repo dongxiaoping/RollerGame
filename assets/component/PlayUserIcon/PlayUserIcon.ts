@@ -1,5 +1,5 @@
 import { eventBus } from "../../common/EventBus";
-import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState } from "../../common/Const";
+import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel } from "../../common/Const";
 import { randEventId } from '../../common/Util'
 import RaceManage from "../../store/Races/RaceManage";
 import RoomManage from "../../store/Room/RoomManage";
@@ -28,10 +28,18 @@ export default class NewClass extends cc.Component {
     setShow(iconUrl: string, userName: string, userId: string) {
         this.userId = userId
         this.userName.string = userName
-        cc.loader.loadRes(iconUrl, (error, img) => {
-            let myIcon = new cc.SpriteFrame(img);
-            this.userIcon.spriteFrame = myIcon
-        })
+        let enterRoomParam = RoomManage.getEnterRoomParam()
+        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
+            cc.loader.loadRes(iconUrl, (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.userIcon.spriteFrame = myIcon
+            })
+        } else {
+            cc.loader.load({ url: iconUrl, type: 'png' }, (err, img: any) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.userIcon.spriteFrame = myIcon
+            });
+        }
     }
 
     onEnable() {
