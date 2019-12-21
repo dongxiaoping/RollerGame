@@ -19,6 +19,7 @@ export default class NewClass extends cc.Component {
     userId: string = null
     eventIdOne: string = ''
     eventIdTwo: string = ''
+    eventIdThree: string = ''
     winVal: number = 0
     xiaZhuVal: number = 0
     start() {
@@ -63,11 +64,20 @@ export default class NewClass extends cc.Component {
                     break
             }
         })
+        this.eventIdThree = randEventId()
+        //接收到取消下注通知
+        eventBus.on(EventType.BET_CANCE_NOTICE, this.eventIdThree, (info: BetChipChangeInfo): void => {
+            if (info.userId == this.userId) {
+                this.xiaZhuVal -= info.fromVal
+                this.userScoreLabel.string = (this.winVal - this.xiaZhuVal) + ''
+            }
+        })
     }
 
     onDisable() {
         eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdOne)
-        eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdTwo)
+        eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.eventIdTwo)
+        eventBus.off(EventType.BET_CANCE_NOTICE, this.eventIdThree)
     }
 
     update(dt) {

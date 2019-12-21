@@ -7,6 +7,7 @@ import { eventBus } from '../../common/EventBus';
 import BetManage from '../../store/Bets/BetManage';
 import { ws, NoticeType, NoticeData } from '../../common/WebSocketServer';
 import ConfigManage from '../../store/Config/ConfigManage';
+import { randEventId } from '../../common/Util';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -30,6 +31,7 @@ export default class NewClass extends cc.Component {
     touchLock: boolean = false //防止点击速率过快
     overBetLimitLock: boolean = false //超限锁，防止超限反复点击
     cancelBetLock: boolean = false //取消下注锁
+    eventOne: string = ''
     start() {
         cc.log('按钮类型：' + this.typeValue)
         this.toClearn()
@@ -98,6 +100,19 @@ export default class NewClass extends cc.Component {
     }
 
     addClickEvent() {
+        //接收到取消下注通知
+        this.eventOne = randEventId()
+        eventBus.on(EventType.BET_CANCE_NOTICE, this.eventOne, (info: BetChipChangeInfo): void => {
+            if (this.typeValue != info.betLocation) {
+                return
+            }
+            if (info.userId == UserManage.userInfo.id) {
+                this.ownScore -= info.fromVal
+            }
+            this.allScore -= info.fromVal
+            this.betScore.string = this.ownScore + ' / ' + this.allScore
+        })
+
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
 
             let isTouchMove = this.touchMoveEvent(event)
@@ -121,6 +136,7 @@ export default class NewClass extends cc.Component {
                 let enterRoomParam = RoomManage.getEnterRoomParam()
                 if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
                     BetManage.cancelBet({ userId: userId, raceNum: raceNum, betLocation: betLocation } as BetNoticeData)
+                    this.cancelBetLock = false
                     return
                 }
                 this.execCancel(roomId, userId, raceNum, betLocation)
@@ -145,6 +161,7 @@ export default class NewClass extends cc.Component {
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, (event: any) => {
             this.focus.node.active = false
         })
+
         this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
             this.focus.node.active = false
             let isTouchMove = this.touchMoveEvent(event)
