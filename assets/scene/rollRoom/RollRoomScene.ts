@@ -113,7 +113,7 @@ export default class NewClass extends cc.Component {
         this.initRoom()
         this.controller = new RollControler()
         this.controller.start()
-        this.node.getChildByName('WechatShare').active = true
+      //  this.node.getChildByName('WechatShare').active = true
     }
 
     showTopLeftRaceInfo() {

@@ -228,7 +228,7 @@
       "array": [
         0,
         0,
-        375.8550252424464,
+        230.3627574066607,
         0,
         0,
         0,
@@ -4630,8 +4630,8 @@
     "_volume": 0.5,
     "_mute": false,
     "_loop": true,
-    "playOnLoad": true,
-    "preload": false,
+    "playOnLoad": false,
+    "preload": true,
     "_id": "c16Jr3gIdEhoxqaVaE0poH"
   },
   {
