@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus } from '../../common/Const'
+import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus, BetNoticeData } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -10,6 +10,7 @@ import RollEmulator from "../../common/RollEmulator";
 import RollControler from '../../common/RollControler';
 import ConfigManage from '../../store/Config/ConfigManage';
 import { NoticeType, NoticeData, ws } from '../../common/WebSocketServer';
+import BetManage from '../../store/Bets/BetManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -300,6 +301,12 @@ export default class NewClass extends cc.Component {
             this.showPlayCountLimit.string = '当前牌局：' + (count + 1) + '/' + roomInfo.playCount
         })
 
+        //接收到下去取消通知
+        eventBus.on(EventType.BET_CANCE_NOTICE, randEventId(), (info: BetChipChangeInfo): void => {
+            //debugger
+           // this.cancelBet(info.userId, info.raceNum,info.betLocation)
+        })
+
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
             cc.log('接收到地主改变通知')
             let oningRaceNum = RoomManage.roomItem.oningRaceNum //地主改变通知
@@ -310,6 +317,18 @@ export default class NewClass extends cc.Component {
             }
             this.closeChoiceLandLordPanel()
         })
+    }
+
+    cancelBet(info: BetNoticeData): void {
+        debugger
+        let partLocation = info.betLocation
+        let userId = info.userId
+        let onRaceNum = info.raceNum
+        try {
+            BetManage.betList[onRaceNum][userId][partLocation] = 0
+        } catch (e) {
+            cc.log(e)
+        }
     }
 
     cleanMhjongOnDesk(): void {

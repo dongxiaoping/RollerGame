@@ -85,7 +85,7 @@ export default class Betitem {
         }
         if (fromVal !== 0 && toValue === 0) {
             let info = { raceNum: this.raceNum, userId: this.userId, betLocation: locatIon } as BetChipChangeInfo
-            cc.log('投注取消通知')
+            cc.log('删除打印：投注取消通知')
             eventBus.emit(EventType.BET_CANCE_NOTICE, info)
         } else {
             let info = { raceNum: this.raceNum, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as BetChipChangeInfo

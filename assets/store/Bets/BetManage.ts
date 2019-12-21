@@ -2,6 +2,7 @@ import { config } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult, BetRecord, GameMember, betLocaion, BetNoticeData } from '../../common/Const'
 import { BetList } from '../../mock/BetList'
 import Betitem from './BetItem';
+import http from '../../common/Http'
 class BetManage {
     public betList: Betitem[][] = [] //场次+用户Id 信息集合
     public requestBetList(): Promise<PromiseParam> {
@@ -20,10 +21,19 @@ class BetManage {
         })
     }
 
+    //用户取消下注
+    public cancelBetByLocation(roomId: number, userId: string, raceNum: number, betLocation: betLocaion): Promise<PromiseParam> {
+        return new Promise((resolve: (param: PromiseParam) => void): void => {
+            let httpUrl = config.serverAddress + '/race/betrecord/cancel_bet_by_location?userId=' + userId + '&roomId=' + roomId + '&raceNum=' + raceNum + '&betLocation=' + betLocation
+            http.getWithUrl(httpUrl, (status: boolean, info: any) => {
+                resolve({ result: PromiseResult.SUCCESS, extObject: '' })
+            })
+        })
+    }
+
     public reSet() {
         this.betList = []
     }
-
     public cancelBet(info: BetNoticeData) {
         let partLocation = info.betLocation
         let userId = info.userId
@@ -34,7 +44,6 @@ class BetManage {
             cc.log(e)
         }
     }
-
     addBet(oningRaceNum: number, userId: string, location: betLocaion, val: number) {
         if (typeof (this.betList[oningRaceNum]) === 'undefined') {
             this.betList[oningRaceNum] = [];

@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam, betLocaion, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, BetNoticeData } from '../../common/Const'
+import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam, betLocaion, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, BetNoticeData, EnterRoomModel } from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
@@ -29,6 +29,7 @@ export default class NewClass extends cc.Component {
     allScore: number = 0 // 所有用户当前位置的下注值
     touchLock: boolean = false //防止点击速率过快
     overBetLimitLock: boolean = false //超限锁，防止超限反复点击
+    cancelBetLock: boolean = false //取消下注锁
     start() {
         cc.log('按钮类型：' + this.typeValue)
         this.toClearn()
@@ -99,6 +100,32 @@ export default class NewClass extends cc.Component {
     addClickEvent() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
 
+            let isTouchMove = this.touchMoveEvent(event)
+            if (isTouchMove) {
+                cc.log('删除打印：是滑动事件')
+                if (this.cancelBetLock) {
+                    //   cc.log('删除打印：删除太频繁')
+                    return
+                }
+                cc.log('删除打印：执行删除动作')
+                this.cancelBetLock = true
+                //  this.node.parent.getChildByName('DeskShanDong').active = true
+                // this.scheduleOnce(() => { //定时器
+                //     this.cancelBetLock = false
+                //     this.node.parent.getChildByName('DeskShanDong').active = false
+                // }, 1.5);
+                let roomId = RoomManage.roomItem.id
+                let userId = UserManage.userInfo.id
+                let raceNum = RoomManage.roomItem.oningRaceNum
+                let betLocation = this.typeValue as betLocaion
+                let enterRoomParam = RoomManage.getEnterRoomParam()
+                if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
+                    BetManage.cancelBet({ userId: userId, raceNum: raceNum, betLocation: betLocation } as BetNoticeData)
+                    return
+                }
+                this.execCancel(roomId, userId, raceNum, betLocation)
+                return
+            }
         })
 
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
@@ -114,20 +141,24 @@ export default class NewClass extends cc.Component {
             }
             this.focus.node.active = true
         })
+
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, (event: any) => {
+            this.focus.node.active = false
+        })
         this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
+            this.focus.node.active = false
             let isTouchMove = this.touchMoveEvent(event)
             if (isTouchMove) {
                 return
             }
-            this.focus.node.active = false
-            if (this.touchLock || this.overBetLimitLock) {
+            this.focus.node.active = false //在桌子上处理
+            if (this.touchLock || this.overBetLimitLock || this.cancelBetLock) {
                 return
             }
             this.scheduleOnce(() => { //定时器
                 this.touchLock = false
             }, 0.15);
             let oningRaceNum = RoomManage.roomItem.oningRaceNum
-            this.focus.node.active = false
 
             if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
                 cc.log('当前不是下注环节，不能下注')
@@ -170,21 +201,26 @@ export default class NewClass extends cc.Component {
         let dx = Math.abs(event.currentTouch._point.x - event.currentTouch._startPoint.x)
         let dy = Math.abs(event.currentTouch._point.y - event.currentTouch._startPoint.y)
         var dis = parseFloat(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)).toFixed(2));
-        cc.log(dis)
-        if (dis < 70) {
+        //  cc.log('删除打印：'+dis)
+        if (dis < 20) {
             return false
         }
-        cc.log('执行删除动作')
+        return true
+    }
+
+    async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion) {
+        let result = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
+        //this.node.parent.getChildByName('DeskShanDong').active = false
+        cc.log('删除打印：成功删除下注')
         let notice = {
             type: NoticeType.cancelRaceBet, info: {
-                userId: UserManage.userInfo.id,
-                roomId: RoomManage.roomItem.id,
-                raceNum: RoomManage.roomItem.oningRaceNum,
-                betLocation: this.typeValue
+                userId: userId,
+                roomId: roomId,
+                raceNum: raceNum,
+                betLocation: theBetLocaion
             } as BetNoticeData
         } as NoticeData
         ws.send(JSON.stringify(notice));
-        return true
     }
     // update (dt) {}
 }
