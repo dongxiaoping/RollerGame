@@ -187,6 +187,13 @@ export default class NewClass extends cc.Component {
             }
         })
 
+        eventBus.on(EventType.BET_CANCE_NOTICE, randEventId(), (info: BetChipChangeInfo): void => {
+            if (UserManage.userInfo.id === info.userId) {
+                this.userXiaZhuScore -= info.fromVal
+                this.userScoreLabel.string = (this.userWinScore - this.userXiaZhuScore) + ''
+            }
+        })
+
         eventBus.on(EventType.SOCKET_CREAT_ROOM_SUCCESS, randEventId(), (info: any): void => {
             cc.log('start_game_test:房间收到socket创建虚拟房成功通知，显示开发游戏按钮')
             this.changeStartButtonState()

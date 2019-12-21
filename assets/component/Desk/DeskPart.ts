@@ -118,20 +118,18 @@ export default class NewClass extends cc.Component {
             let isTouchMove = this.touchMoveEvent(event)
             if (isTouchMove) {
                 cc.log('删除打印：是滑动事件')
-                if (this.cancelBetLock) {
-                    //   cc.log('删除打印：删除太频繁')
+                if (this.cancelBetLock || this.ownScore == 0) {
+                    return
+                }
+                let raceNum = RoomManage.roomItem.oningRaceNum
+                if (RaceManage.raceList[raceNum].state !== RaceState.BET) {
                     return
                 }
                 cc.log('删除打印：执行删除动作')
                 this.cancelBetLock = true
                 //  this.node.parent.getChildByName('DeskShanDong').active = true
-                // this.scheduleOnce(() => { //定时器
-                //     this.cancelBetLock = false
-                //     this.node.parent.getChildByName('DeskShanDong').active = false
-                // }, 1.5);
                 let roomId = RoomManage.roomItem.id
                 let userId = UserManage.userInfo.id
-                let raceNum = RoomManage.roomItem.oningRaceNum
                 let betLocation = this.typeValue as betLocaion
                 let enterRoomParam = RoomManage.getEnterRoomParam()
                 if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
@@ -219,7 +217,7 @@ export default class NewClass extends cc.Component {
         let dy = Math.abs(event.currentTouch._point.y - event.currentTouch._startPoint.y)
         var dis = parseFloat(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)).toFixed(2));
         //  cc.log('删除打印：'+dis)
-        if (dis < 20) {
+        if (dis < 30) {
             return false
         }
         return true
@@ -228,6 +226,7 @@ export default class NewClass extends cc.Component {
     async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion) {
         let result = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
         //this.node.parent.getChildByName('DeskShanDong').active = false
+        this.cancelBetLock = false
         cc.log('删除打印：成功删除下注')
         let notice = {
             type: NoticeType.cancelRaceBet, info: {
