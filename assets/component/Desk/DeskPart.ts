@@ -14,6 +14,10 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     focus: cc.Sprite = null
 
+    
+    @property(cc.Prefab)
+    cancelChipAn: cc.Prefab = null //取消chip动画
+    
     @property
     typeValue: string = '' //按钮类型
 
@@ -99,6 +103,19 @@ export default class NewClass extends cc.Component {
         return s;
     }
 
+    showCancelChipAn(){
+        var node = cc.instantiate(this.cancelChipAn)
+        node.parent = this.node
+        node.setPosition(0, 0);
+        node.active = true
+    }
+
+    delCancelChipAn(){
+        let node = this.node.getChildByName('CancelChipAn')
+        node.active = false
+        node.destroy()
+    }
+
     addClickEvent() {
         //接收到取消下注通知
         this.eventOne = randEventId()
@@ -127,7 +144,7 @@ export default class NewClass extends cc.Component {
                 }
                 cc.log('删除打印：执行删除动作')
                 this.cancelBetLock = true
-                //  this.node.parent.getChildByName('DeskShanDong').active = true
+                this.showCancelChipAn()
                 let roomId = RoomManage.roomItem.id
                 let userId = UserManage.userInfo.id
                 let betLocation = this.typeValue as betLocaion
@@ -135,6 +152,9 @@ export default class NewClass extends cc.Component {
                 if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
                     BetManage.cancelBet({ userId: userId, raceNum: raceNum, betLocation: betLocation } as BetNoticeData)
                     this.cancelBetLock = false
+                    this.scheduleOnce(() => {
+                        this.delCancelChipAn()
+                    }, 1.5);
                     return
                 }
                 this.execCancel(roomId, userId, raceNum, betLocation)
@@ -225,7 +245,7 @@ export default class NewClass extends cc.Component {
 
     async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion) {
         let result = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
-        //this.node.parent.getChildByName('DeskShanDong').active = false
+        this.delCancelChipAn()
         this.cancelBetLock = false
         cc.log('删除打印：成功删除下注')
         let notice = {

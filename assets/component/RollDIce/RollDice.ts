@@ -77,7 +77,9 @@ export default class NewClass extends cc.Component {
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { //请除动作在房间里面处理
                 type: LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE
             } as LocalNoticeEventPara)
-        }, this.diceShowTime);
+            this.node.active = false
+            this.node.destroy()
+        }, this.diceShowTime)
     }
 
     randNum(n: number, m: number): number {

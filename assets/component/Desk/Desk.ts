@@ -51,6 +51,9 @@ export default class Desk extends cc.Component {
         })
         this.mahjongResulNodes = []
     }
+    onLoad(){
+        //cc.dynamicAtlasManager.insertSpriteFrame(spriteFrame); //动态合图
+    }
 
     //请下注之桌子闪动动画
     deskShanDong() {

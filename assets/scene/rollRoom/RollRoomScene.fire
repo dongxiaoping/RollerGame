@@ -4631,7 +4631,7 @@
     "_mute": false,
     "_loop": true,
     "playOnLoad": false,
-    "preload": true,
+    "preload": false,
     "_id": "c16Jr3gIdEhoxqaVaE0poH"
   },
   {
@@ -4711,7 +4711,7 @@
     "_mute": false,
     "_loop": false,
     "playOnLoad": false,
-    "preload": true,
+    "preload": false,
     "_id": "2bEklwD01GhLOyV72jbeXS"
   },
   {
@@ -4791,7 +4791,7 @@
     "_mute": false,
     "_loop": false,
     "playOnLoad": false,
-    "preload": true,
+    "preload": false,
     "_id": "70w/OxTBRIb56fRASKpH/P"
   },
   {

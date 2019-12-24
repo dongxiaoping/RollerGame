@@ -59,7 +59,7 @@ export default class ChairManage {
     public clearAllChair() {
         for (let i = 0; i < this.chairList.length; i++) {
             if (!this.chairList[i].isChairEmputy()) {
-                this.chairList[i].outChair()
+                this.chairList[i].outChair(()=>{})
             }
         }
     }
@@ -78,14 +78,17 @@ export default class ChairManage {
         let landChair = this.chairList[0]
         let memberInfo1 = theUserChair.getUserInfo()
         if (landChair.isChairEmputy()) {
-            theUserChair.outChair()
-            landChair.inChair(memberInfo1)
+            theUserChair.outChair(() => {
+                landChair.inChair(memberInfo1)
+            })
         } else {
             let oldLandChairUserInfo = landChair.getUserInfo()
-            landChair.outChair()
-            theUserChair.outChair()
-            theUserChair.inChair(oldLandChairUserInfo)
-            landChair.inChair(memberInfo1)
+            landChair.outChair(() => {
+                landChair.inChair(memberInfo1)
+            })
+            theUserChair.outChair(() => {
+                theUserChair.inChair(oldLandChairUserInfo)
+            })
         }
     }
 

@@ -32,11 +32,12 @@ export default class ChairItem {
         return true
     }
 
-    public outChair() {
+    public outChair(func:any) {
         let url = "Canvas/" + this.chairName
         let chairNode = this.cc.find(url)
         chairNode.removeAllChildren()
         this.memberInChairData = null
+        func()
     }
 
     public isChairEmputy(): boolean {
@@ -56,7 +57,7 @@ export default class ChairItem {
 
     public getChairPosition(): Coordinate {
         let url = "Canvas/" + this.chairName
-        if(typeof(this.cc.find(url)) === 'undefined'){
+        if (typeof (this.cc.find(url)) === 'undefined') {
             return null
         }
         let chairNode = this.cc.find(url)

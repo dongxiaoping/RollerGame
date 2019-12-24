@@ -813,6 +813,9 @@
     "focus": {
       "__id__": 8
     },
+    "cancelChipAn": {
+      "__uuid__": "989872de-e686-44b3-bff3-7246c390de90"
+    },
     "typeValue": "middle",
     "bg": {
       "__id__": 13
@@ -840,7 +843,7 @@
     "_mute": false,
     "_loop": false,
     "playOnLoad": false,
-    "preload": true,
+    "preload": false,
     "_id": ""
   },
   {
@@ -1498,6 +1501,9 @@
     "focus": {
       "__id__": 28
     },
+    "cancelChipAn": {
+      "__uuid__": "989872de-e686-44b3-bff3-7246c390de90"
+    },
     "typeValue": "sky",
     "bg": {
       "__id__": 33
@@ -2089,6 +2095,9 @@
     "_enabled": true,
     "focus": {
       "__id__": 45
+    },
+    "cancelChipAn": {
+      "__uuid__": "989872de-e686-44b3-bff3-7246c390de90"
     },
     "typeValue": "bridg",
     "bg": {
@@ -2682,6 +2691,9 @@
     "focus": {
       "__id__": 62
     },
+    "cancelChipAn": {
+      "__uuid__": "989872de-e686-44b3-bff3-7246c390de90"
+    },
     "typeValue": "land",
     "bg": {
       "__id__": 67
@@ -3273,6 +3285,9 @@
     "_enabled": true,
     "focus": {
       "__id__": 79
+    },
+    "cancelChipAn": {
+      "__uuid__": "989872de-e686-44b3-bff3-7246c390de90"
     },
     "typeValue": "skyCorner",
     "bg": {
@@ -3866,6 +3881,9 @@
     "focus": {
       "__id__": 96
     },
+    "cancelChipAn": {
+      "__uuid__": "989872de-e686-44b3-bff3-7246c390de90"
+    },
     "typeValue": "landCorner",
     "bg": {
       "__id__": 101
@@ -3968,7 +3986,7 @@
     "_mute": false,
     "_loop": false,
     "playOnLoad": false,
-    "preload": true,
+    "preload": false,
     "_id": ""
   },
   {

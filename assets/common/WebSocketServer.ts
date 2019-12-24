@@ -3,13 +3,11 @@ import { roomState, RaceState, GameMember, BetNoticeData, raceResultData, EventT
 import RaceManage from "../store/Races/RaceManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import BetManage from "../store/Bets/BetManage";
-import { RoomGameConfig } from "./RoomGameConfig";
 import { config } from "./Config";
 import { eventBus } from "./EventBus";
 import UserManage from "../store/User/UserManage";
 
 export let ws: any = null
-onOpenWs() //开启socket服务
 export interface NoticeData {
     type: NoticeType
     info: NoticeInfo
@@ -23,13 +21,16 @@ export function closeWs() {
     ws = null
 }
 
+//开启一个新socket，并返回，已存在返回false
 export function onOpenWs() {
     if (ws === null) {
         ws = new WebSocket(config.websocketAddress)
-        ws.onopen = onopen
+      //  ws.onopen = onopen
         ws.onmessage = onmessage
         cc.log('开启socket连接')
+        return ws
     }
+    return false //表示已经开启,调用失败
 }
 
 ///////////////////////////////////
@@ -135,11 +136,6 @@ function onmessage(e: any): void {
             let message1 = message as BetNoticeData
             BetManage.addBet(message1.raceNum, message1.userId, message1.betLocation, message1.betVal)
             console.log('下注接收通知');
-            break;
-        case 'roomGameConfigSet': //配置
-            let message2 = message as RoomGameConfig
-            RoomManage.setNetRoomGameConfig(message2)
-            console.log('设置游戏配置信息');
             break;
         case 'memberOffLine': //有成员从socket房间中退出
             message as NoticeInfo

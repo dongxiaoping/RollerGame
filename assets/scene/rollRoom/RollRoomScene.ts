@@ -9,7 +9,7 @@ import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator";
 import RollControler from '../../common/RollControler';
 import ConfigManage from '../../store/Config/ConfigManage';
-import { NoticeType, NoticeData, ws } from '../../common/WebSocketServer';
+import { NoticeType, NoticeData, ws, onOpenWs } from '../../common/WebSocketServer';
 import BetManage from '../../store/Bets/BetManage';
 @ccclass
 export default class NewClass extends cc.Component {
@@ -85,19 +85,29 @@ export default class NewClass extends cc.Component {
     userXiaZhuScore: number = 0
     onEnable() {
         RoomManage.reSet() //清楚上次房间的数据记录
-        this.startGame()
-        if (ConfigManage.isBackMusicOpen()) {
-            this.backMusic.play()
-        }
-    }
-
-    async startGame() {
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
             cc.log('进入了模拟房间')
             this.enterEmulatorRoom()
             return
         }
+
+        let newSocket = onOpenWs()
+        if (newSocket) {
+            newSocket.onopen = () => {
+                this.enterWebGame()
+            }
+        } else {
+            this.enterWebGame()
+        }
+
+        if (ConfigManage.isBackMusicOpen()) {
+            this.backMusic.play()
+        }
+    }
+
+    async enterWebGame() {
+        let enterRoomParam = RoomManage.getEnterRoomParam()
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
         if (enterRoomParam.model === EnterRoomModel.SHARE) {
@@ -113,7 +123,7 @@ export default class NewClass extends cc.Component {
         this.initRoom()
         this.controller = new RollControler()
         this.controller.start()
-      //  this.node.getChildByName('WechatShare').active = true
+        //  this.node.getChildByName('WechatShare').active = true
     }
 
     showTopLeftRaceInfo() {
@@ -203,7 +213,7 @@ export default class NewClass extends cc.Component {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //摇色子结束
-                    this.endRollDice() //清除摇色子页面
+                   // this.endRollDice() //清除摇色子页面
                     break
                 case LocalNoticeEventType.TO_LOBBY_EVENT:
                     cc.log('退出到主页')
@@ -373,12 +383,12 @@ export default class NewClass extends cc.Component {
     }
 
     //结束摇色子
-    private endRollDice(): void {
-        let ob = this.node.getChildByName('RollDice')
-        if (ob) {
-            ob.destroy()
-        }
-    }
+    // private endRollDice(): void {
+    //     let ob = this.node.getChildByName('RollDice')
+    //     if (ob) {
+    //         ob.destroy()
+    //     }
+    // }
 
     //选地主
     private showChoiceLandLordPanel() {
