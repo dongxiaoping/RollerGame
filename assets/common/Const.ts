@@ -117,19 +117,6 @@ export const chipPoint = {
     landCorner: { left: { x: 148, y: -31 }, right: { x: 240, y: -31 } }  //LAND_CORNER
 }
 
-export const IconValueList = {
-    1: ['1_1'],
-    2: ['2_1'],
-    3: ['3_1'],
-    4: ['4_1'],
-    5: ['5_1'],
-    6: ['6_1'],
-    7: ['7_1'],
-    8: ['8_1'],
-    9: ['9_1'],
-    0.5: ['0_1']
-}
-
 export enum MajhongValueType {
     DUI_ZI = 1, //对子
     BI_SHI = 2, //鄙十
@@ -290,6 +277,8 @@ export interface MemberInChairData {
     userId: string,
     userName?: string,
     userIcon?: string //模拟房间不用传这些
+    winVal?: number //前几场输赢值
+    xiaZhuVal?: number //当前场下注值
 }
 
 export interface BetNoticeData {

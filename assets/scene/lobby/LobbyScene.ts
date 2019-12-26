@@ -49,7 +49,6 @@ export default class LobbyScene extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.initUserInfo()
         if (isUrlToGameRoom()) {
             RoomManage.setEnterRoomParam({
                 model: EnterRoomModel.SHARE,
@@ -106,6 +105,7 @@ export default class LobbyScene extends cc.Component {
     }
 
     start() {
+        this.initUserInfo()
         cc.director.preloadScene('RollRoomScene');//预加载房间，提高进入房间的速度
         console.log('应用启动')
         this.scheduleOnce(() => {

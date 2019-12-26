@@ -1,7 +1,7 @@
 {
   "ver": "1.2.4",
-  "uuid": "d4abe6a6-666f-499f-b6fa-bff29c0ad074",
-  "rawTextureUuid": "d0cc106e-027a-4f19-84c2-88daf37aa0d1",
+  "uuid": "6bb78f92-d726-4290-9111-a2e434f945af",
+  "rawTextureUuid": "f55c4413-3517-4a00-ab80-a788eb8eddce",
   "size": {
     "width": 55,
     "height": 309
@@ -10,8 +10,8 @@
   "subMetas": {
     "mahjong_62fa7d43_01.png": {
       "ver": "1.0.4",
-      "uuid": "3115d2ac-ea8e-47a3-a036-868dde292705",
-      "rawTextureUuid": "d0cc106e-027a-4f19-84c2-88daf37aa0d1",
+      "uuid": "c6383125-646b-48c8-a04d-d9164233fa17",
+      "rawTextureUuid": "f55c4413-3517-4a00-ab80-a788eb8eddce",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -32,8 +32,8 @@
     },
     "mahjong_62fa7d43_02.png": {
       "ver": "1.0.4",
-      "uuid": "df661f8d-47cb-4e63-8fae-4b38e8796e4e",
-      "rawTextureUuid": "d0cc106e-027a-4f19-84c2-88daf37aa0d1",
+      "uuid": "9adb17ba-8cb4-426d-8e80-0134da70cf97",
+      "rawTextureUuid": "f55c4413-3517-4a00-ab80-a788eb8eddce",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -54,8 +54,8 @@
     },
     "mahjong_62fa7d43_03.png": {
       "ver": "1.0.4",
-      "uuid": "2d850bf8-4613-49d5-8dcf-5c98f9eed726",
-      "rawTextureUuid": "d0cc106e-027a-4f19-84c2-88daf37aa0d1",
+      "uuid": "18fb582a-a949-471a-ab6b-a3c51f9f8c47",
+      "rawTextureUuid": "f55c4413-3517-4a00-ab80-a788eb8eddce",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -76,8 +76,8 @@
     },
     "mahjong_62fa7d43_04.png": {
       "ver": "1.0.4",
-      "uuid": "88450843-fef2-44fe-aa1d-4b0bf1ff97b9",
-      "rawTextureUuid": "d0cc106e-027a-4f19-84c2-88daf37aa0d1",
+      "uuid": "c3073ff7-f5af-4ebf-be50-ae733b7bb8cf",
+      "rawTextureUuid": "f55c4413-3517-4a00-ab80-a788eb8eddce",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

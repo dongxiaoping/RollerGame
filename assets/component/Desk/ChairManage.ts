@@ -59,7 +59,7 @@ export default class ChairManage {
     public clearAllChair() {
         for (let i = 0; i < this.chairList.length; i++) {
             if (!this.chairList[i].isChairEmputy()) {
-                this.chairList[i].outChair(()=>{})
+                this.chairList[i].outChair(() => { })
             }
         }
     }
@@ -76,20 +76,44 @@ export default class ChairManage {
             return
         }
         let landChair = this.chairList[0]
-        let memberInfo1 = theUserChair.getUserInfo()
+        let newLanlordUserInfo = theUserChair.getUserInfo()
         if (landChair.isChairEmputy()) {
             theUserChair.outChair(() => {
-                landChair.inChair(memberInfo1)
+                this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), () => {
+                    landChair.inChair(newLanlordUserInfo)
+                })
             })
         } else {
             let oldLandChairUserInfo = landChair.getUserInfo()
             landChair.outChair(() => {
-                landChair.inChair(memberInfo1)
+                this.userIconMoveAnimation(oldLandChairUserInfo, landChair.getChairPosition(), theUserChair.getChairPosition(), () => {
+                    theUserChair.inChair(oldLandChairUserInfo)
+                })
             })
             theUserChair.outChair(() => {
-                theUserChair.inChair(oldLandChairUserInfo)
+                this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), () => {
+                    landChair.inChair(newLanlordUserInfo)
+                })
             })
         }
+    }
+
+    //换椅子动画，用户图标移动动画
+    public userIconMoveAnimation(userInfo: MemberInChairData, fromLocation: Coordinate, toLocation: Coordinate, callback: any) {
+        let userIconNode = this.cc.instantiate(this.playUserIcon)
+        let jsOb = userIconNode.getComponent('PlayUserIcon')
+        jsOb.setShow(userInfo.userIcon, userInfo.userName, userInfo.userId, 0, 0)
+        let url = "Canvas/Desk"
+        let parentNode = this.cc.find(url)
+        userIconNode.parent = parentNode
+        userIconNode.setPosition(fromLocation.x, fromLocation.y)
+        let action = this.cc.moveTo(1, toLocation.x, toLocation.y)
+        let b = cc.sequence(action, this.cc.callFunc(() => {
+            userIconNode.active = false
+            userIconNode.destroy()
+            callback()
+        }, this))
+        userIconNode.runAction(b)
     }
 
     public getChairByUserId(userId: string): ChairItem {

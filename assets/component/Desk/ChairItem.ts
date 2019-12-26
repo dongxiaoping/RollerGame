@@ -13,6 +13,7 @@ export default class ChairItem {
 
     }
 
+    //winVal 当前用户前几场输赢值  xiaZhuVal 当前用户当前下注值
     public inChair(memberInChairData: MemberInChairData): boolean {
         if (!this.isChairEmputy()) {
             return false
@@ -26,13 +27,13 @@ export default class ChairItem {
         userIconNode.setPosition(0, 0)
         userIconNode.parent = chairNode
         let jsOb = userIconNode.getComponent('PlayUserIcon')
-        jsOb.setShow(memberInChairData.userIcon, memberInChairData.userName, memberInChairData.userId)
+        jsOb.setShow(memberInChairData.userIcon, memberInChairData.userName, memberInChairData.userId, 0, 0)
         userIconNode.active = true
         chairNode.active = true
         return true
     }
 
-    public outChair(func:any) {
+    public outChair(func: any) {
         let url = "Canvas/" + this.chairName
         let chairNode = this.cc.find(url)
         chairNode.removeAllChildren()
@@ -48,6 +49,8 @@ export default class ChairItem {
     }
 
     getUserInfo() {
+        // let url = "Canvas/" + this.chairName
+        // let chairNode = this.cc.find(url)
         if (this.memberInChairData !== null) {
             let data = JSON.stringify(this.memberInChairData)
             return JSON.parse(data)

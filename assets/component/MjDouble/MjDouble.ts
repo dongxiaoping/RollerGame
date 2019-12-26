@@ -19,9 +19,14 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     two: cc.Sprite = null;
 
+    @property(cc.SpriteFrame)
     oneThirdIcon: cc.SpriteFrame = null
+    @property(cc.SpriteFrame)
     halfIcon: cc.SpriteFrame = null
+    @property(cc.SpriteFrame)
     allIcon: cc.SpriteFrame = null
+    @property([cc.SpriteFrame])
+    majongIcons: cc.SpriteFrame[] = [] //结果图
 
     singleIntervalTime = 0.25 //翻牌 2个
     twoIntervalTime = 0.1  //两张之间的停顿时间 s  
@@ -110,11 +115,11 @@ export default class NewClass extends cc.Component {
     getNextTableLocation(tableLocationType: TableLocationType): TableLocationType {
         switch (tableLocationType) {
             case TableLocationType.LANDLORD:
-                return TableLocationType.LAND
-            case TableLocationType.LAND:
+                return TableLocationType.SKY
+            case TableLocationType.SKY:
                 return TableLocationType.MIDDLE
             case TableLocationType.MIDDLE:
-                return TableLocationType.SKY
+                return TableLocationType.LAND
             case TableLocationType.SKY:
                 return null
         }
@@ -137,15 +142,12 @@ export default class NewClass extends cc.Component {
                 callBack()
             }
             count++
-        }, this.singleIntervalTime/3, 2, 0.1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
+        }, this.singleIntervalTime / 3, 2, 0.1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
     }
 
     drawResult(ob: cc.Sprite, val: number) {
-        let list = IconValueList[val]
-        for (let i = 0; i < list.length; i++) {
-            ob.node.getChildByName(list[i]).active = true
-        }
-
+        val = val === 0.5 ? 0 : val
+        ob.node.getChildByName('MajongSprite').getComponent(cc.Sprite).spriteFrame = this.majongIcons[val]
     }
 
     randNum(n: number, m: number) {
@@ -154,16 +156,6 @@ export default class NewClass extends cc.Component {
     }
 
     onEnable() {
-        cc.loader.loadRes('mahjong/mahjong_62fa7d43_02', (error, img) => {
-            this.oneThirdIcon = new cc.SpriteFrame(img);
-        })
-        cc.loader.loadRes('mahjong/mahjong_62fa7d43_03', (error, img) => {
-            this.halfIcon = new cc.SpriteFrame(img);
-        })
-        cc.loader.loadRes('mahjong/mahjong_62fa7d43_04', (error, img) => {
-            this.allIcon = new cc.SpriteFrame(img);
-        })
-
         this.localEventId = randEventId()
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.localEventId, (info: LocalNoticeEventPara) => {
             if (info.type === LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE) {

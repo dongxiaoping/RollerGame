@@ -20,15 +20,17 @@ export default class NewClass extends cc.Component {
     eventIdOne: string = ''
     eventIdTwo: string = ''
     eventIdThree: string = ''
-    winVal: number = 0
-    xiaZhuVal: number = 0
+    winVal: number = 0 //前几场输赢值
+    xiaZhuVal: number = 0 //当前场下注值
     start() {
 
     }
 
-    setShow(iconUrl: string, userName: string, userId: string) {
+    setShow(iconUrl: string, userName: string, userId: string, winVal: number, xiaZhuVal: number) {
         this.userId = userId
         this.userName.string = userName
+        this.winVal = winVal
+        this.xiaZhuVal = xiaZhuVal
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
             cc.loader.loadRes(iconUrl, (error, img) => {

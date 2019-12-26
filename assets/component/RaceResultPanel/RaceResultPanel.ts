@@ -1,12 +1,9 @@
 const { ccclass, property } = cc._decorator;
 import RaceManage from '../../store/Races/RaceManage'
-import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
 import { IconValueList, CompareDxRe, raceResultData } from '../../common/Const'
 import RaceItem from '../../store/Races/RaceItem';
-import BetManage from '../../store/Bets/BetManage';
-import Betitem from '../../store/Bets/BetItem';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -42,16 +39,16 @@ export default class NewClass extends cc.Component {
     middleWinOrFail: cc.Sprite = null;
     @property(cc.Sprite)
     landWinOrFail: cc.Sprite = null;
+
+    @property([cc.SpriteFrame])
+    majongIcons: cc.SpriteFrame[] = [] //结果图
     start() {
         this.show()
     }
 
     drawResult(ob: cc.Sprite, val: number) {
-        let list = IconValueList[val]
-        for (let i = 0; i < list.length; i++) {
-            ob.node.getChildByName(list[i]).active = true
-        }
-
+        val = val === 0.5 ? 0 : val
+        ob.node.getChildByName('MajongSprite').getComponent(cc.Sprite).spriteFrame = this.majongIcons[val]
     }
 
     show() {

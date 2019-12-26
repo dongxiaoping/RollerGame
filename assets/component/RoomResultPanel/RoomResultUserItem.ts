@@ -1,3 +1,6 @@
+import RoomManage from "../../store/Room/RoomManage";
+import { EnterRoomModel } from "../../common/Const";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -17,6 +20,18 @@ export default class NewClass extends cc.Component {
     initData(iconUrl: string, userName: string, userScore: string): void {
         this.userScore.string = userScore
         this.userName.string = userName
+        let enterRoomParam = RoomManage.getEnterRoomParam()
+        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
+            cc.loader.loadRes(iconUrl, (error, img) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.userIcon.spriteFrame = myIcon
+            })
+        } else {
+            cc.loader.load({ url: iconUrl, type: 'png' }, (err, img: any) => {
+                let myIcon = new cc.SpriteFrame(img);
+                this.userIcon.spriteFrame = myIcon
+            });
+        }
     }
 
     // update (dt) {}

@@ -41,15 +41,12 @@ export default class NewClass extends cc.Component {
         let raceNum = RoomManage.roomItem.oningRaceNum
         let betLocation = this.chipInfo.betLocation
         let compareDxRe = RaceManage.raceList[raceNum].getLocationResult(betLocation)
-        if (compareDxRe === CompareDxRe.SMALL && !isCancelBet) {
+        if ((compareDxRe === CompareDxRe.SMALL || compareDxRe === CompareDxRe.EQ) && !isCancelBet) {
             winUserId = RaceManage.raceList[raceNum].landlordId
         }
         let toLocaiton = this.getUserChairPosition(winUserId)
         let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)
         let b = cc.sequence(action, cc.callFunc(() => {
-            if (ConfigManage.isTxMusicOpen()) {
-                //this.chipBetVoice.play()
-            }
             this.node.active = false
             this.node.destroy()
         }, this))

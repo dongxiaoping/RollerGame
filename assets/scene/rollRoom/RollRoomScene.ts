@@ -66,7 +66,9 @@ export default class NewClass extends cc.Component {
     showPlayMode: cc.Label = null; //上庄模式显示
 
     @property(cc.Label)
-    userScoreLabel: cc.Label = null; //用户房间分数面板
+    userScoreLabel: cc.Label = null; //当前用户左下方分数值
+    @property(cc.Label)
+    userNameLabel: cc.Label = null; //当前用户左下方名称
 
     controller: any = null //游戏控制器
 
@@ -78,12 +80,11 @@ export default class NewClass extends cc.Component {
 
     @property(cc.AudioSource)
     qinQiangZhuangVoice: cc.AudioSource = null;
-    @property(cc.AudioSource)
-    woQiangVoice: cc.AudioSource = null;
 
     userWinScore: number = 0
     userXiaZhuScore: number = 0
-    onEnable() {
+
+    start() {
         RoomManage.reSet() //清楚上次房间的数据记录
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
@@ -104,6 +105,11 @@ export default class NewClass extends cc.Component {
         if (ConfigManage.isBackMusicOpen()) {
             this.backMusic.play()
         }
+        cc.director.preloadScene('LobbyScene');//预加载
+    }
+
+    onEnable() {
+
     }
 
     async enterWebGame() {
@@ -146,7 +152,7 @@ export default class NewClass extends cc.Component {
     }
 
     initRoom() {
-        this.showUserIcon()
+        // this.showUserPanel()
         this.initXiaZhuPanel()
         this.initMahjongPanel()
         this.initDesk()
@@ -163,7 +169,6 @@ export default class NewClass extends cc.Component {
 
     //异常比赛结束后，清除桌子，同时也防止异常情况下（页面最小化），部分组件没有清除，这里做二次清除
     private clearnRaceDesk() {
-        this.endRollDice()
     }
 
     //添加面板上组件的一些响应事件
@@ -213,7 +218,7 @@ export default class NewClass extends cc.Component {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //摇色子结束
-                   // this.endRollDice() //清除摇色子页面
+                    // this.endRollDice() //清除摇色子页面
                     break
                 case LocalNoticeEventType.TO_LOBBY_EVENT:
                     cc.log('退出到主页')
@@ -222,12 +227,12 @@ export default class NewClass extends cc.Component {
                     cc.director.loadScene("LobbyScene");
                     this.destroy()
                     break
-                case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT:
-                    cc.log('本地抢地主')
-                    if (ConfigManage.isTxMusicOpen()) {
-                        this.woQiangVoice.play()
-                    }
-                    break
+                // case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT:
+                //     cc.log('本地抢地主')
+                //     if (ConfigManage.isTxMusicOpen()) {
+                //         this.woQiangVoice.play()
+                //     }
+                //     break
                 case LocalNoticeEventType.BACK_MUSIC_STATE_CHANGE_NOTICE:
                     let isOpen = info.info
                     if (isOpen) {
@@ -382,20 +387,17 @@ export default class NewClass extends cc.Component {
         node.active = true
     }
 
-    //结束摇色子
-    // private endRollDice(): void {
-    //     let ob = this.node.getChildByName('RollDice')
-    //     if (ob) {
-    //         ob.destroy()
-    //     }
-    // }
-
     //选地主
     private showChoiceLandLordPanel() {
-        var node = cc.instantiate(this.rapLandlordButton)
-        node.parent = this.node
-        node.setPosition(308, -220);
-        node.active = true
+        let node = this.node.getChildByName('RapLandlordButton')
+        if (node) {
+            node.active = true
+        } else {
+            node = cc.instantiate(this.rapLandlordButton)
+            node.parent = this.node
+            node.setPosition(308, -220);
+            node.active = true
+        }
         if (ConfigManage.isTxMusicOpen()) {
             this.qinQiangZhuangVoice.play()
         }
@@ -407,9 +409,11 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    showUserIcon() {
+    //左下方用户面板显示
+    showUserPanel() {
         let userInfo = UserManage.userInfo
         let enterRoomParam = RoomManage.getEnterRoomParam()
+        this.userNameLabel.string = userInfo.nick
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
             cc.loader.loadRes(userInfo.icon, (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
@@ -425,10 +429,6 @@ export default class NewClass extends cc.Component {
 
     onLoad() {
 
-    }
-
-    start() {
-        cc.director.preloadScene('LobbyScene');//预加载
     }
 
     //只有初始化了下注面板，才能有投注动画

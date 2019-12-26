@@ -29,6 +29,9 @@ export default class Desk extends cc.Component {
     @property(cc.Prefab)
     private qingXiaZhu: cc.Prefab = null //请下注文字图
 
+    @property(cc.AudioSource)
+    chipBetVoice: cc.AudioSource = null //硬币声音语音
+
     @property(cc.Prefab)
     private majongResultLabel: cc.Prefab = null  //麻将分数文字标签
 
@@ -113,6 +116,9 @@ export default class Desk extends cc.Component {
                     this.scheduleOnce(() => {
                         this.playingBiDaXiaAnimation((): void => { })
                     }, 0.3);
+                    if (ConfigManage.isTxMusicOpen()) {
+                        this.chipBetVoice.play()
+                    }
                     this.scheduleOnce(() => {
                         cc.log('我是桌子，开牌动画结束，我开始执行比大小动画')
                         cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
