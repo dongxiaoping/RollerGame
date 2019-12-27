@@ -26,7 +26,9 @@ export default class NewClass extends cc.Component {
         this.betCancelEventId = randEventId()
         eventBus.on(EventType.BET_CANCE_NOTICE, this.betCancelEventId, (info: BetChipChangeInfo): void => {
             if (info.userId === this.chipInfo.userId && info.betLocation === this.chipInfo.betLocation) {
-                this.chipBackAction(true)
+               // this.chipBackAction(true)
+               this.node.active = false
+               this.node.destroy()
             }
         })
     }

@@ -27,6 +27,9 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     overBetLimitVoice: cc.AudioSource = null //下注超限语音
 
+    @property(cc.AudioSource)
+    chipCancelVoice: cc.AudioSource = null //下注取消的声音
+
     @property(cc.Label)
     betScore: cc.Label = null //本次比赛当前位置下注分数 如：4/8  4表示当前用户下注的  8表示全部用户的
 
@@ -110,12 +113,6 @@ export default class NewClass extends cc.Component {
         node.active = true
     }
 
-    delCancelChipAn(){
-        let node = this.node.getChildByName('CancelChipAn')
-        node.active = false
-        node.destroy()
-    }
-
     addClickEvent() {
         //接收到取消下注通知
         this.eventOne = randEventId()
@@ -145,6 +142,9 @@ export default class NewClass extends cc.Component {
                 cc.log('删除打印：执行删除动作')
                 this.cancelBetLock = true
                 this.showCancelChipAn()
+                if (ConfigManage.isTxMusicOpen()) {
+                    this.chipCancelVoice.play()
+                }
                 let roomId = RoomManage.roomItem.id
                 let userId = UserManage.userInfo.id
                 let betLocation = this.typeValue as betLocaion
@@ -152,9 +152,6 @@ export default class NewClass extends cc.Component {
                 if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
                     BetManage.cancelBet({ userId: userId, raceNum: raceNum, betLocation: betLocation } as BetNoticeData)
                     this.cancelBetLock = false
-                    this.scheduleOnce(() => {
-                        this.delCancelChipAn()
-                    }, 1.5);
                     return
                 }
                 this.execCancel(roomId, userId, raceNum, betLocation)
@@ -245,7 +242,6 @@ export default class NewClass extends cc.Component {
 
     async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion) {
         let result = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
-        this.delCancelChipAn()
         this.cancelBetLock = false
         cc.log('删除打印：成功删除下注')
         let notice = {

@@ -124,10 +124,10 @@ export default class LobbyScene extends cc.Component {
         })
         this.LianXiChang.node.on(cc.Node.EventType.TOUCH_START, () => {
             cc.log('练习场被点击了')
-            if (this.emulatorRoomHasClick) {
-                cc.log('练习场不能重复点击或者点击过早！')
-                return
-            }
+            // if (this.emulatorRoomHasClick) {
+            //     cc.log('练习场不能重复点击或者点击过早！')
+            //     return
+            // }
             this.emulatorRoomHasClick = true
             RoomManage.setEnterRoomParam({
                 model: EnterRoomModel.EMULATOR_ROOM
