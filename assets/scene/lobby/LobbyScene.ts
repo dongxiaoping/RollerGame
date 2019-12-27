@@ -45,6 +45,9 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Label)
     chipCount: cc.Label = null;
 
+    @property(cc.Sprite)
+    userIconSprite: cc.Sprite = null; //用户图标
+
     emulatorRoomHasClick: boolean = true
     // LIFE-CYCLE CALLBACKS:
 
@@ -64,7 +67,7 @@ export default class LobbyScene extends cc.Component {
     }
 
     //退出
-    closeApp(){
+    closeApp() {
         // if(navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") != -1){
         //     window.location.href = "about:blank";
         //     window.close();
@@ -98,6 +101,10 @@ export default class LobbyScene extends cc.Component {
         this.userId.string = 'ID:' + UserManage.userInfo.id
         this.diamond.string = UserManage.userInfo.diamond + ''
         this.chipCount.string = UserManage.userInfo.score + ''
+        cc.loader.load({ url: UserManage.userInfo.icon, type: 'png' }, (err, img: any) => {
+            let myIcon = new cc.SpriteFrame(img);
+            this.userIconSprite.spriteFrame = myIcon
+        });
     }
 
     onDisable() {
@@ -142,8 +149,8 @@ export default class LobbyScene extends cc.Component {
             node.setPosition(0, 0);
             node.active = true
         })
-        
-        
+
+
         this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             this.closeApp()
             cc.log('退出按钮被点击')
@@ -152,7 +159,7 @@ export default class LobbyScene extends cc.Component {
         this.ruleButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             this.node.getChildByName('PlayRule').active = true
         })
-        
+
         this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('创建房间被点击了')
             if (this.node.getChildByName('CreateRoomPanel') !== null) {

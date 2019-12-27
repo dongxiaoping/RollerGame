@@ -2930,9 +2930,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "ede33c07-e2fb-4193-afe4-3c91be1ad37a"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -8715,6 +8713,9 @@
     },
     "chipCount": {
       "__id__": 87
+    },
+    "userIconSprite": {
+      "__id__": 64
     },
     "_id": "27yBUCh3hGoqw3SZbhx7LX"
   }

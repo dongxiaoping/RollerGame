@@ -86,10 +86,14 @@ export default class NewClass extends cc.Component {
 
     start() {
         RoomManage.reSet() //清楚上次房间的数据记录
+        if (ConfigManage.isBackMusicOpen()) {
+            this.backMusic.play()
+        }
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
             cc.log('进入了模拟房间')
             this.enterEmulatorRoom()
+            cc.director.preloadScene('LobbyScene');//预加载
             return
         }
 
@@ -100,10 +104,6 @@ export default class NewClass extends cc.Component {
             }
         } else {
             this.enterWebGame()
-        }
-
-        if (ConfigManage.isBackMusicOpen()) {
-            this.backMusic.play()
         }
         cc.director.preloadScene('LobbyScene');//预加载
     }
@@ -152,7 +152,7 @@ export default class NewClass extends cc.Component {
     }
 
     initRoom() {
-        // this.showUserPanel()
+        this.showUserPanel()
         this.initXiaZhuPanel()
         this.initMahjongPanel()
         this.initDesk()
