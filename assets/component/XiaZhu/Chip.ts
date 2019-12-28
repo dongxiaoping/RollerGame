@@ -1,4 +1,4 @@
-import { chipObData, RaceStateChangeParam, EventType, RaceState, CompareDxRe, Coordinate, LocalNoticeEventType, LocalNoticeEventPara, BetChipChangeInfo } from "../../common/Const";
+import { chipObData, RaceStateChangeParam, EventType, RaceState, CompareDxRe, Coordinate, LocalNoticeEventType, LocalNoticeEventPara, BetChipChangeInfo, betLocaion } from "../../common/Const";
 import { randEventId } from "../../common/Util";
 import { eventBus } from "../../common/EventBus";
 import RoomManage from "../../store/Room/RoomManage";
@@ -26,9 +26,9 @@ export default class NewClass extends cc.Component {
         this.betCancelEventId = randEventId()
         eventBus.on(EventType.BET_CANCE_NOTICE, this.betCancelEventId, (info: BetChipChangeInfo): void => {
             if (info.userId === this.chipInfo.userId && info.betLocation === this.chipInfo.betLocation) {
-               // this.chipBackAction(true)
-               this.node.active = false
-               this.node.destroy()
+                // this.chipBackAction(true)
+                this.node.active = false
+                this.node.destroy()
             }
         })
     }
@@ -41,10 +41,16 @@ export default class NewClass extends cc.Component {
     chipBackAction(isCancelBet: boolean) {
         let winUserId = this.chipInfo.userId
         let raceNum = RoomManage.roomItem.oningRaceNum
-        let betLocation = this.chipInfo.betLocation
-        let compareDxRe = RaceManage.raceList[raceNum].getLocationResult(betLocation)
+        let theBetLocation = this.chipInfo.betLocation
+        let compareDxRe = RaceManage.raceList[raceNum].getLocationResult(theBetLocation)
         if ((compareDxRe === CompareDxRe.SMALL || compareDxRe === CompareDxRe.EQ) && !isCancelBet) {
             winUserId = RaceManage.raceList[raceNum].landlordId
+        }
+        if ((theBetLocation === betLocaion.SKY_CORNER || theBetLocation === betLocaion.BRIDG
+            || theBetLocation === betLocaion.LAND_CORNER) && compareDxRe === CompareDxRe.EQ) {
+            this.node.active = false
+            this.node.destroy()
+            return
         }
         let toLocaiton = this.getUserChairPosition(winUserId)
         let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)

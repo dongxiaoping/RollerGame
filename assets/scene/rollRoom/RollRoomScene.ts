@@ -86,6 +86,9 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     qinQiangZhuangVoice: cc.AudioSource = null;
 
+    @property(cc.AudioSource)
+    woQiangVoice: cc.AudioSource = null;
+
     userWinScore: number = 0
     userXiaZhuScore: number = 0
 
@@ -115,6 +118,12 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
 
+    }
+
+    playWoQiangVoice() {
+        if (ConfigManage.isTxMusicOpen()) {
+            this.woQiangVoice.play()
+        }
     }
 
     async enterWebGame() {

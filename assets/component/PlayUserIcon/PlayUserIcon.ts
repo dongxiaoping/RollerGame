@@ -27,6 +27,7 @@ export default class NewClass extends cc.Component {
     }
 
     setShow(iconUrl: string, userName: string, userId: string, winVal: number, xiaZhuVal: number) {
+        this.userIcon.spriteFrame = null
         this.userId = userId
         this.userName.string = userName
         this.winVal = winVal
