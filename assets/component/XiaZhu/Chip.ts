@@ -12,7 +12,7 @@ export default class NewClass extends cc.Component {
     chipInfo: chipObData = null
     eventId: string
     betCancelEventId: string
-    flyTime: number = 0.7  //下注硬币飞行时间
+    flyTime: number = 1  //下注硬币飞行时间
     start() {
         this.eventId = randEventId()
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {

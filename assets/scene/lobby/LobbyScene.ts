@@ -1,8 +1,8 @@
 import UserManage from "../../store/User/UserManage";
-import RollEmulator from "../../common/RollEmulator";
 import { isUrlToGameRoom, getUrlParam } from "../../common/Util";
 import RoomManage from "../../store/Room/RoomManage";
 import { EnterRoomModel, EnterRoomParam } from "../../common/Const";
+import { config } from "../../common/Config";
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,6 +44,10 @@ export default class LobbyScene extends cc.Component {
     diamond: cc.Label = null;
     @property(cc.Label)
     chipCount: cc.Label = null;
+
+    @property(cc.Label)
+    versionLabel: cc.Label = null; //版本号显示标签
+    
 
     @property(cc.Sprite)
     userIconSprite: cc.Sprite = null; //用户图标
@@ -114,6 +118,7 @@ export default class LobbyScene extends cc.Component {
     start() {
         this.initUserInfo()
         cc.director.preloadScene('RollRoomScene');//预加载房间，提高进入房间的速度
+        this.versionLabel.string = config.version
         console.log('应用启动')
         this.scheduleOnce(() => {
             this.emulatorRoomHasClick = false

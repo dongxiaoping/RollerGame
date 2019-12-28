@@ -10,7 +10,6 @@ import RollEmulator from "../../common/RollEmulator";
 import RollControler from '../../common/RollControler';
 import ConfigManage from '../../store/Config/ConfigManage';
 import { NoticeType, NoticeData, ws, onOpenWs } from '../../common/WebSocketServer';
-import BetManage from '../../store/Bets/BetManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -64,6 +63,12 @@ export default class NewClass extends cc.Component {
     showPlayCountLimit: cc.Label = null; //牌局进行信息显示
     @property(cc.Label)
     showPlayMode: cc.Label = null; //上庄模式显示
+    @property(cc.Sprite)
+    roleSprite: cc.Sprite = null; //当前用户角色类型图标容器
+    @property(cc.SpriteFrame)
+    zhuangIcon: cc.SpriteFrame = null //庄家类型图标
+    @property(cc.SpriteFrame)
+    xianIcon: cc.SpriteFrame = null //闲家类型图标
 
     @property(cc.Label)
     userScoreLabel: cc.Label = null; //当前用户左下方分数值
@@ -330,6 +335,11 @@ export default class NewClass extends cc.Component {
                 RaceManage.raceList[oningRaceNum].state !== RaceState.NOT_BEGIN) {
                 cc.log('错误！接收到了地主改变通知，但当前房间状态不是选地主')
                 return
+            }
+            if (landlordId === UserManage.userInfo.id) {
+                this.roleSprite.spriteFrame = this.zhuangIcon
+            } else {
+                this.roleSprite.spriteFrame = this.xianIcon
             }
             this.closeChoiceLandLordPanel()
         })
