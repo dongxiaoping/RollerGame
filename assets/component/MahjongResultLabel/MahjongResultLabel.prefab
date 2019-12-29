@@ -22,7 +22,6 @@
       }
     ],
     "_active": true,
-    "_level": 1,
     "_components": [
       {
         "__id__": 6
@@ -49,17 +48,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -75,7 +63,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -86,7 +86,6 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
     "_components": [
       {
         "__id__": 3
@@ -116,17 +115,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -142,7 +130,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Sprite",
@@ -222,6 +222,73 @@
     "_enabled": true,
     "mahjongReultWenZi": {
       "__id__": 3
+    },
+    "majValZiHalf": [
+      {
+        "__uuid__": "ba3eb907-c1aa-4ab4-85f2-4bea528457d6"
+      },
+      {
+        "__uuid__": "79eb708b-befb-4e15-a113-d97ef4f6441f"
+      },
+      {
+        "__uuid__": "5c1f4668-da0f-4124-ae60-fe2fea2542d7"
+      },
+      {
+        "__uuid__": "d6ebe32c-163a-4699-8e62-28e7d097364d"
+      },
+      {
+        "__uuid__": "f70616fb-9c48-4d79-828a-c0d1ac4caa49"
+      },
+      {
+        "__uuid__": "8167499e-af7b-4865-ba6e-2f5921412128"
+      },
+      {
+        "__uuid__": "b652032e-1b4a-4717-b313-5bf8918cde48"
+      },
+      {
+        "__uuid__": "61e322f7-fb3c-4b15-9836-afe09c1cbf01"
+      },
+      {
+        "__uuid__": "d7676dc6-5f7c-4649-a71d-f9833aaaa44e"
+      },
+      {
+        "__uuid__": "7afc2d5a-61e1-43b2-bd0c-613e8f81981a"
+      }
+    ],
+    "majValZiZhen": [
+      {
+        "__uuid__": "0f21e276-faec-499d-99b3-ef9632236b92"
+      },
+      {
+        "__uuid__": "bf0435de-3a10-4daa-a8ac-3a451fd88538"
+      },
+      {
+        "__uuid__": "2183d533-7edf-4e9a-9188-e8683927682b"
+      },
+      {
+        "__uuid__": "5f27e162-a0ef-4b70-88eb-fe373fe4275c"
+      },
+      {
+        "__uuid__": "38dc5fd0-7f3a-4e50-8b3b-941828ce010d"
+      },
+      {
+        "__uuid__": "68602d16-62c4-44bd-b9ef-40c4ee25422e"
+      },
+      {
+        "__uuid__": "3dcb0e0e-5033-4fe4-9466-1974a9ab6dfe"
+      },
+      {
+        "__uuid__": "ae04e535-ae11-47c1-9d4d-efaba3412aab"
+      },
+      {
+        "__uuid__": "208fbbc8-d2fb-4766-b2dd-4f820f487fd7"
+      },
+      {
+        "__uuid__": "ba5d0867-cd50-4e23-ade0-a5d530f183d4"
+      }
+    ],
+    "erbagang": {
+      "__uuid__": "85f3932e-69ec-477a-99cb-a275aa246d96"
     },
     "_id": ""
   },
