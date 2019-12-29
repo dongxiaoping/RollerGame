@@ -14,15 +14,18 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     focus: cc.Sprite = null
 
-    
+
     @property(cc.Prefab)
     cancelChipAn: cc.Prefab = null //取消chip动画
-    
+
     @property
     typeValue: string = '' //按钮类型
 
     @property(cc.Sprite)
     bg: cc.Sprite = null //下注分数显示区背景
+
+    @property(cc.Node)
+    scorePanel: cc.Node = null //分数显示区
 
     @property(cc.AudioSource)
     overBetLimitVoice: cc.AudioSource = null //下注超限语音
@@ -53,6 +56,9 @@ export default class NewClass extends cc.Component {
         let betLocationType = betInfo.betLocation
         let betValue = betInfo.toValue - betInfo.fromVal
         if (this.typeValue === betLocationType) {
+            if (this.allScore == 0) {
+                this.scorePanel.active = true
+            }
             this.allScore = this.allScore + betValue
             cc.log(this.typeValue + '位置接收到下注通知')
             if (UserManage.userInfo.id === userId) {
@@ -106,7 +112,7 @@ export default class NewClass extends cc.Component {
         return s;
     }
 
-    showCancelChipAn(){
+    showCancelChipAn() {
         var node = cc.instantiate(this.cancelChipAn)
         node.parent = this.node
         node.setPosition(0, 0);

@@ -477,7 +477,7 @@
         "__id__": 16
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 20
@@ -829,6 +829,9 @@
     "typeValue": "middle",
     "bg": {
       "__id__": 13
+    },
+    "scorePanel": {
+      "__id__": 11
     },
     "overBetLimitVoice": {
       "__id__": 22
@@ -1263,7 +1266,7 @@
         "__id__": 39
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 43
@@ -1616,6 +1619,9 @@
     "bg": {
       "__id__": 36
     },
+    "scorePanel": {
+      "__id__": 34
+    },
     "overBetLimitVoice": {
       "__id__": 22
     },
@@ -1863,7 +1869,7 @@
         "__id__": 56
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 60
@@ -2216,6 +2222,9 @@
     "bg": {
       "__id__": 53
     },
+    "scorePanel": {
+      "__id__": 51
+    },
     "overBetLimitVoice": {
       "__id__": 22
     },
@@ -2463,7 +2472,7 @@
         "__id__": 73
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 77
@@ -2816,6 +2825,9 @@
     "bg": {
       "__id__": 70
     },
+    "scorePanel": {
+      "__id__": 68
+    },
     "overBetLimitVoice": {
       "__id__": 22
     },
@@ -3063,7 +3075,7 @@
         "__id__": 90
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 94
@@ -3416,6 +3428,9 @@
     "bg": {
       "__id__": 87
     },
+    "scorePanel": {
+      "__id__": 85
+    },
     "overBetLimitVoice": {
       "__id__": 22
     },
@@ -3663,7 +3678,7 @@
         "__id__": 107
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 111
@@ -4015,6 +4030,9 @@
     "typeValue": "landCorner",
     "bg": {
       "__id__": 104
+    },
+    "scorePanel": {
+      "__id__": 102
     },
     "overBetLimitVoice": {
       "__id__": 22
