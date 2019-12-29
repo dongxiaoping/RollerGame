@@ -25,7 +25,6 @@
       }
     ],
     "_active": true,
-    "_level": 2,
     "_components": [
       {
         "__id__": 10
@@ -52,22 +51,11 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
+        480,
         155,
         0,
         0,
@@ -78,7 +66,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -89,7 +89,6 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 5,
     "_components": [
       {
         "__id__": 3
@@ -111,7 +110,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 56.68,
+      "width": 200,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -119,17 +118,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -145,7 +133,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Label",
@@ -161,11 +161,11 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1.苹果",
-    "_N$string": "1.苹果",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 20,
     "_lineHeight": 20,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
@@ -173,7 +173,7 @@
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 1,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -188,8 +188,8 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 8,
-    "_left": 50,
-    "_right": 0,
+    "_left": -21.660000000000025,
+    "_right": 853.32,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -200,7 +200,7 @@
     "_isAbsBottom": true,
     "_isAbsHorizontalCenter": true,
     "_isAbsVerticalCenter": true,
-    "_originalWidth": 0,
+    "_originalWidth": 56.68,
     "_originalHeight": 0,
     "_id": ""
   },
@@ -224,7 +224,6 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 5,
     "_components": [
       {
         "__id__": 7
@@ -254,17 +253,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -280,7 +268,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Label",

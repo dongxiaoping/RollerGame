@@ -28,7 +28,6 @@
       }
     ],
     "_active": true,
-    "_level": 1,
     "_components": [
       {
         "__id__": 21
@@ -61,17 +60,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -87,7 +75,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -102,7 +102,6 @@
       }
     ],
     "_active": true,
-    "_level": 6,
     "_components": [
       {
         "__id__": 7
@@ -129,17 +128,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -155,7 +143,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -166,7 +166,6 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 6,
     "_components": [
       {
         "__id__": 4
@@ -196,17 +195,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -222,7 +210,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Sprite",
@@ -239,9 +239,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "8cdb44ac-a3f6-449f-b354-7cd48cf84061"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -338,7 +336,6 @@
       }
     ],
     "_active": true,
-    "_level": 2,
     "_components": [],
     "_prefab": {
       "__id__": 14
@@ -361,17 +358,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -387,7 +373,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -398,7 +396,6 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 8,
     "_components": [
       {
         "__id__": 11
@@ -428,17 +425,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -454,7 +440,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Label",
@@ -470,8 +468,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "董小平董小平董小平",
-    "_N$string": "董小平董小平董小平",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": false,
@@ -548,7 +546,6 @@
       }
     ],
     "_active": true,
-    "_level": 2,
     "_components": [],
     "_prefab": {
       "__id__": 20
@@ -571,17 +568,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -597,7 +583,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -608,7 +606,6 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
     "_components": [
       {
         "__id__": 17
@@ -638,17 +635,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -664,7 +650,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Label",

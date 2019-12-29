@@ -1,7 +1,7 @@
 import {UserInfo, userType} from '../store/User/UserBase'
 export const userInfo: UserInfo  = {
     id: '6666660',
-    nick: '苹果',
+    nick: '我爱吃苹果',
     icon: 'renwu/1_10',
     type: userType.NORMAL_USER,
     score: 23,
