@@ -309,6 +309,10 @@ export default class NewClass extends cc.Component {
                     node.active = true
                     break
                 case RaceState.SHOW_DOWN: //这个由控制器来响应
+                    let theNode = this.node.getChildByName('MiddleTopTimePanel')
+                    if(theNode){
+                        theNode.destroy()
+                    }
                     // cc.log('房间收到比大小指令，开始比大小流程')
                     break
                 case RaceState.SHOW_RESULT:

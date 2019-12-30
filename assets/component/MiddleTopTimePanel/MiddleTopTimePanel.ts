@@ -15,21 +15,21 @@ export default class NewClass extends cc.Component {
     start() {
         cc.log('下注时间管理面板收到下注通知，设置本地下注时间定时器')
         let time = RoomManage.getBetTime()
+        time = time - 1
         this.time.string = time.toString()
         let count: number = 0
         this.schedule(() => {
             count++
             let showTime = time - count
-            if (showTime == 2 && ConfigManage.isTxMusicOpen()) {
-                this.stopBetVoice.play()
-            }
             this.time.string = showTime.toString()
             if (showTime <= 0) {
+                if (ConfigManage.isTxMusicOpen()) {
+                    this.stopBetVoice.play()
+                }
                 eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                     type: LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE
                 } as LocalNoticeEventPara)
-                this.node.active = false
-                this.node.destroy()
+                this.unscheduleAllCallbacks()
             }
         }, 1, time, 1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
     }
