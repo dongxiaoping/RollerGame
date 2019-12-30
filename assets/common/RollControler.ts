@@ -14,21 +14,8 @@ export class RollControler extends RollControlerBase {
         this.enterSocketRoom()
     }
 
-    //如果是房主进入，如果房间游戏没开始，需要再socket的里面初始化房间
-    //其它情况直接进入房间
     public enterSocketRoom() {
-        if (RoomManage.roomItem.roomState === roomState.OPEN &&
-            RoomManage.roomItem.creatUserId === UserManage.userInfo.id) {
-            let notice = {
-                type: NoticeType.createAndEnterRoom, info: {
-                    roomId: RoomManage.roomItem.id,
-                    raceCount: RoomManage.roomItem.playCount,
-                    userId: UserManage.userInfo.id
-                }
-            } as NoticeData
-            ws.send(JSON.stringify(notice));
-            cc.log('我是房间创立者，我向服务器发起建立并进入socket房间的websocket通知')
-        } else {
+        if (RoomManage.roomItem.roomState === roomState.OPEN) {
             let notice = {
                 type: NoticeType.enterRoom, info: {
                     roomId: RoomManage.roomItem.id,
@@ -37,6 +24,8 @@ export class RollControler extends RollControlerBase {
             } as NoticeData
             ws.send(JSON.stringify(notice));
             cc.log('我是玩家，我向服务器发起进入socket房间的websocket通知')
+        }else{
+            cc.log('房间已开始，无法进入')
         }
     }
 

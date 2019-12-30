@@ -9,7 +9,7 @@ import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator";
 import RollControler from '../../common/RollControler';
 import ConfigManage from '../../store/Config/ConfigManage';
-import { NoticeType, NoticeData, ws, onOpenWs } from '../../common/WebSocketServer';
+import { NoticeType, NoticeData, ws, onOpenWs, closeWs } from '../../common/WebSocketServer';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -21,6 +21,9 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     private desk: cc.Prefab = null  //桌子
+
+    @property(cc.Prefab)
+    private tipDialog: cc.Prefab = null  //提示框
 
     @property(cc.Sprite)
     private exit: cc.Sprite = null  //退出
@@ -105,12 +108,9 @@ export default class NewClass extends cc.Component {
             return
         }
 
+        closeWs()
         let newSocket = onOpenWs()
-        if (newSocket) {
-            newSocket.onopen = () => {
-                this.enterWebGame()
-            }
-        } else {
+        newSocket.onopen = () => {
             this.enterWebGame()
         }
         cc.director.preloadScene('LobbyScene');//预加载
@@ -132,12 +132,16 @@ export default class NewClass extends cc.Component {
         let roomId = enterRoomParam.roomId
         if (enterRoomParam.model === EnterRoomModel.SHARE) {
             cc.log('进入了分享房间')
-            await UserManage.requestUserInfo(userId)
+            await UserManage.requestUserInfo()
         }
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {
-            cc.log('房间不存在或已开始，退出到首页')
-            cc.director.loadScene("LobbyScene");
+            cc.log('房间不存在或已开始')
+            let node = cc.instantiate(this.tipDialog)
+            let scriptOb = node.getComponent('TipDialog')
+            node.parent = this.node
+            node.active = true
+            scriptOb.showContent('房间不存在或已开始游戏')
             return
         }
         this.initRoom()
@@ -501,6 +505,7 @@ export default class NewClass extends cc.Component {
                 }
             } as NoticeData
             ws.send(JSON.stringify(notice));
+            closeWs()
             cc.log('我是玩家，我向服务器发起退出房间通知')
         }
     }

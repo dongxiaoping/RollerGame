@@ -100,7 +100,7 @@ export default class LobbyScene extends cc.Component {
     }
 
     async initUserInfo() { //这个地方要改
-        let info = await UserManage.requestVisitorUserInfo();
+        let info = await UserManage.requestUserInfo();
         this.userName.string = UserManage.userInfo.nick
         this.userId.string = 'ID:' + UserManage.userInfo.id
         this.diamond.string = UserManage.userInfo.diamond + ''

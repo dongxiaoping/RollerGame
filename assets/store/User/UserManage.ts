@@ -27,27 +27,12 @@ class UserManage {
 
 
 
-    public requestUserInfo(userId: string): Promise<PromiseParam> {
+    public requestUserInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if (config.appMode === appMode.LOCAL_TEST) {
-                this.setUserInfo(userInfo)
-                resolve({ result: PromiseResult.SUCCESS, extObject: this.userInfo })
-            } else {
-                let httpUrl = config.serverAddress + '/race/user/get_user_info_by_id?id=' + userId
-                http.getWithUrl(httpUrl, (status: boolean, info: any) => {
-                    let userInfo = info.data as UserInfo
-                    let gameConfig = info.config as RoomGameConfig
-                    RoomManage.setNetRoomGameConfig(gameConfig)
-                    this.userInfo = new UserItem(userInfo)
-                    resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
-                })
+            if(this.userInfo !== null){
+                resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
+                return
             }
-
-        })
-    }
-
-    public requestVisitorUserInfo(): Promise<PromiseParam> {
-        return new Promise((resolve: (param: PromiseParam) => void): void => {
             let httpUrl = config.serverAddress + '/race/user/create_visit_account'
             http.getWithUrl(httpUrl, (status: boolean, info: any) => {
                 let userInfo = info.data as UserInfo

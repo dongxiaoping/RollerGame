@@ -5020,6 +5020,7 @@
     "desk": {
       "__uuid__": "7139bb2a-511e-4725-93eb-f46266ca78d9"
     },
+    "tipDialog": null,
     "exit": {
       "__id__": 22
     },

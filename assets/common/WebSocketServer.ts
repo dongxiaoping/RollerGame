@@ -45,7 +45,6 @@ export interface NoticeInfo {
 
 export enum NoticeType {
     startRoomGame = 'startRoomGame', //开始房间的比赛 房主调用
-    createAndEnterRoom = 'createAndEnterRoom', //创建并进入房间，这个只有房主才能调用
     landlordSelected = 'landlordSelected', //玩家选择当地主通知
     enterRoom = 'enterRoom', //普通玩家进入房间
     outRoom = 'outRoom', //玩家退出socket的房间，如果房间比赛未开始，同时也会退出数据库中的房间
@@ -61,7 +60,6 @@ let raceStatusDefine = {
 let enterRoom = { type: 'enterRoom', info: { roomId: 2234 } };//进入房间事件
 let startRoomGame = { type: 'startRoomGame', info: { roomId: 2234 } };
 let landlordSelected = { type: 'landlordSelected', info: { roomId: 2234, raceNum: 0, landlordId: 4 } }; //用户抢地主
-let createAndEnterRoom = { type: 'createAndEnterRoom', info: { roomId: 2234, raceCount: 4, userId: 4 } };
 function onopen() {
     // ws.send(JSON.stringify(enterRoom));
     // ws.send(JSON.stringify(startRoomGame));
@@ -86,6 +84,9 @@ function onmessage(e: any): void {
             message as GameMember
             console.log('socket收到有新成员加入房间通知');
             GameMemberManage.addGameMember(message)
+            if(message.userId === RoomManage.roomItem.creatUserId){
+                eventBus.emit(EventType.SOCKET_CREAT_ROOM_SUCCESS, null)
+            }
             break;
         case 'raceStateChoiceLandlord': //接收选地主通知
             message as NoticeInfo
@@ -147,10 +148,6 @@ function onmessage(e: any): void {
             console.log('所有游戏执行完毕,设置房间比赛结果');
             RaceManage.setGameOverResultList(roomResult)
             RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
-            break;
-        case 'createRoomResultNotice': //创建房间结果通知
-            let state = message.state
-            eventBus.emit(EventType.SOCKET_CREAT_ROOM_SUCCESS, null)
             break;
         case 'cancelBetSuccessNotice': //删除下注成功通知
             message as BetNoticeData

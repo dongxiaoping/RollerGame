@@ -1,5 +1,5 @@
 import RoomManage from "../../store/Room/RoomManage";
-import { EnterRoomModel, EnterRoomParam } from "../../common/Const";
+import { EnterRoomModel, EnterRoomParam, ResponseStatus } from "../../common/Const";
 import UserManage from "../../store/User/UserManage";
 
 const { ccclass, property } = cc._decorator;
@@ -34,7 +34,8 @@ export default class NewClass extends cc.Component {
     Delete: cc.Button = null;
     @property(cc.Button)
     Enter: cc.Button = null;
-
+    @property(cc.Prefab)
+    private tipDialog: cc.Prefab = null  //提示框
 
     @property(cc.Label)
     Num: cc.Label = null;
@@ -43,61 +44,76 @@ export default class NewClass extends cc.Component {
 
     // onLoad () {}
 
-    start() {
- 
-    }
     onEnable() {
-        this.CloseButton.node.on(cc.Node.EventType.TOUCH_END, ()=>{
+
+    }
+    start() {
+        this.CloseButton.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.node.destroy()
         })
-        this.One.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='1'
+        this.One.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '1'
         })
-        this.Two.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='2'
+        this.Two.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '2'
         })
-        this.Three.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='3'
+        this.Three.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '3'
         })
-        this.Four.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='4'
+        this.Four.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '4'
         })
-        this.Five.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='5'
+        this.Five.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '5'
         })
-        this.Six.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='6'
+        this.Six.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '6'
         })
-        this.Seven.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='7'
+        this.Seven.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '7'
         })
-        this.Eight.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='8'
+        this.Eight.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '8'
         })
-        this.Nine.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='9'
+        this.Nine.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '9'
         })
-        this.Zero.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string +='0'
+        this.Zero.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string += '0'
         })
-        this.Delete.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            this.Num.string = this.Num.string.substring(0,this.Num.string.length-1)
+        this.Delete.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.Num.string = this.Num.string.substring(0, this.Num.string.length - 1)
         })
-        this.Enter.node.on(cc.Node.EventType.TOUCH_END, ()=>{
-            let roomId = parseInt(this.Num.string) 
-            this.node.destroy()
+        this.Enter.node.on(cc.Node.EventType.TOUCH_END, () => {
+            let roomId = parseInt(this.Num.string)
             RoomManage.setEnterRoomParam({
                 model: EnterRoomModel.NUMBER_PANEL,
                 userId: UserManage.userInfo.id,
                 roomId: roomId
             } as EnterRoomParam)
-            cc.director.loadScene("RollRoomScene");
+            this.checkRoom(roomId)
             console.log(this.Num.string)
         })
     }
 
-    onDisable(){
-        this.CloseButton.node.off(cc.Node.EventType.TOUCH_END, ()=>{})
+    async checkRoom(roomId:number) {
+        let that = this
+        let result = await RoomManage.loginRoom(UserManage.userInfo.id, roomId)
+        if (result.result === ResponseStatus.FAIL) {
+            cc.log('房间不存在或已开始')
+            let node = cc.instantiate(that.tipDialog)
+            let scriptOb = node.getComponent('TipDialog')
+            node.parent = that.node.parent
+            node.active = true
+            scriptOb.showContent('房间不存在或已开始游戏')
+        }else{
+            cc.director.loadScene("RollRoomScene");
+        }
+        this.node.destroy()
+    }
+
+    onDisable() {
+        this.CloseButton.node.off(cc.Node.EventType.TOUCH_END, () => { })
     }
     // update (dt) {}
 }
