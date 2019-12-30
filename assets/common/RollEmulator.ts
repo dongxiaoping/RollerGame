@@ -67,7 +67,9 @@ class RollEmulator extends RollControlerBase {
                     break
                 case LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE: //本地下注时间已过
                     cc.log('我是模拟器，当前下注时间已过，我将比赛状态改为比大小')
-                    RaceManage.changeRaceState(RaceState.SHOW_DOWN)
+                    setTimeout(() => {
+                        RaceManage.changeRaceState(RaceState.SHOW_DOWN)
+                    }, 2000)
                     break
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
                     cc.log('我是游戏模拟器，我接到了比大小动画结束通知,我将比赛状态改为显示结果')

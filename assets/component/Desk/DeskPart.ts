@@ -56,9 +56,6 @@ export default class NewClass extends cc.Component {
         let betLocationType = betInfo.betLocation
         let betValue = betInfo.toValue - betInfo.fromVal
         if (this.typeValue === betLocationType) {
-            if (this.allScore == 0) {
-                this.scorePanel.active = true
-            }
             this.allScore = this.allScore + betValue
             cc.log(this.typeValue + '位置接收到下注通知')
             if (UserManage.userInfo.id === userId) {
@@ -77,11 +74,12 @@ export default class NewClass extends cc.Component {
     }
 
     toOpen() {
+        this.scorePanel.active = true
         this.bg.node.active = true
         this.focus.node.active = false
         this.ownScore = 0
         this.allScore = 0
-        this.betScore.string = '0 / 0'
+        this.betScore.string = '0 / 0'  
     }
 
     winFocusAmination() {
