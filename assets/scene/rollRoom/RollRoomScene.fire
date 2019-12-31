@@ -133,15 +133,18 @@
       },
       {
         "__id__": 112
+      },
+      {
+        "__id__": 114
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 114
+        "__id__": 116
       },
       {
-        "__id__": 115
+        "__id__": 117
       }
     ],
     "_prefab": null,
@@ -231,7 +234,7 @@
       "array": [
         0,
         0,
-        230.3627574066607,
+        237.2909606369362,
         0,
         0,
         0,
@@ -4987,6 +4990,86 @@
     "_id": "a6vM3y0OhEWJGmz7TKFzjA"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "BeginVoice",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 115
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "72lD3HzdNHLYZm3ydBrYBZ"
+  },
+  {
+    "__type__": "cc.AudioSource",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 114
+    },
+    "_enabled": true,
+    "_clip": {
+      "__uuid__": "41961fbb-95b4-4654-8584-c6c67b9f069c"
+    },
+    "_volume": 0.8,
+    "_mute": false,
+    "_loop": false,
+    "playOnLoad": false,
+    "preload": false,
+    "_id": "bf5jaHzdFABYiphO/gyhPx"
+  },
+  {
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,
@@ -5027,9 +5110,6 @@
     "playButtonPrefab": {
       "__uuid__": "96555e57-30bf-4555-b386-bacd48eb80b7"
     },
-    "choiceLandlordPanel": {
-      "__uuid__": "5f8af98e-d6d0-4946-8b70-5398db9dcbda"
-    },
     "dealMachine": {
       "__uuid__": "e355ada6-cd10-46b2-8ec2-1d63b5727559"
     },
@@ -5050,6 +5130,9 @@
     },
     "rapLandlordButton": {
       "__uuid__": "8c7d4d8d-69db-4ea6-b64c-c998b59d0346"
+    },
+    "kaiShipTip": {
+      "__uuid__": "c1bd84a6-5af4-435b-83eb-3c7814e7c3bb"
     },
     "SetPanel": {
       "__uuid__": "f1987185-be09-48fb-a546-99a539889df8"
@@ -5092,6 +5175,9 @@
     },
     "woQiangVoice": {
       "__id__": 113
+    },
+    "beginVoice": {
+      "__id__": 115
     },
     "_id": "feJlsZ4RBOK6EdKyA1WVAs"
   }

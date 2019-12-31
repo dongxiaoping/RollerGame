@@ -79,7 +79,7 @@ export default class NewClass extends cc.Component {
         this.focus.node.active = false
         this.ownScore = 0
         this.allScore = 0
-        this.betScore.string = '0 / 0'  
+        this.betScore.string = '0 / 0'
     }
 
     winFocusAmination() {
@@ -87,15 +87,9 @@ export default class NewClass extends cc.Component {
         let oningNum = RoomManage.roomItem.oningRaceNum
         if (RaceManage.raceList[oningNum][localString] === CompareDxRe.BIG) {
             this.focus.node.active = true
-            this.scheduleOnce(() => {
-                this.focus.node.active = false
-            }, 0.6);
-            this.scheduleOnce(() => {
-                this.focus.node.active = true
-            }, 0.9);
-            this.scheduleOnce(() => {
-                this.focus.node.active = false
-            }, 1.2);
+            this.schedule(() => {
+                this.focus.node.active = this.focus.node.active ? false : true
+            }, 0.5, 3, 0.4); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
         }
     }
     getDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
@@ -202,6 +196,11 @@ export default class NewClass extends cc.Component {
             }
             if (RaceManage.raceList[oningRaceNum].landlordId === UserManage.userInfo.id) {
                 cc.log('地主不能下注')
+                return
+            }
+            let betTime = cc.find('Canvas/MiddleTopTimePanel').getComponent('MiddleTopTimePanel').getShowTime()
+            if (betTime <= 1) {
+                cc.log('超出下注时间')
                 return
             }
             let limitCount = RoomManage.roomItem.costLimit

@@ -22,17 +22,11 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private desk: cc.Prefab = null  //桌子
 
-    @property(cc.Prefab)
-    private tipDialog: cc.Prefab = null  //提示框
-
     @property(cc.Sprite)
     private exit: cc.Sprite = null  //退出
 
     @property(cc.Prefab)
     private playButtonPrefab: cc.Prefab = null //播放按钮
-
-    @property(cc.Prefab)
-    private choiceLandlordPanel: cc.Prefab = null //选地主面板
 
     @property(cc.Prefab)
     private dealMachine: cc.Prefab = null //发牌预制件
@@ -54,6 +48,9 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     private rapLandlordButton: cc.Prefab = null // 抢地主按钮
+
+    @property(cc.Prefab)
+    private kaiShipTip: cc.Prefab = null // 开始文字
 
     @property(cc.Prefab)
     SetPanel: cc.Prefab = null; //设置面板
@@ -91,6 +88,9 @@ export default class NewClass extends cc.Component {
 
     @property(cc.AudioSource)
     woQiangVoice: cc.AudioSource = null;
+
+    @property(cc.AudioSource)
+    beginVoice: cc.AudioSource = null;
 
     userWinScore: number = 0
     userXiaZhuScore: number = 0
@@ -185,10 +185,6 @@ export default class NewClass extends cc.Component {
         node.active = true
     }
 
-    //异常比赛结束后，清除桌子，同时也防止异常情况下（页面最小化），部分组件没有清除，这里做二次清除
-    private clearnRaceDesk() {
-    }
-
     //添加面板上组件的一些响应事件
     private addClickEvent() {
         this.exit.node.on(cc.Node.EventType.TOUCH_END, () => {
@@ -236,7 +232,7 @@ export default class NewClass extends cc.Component {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //摇色子结束
-                    // this.endRollDice() //清除摇色子页面
+                    this.cleanRollDice()
                     break
                 case LocalNoticeEventType.TO_LOBBY_EVENT:
                     cc.log('退出到主页')
@@ -279,14 +275,22 @@ export default class NewClass extends cc.Component {
             switch (to) {
                 case RaceState.ROLL_DICE:
                     cc.log('房间收到摇色子指令，开始摇色子流程')
-                    let landlordId = RaceManage.raceList[raceNum].landlordId
-                    this.beginRollDice()
-                    if (UserManage.userInfo.id !== landlordId) {
-                        cc.log('不是地主,显示下注面板')
-                        this.showXiaZhuPanel()
-                    } else {
-                        cc.log('是地主,不显示下注面板')
-                    }
+                    let kaiShi = cc.instantiate(this.kaiShipTip)
+                    kaiShi.parent = this.node
+                    kaiShi.setPosition(0, 0);
+                    kaiShi.active = true
+                    this.beginVoice.play()
+                    this.scheduleOnce(() => {
+                        kaiShi.destroy()
+                        let landlordId = RaceManage.raceList[raceNum].landlordId
+                        this.beginRollDice()
+                        if (UserManage.userInfo.id !== landlordId) {
+                            cc.log('不是地主,显示下注面板')
+                            this.showXiaZhuPanel()
+                        } else {
+                            cc.log('是地主,不显示下注面板')
+                        }
+                    }, 1.5);
                     break
                 case RaceState.CHOICE_LANDLORD:
                     cc.log('start_game_test:房间收到选地主指令，开始选地主流程,玩家显示抢地主按钮，到此按钮出现')
@@ -310,7 +314,7 @@ export default class NewClass extends cc.Component {
                     break
                 case RaceState.SHOW_DOWN: //这个由控制器来响应
                     let theNode = this.node.getChildByName('MiddleTopTimePanel')
-                    if(theNode){
+                    if (theNode) {
                         theNode.destroy()
                     }
                     // cc.log('房间收到比大小指令，开始比大小流程')
@@ -330,11 +334,9 @@ export default class NewClass extends cc.Component {
                     this.userWinScore = this.userWinScore + winVal
                     this.userScoreLabel.string = this.userWinScore + ''
                     this.userXiaZhuScore = 0
-
-                    this.toCloseRaceResultPanel()
-                    this.cleanMhjongOnDesk()
-                    this.cleanChipOnDesk()
-                    this.clearnRaceDesk()
+                    this.cleanShowResult()
+                    this.cleanDeal()
+                    this.cleanBet()
                     break
             }
         })
@@ -362,16 +364,46 @@ export default class NewClass extends cc.Component {
         })
     }
 
-    cleanMhjongOnDesk(): void {
-        this.node.getChildByName('MjDouble' + TableLocationType.LAND).destroy()
-        this.node.getChildByName('MjDouble' + TableLocationType.LANDLORD).destroy()
-        this.node.getChildByName('MjDouble' + TableLocationType.MIDDLE).destroy()
-        this.node.getChildByName('MjDouble' + TableLocationType.SKY).destroy()
+    //清空摇色子相关动画
+    cleanRollDice() {
+        this.destroyChildNodeByName('RollDice')
     }
 
-    //清空座子上的筹码
-    cleanChipOnDesk() {
+    //清空发牌相关动画
+    cleanDeal() {
+        this.destroyChildNodeByName('MjDouble' + TableLocationType.LAND)
+        this.destroyChildNodeByName('MjDouble' + TableLocationType.LANDLORD)
+        this.destroyChildNodeByName('MjDouble' + TableLocationType.MIDDLE)
+        this.destroyChildNodeByName('MjDouble' + TableLocationType.SKY)
+    }
 
+    //清空下注相关动画
+    cleanBet() {
+        let nodes = this.node.children
+        let i = 0;
+        for (; i < nodes.length; i++) {
+            if (nodes[i].name === 'BetChipItem') {
+                nodes[i].destroy()
+            }
+        }
+    }
+
+    //清空比大小相关动画
+    cleanShowDown() {
+
+    }
+
+    //清空结果显示相关动画
+    cleanShowResult() {
+        this.destroyChildNodeByName('RaceResultPanel')
+    }
+
+    destroyChildNodeByName(nameString: string) {
+        let node = this.node.getChildByName(nameString)
+        if (node) {
+            node.active = false
+            node.destroy()
+        }
     }
 
     toShowRaceResultPanel(): void {
@@ -379,12 +411,6 @@ export default class NewClass extends cc.Component {
         node.name = 'RaceResultPanel'
         node.parent = this.node
         node.active = true
-    }
-
-    toCloseRaceResultPanel(): void {
-        let node = this.node.getChildByName('RaceResultPanel')
-        node.active = false
-        node.destroy()
     }
 
     //开始发牌流程

@@ -5,7 +5,7 @@
 import { TableLocationType, DiceCountInfo } from '../../common/Const'
 const { ccclass, property } = cc._decorator;
 import { eventBus } from '../../common/EventBus'
-import { EventType, IconValueList, LocalNoticeEventPara, LocalNoticeEventType } from '../../common/Const'
+import { EventType, LocalNoticeEventPara, LocalNoticeEventType } from '../../common/Const'
 import { randEventId } from '../../common/Util'
 import RoomManage from '../../store/Room/RoomManage'
 import RaceManage from '../../store/Races/RaceManage'
@@ -28,9 +28,9 @@ export default class NewClass extends cc.Component {
     @property([cc.SpriteFrame])
     majongIcons: cc.SpriteFrame[] = [] //结果图
 
-    singleIntervalTime = 0.25 //翻牌 2个
+    singleIntervalTime = 0.2 //翻牌 2个
     twoIntervalTime = 0.1  //两张之间的停顿时间 s  
-    twoLocationIntervalTime = 0.4 //两个位置之间的发牌间隔时间 s 
+    twoLocationIntervalTime = 0.5 //两个位置之间的翻牌间隔时间 s 
     localEventId: string
 
     @property([cc.AudioSource])
@@ -127,22 +127,23 @@ export default class NewClass extends cc.Component {
     }
 
     openAnimation(ob: cc.Sprite, val: number, callBack: any) {
-        let count = 1
-        this.schedule(() => {
-            if (count === 1) {
-                ob.spriteFrame = this.oneThirdIcon
-            } else if (count === 2) {
-                if (ConfigManage.isTxMusicOpen()) {
-                    this.kaipaiVoice.play()
-                }
-                ob.spriteFrame = this.halfIcon
-            } else if (count === 3) {
+        let location = ob.node.getPosition()
+        let timeOne = this.singleIntervalTime / 2
+        let timeTwo = this.singleIntervalTime / 2
+        ob.spriteFrame = this.oneThirdIcon
+        this.scheduleOnce(() => {
+            if (ConfigManage.isTxMusicOpen()) {
+                this.kaipaiVoice.play()
+            }
+            ob.spriteFrame = this.halfIcon
+            ob.node.setPosition(location.x, location.y + 7)
+            this.scheduleOnce(() => {
                 ob.spriteFrame = this.allIcon
+                ob.node.setPosition(location.x, location.y)
                 this.drawResult(ob, val)
                 callBack()
-            }
-            count++
-        }, this.singleIntervalTime / 3, 2, 0.1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
+            }, timeTwo);
+        }, timeOne);
     }
 
     drawResult(ob: cc.Sprite, val: number) {

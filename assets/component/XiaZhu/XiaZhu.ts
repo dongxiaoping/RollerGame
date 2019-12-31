@@ -100,6 +100,7 @@ export default class NewClass extends cc.Component {
             chip = this.chip_100
         }
         let node = cc.instantiate(chip)
+        node.name = 'BetChipItem'
         let label = node.getChildByName('ValLabel').getComponent(cc.Label)
         //设置chip信息
         node.getComponent('Chip').initData(chipInfo)

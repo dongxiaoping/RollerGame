@@ -14,5 +14,5 @@ export const config: Config = {
   //serverAddress: 'http://120.26.52.88/phpserver/public/index.php',
  // websocketAddress: 'ws://120.26.52.88:2346',
   requestTimeoutTime: 2000,
-  version: 'rc-1.0.1'
+  version: 'rc-1.0.2'
 }
