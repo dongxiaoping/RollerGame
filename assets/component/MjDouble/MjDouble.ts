@@ -128,8 +128,8 @@ export default class NewClass extends cc.Component {
 
     openAnimation(ob: cc.Sprite, val: number, callBack: any) {
         let location = ob.node.getPosition()
-        let timeOne = this.singleIntervalTime / 2
-        let timeTwo = this.singleIntervalTime / 2
+        let timeOne = this.singleIntervalTime / 3*2
+        let timeTwo = this.singleIntervalTime / 3
         ob.spriteFrame = this.oneThirdIcon
         this.scheduleOnce(() => {
             if (ConfigManage.isTxMusicOpen()) {

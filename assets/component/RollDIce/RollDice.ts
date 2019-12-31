@@ -28,7 +28,7 @@ export default class NewClass extends cc.Component {
 
     @property(cc.AudioSource)
     yaosaiziVoice: cc.AudioSource = null //摇色子声音语音
-    
+
 
     private dicePicList: string[] = [
         'dice/dice_03205fea_02',
@@ -39,10 +39,10 @@ export default class NewClass extends cc.Component {
         'dice/dice_03205fea_07',
     ]
     start() {
-        let timeConfig = RoomManage.getRollDiceTime()
+        let timeConfig = RoomManage.getRollDiceTime() - 2
         this.firstKeepStopTime = Math.floor((timeConfig / 9 * 2) * 100) / 100
         this.rollKeepTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
-        this.secondKeepStopTime = Math.floor((timeConfig / 9/2) * 100) / 100
+        this.secondKeepStopTime = Math.floor((timeConfig / 9 / 2) * 100) / 100
         this.diceShowTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
         this.scheduleOnce(() => {
             this.oning = true

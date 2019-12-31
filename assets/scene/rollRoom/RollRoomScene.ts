@@ -290,7 +290,7 @@ export default class NewClass extends cc.Component {
                         } else {
                             cc.log('是地主,不显示下注面板')
                         }
-                    }, 1.5);
+                    }, 2);
                     break
                 case RaceState.CHOICE_LANDLORD:
                     cc.log('start_game_test:房间收到选地主指令，开始选地主流程,玩家显示抢地主按钮，到此按钮出现')
