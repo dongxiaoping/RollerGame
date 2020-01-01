@@ -17,8 +17,7 @@
   },
   "encryptJs": false,
   "excludeScenes": [
-    "42797c99-a1c2-405f-8440-af51e8b94c70",
-    "11d6a3be-2b53-4e46-8a86-44f0cbb4756b"
+    "0c103ecc-190a-49af-ba00-5d7047bedc9c"
   ],
   "fb-instant-games": {},
   "includeSDKBox": false,
@@ -39,7 +38,7 @@
     "orientation": "portrait",
     "zip": false
   },
-  "startScene": "0c103ecc-190a-49af-ba00-5d7047bedc9c",
+  "startScene": "11d6a3be-2b53-4e46-8a86-44f0cbb4756b",
   "title": "RollerGame",
   "webOrientation": "landscape",
   "wechatgame": {

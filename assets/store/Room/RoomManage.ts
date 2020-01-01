@@ -1,6 +1,6 @@
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { appMode, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam, EnterRoomFail } from '../../common/Const'
 import { roomInfo } from '../../mock/RoomInfo'
 import http from '../../common/Http'
 import RaceManage from '../Races/RaceManage';
@@ -116,9 +116,13 @@ class RoomManage {
     public loginRoom(userId: string, rommId: number): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             let httpUrl = config.serverAddress + '/race/room/login_in_room?userId=' + userId + "&roomId=" + rommId
-            http.getWithUrl(httpUrl, (status: boolean, info: ResponseData) => {
+            http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
+                if(error){
+                    resolve({ result: ResponseStatus.FAIL, extObject: {message:EnterRoomFail.interface_fail} })
+                    return
+                }
                 if (info.status === ResponseStatus.FAIL) { //加入房间失败
-                    resolve({ result: ResponseStatus.FAIL, extObject: '' })
+                    resolve({ result: ResponseStatus.FAIL, extObject: info })
                     return
                 }
                 let data = info.data;
@@ -138,7 +142,7 @@ class RoomManage {
                 this.setRoomItem(roomInfo);
                 RaceManage.setRaceList(races);
                 GameMemberManage.setGameMemberList(members);
-                resolve({ result: ResponseStatus.SUCCESS, extObject: '' })
+                resolve({ result: ResponseStatus.SUCCESS, extObject: info })
             })
         })
     }

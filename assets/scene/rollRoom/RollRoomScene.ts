@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus, BetNoticeData, betLocaion } from '../../common/Const'
+import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus, BetNoticeData, betLocaion, EnterRoomFail } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -54,6 +54,9 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     SetPanel: cc.Prefab = null; //设置面板
+
+    @property(cc.Prefab)
+    private tipDialog: cc.Prefab = null  //提示框
 
     @property(cc.Label)
     showRoomNum: cc.Label = null; //房间号显示  
@@ -137,17 +140,26 @@ export default class NewClass extends cc.Component {
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {
             cc.log('房间不存在或已开始')
-            let node = cc.instantiate(this.tipDialog)
-            let scriptOb = node.getComponent('TipDialog')
-            node.parent = this.node
-            node.active = true
-            scriptOb.showContent('房间不存在或已开始游戏')
+            this.showEnterRoomFailTip(result.extObject)
             return
         }
         this.initRoom()
         this.controller = new RollControler()
         this.controller.start()
         //  this.node.getChildByName('WechatShare').active = true
+    }
+
+    showEnterRoomFailTip(info: any) {
+        let message = info.message as EnterRoomFail
+        let node = cc.instantiate(this.tipDialog)
+        let scriptOb = node.getComponent('TipDialog')
+        node.parent = this.node
+        node.active = true
+        try {
+            scriptOb.showContent(EnterRoomFail[message])
+        } catch (e) {
+            scriptOb.showContent('进入异常')
+        }
     }
 
     showTopLeftRaceInfo() {

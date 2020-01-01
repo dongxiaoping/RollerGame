@@ -1,5 +1,5 @@
 import RoomManage from "../../store/Room/RoomManage";
-import { EnterRoomModel, EnterRoomParam, ResponseStatus } from "../../common/Const";
+import { EnterRoomModel, EnterRoomParam, ResponseStatus, EnterRoomFail } from "../../common/Const";
 import UserManage from "../../store/User/UserManage";
 
 const { ccclass, property } = cc._decorator;
@@ -96,20 +96,28 @@ export default class NewClass extends cc.Component {
         })
     }
 
-    async checkRoom(roomId:number) {
-        let that = this
+    async checkRoom(roomId: number) {
         let result = await RoomManage.loginRoom(UserManage.userInfo.id, roomId)
         if (result.result === ResponseStatus.FAIL) {
             cc.log('房间不存在或已开始')
-            let node = cc.instantiate(that.tipDialog)
-            let scriptOb = node.getComponent('TipDialog')
-            node.parent = that.node.parent
-            node.active = true
-            scriptOb.showContent('房间不存在或已开始游戏')
-        }else{
+            this.showEnterRoomFailTip(result.extObject)
+        } else {
             cc.director.loadScene("RollRoomScene");
         }
         this.node.destroy()
+    }
+
+    showEnterRoomFailTip(info: any) {
+        let message = info.message as EnterRoomFail
+        let node = cc.instantiate(this.tipDialog)
+        let scriptOb = node.getComponent('TipDialog')
+        node.parent = this.node.parent
+        node.active = true
+        try {
+            scriptOb.showContent(EnterRoomFail[message])
+        } catch (e) {
+            scriptOb.showContent('进入异常')
+        }
     }
 
     onDisable() {
