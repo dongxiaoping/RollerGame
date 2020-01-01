@@ -137,6 +137,9 @@ export default class NewClass extends cc.Component {
                 if (RaceManage.raceList[raceNum].state !== RaceState.BET) {
                     return
                 }
+                if(this.isOverBetTime()){
+                    return
+                }
                 cc.log('删除打印：执行删除动作')
                 this.cancelBetLock = true
                 this.showCancelChipAn()
@@ -198,9 +201,7 @@ export default class NewClass extends cc.Component {
                 cc.log('地主不能下注')
                 return
             }
-            let betTime = cc.find('Canvas/MiddleTopTimePanel').getComponent('MiddleTopTimePanel').getShowTime()
-            if (betTime <= 1) {
-                cc.log('超出下注时间')
+            if(this.isOverBetTime()){
                 return
             }
             let limitCount = RoomManage.roomItem.costLimit
@@ -230,6 +231,15 @@ export default class NewClass extends cc.Component {
                 } as BetNoticeData
             })
         })
+    }
+
+    isOverBetTime():boolean{
+        let betTime = cc.find('Canvas/MiddleTopTimePanel').getComponent('MiddleTopTimePanel').getShowTime()
+        if (betTime <= 1) {
+            cc.log('超出下注时间')
+            return true
+        }
+        return false
     }
 
     touchMoveEvent(event: any) {

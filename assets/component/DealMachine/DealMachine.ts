@@ -86,7 +86,7 @@ export default class DealMachine extends cc.Component {
             cc.log('没有麻将队列')
             return
         }
-        if (this.mjIndex >= this.mahjongList.length) {
+        if (this.mjIndex >= this.mahjongList.length-1) {
             this.reSetMahjong()
             this.flyAnimation(this.mjIndex, tableLocationType, func)
             return

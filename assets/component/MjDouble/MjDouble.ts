@@ -136,7 +136,7 @@ export default class NewClass extends cc.Component {
                 this.kaipaiVoice.play()
             }
             ob.spriteFrame = this.halfIcon
-            ob.node.setPosition(location.x, location.y + 7)
+            ob.node.setPosition(location.x, location.y + 8)
             this.scheduleOnce(() => {
                 ob.spriteFrame = this.allIcon
                 ob.node.setPosition(location.x, location.y)
