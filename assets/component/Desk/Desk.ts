@@ -5,7 +5,7 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo, betLocaion, DiceCountInfo, TableLocationType } from '../../common/Const'
+import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo, betLocaion, DiceCountInfo, TableLocationType, roomState } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -54,7 +54,7 @@ export default class Desk extends cc.Component {
         })
         this.mahjongResulNodes = []
     }
-    onLoad(){
+    onLoad() {
         //cc.dynamicAtlasManager.insertSpriteFrame(spriteFrame); //动态合图
     }
 
@@ -91,6 +91,13 @@ export default class Desk extends cc.Component {
                 userIcon: newMember.icon
             } as MemberInChairData
             this.chairManage.inChair(member)
+        })
+
+        eventBus.on(EventType.MEMBER_OUT_ROOM, randEventId(), (userId: string): void => {
+            cc.log('我是桌子，我收到玩家退出房间通过之')
+            if (RoomManage.roomItem.roomState === roomState.OPEN) {
+                this.chairManage.outChair(userId)
+            }
         })
 
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
@@ -225,7 +232,7 @@ export default class Desk extends cc.Component {
 
     //执行请下注动画
     playingXiaZhuAnimation() {
-        if(ConfigManage.isTxMusicOpen()){
+        if (ConfigManage.isTxMusicOpen()) {
             this.qingxiazhu.play()
         }
         let node = cc.instantiate(this.qingXiaZhu)

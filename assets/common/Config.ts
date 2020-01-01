@@ -9,10 +9,10 @@ interface Config {
 }
 export const config: Config = {
   appMode: appMode.SERVER_TEST,
-  //serverAddress: 'http://127.0.0.1/phpserver/public/index.php',
-  //websocketAddress: 'ws://127.0.0.1:2346',
-  serverAddress: 'http://120.26.52.88/phpserver/public/index.php',
-  websocketAddress: 'ws://120.26.52.88:2346',
+  serverAddress: 'http://127.0.0.1/phpserver/public/index.php',
+  websocketAddress: 'ws://127.0.0.1:2346',
+  //serverAddress: 'http://120.26.52.88/phpserver/public/index.php',
+  //websocketAddress: 'ws://120.26.52.88:2346',
   requestTimeoutTime: 2000,
   version: 'rc-1.0.2'
 }

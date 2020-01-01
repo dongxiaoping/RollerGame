@@ -59,7 +59,7 @@ export enum betLocaion {
 export enum EventType {
     ROOM_STATE_CHANGE_EVENT = 1, //房间状态改变通知   （数据改变触发）
     RACE_STATE_CHANGE_EVENT = 2,  //当前比赛状态改变通知 （数据改变触发）
-    MEMBER_CHANGE_EVENT = 3,  //人员变动通知  （数据改变触发）
+    MEMBER_OUT_ROOM = 3,  //用户退出房间
     LOCAL_NOTICE_EVENT = 4,  //本地通知事件 （本地对本地 和数据改变无关）
     LANDLORD_CAHNGE_EVENT = 5,//地主改变通知 （数据改变触发）
     BET_CHIP_CHANGE_EVENT = 6, //下注改变通知 （数据改变触发）

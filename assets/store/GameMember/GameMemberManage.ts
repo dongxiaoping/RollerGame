@@ -1,12 +1,13 @@
 import { config, } from '../../common/Config'
-import { appMode, PromiseParam, PromiseResult, GameMember, EventType, LocalNoticeEventType, LocalNoticeEventPara } from '../../common/Const'
+import { appMode, PromiseParam, PromiseResult, GameMember, EventType, LocalNoticeEventType, LocalNoticeEventPara, RaceState, roomState } from '../../common/Const'
 import GameMemberItem from './GameMemberItem'
 import { GameMemberList } from '../../mock/GameMemberList'
 import { eventBus } from '../../common/EventBus';
+import RoomManage from '../Room/RoomManage';
 class GameMemberManage {
     private _gameMenmberList: GameMemberItem[] = null
 
-    public reSet(){
+    public reSet() {
         this._gameMenmberList = null
     }
 
@@ -37,9 +38,16 @@ class GameMemberManage {
         this.gameMenmberList = list
     }
 
+    //用户退出游戏
+    outGameMember(userId: string) {
+        if ((RoomManage.roomItem.roomState === roomState.OPEN) && (typeof (this._gameMenmberList[userId]) !== 'undefined')) {
+            delete this._gameMenmberList[userId]
+        }
+        eventBus.emit(EventType.MEMBER_OUT_ROOM, userId)
+    }
+
     addGameMember(gameMember: GameMember) {
         let userId = gameMember.userId
-        cc.log(typeof (this.gameMenmberList[userId]))
         if (typeof (this.gameMenmberList[userId]) !== 'undefined') {
             cc.log('该成员存在')
             return false

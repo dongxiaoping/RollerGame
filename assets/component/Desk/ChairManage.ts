@@ -37,6 +37,15 @@ export default class ChairManage {
         return false
     }
 
+    public outChair(userId: string) {
+        for (let i = 0; i < this.chairList.length; i++) {
+            if (this.chairList[i].memberInChairData.userId === userId) {
+                this.chairList[i].outChair(() => { })
+                break
+            }
+        }
+    }
+
     public getOneEmputyChair() {
         for (let i = 0; i < this.chairList.length; i++) {
             if (this.chairList[i].isChairEmputy()) {

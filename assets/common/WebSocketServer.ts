@@ -25,7 +25,7 @@ export function closeWs() {
 export function onOpenWs() {
     if (ws === null) {
         ws = new WebSocket(config.websocketAddress)
-      //  ws.onopen = onopen
+        //  ws.onopen = onopen
         ws.onmessage = onmessage
         cc.log('开启socket连接')
         return ws
@@ -84,7 +84,7 @@ function onmessage(e: any): void {
             message as GameMember
             console.log('socket收到有新成员加入房间通知');
             GameMemberManage.addGameMember(message)
-            if(message.userId === RoomManage.roomItem.creatUserId){
+            if (message.userId === RoomManage.roomItem.creatUserId) {
                 eventBus.emit(EventType.SOCKET_CREAT_ROOM_SUCCESS, null)
             }
             break;
@@ -152,6 +152,10 @@ function onmessage(e: any): void {
         case 'cancelBetSuccessNotice': //删除下注成功通知
             message as BetNoticeData
             BetManage.cancelBet(message)
+            break;
+        case 'memberOutRoom': //用户退出房间
+            GameMemberManage.outGameMember(message.user_id)
+            console.log('用户退出房间，用户：' + message.user_id)
             break;
     }
 }

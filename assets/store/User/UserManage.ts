@@ -1,6 +1,5 @@
 import { config } from '../../common/Config'
 import { appMode, PromiseParam, PromiseResult, ResponseStatus } from '../../common/Const'
-import { userInfo } from '../../mock/UserInfo'
 import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';
@@ -25,11 +24,9 @@ class UserManage {
         this.userInfo = new UserItem(info)
     }
 
-
-
     public requestUserInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if(this.userInfo !== null){
+            if (this.userInfo !== null) {
                 resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
                 return
             }
