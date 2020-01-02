@@ -129,7 +129,6 @@ export default class NewClass extends cc.Component {
 
             let isTouchMove = touchMoveEvent(event)
             if (isTouchMove) {
-                cc.log('删除打印：是滑动事件')
                 if (this.cancelBetLock || this.ownScore == 0) {
                     return
                 }

@@ -299,7 +299,7 @@ export interface chipObData {
     betLocation: betLocaion
 }
 
-//大小比较结果
+//进入房间错误类型
 export enum EnterRoomFail {
     param_error = '参数错误', //传参错误
     user_not_exist = '用户不存在', //用户不存在
@@ -308,6 +308,12 @@ export enum EnterRoomFail {
     diamond_not_enough = '钻数量不够，请充值', //钻石不够，无法进入该房间
     member_count_limit = '房间已满，无法进入', //房间已满，无法进入
     in_room_fail = '进入房间异常', //进入房间，插入数据库异常
+    interface_fail = '接口请求异常', //接口异常
+}
+
+//创建房间错误类型
+export enum CreateRoomFail {
+    param_error = '参数错误', //传参错误
     interface_fail = '接口请求异常', //接口异常
 }
 

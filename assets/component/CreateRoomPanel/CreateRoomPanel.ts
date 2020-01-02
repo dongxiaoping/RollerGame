@@ -45,6 +45,8 @@ export default class NewClass extends cc.Component {
     @property(cc.Toggle)
     xiazhu_500: cc.Toggle = null
     ////////////////////////////////
+    @property(cc.Prefab)
+    private tipDialog: cc.Prefab = null  //提示框
 
     start() {
         this.renshu_6.isChecked = true
@@ -117,6 +119,7 @@ export default class NewClass extends cc.Component {
 
     async dealCreateRoom(userId: string, renshu: number, jushu: number, payMode: CreateRoomPayModel, xiazhu: number) {
         let res = await RoomManage.createRoom(userId, renshu, jushu, payMode, xiazhu)
+        cc.log('房间创建完毕信息：' + JSON.stringify(res))
         if (res.result === ResponseStatus.SUCCESS) {
             let roomInfo = res.extObject as RoomInfo
             RoomManage.setRoomItem(roomInfo) //主要的设置roomId
@@ -128,11 +131,20 @@ export default class NewClass extends cc.Component {
             } as EnterRoomParam)
             cc.log('start_game_test:创建成功，跳转到房间页面，用户ID:' + UserManage.userInfo.id + ',房间ID:' + roomInfo.id)
             cc.director.loadScene("RollRoomScene");
-            cc.log('房间创建成功,房间信息：' + JSON.stringify(roomInfo))
             cc.log('进入游戏房间')
         } else {
             cc.log('房间创建失败')
+            this.showCreateRoomFailTip(null)
+            this.node.destroy()
         }
+    }
+
+    showCreateRoomFailTip(info: any) {
+        let node = cc.instantiate(this.tipDialog)
+        let scriptOb = node.getComponent('TipDialog')
+        node.parent = this.node.parent
+        node.active = true
+        scriptOb.showContent('创建房间失败')
     }
 
 

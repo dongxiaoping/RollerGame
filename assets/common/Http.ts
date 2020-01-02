@@ -14,7 +14,10 @@ export class Http {
             } else {
                 err = true;
             }
-            var response = JSON.parse(xhr.responseText)
+            var response = ''
+            try {
+                response = JSON.parse(xhr.responseText)
+            } catch (e) { console.log(e) }
             callback(err, response);
         };
         xhr.send();

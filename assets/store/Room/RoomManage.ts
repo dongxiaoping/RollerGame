@@ -1,6 +1,6 @@
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam, EnterRoomFail } from '../../common/Const'
+import { PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam, EnterRoomFail, CreateRoomFail } from '../../common/Const'
 import { roomInfo } from '../../mock/RoomInfo'
 import http from '../../common/Http'
 import RaceManage from '../Races/RaceManage';
@@ -97,9 +97,17 @@ class RoomManage {
             let paramString = '?creatUserId=' + creatUserId + '&memberLimit=' + memberLimit +
                 '&playCount=' + playCount + '&roomPay=' + roomPay + '&costLimit=' + costLimit
             httpUrl = httpUrl + paramString
-            http.getWithUrl(httpUrl, (status: boolean, info: any) => {
-                let res = info.data as ResponseData
-                resolve({ result: ResponseStatus.SUCCESS, extObject: res })
+            http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
+                if(error){
+                    resolve({ result: ResponseStatus.FAIL, extObject: {message:CreateRoomFail.interface_fail} })
+                    return
+                }
+                if (info.status === ResponseStatus.FAIL) { //创建房间失败
+                    resolve({ result: ResponseStatus.FAIL, extObject: info })
+                    return
+                }
+                 let roomInfo = info.data as RoomInfo
+                 resolve({ result: ResponseStatus.SUCCESS, extObject: roomInfo })
             })
         })
     }

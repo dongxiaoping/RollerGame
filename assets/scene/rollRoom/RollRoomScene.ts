@@ -103,7 +103,6 @@ export default class NewClass extends cc.Component {
         if (ConfigManage.isBackMusicOpen()) {
             this.backMusic.play()
         }
-        this.addClickEvent()
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
             cc.log('进入了模拟房间')
@@ -119,7 +118,7 @@ export default class NewClass extends cc.Component {
     }
 
     onEnable() {
-
+        this.addClickEvent()
     }
 
     playWoQiangVoice() {
@@ -202,10 +201,6 @@ export default class NewClass extends cc.Component {
                 type: LocalNoticeEventType.TO_LOBBY_EVENT,
                 info: null
             } as LocalNoticeEventPara)
-        })
-
-        this.node.getChildByName('WechatShare').on(cc.Node.EventType.TOUCH_END, () => {
-            cc.log('分享按钮被点击了')
         })
 
         this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
