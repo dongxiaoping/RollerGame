@@ -1,12 +1,10 @@
 import { eventBus } from '../common/EventBus'
-import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData } from '../common/Const'
+import { NoticeData, NoticeType, RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RoomManage from '../store/Room/RoomManage'
-import { config } from './Config';
-import { ws, NoticeType, NoticeData } from './WebSocketServer';
 import UserManage from '../store/User/UserManage';
 import { RollControlerBase } from './RollControlerBase';
-
+import webSocketManage from '../common/WebSocketManage'
 export class RollControler extends RollControlerBase {
     public start() {
         cc.log('游戏控制器被启动')
@@ -22,7 +20,7 @@ export class RollControler extends RollControlerBase {
                     userId: UserManage.userInfo.id
                 }
             } as NoticeData
-            ws.send(JSON.stringify(notice));
+            webSocketManage.send(JSON.stringify(notice));
             cc.log('我是玩家，我向服务器发起进入socket房间的websocket通知')
         }else{
             cc.log('房间已开始，无法进入')
@@ -79,7 +77,7 @@ export class RollControler extends RollControlerBase {
                 case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件
                     let betInfo = info.info as BetNoticeData
                     let notice = { type: NoticeType.raceBet, info: betInfo } as NoticeData
-                    ws.send(JSON.stringify(notice));
+                    webSocketManage.send(JSON.stringify(notice));
                     break
             }
         })
@@ -91,7 +89,7 @@ export class RollControler extends RollControlerBase {
                 userId: UserManage.userInfo.id
             }
         } as NoticeData
-        ws.send(JSON.stringify(startRoomGame));
+        webSocketManage.send(JSON.stringify(startRoomGame));
         cc.log('start_game_test:我是游戏控制器，我向服务器发起游戏开始的websocket通知')
         cc.log('start_game_test:' + JSON.stringify(startRoomGame))
     }
@@ -117,7 +115,7 @@ export class RollControler extends RollControlerBase {
                     landlordId: userId
                 }
             } as NoticeData
-            ws.send(JSON.stringify(notice));
+            webSocketManage.send(JSON.stringify(notice));
             cc.log('我是游戏控制器，我向服务器发起抢地主通知')
         }
     }

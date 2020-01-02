@@ -1,6 +1,5 @@
 import { config } from '../../common/Config'
-import { appMode, PromiseParam, PromiseResult, BetRecord, GameMember, betLocaion, BetNoticeData } from '../../common/Const'
-import { BetList } from '../../mock/BetList'
+import { PromiseParam, PromiseResult, BetRecord, betLocaion, BetNoticeData } from '../../common/Const'
 import Betitem from './BetItem';
 import http from '../../common/Http'
 class BetManage {
@@ -10,12 +9,6 @@ class BetManage {
             if (this.betList !== null) {
                 resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
                 return
-            }
-            if (config.appMode === appMode.LOCAL_TEST) {
-                BetList.forEach((item: BetRecord): void => {
-                    //   this.betList.push(new BetItem(item))
-                })
-            } else {
             }
             resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
         })

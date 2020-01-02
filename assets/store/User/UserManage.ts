@@ -1,5 +1,5 @@
 import { config } from '../../common/Config'
-import { appMode, PromiseParam, PromiseResult, ResponseStatus } from '../../common/Const'
+import { PromiseParam, PromiseResult, ResponseStatus } from '../../common/Const'
 import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';

@@ -1,6 +1,6 @@
 import { config } from '../../common/Config'
 import RaceItem from './RaceItem'
-import { appMode, PromiseParam, PromiseResult, raceRecord, RaceState, betLocaion, raceResultData, CompareDxRe } from '../../common/Const'
+import { PromiseParam, PromiseResult, raceRecord, RaceState, betLocaion, raceResultData, CompareDxRe } from '../../common/Const'
 import { RaceList } from '../../mock/RaceList'
 import RoomManage from '../../store/Room/RoomManage'
 import BetManage from '../Bets/BetManage';
@@ -52,15 +52,6 @@ class RaceManage {
 
     public requestRaceList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if (this.raceList.length > 0) {
-                resolve({ result: PromiseResult.SUCCESS, extObject: this.raceList })
-                return
-            }
-            if (config.appMode === appMode.LOCAL_TEST) {
-                this.setRaceList(RaceList)
-            } else {
-
-            }
             resolve({ result: PromiseResult.SUCCESS, extObject: this.raceList })
         })
     }

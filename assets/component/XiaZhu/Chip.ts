@@ -12,21 +12,22 @@ export default class NewClass extends cc.Component {
     chipInfo: chipObData = null
     eventId: string
     betCancelEventId: string
-    flyTime: number = 1  //下注硬币飞行时间
+    flyTime: number = 1.2  //下注硬币飞行时间
     start() {
         this.eventId = randEventId()
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-                    this.chipBackAction(false)
+                    this.scheduleOnce(() => {
+                        this.chipBackAction(false)
+                    }, 1);
                     break
             }
         })
         this.betCancelEventId = randEventId()
         eventBus.on(EventType.BET_CANCE_NOTICE, this.betCancelEventId, (info: BetChipChangeInfo): void => {
             if (info.userId === this.chipInfo.userId && info.betLocation === this.chipInfo.betLocation) {
-                // this.chipBackAction(true)
                 this.node.active = false
                 this.node.destroy()
             }

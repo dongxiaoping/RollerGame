@@ -1,5 +1,5 @@
 import { config, } from '../../common/Config'
-import { appMode, PromiseParam, PromiseResult, GameMember, EventType, LocalNoticeEventType, LocalNoticeEventPara, RaceState, roomState } from '../../common/Const'
+import { PromiseParam, PromiseResult, GameMember, EventType, LocalNoticeEventType, LocalNoticeEventPara, RaceState, roomState } from '../../common/Const'
 import GameMemberItem from './GameMemberItem'
 import { GameMemberList } from '../../mock/GameMemberList'
 import { eventBus } from '../../common/EventBus';
@@ -62,18 +62,7 @@ class GameMemberManage {
     //获取数据并返回，优先从本地获取，本地没有从服务器获取
     public requestGameMemberList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if (this.gameMenmberList !== null) {
-                resolve({ result: PromiseResult.SUCCESS, extObject: this.gameMenmberList })
-                return
-            }
-            if (config.appMode === appMode.LOCAL_TEST) { //从模拟数据获取
-                this.setGameMemberList(GameMemberList)
-                resolve({ result: PromiseResult.SUCCESS, extObject: this.gameMenmberList })
-            } else { //从服务器获取
-                //this.updateGameMemberListFromServer()
-                resolve({ result: PromiseResult.SUCCESS, extObject: null })
-            }
-
+            resolve({ result: PromiseResult.SUCCESS, extObject: this.gameMenmberList })
         })
     }
 

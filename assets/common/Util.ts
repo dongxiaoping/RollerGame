@@ -89,3 +89,14 @@ export function getMemeberResultScoreList(list: raceResultData[], memberList: Ga
     })
     return newList
 }
+
+
+export function touchMoveEvent(event: any) {
+    let dx = Math.abs(event.currentTouch._point.x - event.currentTouch._startPoint.x)
+    let dy = Math.abs(event.currentTouch._point.y - event.currentTouch._startPoint.y)
+    var dis = parseFloat(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)).toFixed(2));
+    if (dis < 30) {
+        return false
+    }
+    return true
+}

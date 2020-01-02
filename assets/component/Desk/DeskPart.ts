@@ -1,13 +1,13 @@
 const { ccclass, property } = cc._decorator;
-import { RaceState, EventType, BetChipChangeInfo, RaceStateChangeParam, betLocaion, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, BetNoticeData, EnterRoomModel } from '../../common/Const'
+import { NoticeType, NoticeData, RaceState, EventType, BetChipChangeInfo, betLocaion, LocalNoticeEventType, CompareDxRe, BetNoticeData, EnterRoomModel } from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
-import { eventBus } from '../../common/EventBus';
-import BetManage from '../../store/Bets/BetManage';
-import { ws, NoticeType, NoticeData } from '../../common/WebSocketServer';
-import ConfigManage from '../../store/Config/ConfigManage';
-import { randEventId } from '../../common/Util';
+import { eventBus } from '../../common/EventBus'
+import BetManage from '../../store/Bets/BetManage'
+import webSocketManage from '../../common/WebSocketManage'
+import ConfigManage from '../../store/Config/ConfigManage'
+import { randEventId, touchMoveEvent } from '../../common/Util'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -127,7 +127,7 @@ export default class NewClass extends cc.Component {
 
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
 
-            let isTouchMove = this.touchMoveEvent(event)
+            let isTouchMove = touchMoveEvent(event)
             if (isTouchMove) {
                 cc.log('删除打印：是滑动事件')
                 if (this.cancelBetLock || this.ownScore == 0) {
@@ -137,7 +137,7 @@ export default class NewClass extends cc.Component {
                 if (RaceManage.raceList[raceNum].state !== RaceState.BET) {
                     return
                 }
-                if(this.isOverBetTime()){
+                if (this.isOverBetTime()) {
                     return
                 }
                 cc.log('删除打印：执行删除动作')
@@ -180,7 +180,7 @@ export default class NewClass extends cc.Component {
 
         this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
             this.focus.node.active = false
-            let isTouchMove = this.touchMoveEvent(event)
+            let isTouchMove = touchMoveEvent(event)
             if (isTouchMove) {
                 return
             }
@@ -201,7 +201,7 @@ export default class NewClass extends cc.Component {
                 cc.log('地主不能下注')
                 return
             }
-            if(this.isOverBetTime()){
+            if (this.isOverBetTime()) {
                 return
             }
             let limitCount = RoomManage.roomItem.costLimit
@@ -233,24 +233,13 @@ export default class NewClass extends cc.Component {
         })
     }
 
-    isOverBetTime():boolean{
+    isOverBetTime(): boolean {
         let betTime = cc.find('Canvas/MiddleTopTimePanel').getComponent('MiddleTopTimePanel').getShowTime()
         if (betTime <= 1) {
             cc.log('超出下注时间')
             return true
         }
         return false
-    }
-
-    touchMoveEvent(event: any) {
-        let dx = Math.abs(event.currentTouch._point.x - event.currentTouch._startPoint.x)
-        let dy = Math.abs(event.currentTouch._point.y - event.currentTouch._startPoint.y)
-        var dis = parseFloat(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)).toFixed(2));
-        //  cc.log('删除打印：'+dis)
-        if (dis < 30) {
-            return false
-        }
-        return true
     }
 
     async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion) {
@@ -265,7 +254,7 @@ export default class NewClass extends cc.Component {
                 betLocation: theBetLocaion
             } as BetNoticeData
         } as NoticeData
-        ws.send(JSON.stringify(notice));
+        webSocketManage.send(JSON.stringify(notice));
     }
     // update (dt) {}
 }

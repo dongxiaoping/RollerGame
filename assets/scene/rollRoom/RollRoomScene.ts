@@ -1,15 +1,15 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus, BetNoticeData, betLocaion, EnterRoomFail } from '../../common/Const'
+import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus, EnterRoomFail } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
-import { randEventId, getFaPaiLocation } from '../../common/Util'
+import { randEventId, getFaPaiLocation, touchMoveEvent } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
-import RollEmulator from "../../common/RollEmulator";
-import RollControler from '../../common/RollControler';
-import ConfigManage from '../../store/Config/ConfigManage';
-import { NoticeType, NoticeData, ws, onOpenWs, closeWs } from '../../common/WebSocketServer';
+import RollEmulator from "../../common/RollEmulator"
+import RollControler from '../../common/RollControler'
+import ConfigManage from '../../store/Config/ConfigManage'
+import webSocketManage from '../../common/WebSocketManage'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -103,6 +103,7 @@ export default class NewClass extends cc.Component {
         if (ConfigManage.isBackMusicOpen()) {
             this.backMusic.play()
         }
+        this.addClickEvent()
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
             cc.log('进入了模拟房间')
@@ -110,12 +111,10 @@ export default class NewClass extends cc.Component {
             cc.director.preloadScene('LobbyScene');//预加载
             return
         }
-
-        closeWs()
-        let newSocket = onOpenWs()
-        newSocket.onopen = () => {
+        webSocketManage.closeWs()
+        webSocketManage.openWs(() => {
             this.enterWebGame()
-        }
+        }, () => { })
         cc.director.preloadScene('LobbyScene');//预加载
     }
 
@@ -188,7 +187,6 @@ export default class NewClass extends cc.Component {
         this.initDesk()
         this.showTopLeftRaceInfo()
         this.addListener()
-        this.addClickEvent()
     }
 
     private initDesk() {
@@ -208,6 +206,13 @@ export default class NewClass extends cc.Component {
 
         this.node.getChildByName('WechatShare').on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('分享按钮被点击了')
+        })
+
+        this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
+            let isTouchMove = touchMoveEvent(event)
+            if (isTouchMove) {
+                cc.log('滑动事件')
+            }
         })
     }
 
@@ -378,7 +383,7 @@ export default class NewClass extends cc.Component {
 
     //清空摇色子相关动画
     cleanRollDice() {
-        this.destroyChildNodeByName('RollDice')
+        this.destroyChild('RollDice')
     }
 
     //清空发牌相关动画
@@ -391,13 +396,7 @@ export default class NewClass extends cc.Component {
 
     //清空下注相关动画
     cleanBet() {
-        let nodes = this.node.children
-        let i = 0;
-        for (; i < nodes.length; i++) {
-            if (nodes[i].name === 'BetChipItem') {
-                nodes[i].destroy()
-            }
-        }
+        this.destroyChild('BetChipItem')
     }
 
     //清空比大小相关动画
@@ -407,7 +406,7 @@ export default class NewClass extends cc.Component {
 
     //清空结果显示相关动画
     cleanShowResult() {
-        this.destroyChildNodeByName('RaceResultPanel')
+        this.destroyChild('RaceResultPanel')
     }
 
     destroyChildNodeByName(nameString: string) {
@@ -415,6 +414,16 @@ export default class NewClass extends cc.Component {
         if (node) {
             node.active = false
             node.destroy()
+        }
+    }
+
+    destroyChild(nameString: string) {
+        let nodes = this.node.children
+        let i = 0;
+        for (; i < nodes.length; i++) {
+            if (nodes[i].name === nameString) {
+                nodes[i].destroy()
+            }
         }
     }
 
@@ -447,6 +456,7 @@ export default class NewClass extends cc.Component {
     //摇色子
     private beginRollDice(): void {
         var node = cc.instantiate(this.rollDicePrefab)
+        node.name = 'RollDice'
         node.parent = this.node
         node.setPosition(0, 0);
         node.active = true
@@ -546,8 +556,8 @@ export default class NewClass extends cc.Component {
                     userId: UserManage.userInfo.id
                 }
             } as NoticeData
-            ws.send(JSON.stringify(notice));
-            closeWs()
+            webSocketManage.send(JSON.stringify(notice))
+            webSocketManage.closeWs()
             cc.log('我是玩家，我向服务器发起退出房间通知')
         }
     }

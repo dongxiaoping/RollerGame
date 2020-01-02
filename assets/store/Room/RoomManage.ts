@@ -1,6 +1,6 @@
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { appMode, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam, EnterRoomFail } from '../../common/Const'
+import { PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam, EnterRoomFail } from '../../common/Const'
 import { roomInfo } from '../../mock/RoomInfo'
 import http from '../../common/Http'
 import RaceManage from '../Races/RaceManage';
@@ -14,15 +14,6 @@ class RoomManage {
 
     public requestRoomInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if (this.roomItem !== null) {
-                resolve({ result: PromiseResult.SUCCESS, extObject: this.roomItem })
-                return
-            }
-            if (config.appMode === appMode.LOCAL_TEST) {
-                this.setRoomItem(roomInfo)
-            } else {
-
-            }
             resolve({ result: PromiseResult.SUCCESS, extObject: this.roomItem })
         })
     }

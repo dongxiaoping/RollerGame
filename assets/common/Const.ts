@@ -1,9 +1,3 @@
-export enum appMode {
-    LOCAL_TEST = 1,//本地测试模式
-    SERVER_TEST = 2,//服务器测试模式
-    BUILD = 3 //部署模式
-}
-
 export enum TableLocationType {
     SKY = 'sky', //天
     MIDDLE = 'middle', //中
@@ -317,5 +311,28 @@ export enum EnterRoomFail {
     interface_fail = '接口请求异常', //接口异常
 }
 
+export interface NoticeInfo {
+    roomId?: number
+    raceNum?: number //当前是第几局
+    raceCount?: number //房间比赛有几场
+    landlordId?: string //当前局的地主ID
+    landlordLastCount?: number //一次选中坐庄持续的场次数
+    userId?: string
+}
+
+
+export enum NoticeType {
+    startRoomGame = 'startRoomGame', //开始房间的比赛 房主调用
+    landlordSelected = 'landlordSelected', //玩家选择当地主通知
+    enterRoom = 'enterRoom', //普通玩家进入房间
+    outRoom = 'outRoom', //玩家退出socket的房间，如果房间比赛未开始，同时也会退出数据库中的房间
+    raceBet = 'raceBet', //玩家下注通知
+    cancelRaceBet = 'cancelRaceBet' //取消指定区域的下注
+}
+
+export interface NoticeData {
+    type: NoticeType
+    info: NoticeInfo
+}
 
 
