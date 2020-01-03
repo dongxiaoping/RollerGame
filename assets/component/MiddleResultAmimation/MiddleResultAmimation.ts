@@ -21,18 +21,32 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     tongpei: cc.AudioSource = null //通赔语音
 
+    @property(cc.SpriteFrame)
+    goldWinWenZi: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    grayWinWenZi: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    goldFailWenZi: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    grayFailWenZi: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    goldBg: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    grayBg: cc.SpriteFrame = null;
+
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start() {
-        let that = this
         let oningNum = RoomManage.roomItem.oningRaceNum
         let race = RaceManage.raceList[oningNum]
         let landLordId = RaceManage.raceList[0].landlordId
         let userId = UserManage.userInfo.id
-        let bgPicUrl: string = ''
-        let wenziUrl: string = ''
+        let bgPicUrl: cc.SpriteFrame = null
+        let wenziUrl: cc.SpriteFrame = null
         if (race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
             race.landResult === CompareDxRe.BIG) {
             if (ConfigManage.isTxMusicOpen()) {
@@ -40,11 +54,11 @@ export default class NewClass extends cc.Component {
             }
 
             if (landLordId === userId) {
-                bgPicUrl = 'resultBg/result-bg_2cc9d222_01'
-                wenziUrl = 'resultWenzi/result_47f49bf6_01'
+                bgPicUrl = this.grayBg
+                wenziUrl = this.grayFailWenZi
             } else {
-                bgPicUrl = 'resultBg/result-bg_2cc9d222_02'
-                wenziUrl = 'resultWenzi/result_47f49bf6_04'
+                bgPicUrl = this.goldBg
+                wenziUrl = this.goldFailWenZi
             }
         } else if (race.skyResult === CompareDxRe.SMALL &&
             race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL) {
@@ -53,21 +67,15 @@ export default class NewClass extends cc.Component {
             }
 
             if (landLordId === userId) {
-                bgPicUrl = 'resultBg/result-bg_2cc9d222_02'
-                wenziUrl = 'resultWenzi/result_47f49bf6_02'
+                bgPicUrl = this.goldBg
+                wenziUrl = this.goldWinWenZi
             } else {
-                bgPicUrl = 'resultBg/result-bg_2cc9d222_01'
-                wenziUrl = 'resultWenzi/result_47f49bf6_03'
+                bgPicUrl = this.grayBg
+                wenziUrl = this.grayWinWenZi
             }
         }
-        cc.loader.loadRes(bgPicUrl, (error, img) => {
-            let myIcon = new cc.SpriteFrame(img);
-            that.bg.spriteFrame = myIcon;
-        })
-        cc.loader.loadRes(wenziUrl, (error, img) => {
-            let myIcon = new cc.SpriteFrame(img);
-            that.wenZi.spriteFrame = myIcon;
-        })
+        this.bg.spriteFrame = bgPicUrl;
+        this.wenZi.spriteFrame = wenziUrl;
     }
     onEnable() {
 
