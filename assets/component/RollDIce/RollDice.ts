@@ -29,15 +29,9 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     yaosaiziVoice: cc.AudioSource = null //摇色子声音语音
 
+    @property([cc.SpriteFrame]])
+    private dicePicList: cc.SpriteFrame[] = []
 
-    private dicePicList: string[] = [
-        'dice/dice_03205fea_02',
-        'dice/dice_03205fea_03',
-        'dice/dice_03205fea_04',
-        'dice/dice_03205fea_05',
-        'dice/dice_03205fea_06',
-        'dice/dice_03205fea_07',
-    ]
     start() {
         let timeConfig = RoomManage.getRollDiceTime() - 2
         this.firstKeepStopTime = Math.floor((timeConfig / 9 * 2) * 100) / 100
@@ -63,15 +57,9 @@ export default class NewClass extends cc.Component {
     showDice(): any {
         let oningNum = RoomManage.roomItem.oningRaceNum
         let points = RaceManage.raceList[oningNum].points
-        cc.loader.loadRes(this.dicePicList[points.one - 1], (error, img) => {
-            let myIcon = new cc.SpriteFrame(img);
-            this.diceOne.spriteFrame = myIcon
-            this.isFlying = true
-        })
-        cc.loader.loadRes(this.dicePicList[points.two - 1], (error, img) => {
-            let myIcon = new cc.SpriteFrame(img);
-            this.diceTwo.spriteFrame = myIcon
-        })
+        this.diceOne.spriteFrame = this.dicePicList[points.one - 1]
+        this.isFlying = true
+        this.diceTwo.spriteFrame = this.dicePicList[points.two - 1]
         this.scheduleOnce(() => {
             cc.log('发出摇色子动画结束通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { //请除动作在房间里面处理

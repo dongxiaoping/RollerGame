@@ -169,7 +169,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0e7f721c-270e-4129-a6eb-f9598d5e13f3"
+      "__uuid__": "404561a1-5e1e-4011-ba0d-033b64150cc8"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -182,7 +182,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "b4b44d1e-1b5c-4e48-8230-8c58a3e44f3e"
+    },
     "_id": ""
   },
   {
@@ -486,7 +488,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0d15704e-6239-47cd-b5e0-ec25774ce98b"
+      "__uuid__": "f2ded85a-d4a9-40f3-b553-f93b4b683315"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -499,7 +501,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "b4b44d1e-1b5c-4e48-8230-8c58a3e44f3e"
+    },
     "_id": ""
   },
   {
@@ -626,6 +630,26 @@
     "yaosaiziVoice": {
       "__id__": 15
     },
+    "dicePicList": [
+      {
+        "__uuid__": "6042a330-c1f6-4542-9923-27ec85227ba2"
+      },
+      {
+        "__uuid__": "ef764e9a-7eef-4443-b57b-658cfb366145"
+      },
+      {
+        "__uuid__": "9cc5642f-24a1-4ebc-943e-a6b0182ecc39"
+      },
+      {
+        "__uuid__": "e98c6f8f-fdf2-4786-bb0c-7b91b916a399"
+      },
+      {
+        "__uuid__": "608150eb-5ff1-461a-80d4-f75a33075797"
+      },
+      {
+        "__uuid__": "97f40a1b-1b99-42f1-8cfd-0857adf9e175"
+      }
+    ],
     "_id": ""
   },
   {
