@@ -3,6 +3,7 @@ import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoo
 import { randEventId } from '../../common/Util'
 import RaceManage from "../../store/Races/RaceManage";
 import RoomManage from "../../store/Room/RoomManage";
+import UserManage from "../../store/User/UserManage";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -33,7 +34,7 @@ export default class NewClass extends cc.Component {
         this.winVal = winVal
         this.xiaZhuVal = xiaZhuVal
         let enterRoomParam = RoomManage.getEnterRoomParam()
-        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
+        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && this.userId !== UserManage.userInfo.id) {
             cc.loader.loadRes(iconUrl, (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 this.userIcon.spriteFrame = myIcon

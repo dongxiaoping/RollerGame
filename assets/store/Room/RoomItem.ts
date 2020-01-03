@@ -3,7 +3,7 @@ import { eventBus } from '../../common/EventBus';
 
 export default class RoomItem {
     id: number = null
-    creatUserId: string = null
+    public creatUserId: string = null
     memberLimit: number = null
     playCount: number = null //比赛有多少场
     playMode: playMode = null

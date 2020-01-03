@@ -7,7 +7,6 @@ import Room from '../store/Room/RoomManage'
 import { roomInfo } from '../mock/RoomInfo'
 import GameMemberManage from '../store/GameMember/GameMemberManage'
 import { GameMemberList } from '../mock/GameMemberList'
-import { userInfo } from '../mock/UserInfo'
 import { RaceList } from '../mock/RaceList';
 import { eventBus } from './EventBus';
 import { randEventId } from './Util';
@@ -130,9 +129,9 @@ class RollEmulator extends RollControlerBase {
     //初始化本地数据
     initData() {
         cc.log('模拟器初始化本地数据')
-        UserManage.setUserInfo(userInfo)
+        let userInfo = UserManage.userInfo
         Room.setRoomItem(roomInfo)
-
+        Room.roomItem.creatUserId = userInfo.id
         let memeberOwn = {
             userId: '',
             roleType: gameMemberType.MANAGE,
@@ -141,7 +140,7 @@ class RollEmulator extends RollControlerBase {
             score: 0,
             state: memberState.OnLine
         } as GameMember
-        memeberOwn['userId'] = userInfo['id']
+        memeberOwn['userId'] = userInfo.id
         memeberOwn['nick'] = userInfo.nick
         memeberOwn['icon'] = userInfo.icon
         GameMemberList.splice(0, 0, memeberOwn)
