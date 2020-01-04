@@ -90,39 +90,41 @@ export default class NewClass extends cc.Component {
     }
 
     showWinOrFailIcon(raceInfo: RaceItem): void {
-        if (raceInfo.skyResult === CompareDxRe.BIG) {
-            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
-                let myIcon = new cc.SpriteFrame(img);
-                this.skyWinOrFail.spriteFrame = myIcon;
-            })
-        } else {
-            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
-                let myIcon = new cc.SpriteFrame(img);
-                this.skyWinOrFail.spriteFrame = myIcon;
-            })
-        }
-        if (raceInfo.middleResult === CompareDxRe.BIG) {
-            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
-                let myIcon = new cc.SpriteFrame(img);
-                this.middleWinOrFail.spriteFrame = myIcon;
-            })
-        } else {
-            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
-                let myIcon = new cc.SpriteFrame(img);
-                this.middleWinOrFail.spriteFrame = myIcon;
-            })
-        }
-        if (raceInfo.landResult === CompareDxRe.BIG) {
-            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
-                let myIcon = new cc.SpriteFrame(img);
-                this.landWinOrFail.spriteFrame = myIcon;
-            })
-        } else {
-            cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
-                let myIcon = new cc.SpriteFrame(img);
-                this.landWinOrFail.spriteFrame = myIcon;
-            })
-        }
+        try {
+            if (raceInfo.skyResult === CompareDxRe.BIG) {
+                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
+                    let myIcon = new cc.SpriteFrame(img);
+                    this.skyWinOrFail.spriteFrame = myIcon;
+                })
+            } else {
+                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
+                    let myIcon = new cc.SpriteFrame(img);
+                    this.skyWinOrFail.spriteFrame = myIcon;
+                })
+            }
+            if (raceInfo.middleResult === CompareDxRe.BIG) {
+                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
+                    let myIcon = new cc.SpriteFrame(img);
+                    this.middleWinOrFail.spriteFrame = myIcon;
+                })
+            } else {
+                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
+                    let myIcon = new cc.SpriteFrame(img);
+                    this.middleWinOrFail.spriteFrame = myIcon;
+                })
+            }
+            if (raceInfo.landResult === CompareDxRe.BIG) {
+                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
+                    let myIcon = new cc.SpriteFrame(img);
+                    this.landWinOrFail.spriteFrame = myIcon;
+                })
+            } else {
+                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
+                    let myIcon = new cc.SpriteFrame(img);
+                    this.landWinOrFail.spriteFrame = myIcon;
+                })
+            }
+        } catch (e) { }
     }
 
 }

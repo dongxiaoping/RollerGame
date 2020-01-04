@@ -145,9 +145,6 @@ export default class NewClass extends cc.Component {
                 ob.node.setPosition(location.x, location.y)
                 callBack()
             }, timeTwo);
-            // this.scheduleOnce(() => {
-            //     this.drawResult(ob, val)
-            // }, timeTwo-0.1);
         }, timeOne);
     }
 

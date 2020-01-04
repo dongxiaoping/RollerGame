@@ -206,7 +206,49 @@ export default class NewClass extends cc.Component {
         this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
             let isTouchMove = touchMoveEvent(event)
             if (isTouchMove) {
+                return
                 cc.log('滑动事件')
+                let onNum = RoomManage.roomItem.oningRaceNum
+                let state = RaceManage.raceList[onNum].state
+                switch (state) {
+                    case RaceState.CHOICE_LANDLORD:
+                        this.cleanRollDice()
+                        this.cleanDeal()
+                        this.cleanBet()
+                        this.cleanShowDown()
+                        this.cleanShowResult()
+                        break
+                    case RaceState.ROLL_DICE:
+                        this.cleanDeal()
+                        this.cleanBet()
+                        this.cleanShowDown()
+                        this.cleanShowResult()
+                        break
+                    case RaceState.DEAL:
+                        this.cleanRollDice()
+                        this.cleanBet()
+                        this.cleanShowDown()
+                        this.cleanShowResult()
+                        break
+                    case RaceState.BET:
+                        this.cleanRollDice()
+                        this.cleanDeal()
+                        this.cleanShowDown()
+                        this.cleanShowResult()
+                        break
+                    case RaceState.SHOW_DOWN:
+                        this.cleanRollDice()
+                        this.cleanDeal()
+                        this.cleanBet()
+                        this.cleanShowResult()
+                        break
+                    case RaceState.SHOW_RESULT:
+                        this.cleanRollDice()
+                        this.cleanDeal()
+                        this.cleanBet()
+                        this.cleanShowDown()
+                        break
+                }
             }
         })
     }
@@ -253,12 +295,6 @@ export default class NewClass extends cc.Component {
                     cc.director.loadScene("LobbyScene");
                     this.destroy()
                     break
-                // case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT:
-                //     cc.log('本地抢地主')
-                //     if (ConfigManage.isTxMusicOpen()) {
-                //         this.woQiangVoice.play()
-                //     }
-                //     break
                 case LocalNoticeEventType.BACK_MUSIC_STATE_CHANGE_NOTICE:
                     let isOpen = info.info
                     if (isOpen) {
@@ -315,11 +351,13 @@ export default class NewClass extends cc.Component {
                 case RaceState.BET:
                     cc.log('房间收到下注指令，显示下注倒计时面板')
                     var node = cc.instantiate(this.middleTopTimePanel)
+                    node.name = 'MiddleTopTimePanel'
                     node.parent = this.node
                     node.setPosition(-215, 218);
                     node.active = true
 
                     var node = cc.instantiate(this.middleTopScorePanel)
+                    node.name = 'MiddleTopScorePanel'
                     node.parent = this.node
                     node.setPosition(15, 258);
                     node.active = true
@@ -347,6 +385,7 @@ export default class NewClass extends cc.Component {
                     this.userScoreLabel.string = this.userWinScore + ''
                     this.userXiaZhuScore = 0
                     this.cleanShowResult()
+                    this.cleanRollDice()
                     this.cleanDeal()
                     this.cleanBet()
                     break
@@ -392,6 +431,8 @@ export default class NewClass extends cc.Component {
     //清空下注相关动画
     cleanBet() {
         this.destroyChild('BetChipItem')
+        this.destroyChild('MiddleTopScorePanel')
+        this.destroyChild('MiddleTopTimePanel')
     }
 
     //清空比大小相关动画
