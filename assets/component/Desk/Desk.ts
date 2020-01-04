@@ -248,7 +248,7 @@ export default class Desk extends cc.Component {
 
     showMembers() {
         this.chairManage.clearAllChair()
-        let memberList = GameMemberManage.gameMenmberList
+        let memberList = GameMemberManage.gameMenmberList === null ? [] : GameMemberManage.gameMenmberList
         memberList.forEach((item: GameMemberItem) => {
             let member = {
                 userId: item.userId, userName: item.nick,

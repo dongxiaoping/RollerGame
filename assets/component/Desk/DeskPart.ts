@@ -42,6 +42,7 @@ export default class NewClass extends cc.Component {
     overBetLimitLock: boolean = false //超限锁，防止超限反复点击
     cancelBetLock: boolean = false //取消下注锁
     eventOne: string = ''
+    scheduleOb: any = null
     start() {
         cc.log('按钮类型：' + this.typeValue)
         this.toClearn()
@@ -71,6 +72,7 @@ export default class NewClass extends cc.Component {
         this.betScore.string = ''
         this.ownScore = 0
         this.allScore = 0
+        this.unschedule(this.scheduleOb);
     }
 
     toOpen() {
@@ -87,11 +89,15 @@ export default class NewClass extends cc.Component {
         let oningNum = RoomManage.roomItem.oningRaceNum
         if (RaceManage.raceList[oningNum][localString] === CompareDxRe.BIG) {
             this.focus.node.active = true
-            this.schedule(() => {
-                this.focus.node.active = this.focus.node.active ? false : true
-            }, 0.5, 3, 0.4); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
+            let setV = 150
+            this.focus.node.opacity = setV
+            this.scheduleOb = this.schedule(() => {
+                setV = setV === 150 ? 255 : 150
+                this.focus.node.opacity = setV
+            }, 0.8);
         }
     }
+
     getDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
         var radLat1 = lat1 * Math.PI / 180.0;
         var radLat2 = lat2 * Math.PI / 180.0;
