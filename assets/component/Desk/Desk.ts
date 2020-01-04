@@ -84,6 +84,15 @@ export default class Desk extends cc.Component {
             this.chairManage.moveToLandlordChair(landlordId)
         })
 
+        eventBus.on(EventType.BET_CANCE_NOTICE, randEventId(), (info: BetChipChangeInfo): void => {
+            this.node.getChildByName('SkyPart').getComponent('DeskPart').betCancel(info)
+            this.node.getChildByName('MiddlePart').getComponent('DeskPart').betCancel(info)
+            this.node.getChildByName('LandPart').getComponent('DeskPart').betCancel(info)
+            this.node.getChildByName('SkyCornerPart').getComponent('DeskPart').betCancel(info)
+            this.node.getChildByName('BridgPart').getComponent('DeskPart').betCancel(info)
+            this.node.getChildByName('LandCornerPart').getComponent('DeskPart').betCancel(info)
+        })
+
         eventBus.on(EventType.NEW_MEMBER_IN_ROOM, randEventId(), (newMember: GameMember): void => {
             cc.log('我是桌子，我收到新玩家加入的本地通知,我将玩家入座')
             let member = {

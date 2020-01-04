@@ -41,7 +41,6 @@ export default class NewClass extends cc.Component {
     touchLock: boolean = false //防止点击速率过快
     overBetLimitLock: boolean = false //超限锁，防止超限反复点击
     cancelBetLock: boolean = false //取消下注锁
-    eventOne: string = ''
     scheduleOb: any = null
     start() {
         cc.log('按钮类型：' + this.typeValue)
@@ -133,24 +132,22 @@ export default class NewClass extends cc.Component {
         node.active = true
     }
 
-    addClickEvent() {
-        //接收到取消下注通知
-        this.eventOne = randEventId()
-        eventBus.on(EventType.BET_CANCE_NOTICE, this.eventOne, (info: BetChipChangeInfo): void => {
-            if (this.typeValue != info.betLocation) {
-                return
-            }
-            if (info.userId == UserManage.userInfo.id) {
-                this.ownScore -= info.fromVal
-            }
-            this.allScore -= info.fromVal
-            if (this.isLandlord()) {
-                this.betScore.string = this.allScore + ''
-            } else {
-                this.betScore.string = this.ownScore + ' / ' + this.allScore
-            }
-        })
+    betCancel(info: BetChipChangeInfo): void {
+        if (this.typeValue != info.betLocation) {
+            return
+        }
+        if (info.userId == UserManage.userInfo.id) {
+            this.ownScore -= info.fromVal
+        }
+        this.allScore -= info.fromVal
+        if (this.isLandlord()) {
+            this.betScore.string = this.allScore + ''
+        } else {
+            this.betScore.string = this.ownScore + ' / ' + this.allScore
+        }
+    }
 
+    addClickEvent() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
 
             let isTouchMove = touchMoveEvent(event)
@@ -177,7 +174,9 @@ export default class NewClass extends cc.Component {
                 let enterRoomParam = RoomManage.getEnterRoomParam()
                 if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
                     BetManage.cancelBet({ userId: userId, raceNum: raceNum, betLocation: betLocation } as BetNoticeData)
-                    this.cancelBetLock = false
+                    this.scheduleOnce(() => {
+                        this.cancelBetLock = false
+                    }, 0.5);
                     return
                 }
                 this.execCancel(roomId, userId, raceNum, betLocation)
@@ -269,7 +268,9 @@ export default class NewClass extends cc.Component {
 
     async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion) {
         let result = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
-        this.cancelBetLock = false
+        this.scheduleOnce(() => {
+            this.cancelBetLock = false
+        }, 0.5);
         cc.log('删除打印：成功删除下注')
         let notice = {
             type: NoticeType.cancelRaceBet, info: {
