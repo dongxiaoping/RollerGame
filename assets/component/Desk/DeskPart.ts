@@ -62,7 +62,11 @@ export default class NewClass extends cc.Component {
             if (UserManage.userInfo.id === userId) {
                 this.ownScore = this.ownScore + betValue
             }
-            this.betScore.string = this.ownScore + ' / ' + this.allScore
+            if (this.isLandlord()) {
+                this.betScore.string = this.allScore + ''
+            } else {
+                this.betScore.string = this.ownScore + ' / ' + this.allScore
+            }
         }
     }
 
@@ -81,7 +85,19 @@ export default class NewClass extends cc.Component {
         this.focus.node.active = false
         this.ownScore = 0
         this.allScore = 0
-        this.betScore.string = '0 / 0'
+        if (this.isLandlord()) {
+            this.betScore.string = '0'
+        } else {
+            this.betScore.string = '0 / 0'
+        }
+    }
+
+    isLandlord(): boolean {
+        let onNum = RoomManage.roomItem.oningRaceNum
+        if (UserManage.userInfo.id === RaceManage.raceList[onNum].landlordId) {
+            return true
+        }
+        return false
     }
 
     winFocusAmination() {
@@ -128,7 +144,11 @@ export default class NewClass extends cc.Component {
                 this.ownScore -= info.fromVal
             }
             this.allScore -= info.fromVal
-            this.betScore.string = this.ownScore + ' / ' + this.allScore
+            if (this.isLandlord()) {
+                this.betScore.string = this.allScore + ''
+            } else {
+                this.betScore.string = this.ownScore + ' / ' + this.allScore
+            }
         })
 
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {

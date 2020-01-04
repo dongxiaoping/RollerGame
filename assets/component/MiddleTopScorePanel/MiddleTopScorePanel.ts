@@ -1,7 +1,9 @@
 import { eventBus } from "../../common/EventBus";
-import { EventType, RaceStateChangeParam, RaceState, BetChipChangeInfo } from "../../common/Const";
+import { EventType, BetChipChangeInfo } from "../../common/Const";
 import { randEventId } from "../../common/Util";
 import UserManage from "../../store/User/UserManage";
+import RoomManage from "../../store/Room/RoomManage";
+import RaceManage from "../../store/Races/RaceManage";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,13 +15,49 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Label)
     totalScore: cc.Label = null
+
+    @property(cc.Label)
+    landlordTotalScore: cc.Label = null
+
     eventIdOne: string = null
     eventIdTwo: string = null
     totalScoreVal: number = 0
     userScoreVal: number = 0
+
+    @property(cc.Sprite)
+    bg: cc.Sprite = null
+
+    @property(cc.SpriteFrame)
+    bg_icon_1: cc.SpriteFrame = null
+
+    @property(cc.SpriteFrame)
+    bg_icon_2: cc.SpriteFrame = null
     start() {
 
     }
+
+    onLoad() {
+        if (this.isLandlord()) {
+            this.bg.spriteFrame = this.bg_icon_2
+            this.landlordTotalScore.node.active = true
+            this.userScore.node.active = false
+            this.totalScore.node.active = false
+        } else {
+            this.bg.spriteFrame = this.bg_icon_1
+            this.landlordTotalScore.node.active = false
+            this.userScore.node.active = true
+            this.totalScore.node.active = true
+        }
+    }
+
+    isLandlord(): boolean {
+        let onNum = RoomManage.roomItem.oningRaceNum
+        if (UserManage.userInfo.id === RaceManage.raceList[onNum].landlordId) {
+            return true
+        }
+        return false
+    }
+
     onEnable() {
         this.eventIdOne = randEventId()
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdOne, (betInfo: BetChipChangeInfo): void => {
@@ -30,6 +68,7 @@ export default class NewClass extends cc.Component {
             }
             this.userScore.string = this.userScoreVal + ''
             this.totalScore.string = this.totalScoreVal + ''
+            this.landlordTotalScore.string = this.totalScoreVal + ''
         })
         //接收到取消下注通知
         this.eventIdTwo = randEventId()
@@ -40,6 +79,7 @@ export default class NewClass extends cc.Component {
             this.totalScoreVal -= info.fromVal
             this.userScore.string = this.userScoreVal + ''
             this.totalScore.string = this.totalScoreVal + ''
+            this.landlordTotalScore.string = this.totalScoreVal + ''
         })
     }
     onDisable() {

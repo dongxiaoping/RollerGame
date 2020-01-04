@@ -1,7 +1,6 @@
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, BetRecord, EnterRoomParam, EnterRoomFail, CreateRoomFail } from '../../common/Const'
-import { roomInfo } from '../../mock/RoomInfo'
+import { PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, EnterRoomParam, EnterRoomFail, CreateRoomFail } from '../../common/Const'
 import http from '../../common/Http'
 import RaceManage from '../Races/RaceManage';
 import GameMemberManage from '../GameMember/GameMemberManage';
