@@ -59,14 +59,14 @@ export default class NewClass extends cc.Component {
         this.leftUserList.forEach((item: raceResultData) => {
             let b = cc.instantiate(this.userItem)
             let jsOb = b.getComponent('RoomResultUserItem')
-            jsOb.initData(item.icon, item.nick, item.score)
+            jsOb.initData(item.userId, item.icon, item.nick, item.score)
             this.leftList.addChild(b)
         })
 
         this.rightUserList.forEach((item: raceResultData) => {
             let b = cc.instantiate(this.userItem)
             let jsOb = b.getComponent('RoomResultUserItem')
-            jsOb.initData(item.icon, item.nick, item.score)
+            jsOb.initData(item.userId, item.icon, item.nick, item.score)
             this.rightList.addChild(b)
         })
     }

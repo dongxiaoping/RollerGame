@@ -34,14 +34,16 @@ export default class NewClass extends cc.Component {
     localEventId: string
 
     @property([cc.AudioSource])
-    majongVoiceZhenDian: cc.AudioSource[] = []; //整点的报音 0 为鄙十
+    majongVoiceZhenDian: cc.AudioSource[] = [] //整点的报音 0 为鄙十
     @property([cc.AudioSource])
-    majongVoiceHalf: cc.AudioSource[] = []; //半点的报音 0 为对子
+    majongVoiceHalf: cc.AudioSource[] = [] //半点的报音 0 为对子
 
     @property(cc.AudioSource)
-    kaipaiVoice: cc.AudioSource = null; //开牌
+    kaipaiVoice: cc.AudioSource = null //开牌
     @property(cc.AudioSource)
-    erbagangVoice: cc.AudioSource = null; //二八杠
+    erbagangVoice: cc.AudioSource = null //二八杠
+
+    openHeight: number = 20 //开牌跳起高度
 
     start() {
         let timeSet = RoomManage.getShowDownTime() / 4
@@ -128,7 +130,7 @@ export default class NewClass extends cc.Component {
 
     openAnimation(ob: cc.Sprite, val: number, callBack: any) {
         let location = ob.node.getPosition()
-        let timeOne = this.singleIntervalTime / 3*2
+        let timeOne = this.singleIntervalTime / 3 * 2
         let timeTwo = this.singleIntervalTime / 3
         ob.spriteFrame = this.oneThirdIcon
         this.scheduleOnce(() => {
@@ -136,13 +138,16 @@ export default class NewClass extends cc.Component {
                 this.kaipaiVoice.play()
             }
             ob.spriteFrame = this.halfIcon
-            ob.node.setPosition(location.x, location.y + 8)
+            ob.node.setPosition(location.x, location.y + this.openHeight)
             this.scheduleOnce(() => {
+                this.drawResult(ob, val)
                 ob.spriteFrame = this.allIcon
                 ob.node.setPosition(location.x, location.y)
-                this.drawResult(ob, val)
                 callBack()
             }, timeTwo);
+            // this.scheduleOnce(() => {
+            //     this.drawResult(ob, val)
+            // }, timeTwo-0.1);
         }, timeOne);
     }
 

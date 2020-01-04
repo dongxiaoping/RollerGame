@@ -78,6 +78,9 @@ export default class NewClass extends cc.Component {
                 this.landlordName.string = item.nick
                 this.landlordScore.string = item.score + ''
             }
+            if (item.score > 0) {
+                scoreLabel[0].node.color = cc.Color.YELLOW
+            }
             scoreLabel[0].string = item.score + ''
             node.parent = this.node.getChildByName('MemberList')
             if (UserManage.userInfo.id === item.userId) {

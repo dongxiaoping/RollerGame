@@ -47,7 +47,7 @@ export default class LobbyScene extends cc.Component {
 
     @property(cc.Label)
     versionLabel: cc.Label = null; //版本号显示标签
-    
+
 
     @property(cc.Sprite)
     userIconSprite: cc.Sprite = null; //用户图标
@@ -63,7 +63,6 @@ export default class LobbyScene extends cc.Component {
                 roomId: parseInt(getUrlParam('roomId'))
             } as EnterRoomParam)
             cc.director.loadScene("RollRoomScene")
-            return
         }
     }
 

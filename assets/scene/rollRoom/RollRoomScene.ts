@@ -484,17 +484,10 @@ export default class NewClass extends cc.Component {
         let userInfo = UserManage.userInfo
         let enterRoomParam = RoomManage.getEnterRoomParam()
         this.userNameLabel.string = userInfo.nick
-        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
-            cc.loader.loadRes(userInfo.icon, (error, img) => {
-                let myIcon = new cc.SpriteFrame(img);
-                this.userIcon.spriteFrame = myIcon;
-            })
-        } else {
-            cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {
-                let myIcon = new cc.SpriteFrame(img);
-                this.userIcon.spriteFrame = myIcon;
-            });
-        }
+        cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {//loadRes
+            let myIcon = new cc.SpriteFrame(img);
+            this.userIcon.spriteFrame = myIcon;
+        });
     }
 
     onLoad() {
