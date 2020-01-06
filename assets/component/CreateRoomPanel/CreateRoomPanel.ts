@@ -1,4 +1,4 @@
-import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel } from "../../common/Const";
+import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel, ResponseData, CreateRoomFail } from "../../common/Const";
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 
@@ -47,6 +47,9 @@ export default class NewClass extends cc.Component {
     ////////////////////////////////
     @property(cc.Prefab)
     private tipDialog: cc.Prefab = null  //提示框
+
+    @property(cc.Prefab)
+    private diamondNotDialog: cc.Prefab = null  //钻不足提示框
 
     start() {
         this.renshu_6.isChecked = true
@@ -132,19 +135,27 @@ export default class NewClass extends cc.Component {
             cc.log('start_game_test:创建成功，跳转到房间页面，用户ID:' + UserManage.userInfo.id + ',房间ID:' + roomInfo.id)
             cc.director.loadScene("RollRoomScene");
             cc.log('进入游戏房间')
-        } else {
-            cc.log('房间创建失败')
-            this.showCreateRoomFailTip(null)
-            this.node.destroy()
+            return
         }
+        cc.log('房间创建失败')
+        this.showCreateRoomFailTip(res.extObject)
+        this.node.destroy()
     }
 
-    showCreateRoomFailTip(info: any) {
+    showCreateRoomFailTip(info: ResponseData) {
+        if (info.message === 'diamond_not_enough') { //
+            cc.log('钻不足')
+            let node = cc.instantiate(this.diamondNotDialog)
+            let scriptOb = node.getComponent('DiaNotEnTipDial')
+            node.parent = this.node.parent
+            node.active = true
+            return
+        }
         let node = cc.instantiate(this.tipDialog)
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node.parent
         node.active = true
-        scriptOb.showContent('创建房间失败')
+        scriptOb.showContent(CreateRoomFail[info.message])
     }
 
 

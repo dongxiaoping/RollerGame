@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus, EnterRoomFail } from '../../common/Const'
+import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus, EnterRoomFail, ResponseData } from '../../common/Const'
 import Room from '../../store/Room/RoomManage'
 import { randEventId, getFaPaiLocation, touchMoveEvent } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -147,7 +147,11 @@ export default class NewClass extends cc.Component {
         //  this.node.getChildByName('WechatShare').active = true
     }
 
-    showEnterRoomFailTip(info: any) {
+    showEnterRoomFailTip(info: ResponseData) {
+        if (info.message === EnterRoomFail.diamond_not_enough) {
+            cc.log('钻不够')
+            return
+        }
         let message = info.message as EnterRoomFail
         let node = cc.instantiate(this.tipDialog)
         let scriptOb = node.getComponent('TipDialog')

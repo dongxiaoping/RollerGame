@@ -39,6 +39,17 @@ export default class NewClass extends cc.Component {
     middleWinOrFail: cc.Sprite = null;
     @property(cc.Sprite)
     landWinOrFail: cc.Sprite = null;
+    @property(cc.Sprite)
+    userWinOrFail: cc.Sprite = null;
+
+    @property(cc.SpriteFrame)
+    majongWinIcon: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    majongFailIcon: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    userWinIcon: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    userFailIcon: cc.SpriteFrame = null;
 
     @property([cc.SpriteFrame])
     majongIcons: cc.SpriteFrame[] = [] //结果图
@@ -85,45 +96,21 @@ export default class NewClass extends cc.Component {
             node.parent = this.node.getChildByName('MemberList')
             if (UserManage.userInfo.id === item.userId) {
                 this.myScore.string = item.score + ''
+                this.userWinOrFail.spriteFrame = item.score >= 0 ? this.userWinIcon : this.userFailIcon
+                if (item.score === 0) {
+                    this.userWinOrFail.node.active = false
+                } else {
+                    this.userWinOrFail.node.active = true
+                }
             }
         })
     }
 
     showWinOrFailIcon(raceInfo: RaceItem): void {
         try {
-            if (raceInfo.skyResult === CompareDxRe.BIG) {
-                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
-                    let myIcon = new cc.SpriteFrame(img);
-                    this.skyWinOrFail.spriteFrame = myIcon;
-                })
-            } else {
-                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
-                    let myIcon = new cc.SpriteFrame(img);
-                    this.skyWinOrFail.spriteFrame = myIcon;
-                })
-            }
-            if (raceInfo.middleResult === CompareDxRe.BIG) {
-                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
-                    let myIcon = new cc.SpriteFrame(img);
-                    this.middleWinOrFail.spriteFrame = myIcon;
-                })
-            } else {
-                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
-                    let myIcon = new cc.SpriteFrame(img);
-                    this.middleWinOrFail.spriteFrame = myIcon;
-                })
-            }
-            if (raceInfo.landResult === CompareDxRe.BIG) {
-                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_02', (error, img) => {
-                    let myIcon = new cc.SpriteFrame(img);
-                    this.landWinOrFail.spriteFrame = myIcon;
-                })
-            } else {
-                cc.loader.loadRes('winFail/result-icon_7fe1ca6c_01', (error, img) => {
-                    let myIcon = new cc.SpriteFrame(img);
-                    this.landWinOrFail.spriteFrame = myIcon;
-                })
-            }
+            this.skyWinOrFail.spriteFrame = raceInfo.skyResult === CompareDxRe.BIG ? this.majongWinIcon : this.majongFailIcon
+            this.middleWinOrFail.spriteFrame = raceInfo.middleResult === CompareDxRe.BIG ? this.majongWinIcon : this.majongFailIcon
+            this.landWinOrFail.spriteFrame = raceInfo.landResult === CompareDxRe.BIG ? this.majongWinIcon : this.majongFailIcon
         } catch (e) { }
     }
 

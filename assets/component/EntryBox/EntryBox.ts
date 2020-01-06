@@ -1,5 +1,5 @@
 import RoomManage from "../../store/Room/RoomManage";
-import { EnterRoomModel, EnterRoomParam, ResponseStatus, EnterRoomFail } from "../../common/Const";
+import { EnterRoomModel, EnterRoomParam, ResponseStatus, EnterRoomFail, ResponseData } from "../../common/Const";
 import UserManage from "../../store/User/UserManage";
 
 const { ccclass, property } = cc._decorator;
@@ -40,9 +40,8 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     Num: cc.Label = null;
 
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
+    @property(cc.Prefab)
+    private diamondNotDialog: cc.Prefab = null  //钻不足提示框
 
     onEnable() {
 
@@ -99,7 +98,7 @@ export default class NewClass extends cc.Component {
     async checkRoom(roomId: number) {
         let result = await RoomManage.loginRoom(UserManage.userInfo.id, roomId)
         if (result.result === ResponseStatus.FAIL) {
-            cc.log('房间不存在或已开始')
+            cc.log('进入房间失败')
             this.showEnterRoomFailTip(result.extObject)
         } else {
             cc.director.loadScene("RollRoomScene");
@@ -107,7 +106,15 @@ export default class NewClass extends cc.Component {
         this.node.destroy()
     }
 
-    showEnterRoomFailTip(info: any) {
+    showEnterRoomFailTip(info: ResponseData) {
+        if (info.message === 'diamond_not_enough') { 
+            cc.log('钻不足')
+            let node = cc.instantiate(this.diamondNotDialog)
+            let scriptOb = node.getComponent('DiaNotEnTipDial')
+            node.parent = this.node.parent
+            node.active = true
+            return
+        }
         let message = info.message as EnterRoomFail
         let node = cc.instantiate(this.tipDialog)
         let scriptOb = node.getComponent('TipDialog')

@@ -522,7 +522,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "f1c83df7-b2e9-4858-955d-3e4af86c101f"
+      "__uuid__": "6c8bb95f-6f23-4a84-aa24-a3000dae419b"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -535,7 +535,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "19983137-434d-4921-a209-2fae04e1e781"
+    },
     "_id": ""
   },
   {
@@ -638,7 +640,7 @@
       "a": 200
     },
     "_N$normalSprite": {
-      "__uuid__": "f1c83df7-b2e9-4858-955d-3e4af86c101f"
+      "__uuid__": "6c8bb95f-6f23-4a84-aa24-a3000dae419b"
     },
     "_N$pressedSprite": {
       "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"

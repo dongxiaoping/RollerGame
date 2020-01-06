@@ -316,7 +316,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "1dfeee7d-ef0f-419a-92f7-67b017867f9e"
+      "__uuid__": "a15f8809-53fe-411b-bccf-a1a7ec9bcdb4"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -329,7 +329,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "19983137-434d-4921-a209-2fae04e1e781"
+    },
     "_id": ""
   },
   {
@@ -423,7 +425,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "22c89427-34ce-49dc-a073-a250306427ef"
+      "__uuid__": "2b8d38e0-eec6-472d-9e47-83c13c50bb26"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -436,7 +438,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "19983137-434d-4921-a209-2fae04e1e781"
+    },
     "_id": ""
   },
   {
@@ -11572,6 +11576,9 @@
     },
     "tipDialog": {
       "__uuid__": "3618248e-0cae-47a4-b90f-efe8ab7604a5"
+    },
+    "diamondNotDialog": {
+      "__uuid__": "c1104283-744c-47a8-b7af-548a19334b81"
     },
     "_id": ""
   },
