@@ -261,7 +261,9 @@ export default class Desk extends cc.Component {
         memberList.forEach((item: GameMemberItem) => {
             let member = {
                 userId: item.userId, userName: item.nick,
-                userIcon: item.icon
+                userIcon: item.icon,
+                winVal: 0,
+                xiaZhuVal: 0
             } as MemberInChairData
             this.chairManage.inChair(member)
         })

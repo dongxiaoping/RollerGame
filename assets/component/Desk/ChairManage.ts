@@ -21,10 +21,14 @@ export default class ChairManage {
 
     public getChairPositionByUserId(userId: string): Coordinate {
         for (let i = 0; i < this.chairList.length; i++) {
-            if (!this.chairList[i].isChairEmputy() && this.chairList[i].memberInChairData.userId === userId) {
-                return this.chairList[i].getChairPosition()
+            if (!this.chairList[i].isChairEmputy()) {
+                let userInfo = this.chairList[i].getUserInfo()
+                if(userInfo.userId === userId){
+                    return this.chairList[i].getChairPosition()
+                }
             }
         }
+        console.log('错误，未找到用户椅子位置')
         return null
     }
 
@@ -39,7 +43,7 @@ export default class ChairManage {
 
     public outChair(userId: string) {
         for (let i = 0; i < this.chairList.length; i++) {
-            if (this.chairList[i].memberInChairData.userId === userId) {
+            if (this.chairList[i].getUserInfo().userId === userId) {
                 this.chairList[i].outChair(() => { })
                 break
             }
@@ -89,21 +93,21 @@ export default class ChairManage {
         if (landChair.isChairEmputy()) {
             theUserChair.outChair(() => {
                 this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), (userIconNode: cc.Node) => {
-                    landChair.inChairWithNode(newLanlordUserInfo, userIconNode)
+                    landChair.inChairWithNode(userIconNode)
                 })
             })
         } else {
             let oldLandChairUserInfo = landChair.getUserInfo()
             landChair.outChair(() => {
                 this.userIconMoveAnimation(oldLandChairUserInfo, landChair.getChairPosition(), theUserChair.getChairPosition(), (userIconNode: cc.Node) => {
-                   // theUserChair.inChairWithNode(oldLandChairUserInfo, userIconNode)
-                   theUserChair.inChair(oldLandChairUserInfo)
+                    theUserChair.inChairWithNode(userIconNode)
+                    //theUserChair.inChair(oldLandChairUserInfo)
                 })
             })
             theUserChair.outChair(() => {
                 this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), (userIconNode: cc.Node) => {
-                   // landChair.inChairWithNode(newLanlordUserInfo, userIconNode)
-                   landChair.inChair(newLanlordUserInfo)
+                    landChair.inChairWithNode(userIconNode)
+                    // landChair.inChair(newLanlordUserInfo)
                 })
             })
         }
@@ -113,7 +117,7 @@ export default class ChairManage {
     public userIconMoveAnimation(userInfo: MemberInChairData, fromLocation: Coordinate, toLocation: Coordinate, callback: any) {
         let userIconNode = this.cc.instantiate(this.playUserIcon)
         let jsOb = userIconNode.getComponent('PlayUserIcon')
-        jsOb.setShow(userInfo.userIcon, userInfo.userName, userInfo.userId, 0, 0)
+        jsOb.setShow(userInfo)
         let url = "Canvas/Desk"
         let parentNode = this.cc.find(url)
         userIconNode.parent = parentNode
@@ -127,7 +131,7 @@ export default class ChairManage {
 
     public getChairByUserId(userId: string): ChairItem {
         for (let i = 0; i < this.chairList.length; i++) {
-            if ((!this.chairList[i].isChairEmputy()) && this.chairList[i].memberInChairData.userId === userId) {
+            if ((!this.chairList[i].isChairEmputy()) && this.chairList[i].getUserInfo().userId === userId) {
                 return this.chairList[i]
             }
         }

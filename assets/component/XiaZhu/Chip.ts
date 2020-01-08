@@ -1,37 +1,29 @@
-import { chipObData, RaceStateChangeParam, EventType, RaceState, CompareDxRe, Coordinate, LocalNoticeEventType, LocalNoticeEventPara, BetChipChangeInfo, betLocaion } from "../../common/Const";
-import { randEventId } from "../../common/Util";
-import { eventBus } from "../../common/EventBus";
+import { chipObData, CompareDxRe, Coordinate, BetChipChangeInfo, betLocaion } from "../../common/Const";
 import RoomManage from "../../store/Room/RoomManage";
 import RaceManage from "../../store/Races/RaceManage";
-import ConfigManage from "../../store/Config/ConfigManage";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
     chipInfo: chipObData = null
-    eventId: string
-    betCancelEventId: string
     flyTime: number = 1.2  //下注硬币飞行时间
     start() {
-        this.eventId = randEventId()
-        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {
-            let localNoticeEventType = info.type
-            switch (localNoticeEventType) {
-                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-                    this.scheduleOnce(() => {
-                        this.chipBackAction(false)
-                    }, 1);
-                    break
-            }
-        })
-        this.betCancelEventId = randEventId()
-        eventBus.on(EventType.BET_CANCE_NOTICE, this.betCancelEventId, (info: BetChipChangeInfo): void => {
-            if (info.userId === this.chipInfo.userId && info.betLocation === this.chipInfo.betLocation) {
-                this.node.active = false
-                this.node.destroy()
-            }
-        })
+    }
+
+    //开牌结束，chip飞回
+    backChip() {
+        this.scheduleOnce(() => {
+            this.chipBackAction(false)
+        }, 1);
+    }
+
+    //chip自动消失 一般用于BET_CANCE_NOTICE 事件
+    cancelChip(info: BetChipChangeInfo) {
+        if (info.userId === this.chipInfo.userId && info.betLocation === this.chipInfo.betLocation) {
+            this.node.active = false
+            this.node.destroy()
+        }
     }
 
     initData(chipInfo: chipObData) {
@@ -40,26 +32,32 @@ export default class NewClass extends cc.Component {
 
     //isCancelBet 是否是执行取消操作动画
     chipBackAction(isCancelBet: boolean) {
-        let winUserId = this.chipInfo.userId
-        let raceNum = RoomManage.roomItem.oningRaceNum
-        let theBetLocation = this.chipInfo.betLocation
-        let compareDxRe = RaceManage.raceList[raceNum].getLocationResult(theBetLocation)
-        if ((compareDxRe === CompareDxRe.SMALL || compareDxRe === CompareDxRe.EQ) && !isCancelBet) {
-            winUserId = RaceManage.raceList[raceNum].landlordId
-        }
-        if ((theBetLocation === betLocaion.SKY_CORNER || theBetLocation === betLocaion.BRIDG
-            || theBetLocation === betLocaion.LAND_CORNER) && compareDxRe === CompareDxRe.EQ) {
+        try {
+            let winUserId = this.chipInfo.userId
+            let raceNum = RoomManage.roomItem.oningRaceNum
+            let theBetLocation = this.chipInfo.betLocation
+            let compareDxRe = RaceManage.raceList[raceNum].getLocationResult(theBetLocation)
+            if ((compareDxRe === CompareDxRe.SMALL || compareDxRe === CompareDxRe.EQ) && !isCancelBet) {
+                winUserId = RaceManage.raceList[raceNum].landlordId
+            }
+            if ((theBetLocation === betLocaion.SKY_CORNER || theBetLocation === betLocaion.BRIDG
+                || theBetLocation === betLocaion.LAND_CORNER) && compareDxRe === CompareDxRe.EQ) {
+                this.node.active = false
+                this.node.destroy()
+                return
+            }
+            let toLocaiton = this.getUserChairPosition(winUserId)
+            let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)
+            let b = cc.sequence(action, cc.callFunc(() => {
+                this.node.active = false
+                this.node.destroy()
+            }, this))
+            this.node.runAction(b)
+        } catch (e) {
+            cc.log('硬币返回异常')
             this.node.active = false
             this.node.destroy()
-            return
         }
-        let toLocaiton = this.getUserChairPosition(winUserId)
-        let action = cc.moveTo(this.flyTime, toLocaiton.x, toLocaiton.y)
-        let b = cc.sequence(action, cc.callFunc(() => {
-            this.node.active = false
-            this.node.destroy()
-        }, this))
-        this.node.runAction(b)
     }
 
     getUserChairPosition(userId: string): Coordinate {
@@ -69,7 +67,6 @@ export default class NewClass extends cc.Component {
     }
 
     onDisable() {
-        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventId)
-        eventBus.off(EventType.BET_CANCE_NOTICE, this.betCancelEventId)
+
     }
 }

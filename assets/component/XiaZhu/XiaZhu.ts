@@ -3,7 +3,7 @@
  */
 const { ccclass, property } = cc._decorator;
 import { randEventId, randFloatNum } from '../../common/Util'
-import { BetChipChangeInfo, EventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState, chipObData } from '../../common/Const'
+import { BetChipChangeInfo, EventType, Coordinate, chipPoint, RaceStateChangeParam, RaceState, chipObData, LocalNoticeEventPara, LocalNoticeEventType } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 import UserManage from '../../store/User/UserManage'
 import ConfigManage from '../../store/Config/ConfigManage';
@@ -55,6 +55,8 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     ownChipBetVoice: cc.AudioSource = null //自己下注附加的声音
 
+    betCancelEventId: string
+    eventId: string
     start() {
 
     }
@@ -100,7 +102,7 @@ export default class NewClass extends cc.Component {
             chip = this.chip_100
         }
         let node = cc.instantiate(chip)
-        node.name = 'BetChipItem'
+        node.name = randEventId()
         let label = node.getChildByName('ValLabel').getComponent(cc.Label)
         //设置chip信息
         node.getComponent('Chip').initData(chipInfo)
@@ -113,10 +115,8 @@ export default class NewClass extends cc.Component {
             node.width = this.otherMemberChipSize
             node.height = this.otherMemberChipSize
         }
-        node.name = randEventId()
         this.deskChipList.push(node.name)
-        let rootOb = this.node.parent
-        node.parent = rootOb
+        node.parent = this.node.parent
         return node
     }
 
@@ -163,6 +163,33 @@ export default class NewClass extends cc.Component {
                 case RaceState.FINISHED:
                     cc.log('下注组件收到单场比赛结束事件，清除桌子上的筹码')
                     this.destroyDeskChip()
+                    break
+            }
+        })
+
+        this.betCancelEventId = randEventId()
+        eventBus.on(EventType.BET_CANCE_NOTICE, this.betCancelEventId, (info: BetChipChangeInfo): void => {
+            this.deskChipList.forEach(element => {
+                let ob = this.node.parent.getChildByName(element)
+                if (ob) {
+                    let jsOb = ob.getComponent('Chip')
+                    jsOb.cancelChip(info)
+                }
+            });
+        })
+
+        this.eventId = randEventId()
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    this.deskChipList.forEach(element => {
+                        let ob = this.node.parent.getChildByName(element)
+                        if (ob) {
+                            let jsOb = ob.getComponent('Chip')
+                            jsOb.backChip()
+                        }
+                    });
                     break
             }
         })
@@ -296,6 +323,8 @@ export default class NewClass extends cc.Component {
     onDisable() {
         eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId)
         eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.pushEventId)
+        eventBus.off(EventType.BET_CANCE_NOTICE, this.betCancelEventId)
+        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventId)
     }
 
     update(dt) {

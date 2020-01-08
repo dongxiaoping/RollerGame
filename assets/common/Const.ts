@@ -271,8 +271,8 @@ export interface MemberInChairData {
     userId: string,
     userName?: string,
     userIcon?: string //模拟房间不用传这些
-    winVal?: number //前几场输赢值
-    xiaZhuVal?: number //当前场下注值
+    winVal: number //前几场输赢值
+    xiaZhuVal: number //当前场下注值
 }
 
 export interface BetNoticeData {
