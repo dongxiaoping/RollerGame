@@ -10,25 +10,34 @@ const { ccclass, property } = cc._decorator;
 export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
-    raceItemPrefab: cc.Prefab = null;
+    raceItemPrefab: cc.Prefab = null
 
     @property(cc.Node)
-    listNodeOb: cc.Node = null;
+    listNodeOb: cc.Node = null
     eventId: any = null
 
+    @property(cc.Node)
+    switchButton: cc.Node = null
+
+    @property(cc.Node)
+    content: cc.Node = null
+
     start() {
-        this.initShow()
-        this.test()
         this.eventId = randEventId()
-        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {
-            let localNoticeEventType = info.type
-            switch (localNoticeEventType) {
-                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-                    let onRaceNum = RoomManage.roomItem.oningRaceNum
-                    let result = this.getRaceResult(onRaceNum)
-                    this.addItem(result[0], result[1], result[2])
-                    break
-            }
+        // eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {
+        //     let localNoticeEventType = info.type
+        //     switch (localNoticeEventType) {
+        //         case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+        //             let onRaceNum = RoomManage.roomItem.oningRaceNum
+        //             let result = this.getRaceResult(onRaceNum)
+        //             this.addItem(result[0], result[1], result[2])
+        //             break
+        //     }
+        // })
+
+        this.switchButton.on(cc.Node.EventType.TOUCH_END, () => {
+            this.node.active = false
+            this.node.parent.getChildByName('ShowTrendButton').active = true
         })
     }
 
@@ -40,19 +49,26 @@ export default class NewClass extends cc.Component {
         return [skyWin, middleWin, landWin]
     }
 
-    initShow() {
+    show() {
+        this.content.removeAllChildren()
         let onRaceNum = -1
         try {
             onRaceNum = RoomManage.roomItem.oningRaceNum === null ? 0 : RoomManage.roomItem.oningRaceNum
         } catch (e) { }
         let i = 0
-        for (; i <= onRaceNum; i++) {
+        for (; i < onRaceNum; i++) {
             let result = this.getRaceResult(i)
             this.addItem(result[0], result[1], result[2])
         }
     }
 
-    test(){
+    test() {
+        this.addItem(true, false, false)
+        this.addItem(true, false, false)
+        this.addItem(true, false, false)
+        this.addItem(true, false, false)
+        this.addItem(true, false, false)
+        this.addItem(true, false, false)
         this.addItem(true, false, false)
     }
 
@@ -65,6 +81,6 @@ export default class NewClass extends cc.Component {
     }
 
     onDisable() {
-        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventId)
+       // eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventId)
     }
 }

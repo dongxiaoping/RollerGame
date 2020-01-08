@@ -95,6 +95,11 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     beginVoice: cc.AudioSource = null;
 
+
+    @property(cc.Sprite)
+    showTrendButton: cc.Sprite = null;
+
+
     userWinScore: number = 0
     userXiaZhuScore: number = 0
 
@@ -205,6 +210,13 @@ export default class NewClass extends cc.Component {
                 type: LocalNoticeEventType.TO_LOBBY_EVENT,
                 info: null
             } as LocalNoticeEventPara)
+        })
+
+        this.showTrendButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.showTrendButton.node.active = false
+            let trendMap = this.node.getChildByName('TrendMap')
+            trendMap.active = true
+            trendMap.getComponent('TrendMap').show()
         })
 
         this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
