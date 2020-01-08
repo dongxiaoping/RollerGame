@@ -29,7 +29,7 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     yaosaiziVoice: cc.AudioSource = null //摇色子声音语音
 
-    @property([cc.SpriteFrame]])
+    @property([cc.SpriteFrame])
     private dicePicList: cc.SpriteFrame[] = []
 
     start() {

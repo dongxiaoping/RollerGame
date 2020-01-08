@@ -331,7 +331,9 @@ export default class NewClass extends cc.Component {
                     kaiShi.parent = this.node
                     kaiShi.setPosition(0, 0);
                     kaiShi.active = true
-                    this.beginVoice.play()
+                    if (ConfigManage.isTxMusicOpen()) {
+                        this.beginVoice.play()
+                    }
                     this.scheduleOnce(() => {
                         kaiShi.destroy()
                         let landlordId = RaceManage.raceList[raceNum].landlordId

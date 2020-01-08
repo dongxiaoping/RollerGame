@@ -13,6 +13,19 @@ export default class ChairItem {
 
     }
 
+    public inChairWithNode(memberInChairData: MemberInChairData, userIconNode: any) {
+        //debugger
+        let data = JSON.stringify(memberInChairData)
+        this.memberInChairData = JSON.parse(data)
+        let url = "Canvas/" + this.chairName
+        let chairNode = this.cc.find(url)
+        userIconNode.parent = chairNode
+        userIconNode.setPosition(0, 0)
+        //chairNode.getChildByName('Chair').active = false
+        userIconNode.active = true
+        chairNode.active = true
+    }
+
     //winVal 当前用户前几场输赢值  xiaZhuVal 当前用户当前下注值
     public inChair(memberInChairData: MemberInChairData): boolean {
         if (!this.isChairEmputy()) {
@@ -22,6 +35,7 @@ export default class ChairItem {
         this.memberInChairData = JSON.parse(data)
         let url = "Canvas/" + this.chairName
         let chairNode = this.cc.find(url)
+        //chairNode.getChildByName('Chair').active = false
         let userIconNode = this.cc.instantiate(this.playUserIcon)
         userIconNode.name = this.playerIconNamePre + memberInChairData.userId
         userIconNode.setPosition(0, 0)
@@ -36,7 +50,9 @@ export default class ChairItem {
     public outChair(func: any) {
         let url = "Canvas/" + this.chairName
         let chairNode = this.cc.find(url)
-        chairNode.removeAllChildren()
+        let name = this.playerIconNamePre + this.memberInChairData.userId
+        chairNode.getChildByName(name).destroy()
+        //chairNode.getChildByName('Chair').active = true
         this.memberInChairData = null
         func()
     }

@@ -1,31 +1,70 @@
-// Learn TypeScript:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/typescript.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+import RoomManage from "../../store/Room/RoomManage";
+import RaceManage from "../../store/Races/RaceManage";
+import { betLocaion, CompareDxRe, EventType, LocalNoticeEventPara, LocalNoticeEventType } from "../../common/Const";
+import { eventBus } from "../../common/EventBus";
+import { randEventId } from "../../common/Util";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
+    @property(cc.Prefab)
+    raceItemPrefab: cc.Prefab = null;
 
-    @property
-    text: string = 'hello';
+    @property(cc.Node)
+    listNodeOb: cc.Node = null;
+    eventId: any = null
 
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-
+    start() {
+        this.initShow()
+        this.test()
+        this.eventId = randEventId()
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    let onRaceNum = RoomManage.roomItem.oningRaceNum
+                    let result = this.getRaceResult(onRaceNum)
+                    this.addItem(result[0], result[1], result[2])
+                    break
+            }
+        })
     }
 
-    // update (dt) {}
+    getRaceResult(raceNum: number) {
+        let race = RaceManage.raceList[raceNum]
+        let skyWin = race.getLocationResult(betLocaion.SKY) === CompareDxRe.BIG ? true : false
+        let middleWin = race.getLocationResult(betLocaion.MIDDLE) === CompareDxRe.BIG ? true : false
+        let landWin = race.getLocationResult(betLocaion.LAND) === CompareDxRe.BIG ? true : false
+        return [skyWin, middleWin, landWin]
+    }
+
+    initShow() {
+        let onRaceNum = -1
+        try {
+            onRaceNum = RoomManage.roomItem.oningRaceNum === null ? 0 : RoomManage.roomItem.oningRaceNum
+        } catch (e) { }
+        let i = 0
+        for (; i <= onRaceNum; i++) {
+            let result = this.getRaceResult(i)
+            this.addItem(result[0], result[1], result[2])
+        }
+    }
+
+    test(){
+        this.addItem(true, false, false)
+    }
+
+    addItem(skyWin: boolean, middleWin: boolean, landWin: boolean) {
+        let itemNode = cc.instantiate(this.raceItemPrefab)
+        itemNode.name = 'trendItem'
+        let jsOb = itemNode.getComponent('TrendItem')
+        jsOb.setShow(skyWin, middleWin, landWin)
+        this.listNodeOb.addChild(itemNode)
+    }
+
+    onDisable() {
+        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventId)
+    }
 }

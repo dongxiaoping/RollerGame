@@ -88,20 +88,22 @@ export default class ChairManage {
         let newLanlordUserInfo = theUserChair.getUserInfo()
         if (landChair.isChairEmputy()) {
             theUserChair.outChair(() => {
-                this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), () => {
-                    landChair.inChair(newLanlordUserInfo)
+                this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), (userIconNode: cc.Node) => {
+                    landChair.inChairWithNode(newLanlordUserInfo, userIconNode)
                 })
             })
         } else {
             let oldLandChairUserInfo = landChair.getUserInfo()
             landChair.outChair(() => {
-                this.userIconMoveAnimation(oldLandChairUserInfo, landChair.getChairPosition(), theUserChair.getChairPosition(), () => {
-                    theUserChair.inChair(oldLandChairUserInfo)
+                this.userIconMoveAnimation(oldLandChairUserInfo, landChair.getChairPosition(), theUserChair.getChairPosition(), (userIconNode: cc.Node) => {
+                   // theUserChair.inChairWithNode(oldLandChairUserInfo, userIconNode)
+                   theUserChair.inChair(oldLandChairUserInfo)
                 })
             })
             theUserChair.outChair(() => {
-                this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), () => {
-                    landChair.inChair(newLanlordUserInfo)
+                this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), (userIconNode: cc.Node) => {
+                   // landChair.inChairWithNode(newLanlordUserInfo, userIconNode)
+                   landChair.inChair(newLanlordUserInfo)
                 })
             })
         }
@@ -118,9 +120,7 @@ export default class ChairManage {
         userIconNode.setPosition(fromLocation.x, fromLocation.y)
         let action = this.cc.moveTo(1, toLocation.x, toLocation.y)
         let b = cc.sequence(action, this.cc.callFunc(() => {
-            userIconNode.active = false
-            userIconNode.destroy()
-            callback()
+            callback(userIconNode)
         }, this))
         userIconNode.runAction(b)
     }
