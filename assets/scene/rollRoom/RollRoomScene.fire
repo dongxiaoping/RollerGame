@@ -237,7 +237,7 @@
       "array": [
         0,
         0,
-        230.3627574066607,
+        237.2909606369362,
         0,
         0,
         0,
@@ -5203,9 +5203,9 @@
     },
     "_enabled": true,
     "_clip": {
-      "__uuid__": "cd44c741-f4f1-42a4-bc94-b1e0bc507e3d"
+      "__uuid__": "fc4711b3-4f50-4892-9002-080fece3833f"
     },
-    "_volume": 0.5,
+    "_volume": 1,
     "_mute": false,
     "_loop": true,
     "playOnLoad": false,

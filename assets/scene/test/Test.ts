@@ -3,10 +3,11 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
     touchStart:any
+    @property(cc.AudioSource)
+    qinQiangZhuangVoice: cc.AudioSource = null;
     start(){
-        window.onresize = function(){
-            console.log('mmmmmm:从最小化中恢复了')
-        }
+       // this.qinQiangZhuangVoice.play()
+
     }
 
     onEnable(){
