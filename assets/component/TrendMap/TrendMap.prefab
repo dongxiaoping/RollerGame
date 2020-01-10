@@ -921,7 +921,7 @@
     "_N$paddingTop": 0,
     "_N$paddingBottom": 0,
     "_N$spacingX": 0,
-    "_N$spacingY": 8,
+    "_N$spacingY": 2,
     "_N$verticalDirection": 1,
     "_N$horizontalDirection": 0,
     "_N$affectedByScale": false,
@@ -1093,6 +1093,7 @@
     "switchButton": {
       "__id__": 2
     },
+    "content": null,
     "_id": ""
   },
   {

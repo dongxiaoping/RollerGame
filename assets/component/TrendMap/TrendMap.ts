@@ -39,6 +39,7 @@ export default class NewClass extends cc.Component {
             this.node.active = false
             this.node.parent.getChildByName('ShowTrendButton').active = true
         })
+        this.show()
     }
 
     getRaceResult(raceNum: number) {
@@ -81,6 +82,6 @@ export default class NewClass extends cc.Component {
     }
 
     onDisable() {
-       // eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventId)
+        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventId)
     }
 }
