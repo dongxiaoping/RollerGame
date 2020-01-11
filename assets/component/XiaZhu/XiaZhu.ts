@@ -196,24 +196,36 @@ export default class NewClass extends cc.Component {
 
         ////////////////////按钮事件  这个只负责设置选中下注值，发出下注是点击桌面位置来实现的
         this.button_10.node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (ConfigManage.isTxMusicOpen()) {
+                this.ownChipBetVoice.play()
+            }
             this.closeAllFocus()
             this.focus_10.node.active = true
             UserManage.setSelectChipValue(10)
             cc.log('10元按钮被点击')
         })
         this.button_20.node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (ConfigManage.isTxMusicOpen()) {
+                this.ownChipBetVoice.play()
+            }
             this.closeAllFocus()
             this.focus_20.node.active = true
             UserManage.setSelectChipValue(20)
             cc.log('20元按钮被点击')
         })
         this.button_50.node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (ConfigManage.isTxMusicOpen()) {
+                this.ownChipBetVoice.play()
+            }
             this.closeAllFocus()
             this.focus_50.node.active = true
             UserManage.setSelectChipValue(50)
             cc.log('50元按钮被点击')
         })
         this.button_100.node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (ConfigManage.isTxMusicOpen()) {
+                this.ownChipBetVoice.play()
+            }
             this.closeAllFocus()
             this.focus_100.node.active = true
             UserManage.setSelectChipValue(100)
