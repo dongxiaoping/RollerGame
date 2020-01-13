@@ -26,14 +26,22 @@ export default class RoomItem {
         return this._oningRaceNum
     }
 
-    set oningRaceNum(val: number) {
-        if (this._oningRaceNum != null && (this._oningRaceNum > val)) {
-            cc.log('进行中场次号设置异常，当前的场次号：' + this._oningRaceNum + ',要设置的场次号:' + val)
-            return
-        }
+    /* 修改当前进行中比赛的场次号，如果本地的场次号和要修改的场次号不是大于1的关系，说明本地的游戏状态同步异常，需要矫正
+     *
+     */
+    public changeOningRaceNum(val: number) {
         this._oningRaceNum = val
         eventBus.emit(EventType.RACING_NUM_CHANGE_EVENT, val)
     }
+
+    // set oningRaceNum(val: number) {
+    //     if (this._oningRaceNum != null && (this._oningRaceNum > val)) {
+    //         cc.log('进行中场次号设置异常，当前的场次号：' + this._oningRaceNum + ',要设置的场次号:' + val)
+    //         return
+    //     }
+    //     this._oningRaceNum = val
+    //     eventBus.emit(EventType.RACING_NUM_CHANGE_EVENT, val)
+    // }
 
     get roomState(): roomState {
         return this._roomState

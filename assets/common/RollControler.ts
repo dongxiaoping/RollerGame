@@ -69,10 +69,6 @@ export class RollControler extends RollControlerBase {
                     break
                 case LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE:
                     cc.log('我是游戏控制器，我接受到本地事件，下注时间结束的通知')
-
-                    break
-                case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
-                    cc.log('我是游戏控制器，我接受到本地事件，比大小动画结束的通知')
                     break
                 case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件
                     let betInfo = info.info as BetNoticeData
@@ -101,7 +97,7 @@ export class RollControler extends RollControlerBase {
             cc.log('所有比赛结束')
             return
         }
-        RoomManage.roomItem.oningRaceNum = nextOningRaceNum
+        RoomManage.roomItem.changeOningRaceNum(nextOningRaceNum)
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {

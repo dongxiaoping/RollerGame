@@ -67,12 +67,10 @@ export enum EventType {
 export enum RaceState {
     NOT_BEGIN = 1, //没开始
     CHOICE_LANDLORD = 2, //选地主
-    ROLL_DICE = 3,  //摇色子
-    DEAL = 4,  //发牌
-    BET = 5,  //下注
-    SHOW_DOWN = 6,  //比大小 包括大小的通知动画 比如通赔
-    SHOW_RESULT = 7,  //揭晓结果 即显示本次比赛分数面板
-    FINISHED = 8  //完成
+    DEAL = 3,  //发牌
+    BET = 4,  //下注
+    SHOW_DOWN = 5,  //比大小 包括大小的通知动画 比如通赔
+    FINISHED = 6  //完成
 }
 
 

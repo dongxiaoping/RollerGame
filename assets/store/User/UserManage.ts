@@ -4,7 +4,6 @@ import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';
 import { RoomGameConfig } from '../../common/RoomGameConfig'
-import RoomManage from '../Room/RoomManage'
 
 class UserManage {
     public userInfo: UserItem = null
@@ -34,7 +33,6 @@ class UserManage {
             http.getWithUrl(httpUrl, (status: boolean, info: any) => {
                 let userInfo = info.data as UserInfo
                 let gameConfig = info.config as RoomGameConfig
-                RoomManage.setNetRoomGameConfig(gameConfig)
                 this.userInfo = new UserItem(userInfo)
                 resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
             })

@@ -49,6 +49,7 @@ class WebSocketManage {
         }
     }
 
+    //每个状态都带比赛房间号以及当前场次，一旦发现场次不匹配，立即执行恢复同步动作
     private onmessage(e: any): void {
         var info = JSON.parse(e.data)
         var type = info.type
@@ -57,7 +58,7 @@ class WebSocketManage {
         switch (type) {
             case 'gameBegin':
                 message as NoticeInfo
-                console.log('socket收到游戏开始通知,我将游戏状态设置为开始');
+                console.log('socket收到游戏开始通知,我将房间状态设置为开始，并且扣除房间费用');
                 RoomManage.roomItem.roomState = roomState.PLAYING
                 UserManage.costDiamondInRoom(RoomManage.roomItem.id, UserManage.userInfo.id)
                 break;
@@ -74,21 +75,12 @@ class WebSocketManage {
                 console.log('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' + RoomManage.roomItem.oningRaceNum);
                 RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
                 break;
-            case 'landlordSelected': //接收地主被选中通知
-                message as NoticeInfo
-                let landlordLastCount = message.landlordLastCount
-                let fromRaceNum = message.raceNum
-                let landlordId = typeof message.landlordId ? message.landlordId : null
-                RaceManage.changeRaceLandlord(landlordId, landlordLastCount, fromRaceNum)
-                console.log('socket收到游戏地主被选中通知');
-                break;
-            case 'raceStateRollDice':
-                message as NoticeInfo
-                RaceManage.changeRaceState(RaceState.ROLL_DICE)
-                console.log('摇色子');
-                break;
             case 'raceStateDeal':
                 message as NoticeInfo
+                let landlordId = message.landlordId
+                let theRaceNum = message.raceNum
+                RoomManage.roomItem.changeOningRaceNum(theRaceNum)
+                RaceManage.changeRaceLandlord(landlordId, 1, theRaceNum)
                 RaceManage.changeRaceState(RaceState.DEAL)
                 console.log('发牌');
                 break;
@@ -99,22 +91,13 @@ class WebSocketManage {
                 break;
             case 'raceStateShowDown':
                 message as NoticeInfo
-                RaceManage.changeRaceState(RaceState.SHOW_DOWN)
-                console.log('比大小');
-                break;
-            case 'raceStateShowResult':
-                let resultList = message.resultList as raceResultData[]
                 let raceNum = message.raceNum
+                let resultList = message.resultList as raceResultData[]
                 RaceManage.raceList[raceNum].setRaceResultList(resultList)
-                RaceManage.changeRaceState(RaceState.SHOW_RESULT)
-                console.log('显示结果');
+                RaceManage.changeRaceState(RaceState.SHOW_DOWN)
+                console.log('比大小，包括开牌，播报牌位的胜负关系');
                 break;
-            case 'raceStateFinished':
-                message as NoticeInfo
-                RaceManage.changeRaceState(RaceState.FINISHED)
-                console.log('本场比赛结束');
-                break;
-            case 'betNotice': //下注通知
+            case 'betNotice': //下注通知  //TODO 如果人物在本地没找到怎么办
                 let message1 = message as BetNoticeData
                 BetManage.addBet(message1.raceNum, message1.userId, message1.betLocation, message1.betVal)
                 console.log('下注接收通知');

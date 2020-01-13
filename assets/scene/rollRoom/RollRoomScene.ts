@@ -117,8 +117,11 @@ export default class NewClass extends cc.Component {
         }
         webSocketManage.closeWs()
         webSocketManage.openWs(() => {
+            cc.log('socket连接成功，执行下步房间初始化相关操作')
             this.enterWebGame()
-        }, () => { })
+        }, () => {
+            cc.log('socket异常关闭了，打印异常提示')
+        })
         cc.director.preloadScene('LobbyScene');//预加载
     }
 
@@ -234,12 +237,12 @@ export default class NewClass extends cc.Component {
                         this.cleanShowDown()
                         this.cleanShowResult()
                         break
-                    case RaceState.ROLL_DICE:
-                        this.cleanDeal()
-                        this.cleanBet()
-                        this.cleanShowDown()
-                        this.cleanShowResult()
-                        break
+                    // case RaceState.ROLL_DICE:
+                    //     this.cleanDeal()
+                    //     this.cleanBet()
+                    //     this.cleanShowDown()
+                    //     this.cleanShowResult()
+                    //     break
                     case RaceState.DEAL:
                         this.cleanRollDice()
                         this.cleanBet()
@@ -258,12 +261,12 @@ export default class NewClass extends cc.Component {
                         this.cleanBet()
                         this.cleanShowResult()
                         break
-                    case RaceState.SHOW_RESULT:
-                        this.cleanRollDice()
-                        this.cleanDeal()
-                        this.cleanBet()
-                        this.cleanShowDown()
-                        break
+                    // case RaceState.SHOW_RESULT:
+                    //     this.cleanRollDice()
+                    //     this.cleanDeal()
+                    //     this.cleanBet()
+                    //     this.cleanShowDown()
+                    //     break
                 }
             }
         })
@@ -303,6 +306,7 @@ export default class NewClass extends cc.Component {
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //摇色子结束
                     this.cleanRollDice()
+                    this.beginDeal()
                     break
                 case LocalNoticeEventType.TO_LOBBY_EVENT:
                     cc.log('退出到主页')
@@ -311,6 +315,23 @@ export default class NewClass extends cc.Component {
                     cc.director.loadScene("LobbyScene");
                     this.destroy()
                     break
+                case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
+                    let enterRoomParam = RoomManage.getEnterRoomParam()
+                    if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
+                        let raceResultListOne = this.controller.getRaceResultList(RoomManage.roomItem.oningRaceNum)
+                        RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(raceResultListOne)
+                        let showResultTime = RoomManage.getShowResultTime()
+                        setTimeout(() => {
+                            cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
+                            RaceManage.changeRaceState(RaceState.FINISHED)
+                        }, showResultTime * 1000)
+                    }
+                    let node = this.node.getChildByName('MiddleTopScorePanel')
+                    node.active = false
+                    node.destroy()
+                    cc.log('控制器公布结果')
+                    this.toShowRaceResultPanel()
+                    this.closeXiaZhuPanel()
                 case LocalNoticeEventType.BACK_MUSIC_STATE_CHANGE_NOTICE:
                     let isOpen = info.info
                     if (isOpen) {
@@ -337,8 +358,14 @@ export default class NewClass extends cc.Component {
             let to = info.toState
             let raceNum = info.raceNum
             switch (to) {
-                case RaceState.ROLL_DICE:
-                    cc.log('房间收到摇色子指令，开始摇色子流程')
+                case RaceState.CHOICE_LANDLORD:
+                    cc.log('start_game_test:房间收到选地主指令，开始选地主流程,玩家显示抢地主按钮，到此按钮出现')
+                    this.raceFinishedClean()
+                    this.showChoiceLandLordPanel()
+                    break
+                case RaceState.DEAL:
+                    cc.log('房间收到发牌指令，开始发牌流程')
+                    this.raceFinishedClean()
                     let kaiShi = cc.instantiate(this.kaiShipTip)
                     kaiShi.parent = this.node
                     kaiShi.setPosition(0, 0);
@@ -357,14 +384,6 @@ export default class NewClass extends cc.Component {
                             cc.log('是地主,不显示下注面板')
                         }
                     }, 2);
-                    break
-                case RaceState.CHOICE_LANDLORD:
-                    cc.log('start_game_test:房间收到选地主指令，开始选地主流程,玩家显示抢地主按钮，到此按钮出现')
-                    this.showChoiceLandLordPanel()
-                    break
-                case RaceState.DEAL:
-                    cc.log('房间收到发牌指令，开始发牌流程')
-                    this.beginDeal()
                     break
                 case RaceState.BET:
                     cc.log('房间收到下注指令，显示下注倒计时面板')
@@ -387,25 +406,8 @@ export default class NewClass extends cc.Component {
                     }
                     // cc.log('房间收到比大小指令，开始比大小流程')
                     break
-                case RaceState.SHOW_RESULT:
-                    node = this.node.getChildByName('MiddleTopScorePanel')
-                    node.active = false
-                    node.destroy()
-                    cc.log('控制器公布结果')
-                    this.toShowRaceResultPanel()
-                    this.closeXiaZhuPanel()
-                    break
                 case RaceState.FINISHED:
-                    cc.log('房间收到比赛结束通知，清空页面上次比赛信息')
-                    cc.log('房间收到比赛结束通知，修改当前用户分数显示')
-                    let winVal = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getUserRaceScore(UserManage.userInfo.id)
-                    this.userWinScore = this.userWinScore + winVal
-                    this.userScoreLabel.string = this.userWinScore + ''
-                    this.userXiaZhuScore = 0
-                    this.cleanShowResult()
-                    this.cleanRollDice()
-                    this.cleanDeal()
-                    this.cleanBet()
+                    this.raceFinishedClean()
                     break
             }
         })
@@ -431,6 +433,24 @@ export default class NewClass extends cc.Component {
             }
             this.closeChoiceLandLordPanel()
         })
+    }
+
+    raceFinishedClean() {
+        cc.log('当场比赛结束，清空相关显示')
+        let ob = this.node.getChildByName('Desk')
+        if (ob) {
+            let jsOb = ob.getComponent('Desk')
+            jsOb.deskPartsToClean()
+            jsOb.cleanMahjongResulNodes()
+        }
+        let winVal = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getUserRaceScore(UserManage.userInfo.id)
+        this.userWinScore = this.userWinScore + winVal
+        this.userScoreLabel.string = this.userWinScore + ''
+        this.userXiaZhuScore = 0
+        this.cleanShowResult()
+        this.cleanRollDice()
+        this.cleanDeal()
+        this.cleanBet()
     }
 
     //清空摇色子相关动画

@@ -55,9 +55,9 @@ class RollEmulator extends RollControlerBase {
                     cc.log('响应本地是否选择当地主')//弃用
                     break
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //响应摇色子动画结束通知
-                    cc.log('响应摇色子动画结束通知,修改状态为发牌')
-                    cc.log('我是游戏模拟器，我接到了摇色子动画结束的通知，我将比赛状态改为发牌')
-                    RaceManage.changeRaceState(RaceState.DEAL)
+                    // cc.log('响应摇色子动画结束通知,修改状态为发牌')
+                    // cc.log('我是游戏模拟器，我接到了摇色子动画结束的通知，我将比赛状态改为发牌')
+                    // RaceManage.changeRaceState(RaceState.DEAL)
                     break
                 case LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE:
                     cc.log('响应发牌动画结束通知,将状态改为下注')
@@ -69,17 +69,6 @@ class RollEmulator extends RollControlerBase {
                     setTimeout(() => {
                         RaceManage.changeRaceState(RaceState.SHOW_DOWN)
                     }, 2000)
-                    break
-                case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
-                    cc.log('我是游戏模拟器，我接到了比大小动画结束通知,我将比赛状态改为显示结果')
-                    let raceResultListOne = this.getRaceResultList(RoomManage.roomItem.oningRaceNum)
-                    RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(raceResultListOne)
-                    RaceManage.changeRaceState(RaceState.SHOW_RESULT)
-                    let showResultTime = RoomManage.getShowResultTime()
-                    setTimeout(() => {
-                        cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
-                        RaceManage.changeRaceState(RaceState.FINISHED)
-                    }, showResultTime * 1000)
                     break
                 case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件
                     let betInfo = info.info as BetNoticeData
@@ -217,9 +206,8 @@ class RollEmulator extends RollControlerBase {
         cc.log('房间改为游戏中')
         RoomManage.roomItem.roomState = roomState.PLAYING //改变房间状态为游戏中
         cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将进行中的比赛场次设置为0，我开始了比赛')
-        RoomManage.roomItem.oningRaceNum = 0
         cc.log('我是模拟器，我收到了当前用户点击开始比赛的通知，我将第一个房间状态改为选地主')
-        RaceManage.changeRaceState(RaceState.ROLL_DICE)
+        RaceManage.changeRaceState(RaceState.DEAL)
     }
 
     //启动下场比赛
@@ -242,9 +230,9 @@ class RollEmulator extends RollControlerBase {
         let nextRaceNum = oningRaceNum + 1
         cc.log('当前场次的编号：' + oningRaceNum + ',下场比赛的编号:' + nextRaceNum)
         setTimeout(() => {
-            RoomManage.roomItem.oningRaceNum = nextRaceNum
+            RoomManage.roomItem.changeOningRaceNum(nextRaceNum)
             cc.log('我是游戏模拟器，我开始了下局比赛，所以直接将下场比赛状态改为摇色子')
-            RaceManage.changeRaceState(RaceState.ROLL_DICE)
+            RaceManage.changeRaceState(RaceState.DEAL)
         }, 2000)
     }
 

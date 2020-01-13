@@ -8,7 +8,6 @@ import { RoomGameConfig, roomGameConfig } from '../../common/RoomGameConfig';
 import BetManage from '../Bets/BetManage';
 class RoomManage {
     public roomItem: RoomItem = null
-    private netRoomGameConfig: RoomGameConfig = null //网络下发的配置文件信息
     private enterRoomParam: EnterRoomParam = null //进入房间的传参
 
     public requestRoomInfo(): Promise<PromiseParam> {
@@ -19,7 +18,6 @@ class RoomManage {
 
     public reSet() {
         this.roomItem = null
-        this.netRoomGameConfig = null
         RaceManage.reSet()
         GameMemberManage.reSet()
         BetManage.reSet()
@@ -33,55 +31,33 @@ class RoomManage {
         this.enterRoomParam = info
     }
 
-    public setNetRoomGameConfig(info: RoomGameConfig) {
-        this.netRoomGameConfig = info
-    }
-
     //摇色子时间
     public getRollDiceTime(): number {
-        if (this.netRoomGameConfig !== null) {
-            return this.netRoomGameConfig.rollDiceTime - this.netRoomGameConfig.delayTime
-        }
         return roomGameConfig.rollDiceTime
     }
 
     //发牌时间
     public getDealTime(): number {
-        if (this.netRoomGameConfig !== null) {
-            return this.netRoomGameConfig.dealTime - this.netRoomGameConfig.delayTime
-        }
         return roomGameConfig.dealTime
     }
 
     //下注时间
     public getBetTime(): number {
-        if (this.netRoomGameConfig !== null) {
-            return this.netRoomGameConfig.betTime - this.netRoomGameConfig.delayTime
-        }
         return roomGameConfig.betTime
     }
 
     //开牌动画时间
     public getShowDownTime(): number {
-        if (this.netRoomGameConfig !== null) {
-            return this.netRoomGameConfig.showDownTime - this.netRoomGameConfig.delayTime
-        }
         return roomGameConfig.showDownTime
     }
 
     //结果显示停留时间 s
     public showResultKeepTime(): number {
-        if (this.netRoomGameConfig !== null) {
-            return this.netRoomGameConfig.showResultKeepTime - this.netRoomGameConfig.delayTime
-        }
         return roomGameConfig.showResultKeepTime
     }
 
     //结果面板显示时间
     public getShowResultTime(): number {
-        if (this.netRoomGameConfig !== null) {
-            return this.netRoomGameConfig.showResultTime - this.netRoomGameConfig.delayTime
-        }
         return roomGameConfig.showResultTime
     }
 

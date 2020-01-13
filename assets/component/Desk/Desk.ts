@@ -118,8 +118,6 @@ export default class Desk extends cc.Component {
                     this.deskShanDong()
                     break
                 case RaceState.FINISHED:
-                    this.deskPartsToClean()
-                    this.cleanMahjongResulNodes()
                     break
             }
         })
