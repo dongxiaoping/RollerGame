@@ -13,7 +13,7 @@ export class RollControler extends RollControlerBase {
     }
 
     public enterSocketRoom() {
-        if (RoomManage.roomItem.roomState === roomState.OPEN) {
+        if (RoomManage.roomItem.roomState !== roomState.CLOSE) {
             let notice = {
                 type: NoticeType.enterRoom, info: {
                     roomId: RoomManage.roomItem.id,
@@ -23,7 +23,7 @@ export class RollControler extends RollControlerBase {
             webSocketManage.send(JSON.stringify(notice));
             cc.log('我是玩家，我向服务器发起进入socket房间的websocket通知')
         }else{
-            cc.log('房间已开始，无法进入')
+            cc.log('房间已关闭，无法进入')
         }
     }
 

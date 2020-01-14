@@ -152,7 +152,6 @@ export default class NewClass extends cc.Component {
         this.initRoom()
         this.controller = new RollControler()
         this.controller.start()
-        //  this.node.getChildByName('WechatShare').active = true
     }
 
     showEnterRoomFailTip(info: ResponseData) {
@@ -177,7 +176,7 @@ export default class NewClass extends cc.Component {
         this.showRoomNum.string = '房间号：' + roomInfo.id
         this.showPlayMode.string = '上庄模式：抢庄'
         this.showBetLimit.string = '下注上限：' + roomInfo.costLimit
-        this.showPlayCountLimit.string = '当前牌局：1/' + roomInfo.playCount
+        this.showPlayCountLimit.string = '当前牌局：' + (roomInfo.oningRaceNum + 1) + '/' + roomInfo.playCount
     }
 
     enterEmulatorRoom() {
@@ -198,6 +197,16 @@ export default class NewClass extends cc.Component {
         this.initDesk()
         this.showTopLeftRaceInfo()
         this.addListener()
+        this.startByRaceState()
+    }
+
+    //根据当前比赛的装填，初始化页面，这样可以支持任意状态进入房间
+    private startByRaceState() {
+        let enterRoomParam = RoomManage.getEnterRoomParam()
+        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
+            return
+        }
+        RaceManage.changeRaceState(RaceManage.raceList[RoomManage.roomItem.oningRaceNum].state)
     }
 
     private initDesk() {
@@ -320,7 +329,7 @@ export default class NewClass extends cc.Component {
                     if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
                         let raceResultListOne = this.controller.getRaceResultList(RoomManage.roomItem.oningRaceNum)
                         RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(raceResultListOne)
-                        let showResultTime = RoomManage.getShowResultTime()
+                        let showResultTime = ConfigManage.getShowResultTime()
                         setTimeout(() => {
                             cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
                             RaceManage.changeRaceState(RaceState.FINISHED)
@@ -344,7 +353,7 @@ export default class NewClass extends cc.Component {
         })
         eventBus.on(EventType.ROOM_STATE_CHANGE_EVENT, randEventId(), (state: roomState): void => {
             switch (state) {
-                case roomState.ALL_RACE_FINISHED:
+                case roomState.CLOSE:
                     cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
                     var node = cc.instantiate(this.roomResultPanel)
                     node.parent = this.node

@@ -1,5 +1,5 @@
 import { config } from '../../common/Config'
-import { PromiseParam, PromiseResult, BetRecord, betLocaion, BetNoticeData } from '../../common/Const'
+import { PromiseParam, PromiseResult, BetRecord, betLocaion, BetNoticeData, InterfaceUrl } from '../../common/Const'
 import Betitem from './BetItem';
 import http from '../../common/Http'
 class BetManage {
@@ -17,7 +17,7 @@ class BetManage {
     //用户取消下注
     public cancelBetByLocation(roomId: number, userId: string, raceNum: number, betLocation: betLocaion): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            let httpUrl = config.serverAddress + '/race/betrecord/cancel_bet_by_location?userId=' + userId + '&roomId=' + roomId + '&raceNum=' + raceNum + '&betLocation=' + betLocation
+            let httpUrl = config.serverAddress + InterfaceUrl.CANCEL_BET + '?userId=' + userId + '&roomId=' + roomId + '&raceNum=' + raceNum + '&betLocation=' + betLocation
             http.getWithUrl(httpUrl, (status: boolean, info: any) => {
                 resolve({ result: PromiseResult.SUCCESS, extObject: '' })
             })

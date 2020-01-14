@@ -1,10 +1,9 @@
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, EnterRoomParam, EnterRoomFail, CreateRoomFail } from '../../common/Const'
+import { InterfaceUrl, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, EnterRoomParam, EnterRoomFail, CreateRoomFail } from '../../common/Const'
 import http from '../../common/Http'
 import RaceManage from '../Races/RaceManage';
 import GameMemberManage from '../GameMember/GameMemberManage';
-import { RoomGameConfig, roomGameConfig } from '../../common/RoomGameConfig';
 import BetManage from '../Bets/BetManage';
 class RoomManage {
     public roomItem: RoomItem = null
@@ -31,36 +30,6 @@ class RoomManage {
         this.enterRoomParam = info
     }
 
-    //摇色子时间
-    public getRollDiceTime(): number {
-        return roomGameConfig.rollDiceTime
-    }
-
-    //发牌时间
-    public getDealTime(): number {
-        return roomGameConfig.dealTime
-    }
-
-    //下注时间
-    public getBetTime(): number {
-        return roomGameConfig.betTime
-    }
-
-    //开牌动画时间
-    public getShowDownTime(): number {
-        return roomGameConfig.showDownTime
-    }
-
-    //结果显示停留时间 s
-    public showResultKeepTime(): number {
-        return roomGameConfig.showResultKeepTime
-    }
-
-    //结果面板显示时间
-    public getShowResultTime(): number {
-        return roomGameConfig.showResultTime
-    }
-
     public setRoomItem(theRoomInfo: RoomInfo) {
         this.roomItem = new RoomItem(theRoomInfo)
     }
@@ -68,31 +37,31 @@ class RoomManage {
     //creatUserId 创建者ID、 memberLimit 人员数量限制 ， playCount场次，roomPay 房间费用支付模式， costLimit下注上限
     public createRoom(creatUserId: string, memberLimit: number, playCount: number, roomPay: CreateRoomPayModel, costLimit: number): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            let httpUrl = config.serverAddress + '/race/room/create_room'
+            let httpUrl = config.serverAddress + InterfaceUrl.CREATE_ROOM
             let paramString = '?creatUserId=' + creatUserId + '&memberLimit=' + memberLimit +
                 '&playCount=' + playCount + '&roomPay=' + roomPay + '&costLimit=' + costLimit
             httpUrl = httpUrl + paramString
             http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
-                if(error){
-                    resolve({ result: ResponseStatus.FAIL, extObject: {message:CreateRoomFail.interface_fail} })
+                if (error) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: { message: CreateRoomFail.interface_fail } })
                     return
                 }
                 if (info.status === ResponseStatus.FAIL) { //创建房间失败
                     resolve({ result: ResponseStatus.FAIL, extObject: info })
                     return
                 }
-                 let roomInfo = info.data as RoomInfo
-                 resolve({ result: ResponseStatus.SUCCESS, extObject: roomInfo })
+                let roomInfo = info.data as RoomInfo
+                resolve({ result: ResponseStatus.SUCCESS, extObject: roomInfo })
             })
         })
     }
 
     public loginRoom(userId: string, rommId: number): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            let httpUrl = config.serverAddress + '/race/room/login_in_room?userId=' + userId + "&roomId=" + rommId
+            let httpUrl = config.serverAddress + InterfaceUrl.LOGIN_IN_ROOM + '?userId=' + userId + "&roomId=" + rommId
             http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
-                if(error){
-                    resolve({ result: ResponseStatus.FAIL, extObject: {message:EnterRoomFail.interface_fail} })
+                if (error) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: { message: EnterRoomFail.interface_fail } })
                     return
                 }
                 if (info.status === ResponseStatus.FAIL) { //加入房间失败
@@ -111,7 +80,6 @@ class RoomManage {
                     races[i].middleScore = JSON.parse(races[i].middleScore);
                 }
                 races as raceRecord[];
-
                 let members = data.members as GameMember[];
                 this.setRoomItem(roomInfo);
                 RaceManage.setRaceList(races);

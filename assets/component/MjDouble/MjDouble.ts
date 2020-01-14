@@ -46,7 +46,7 @@ export default class NewClass extends cc.Component {
     openHeight: number = 20 //开牌跳起高度
 
     start() {
-        let timeSet = RoomManage.getShowDownTime() / 4
+        let timeSet = ConfigManage.getShowDownTime() / 4
         this.singleIntervalTime = timeSet * this.singleIntervalTime
         this.twoIntervalTime = timeSet * this.twoIntervalTime
         this.twoLocationIntervalTime = timeSet * this.twoLocationIntervalTime

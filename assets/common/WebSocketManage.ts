@@ -72,6 +72,7 @@ class WebSocketManage {
                 break;
             case 'raceStateChoiceLandlord': //接收选地主通知
                 message as NoticeInfo
+                RoomManage.roomItem.changeOningRaceNum(message.raceNum)
                 console.log('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' + RoomManage.roomItem.oningRaceNum);
                 RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
                 break;
@@ -111,7 +112,7 @@ class WebSocketManage {
                 let roomResult = message.roomResult as raceResultData[]
                 console.log('所有游戏执行完毕,设置房间比赛结果');
                 RaceManage.setGameOverResultList(roomResult)
-                RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
+                RoomManage.roomItem.roomState = roomState.CLOSE
                 break;
             case 'cancelBetSuccessNotice': //删除下注成功通知
                 message as BetNoticeData

@@ -31,8 +31,7 @@ export interface DiceCountInfo {
 export enum roomState {
     OPEN = 1, //创建,房主没点开始，等待玩家进入
     PLAYING = 2,  //进行中
-    ALL_RACE_FINISHED = 3, //所有比赛结束
-    CLOSE = 4   //关闭
+    CLOSE = 3   //关闭
 }
 
 export interface Coordinate {
@@ -342,6 +341,14 @@ export enum NoticeType {
 export interface NoticeData {
     type: NoticeType
     info: NoticeInfo
+}
+
+export const InterfaceUrl = {
+    CREATE_ROOM: '/race/room/create_room',
+    LOGIN_IN_ROOM: '/race/room/login_in_room',
+    COST_DIAMOND: '/race/user/cost_diamond_in_room',
+    CREATE_VISIT: '/race/user/create_visit_account',
+    CANCEL_BET: '/race/betrecord/cancel_bet_by_location'
 }
 
 

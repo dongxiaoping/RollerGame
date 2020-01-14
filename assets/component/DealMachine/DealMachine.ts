@@ -42,7 +42,7 @@ export default class DealMachine extends cc.Component {
 
     //从指定桌位开始，向4个排位进行发牌
     deal(tableLocationType: TableLocationType): void {
-        let timeConfig = RoomManage.getDealTime()
+        let timeConfig = ConfigManage.getDealTime()
         this.mahjongShowKeepTime = Math.floor((timeConfig / 3) * 100) / 100
         this.mahjongFlyTime = Math.floor((timeConfig / 6) * 100) / 100 //4个
         let count = 0

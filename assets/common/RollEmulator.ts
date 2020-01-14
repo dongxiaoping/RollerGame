@@ -13,6 +13,8 @@ import { randEventId } from './Util';
 import { RollControlerBase } from './RollControlerBase';
 import BetManage from '../store/Bets/BetManage';
 import { randFloatNum } from '../common/Util';
+import ConfigManage from '../store/Config/ConfigManage';
+
 class RollEmulator extends RollControlerBase {
     eventIdList: string[] = []
     public setTimeoutList: any[] = []
@@ -161,7 +163,7 @@ class RollEmulator extends RollControlerBase {
             cc.log('当前不是下注状态，不能下注')
             return
         }
-        let localXiaZhuLimiTime = RoomManage.getBetTime()
+        let localXiaZhuLimiTime = ConfigManage.getBetTime()
         let ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
 
         let setTimeOutOne = setTimeout(() => {
@@ -218,7 +220,7 @@ class RollEmulator extends RollControlerBase {
             cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
             setTimeout(() => {
                 RaceManage.setGameOverResultList(this.getRoomResultList())
-                RoomManage.roomItem.roomState = roomState.ALL_RACE_FINISHED
+                RoomManage.roomItem.roomState = roomState.CLOSE
             }, 2000)
             return
         }

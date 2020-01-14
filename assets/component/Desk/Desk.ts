@@ -136,7 +136,7 @@ export default class Desk extends cc.Component {
                     this.scheduleOnce(() => {
                         cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
                         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
-                    }, RoomManage.showResultKeepTime());
+                    }, ConfigManage.showResultKeepTime());
                     break
                 case LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE:
                     let tableLocationType = info.info as TableLocationType

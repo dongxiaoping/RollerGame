@@ -1,5 +1,5 @@
 import { config } from '../../common/Config'
-import { PromiseParam, PromiseResult, ResponseStatus } from '../../common/Const'
+import { PromiseParam, PromiseResult, ResponseStatus, InterfaceUrl } from '../../common/Const'
 import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';
@@ -29,7 +29,7 @@ class UserManage {
                 resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
                 return
             }
-            let httpUrl = config.serverAddress + '/race/user/create_visit_account'
+            let httpUrl = config.serverAddress + InterfaceUrl.CREATE_VISIT
             http.getWithUrl(httpUrl, (status: boolean, info: any) => {
                 let userInfo = info.data as UserInfo
                 let gameConfig = info.config as RoomGameConfig
@@ -42,7 +42,7 @@ class UserManage {
     //游戏开始，扣钻流程
     public costDiamondInRoom(roomId: number, userId: string): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            let httpUrl = config.serverAddress + '/race/user/cost_diamond_in_room?userId=' + userId + '&roomId=' + roomId
+            let httpUrl = config.serverAddress + InterfaceUrl.COST_DIAMOND + '?userId=' + userId + '&roomId=' + roomId
             http.getWithUrl(httpUrl, (status: boolean, info: any) => {
 
             })

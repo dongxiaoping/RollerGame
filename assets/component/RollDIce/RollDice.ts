@@ -33,7 +33,7 @@ export default class NewClass extends cc.Component {
     private dicePicList: cc.SpriteFrame[] = []
 
     start() {
-        let timeConfig = RoomManage.getRollDiceTime() - 2
+        let timeConfig = ConfigManage.getRollDiceTime() - 2
         this.firstKeepStopTime = Math.floor((timeConfig / 9 * 2) * 100) / 100
         this.rollKeepTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
         this.secondKeepStopTime = Math.floor((timeConfig / 9 / 2) * 100) / 100
