@@ -23,7 +23,7 @@ export default class ChairManage {
         for (let i = 0; i < this.chairList.length; i++) {
             if (!this.chairList[i].isChairEmputy()) {
                 let userInfo = this.chairList[i].getUserInfo()
-                if(userInfo.userId === userId){
+                if (userInfo.userId === userId) {
                     return this.chairList[i].getChairPosition()
                 }
             }
@@ -78,6 +78,9 @@ export default class ChairManage {
     }
 
     public moveToLandlordChair(userId: string) {
+        if (userId == null || userId == '') {
+            return
+        }
         let theUserChair = this.getChairByUserId(userId)
         if (theUserChair === null) {
             console.log('改成员不在座椅上，无法挪动到地主位置')
@@ -101,13 +104,11 @@ export default class ChairManage {
             landChair.outChair(() => {
                 this.userIconMoveAnimation(oldLandChairUserInfo, landChair.getChairPosition(), theUserChair.getChairPosition(), (userIconNode: cc.Node) => {
                     theUserChair.inChairWithNode(userIconNode)
-                    //theUserChair.inChair(oldLandChairUserInfo)
                 })
             })
             theUserChair.outChair(() => {
                 this.userIconMoveAnimation(newLanlordUserInfo, theUserChair.getChairPosition(), landChair.getChairPosition(), (userIconNode: cc.Node) => {
                     landChair.inChairWithNode(userIconNode)
-                    // landChair.inChair(newLanlordUserInfo)
                 })
             })
         }

@@ -33,14 +33,14 @@ export default class NewClass extends cc.Component {
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && this.memberData.userId !== UserManage.userInfo.id) {
             cc.loader.loadRes(memberData.userIcon, (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
-                if (myIcon !== null) {
+                if (myIcon !== null && this.userIcon != null) {
                     this.userIcon.spriteFrame = myIcon
                 }
             })
         } else {
             cc.loader.load({ url: memberData.userIcon, type: 'png' }, (err, img: any) => {
                 let myIcon = new cc.SpriteFrame(img);
-                if (myIcon !== null) {
+                if (myIcon !== null && this.userIcon != null) {
                     this.userIcon.spriteFrame = myIcon
                 }
             });

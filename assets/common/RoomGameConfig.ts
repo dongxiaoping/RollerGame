@@ -1,17 +1,24 @@
 export interface RoomGameConfig {
+    timeBeforeBeginText: number  //开始文字显示之前的延迟空白时间 s
+    beginTextShowTime: number //开始文字显示停留时间
     rollDiceTime: number //摇色子持续时间 s
     dealTime: number //发牌持续时间 s
     betTime: number //下注持续时间 s
     showDownTime: number //开牌时间
     showResultKeepTime: number //结果显示停留时间 s
     showResultTime: number //结果面板持续时间 s
-    delayTime?: number //服务器和客户端之间的延迟时间
 }
+/* 发牌阶段时间 = timeBeforeBeginText + beginTextShowTime + rollDiceTime + dealTime
+ * 下注阶段时间 = betTime
+ * 比大小阶段时间 = showDownTime + showResultKeepTime + showResultTime
+ */
 export const roomGameConfig: RoomGameConfig = {
-    rollDiceTime: 6.5,
-    dealTime: 4,
-    betTime: 15,
-    showDownTime: 9,
+    timeBeforeBeginText: 0.5,
+    beginTextShowTime: 1.5,
+    rollDiceTime: 4,
+    dealTime: 3,
+    betTime: 13,
+    showDownTime: 8,
     showResultKeepTime: 4,
-    showResultTime: 5
+    showResultTime: 4
 }

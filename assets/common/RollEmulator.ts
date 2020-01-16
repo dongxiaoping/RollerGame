@@ -32,9 +32,6 @@ class RollEmulator extends RollControlerBase {
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, eventId, (info: RaceStateChangeParam): void => {
             let to = info.toState
             switch (to) {
-                case RaceState.SHOW_DOWN: //比大小
-                    this.toShowMjResult()
-                    break
                 case RaceState.BET:  //下注
                     this.emulateBet()
                     break
@@ -236,12 +233,6 @@ class RollEmulator extends RollControlerBase {
             cc.log('我是游戏模拟器，我开始了下局比赛，所以直接将下场比赛状态改为摇色子')
             RaceManage.changeRaceState(RaceState.DEAL)
         }, 2000)
-    }
-
-    //显示结果麻将结果通知
-    toShowMjResult(): void {
-        cc.log('发出翻牌通知')
-        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
     }
 
     close(): void {

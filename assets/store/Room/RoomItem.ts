@@ -34,15 +34,6 @@ export default class RoomItem {
         eventBus.emit(EventType.RACING_NUM_CHANGE_EVENT, val)
     }
 
-    // set oningRaceNum(val: number) {
-    //     if (this._oningRaceNum != null && (this._oningRaceNum > val)) {
-    //         cc.log('进行中场次号设置异常，当前的场次号：' + this._oningRaceNum + ',要设置的场次号:' + val)
-    //         return
-    //     }
-    //     this._oningRaceNum = val
-    //     eventBus.emit(EventType.RACING_NUM_CHANGE_EVENT, val)
-    // }
-
     get roomState(): roomState {
         return this._roomState
     }

@@ -79,8 +79,7 @@ export default class Desk extends cc.Component {
 
     addEventListener() {
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-            cc.log('接收到地主改变通知')
-            cc.log('桌子接收到地主改变通知,将该用户挪动到地主椅子')
+            cc.log('桌子接收当前比赛有庄设置,将该用户挪动到地主椅子')
             this.chairManage.moveToLandlordChair(landlordId)
         })
 
@@ -130,11 +129,13 @@ export default class Desk extends cc.Component {
                     this.scheduleOnce(() => {
                         this.playingBiDaXiaAnimation((): void => { })
                     }, 0.3);
-                    if (ConfigManage.isTxMusicOpen()) {
+                    let isSuccess = this.node.parent.getChildByName('XiaZhu').getComponent('XiaZhu').backAllChipe()
+                    if (ConfigManage.isTxMusicOpen() && isSuccess) {
                         this.chipBetVoice.play()
                     }
                     this.scheduleOnce(() => {
                         cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
+                        this.node.parent.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip()
                         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
                     }, ConfigManage.showResultKeepTime());
                     break
@@ -265,5 +266,6 @@ export default class Desk extends cc.Component {
             } as MemberInChairData
             this.chairManage.inChair(member)
         })
+        this.chairManage.moveToLandlordChair(RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId)
     }
 }

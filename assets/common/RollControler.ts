@@ -33,10 +33,6 @@ export class RollControler extends RollControlerBase {
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
             let to = info.toState
             switch (to) {
-                case RaceState.SHOW_DOWN:
-                    cc.log('我是游戏控制器，我接受到比赛事件，状态改为比大小的通知')
-                    this.toShowMjResult()
-                    break
                 case RaceState.BET:
                     cc.log('我是游戏控制器，我接受到比赛事件，状态改为下注的通知')
                     break
@@ -114,15 +110,6 @@ export class RollControler extends RollControlerBase {
             webSocketManage.send(JSON.stringify(notice));
             cc.log('我是游戏控制器，我向服务器发起抢地主通知')
         }
-    }
-
-    //显示结果麻将结果通知
-    toShowMjResult(): void {
-        cc.log('发出翻牌通知')
-        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-            type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE,
-            info: TableLocationType.LANDLORD
-        } as LocalNoticeEventPara)
     }
 }
 export default RollControler

@@ -20,7 +20,6 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     chip_100: cc.Prefab = null
     pushEventId: string = ''
-    raceStateId: string = ''
     deskChipList: string[] = [] //桌子上的chip名称集合
 
     //落焦圈对象
@@ -56,7 +55,6 @@ export default class NewClass extends cc.Component {
     ownChipBetVoice: cc.AudioSource = null //自己下注附加的声音
 
     betCancelEventId: string
-    eventId: string
     start() {
 
     }
@@ -149,6 +147,19 @@ export default class NewClass extends cc.Component {
         cc.log(this.node)
     }
 
+    backAllChipe() {
+        let isSuccess = false
+        this.deskChipList.forEach(element => {
+            let ob = this.node.parent.getChildByName(element)
+            if (ob) {
+                isSuccess = true
+                let jsOb = ob.getComponent('Chip')
+                jsOb.backChip()
+            }
+        });
+        return isSuccess
+    }
+
     onEnable() {
         this.initFocus()
         this.pushEventId = randEventId()
@@ -156,17 +167,6 @@ export default class NewClass extends cc.Component {
             cc.log('收到下注值改变通知')
             this.toXiaZhu(betInfo)
         })
-        this.raceStateId = randEventId()
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId, (info: RaceStateChangeParam): void => {
-            let to = info.toState
-            switch (to) {
-                case RaceState.FINISHED:
-                    cc.log('下注组件收到单场比赛结束事件，清除桌子上的筹码')
-                    this.destroyDeskChip()
-                    break
-            }
-        })
-
         this.betCancelEventId = randEventId()
         eventBus.on(EventType.BET_CANCE_NOTICE, this.betCancelEventId, (info: BetChipChangeInfo): void => {
             this.deskChipList.forEach(element => {
@@ -176,22 +176,6 @@ export default class NewClass extends cc.Component {
                     jsOb.cancelChip(info)
                 }
             });
-        })
-
-        this.eventId = randEventId()
-        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {
-            let localNoticeEventType = info.type
-            switch (localNoticeEventType) {
-                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-                    this.deskChipList.forEach(element => {
-                        let ob = this.node.parent.getChildByName(element)
-                        if (ob) {
-                            let jsOb = ob.getComponent('Chip')
-                            jsOb.backChip()
-                        }
-                    });
-                    break
-            }
         })
 
         ////////////////////按钮事件  这个只负责设置选中下注值，发出下注是点击桌面位置来实现的
@@ -333,10 +317,8 @@ export default class NewClass extends cc.Component {
     }
 
     onDisable() {
-        eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.raceStateId)
         eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.pushEventId)
         eventBus.off(EventType.BET_CANCE_NOTICE, this.betCancelEventId)
-        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventId)
     }
 
     update(dt) {

@@ -324,7 +324,6 @@ export interface NoticeInfo {
     raceNum?: number //当前是第几局
     raceCount?: number //房间比赛有几场
     landlordId?: string //当前局的地主ID
-    landlordLastCount?: number //一次选中坐庄持续的场次数
     userId?: string
 }
 

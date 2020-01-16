@@ -17,7 +17,7 @@ class RaceManage {
         })
     }
 
-    public reSet(){
+    public reSet() {
         this.raceList = []
         this.gameOverResultList = null
     }
@@ -75,17 +75,13 @@ class RaceManage {
 
     //说明
     changeRaceLandlord(landlordId: string, landlordLastCount: number, fromRaceNum: number): void {
+        let i = 0
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
-        if (fromRaceNum !== oningRaceNum) {
-            cc.log('错误,下发的抢庄当前场次和本地当前场次不一致')
-            return
-        }
-        let totalCount = RoomManage.roomItem.playCount
-        this.raceList[oningRaceNum].landlordId = landlordId
-        for (let i = 1; i < landlordLastCount; i++) {
-            if (oningRaceNum + i < totalCount) {
-                this.raceList[oningRaceNum + i].setLandlordIdWithoutNotice(landlordId)
+        while (i < landlordLastCount) {
+            if (typeof (this.raceList[fromRaceNum + i]) != 'undefined') {
+                this.raceList[fromRaceNum + i].setLandlordId(landlordId, oningRaceNum)
             }
+            i++
         }
     }
 

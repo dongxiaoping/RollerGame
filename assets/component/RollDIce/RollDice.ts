@@ -21,10 +21,10 @@ export default class NewClass extends cc.Component {
     private isAdd: boolean = true
     private oning: boolean = false //是否摆动
     private isFlying: boolean = false
-    private firstKeepStopTime: number //单位s 显示盒子，保持不动
-    private rollKeepTime: number //单位s 晃动持续时间
-    private secondKeepStopTime: number //晃动停止后，保持不动持续时间
-    private diceShowTime: number //点数结果显示持续时间
+    private firstKeepStopTime: number = 0.2 //单位s 显示盒子，保持不动
+    private rollKeepTime: number = 0.3 //单位s 晃动持续时间
+    private secondKeepStopTime: number = 0.2 //晃动停止后，保持不动持续时间
+    private diceShowTime: number = 0.3 //点数结果显示持续时间
 
     @property(cc.AudioSource)
     yaosaiziVoice: cc.AudioSource = null //摇色子声音语音
@@ -33,11 +33,7 @@ export default class NewClass extends cc.Component {
     private dicePicList: cc.SpriteFrame[] = []
 
     start() {
-        let timeConfig = ConfigManage.getRollDiceTime() - 2
-        this.firstKeepStopTime = Math.floor((timeConfig / 9 * 2) * 100) / 100
-        this.rollKeepTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
-        this.secondKeepStopTime = Math.floor((timeConfig / 9 / 2) * 100) / 100
-        this.diceShowTime = Math.floor((timeConfig / 9 * 3) * 100) / 100
+        this.initTime()
         this.scheduleOnce(() => {
             this.oning = true
             if (ConfigManage.isTxMusicOpen()) {
@@ -51,6 +47,14 @@ export default class NewClass extends cc.Component {
                 }, this.secondKeepStopTime)
             }, this.rollKeepTime);
         }, this.firstKeepStopTime);
+    }
+
+    initTime(){
+        let weights = Math.floor((ConfigManage.getRollDiceTime() / (this.firstKeepStopTime + this.rollKeepTime + this.secondKeepStopTime + this.diceShowTime)) * 100) / 100
+        this.firstKeepStopTime = weights * this.firstKeepStopTime
+        this.rollKeepTime = weights * this.rollKeepTime
+        this.secondKeepStopTime = weights * this.secondKeepStopTime
+        this.diceShowTime = weights * this.diceShowTime
     }
 
     //显示色子并返回点数

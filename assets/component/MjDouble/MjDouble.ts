@@ -28,8 +28,8 @@ export default class NewClass extends cc.Component {
     @property([cc.SpriteFrame])
     majongIcons: cc.SpriteFrame[] = [] //结果图
 
-    singleIntervalTime = 0.2 //翻牌 2个
-    twoIntervalTime = 0.1  //两张之间的停顿时间 s  
+    singleIntervalTime = 0.2 //翻牌 (开一张牌的时间)
+    twoIntervalTime = 0.1  //两张牌之间的停顿时间 s  
     twoLocationIntervalTime = 0.5 //两个位置之间的翻牌间隔时间 s 
     localEventId: string
 
@@ -46,10 +46,15 @@ export default class NewClass extends cc.Component {
     openHeight: number = 20 //开牌跳起高度
 
     start() {
-        let timeSet = ConfigManage.getShowDownTime() / 4
-        this.singleIntervalTime = timeSet * this.singleIntervalTime
-        this.twoIntervalTime = timeSet * this.twoIntervalTime
-        this.twoLocationIntervalTime = timeSet * this.twoLocationIntervalTime
+        this.initTime()
+    }
+
+
+    initTime() {
+        let weights = Math.floor((ConfigManage.getShowDownTime() / 4 / (this.singleIntervalTime * 2 + this.twoIntervalTime + this.twoLocationIntervalTime)) * 100) / 100
+        this.twoIntervalTime = weights * this.twoIntervalTime
+        this.singleIntervalTime = weights * this.singleIntervalTime
+        this.twoLocationIntervalTime = weights * this.twoLocationIntervalTime
     }
 
     open(tableLocationType: TableLocationType) {

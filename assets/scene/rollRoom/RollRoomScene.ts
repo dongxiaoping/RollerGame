@@ -9,6 +9,8 @@ import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator"
 import RollControler from '../../common/RollControler'
 import ConfigManage from '../../store/Config/ConfigManage'
+import { roomGameConfig } from '../../common/RoomGameConfig';
+
 import webSocketManage from '../../common/WebSocketManage'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -116,12 +118,7 @@ export default class NewClass extends cc.Component {
             return
         }
         webSocketManage.closeWs()
-        webSocketManage.openWs(() => {
-            cc.log('socket连接成功，执行下步房间初始化相关操作')
-            this.enterWebGame()
-        }, () => {
-            cc.log('socket异常关闭了，打印异常提示')
-        })
+        this.enterWebGame()
         cc.director.preloadScene('LobbyScene');//预加载
     }
 
@@ -150,8 +147,13 @@ export default class NewClass extends cc.Component {
             return
         }
         this.initRoom()
-        this.controller = new RollControler()
-        this.controller.start()
+        webSocketManage.openWs(() => {
+            cc.log('socket连接成功，执行下步房间初始化相关操作')
+            this.controller = new RollControler()
+            this.controller.start()
+        }, () => {
+            cc.log('socket异常关闭了，打印异常提示')
+        })
     }
 
     showEnterRoomFailTip(info: ResponseData) {
@@ -197,10 +199,10 @@ export default class NewClass extends cc.Component {
         this.initDesk()
         this.showTopLeftRaceInfo()
         this.addListener()
-        this.startByRaceState()
+        //this.startByRaceState()
     }
 
-    //根据当前比赛的装填，初始化页面，这样可以支持任意状态进入房间
+    //取消 TODO 删除该逻辑 该逻辑和下发事件之间会产生各种问题
     private startByRaceState() {
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
@@ -329,18 +331,20 @@ export default class NewClass extends cc.Component {
                     if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
                         let raceResultListOne = this.controller.getRaceResultList(RoomManage.roomItem.oningRaceNum)
                         RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(raceResultListOne)
-                        let showResultTime = ConfigManage.getShowResultTime()
-                        setTimeout(() => {
-                            cc.log('显示单局比赛结果已经持续了2s,我将单场比赛状态改为结束')
+                        this.scheduleOnce(() => {
+                            cc.log('显示单局比赛结果显示完毕，我将单场比赛状态改为结束')
                             RaceManage.changeRaceState(RaceState.FINISHED)
-                        }, showResultTime * 1000)
+                        }, ConfigManage.getShowResultTime());
                     }
                     let node = this.node.getChildByName('MiddleTopScorePanel')
-                    node.active = false
-                    node.destroy()
+                    if (node != null) {
+                        node.active = false
+                        node.destroy()
+                    }
                     cc.log('控制器公布结果')
                     this.toShowRaceResultPanel()
                     this.closeXiaZhuPanel()
+                    break
                 case LocalNoticeEventType.BACK_MUSIC_STATE_CHANGE_NOTICE:
                     let isOpen = info.info
                     if (isOpen) {
@@ -355,6 +359,7 @@ export default class NewClass extends cc.Component {
             switch (state) {
                 case roomState.CLOSE:
                     cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
+                    this.raceFinishedClean()
                     var node = cc.instantiate(this.roomResultPanel)
                     node.parent = this.node
                     node.setPosition(0, -70);
@@ -376,23 +381,25 @@ export default class NewClass extends cc.Component {
                     cc.log('房间收到发牌指令，开始发牌流程')
                     this.raceFinishedClean()
                     let kaiShi = cc.instantiate(this.kaiShipTip)
-                    kaiShi.parent = this.node
-                    kaiShi.setPosition(0, 0);
-                    kaiShi.active = true
-                    if (ConfigManage.isTxMusicOpen()) {
-                        this.beginVoice.play()
-                    }
                     this.scheduleOnce(() => {
-                        kaiShi.destroy()
-                        let landlordId = RaceManage.raceList[raceNum].landlordId
-                        this.beginRollDice()
-                        if (UserManage.userInfo.id !== landlordId) {
-                            cc.log('不是地主,显示下注面板')
-                            this.showXiaZhuPanel()
-                        } else {
-                            cc.log('是地主,不显示下注面板')
+                        kaiShi.parent = this.node
+                        kaiShi.setPosition(0, 0);
+                        kaiShi.active = true
+                        if (ConfigManage.isTxMusicOpen()) {
+                            this.beginVoice.play()
                         }
-                    }, 2);
+                        this.scheduleOnce(() => {
+                            kaiShi.destroy()
+                            let landlordId = RaceManage.raceList[raceNum].landlordId
+                            this.beginRollDice()
+                            if (UserManage.userInfo.id !== landlordId) {
+                                cc.log('不是地主,显示下注面板')
+                                this.showXiaZhuPanel()
+                            } else {
+                                cc.log('是地主,不显示下注面板')
+                            }
+                        }, roomGameConfig.beginTextShowTime);
+                    }, roomGameConfig.timeBeforeBeginText);
                     break
                 case RaceState.BET:
                     cc.log('房间收到下注指令，显示下注倒计时面板')
@@ -407,13 +414,15 @@ export default class NewClass extends cc.Component {
                     node.parent = this.node
                     node.setPosition(15, 258);
                     node.active = true
+                    this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
                     break
                 case RaceState.SHOW_DOWN: //这个由控制器来响应
                     let theNode = this.node.getChildByName('MiddleTopTimePanel')
                     if (theNode) {
                         theNode.destroy()
                     }
-                    // cc.log('房间收到比大小指令，开始比大小流程')
+                    this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
+                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
                     break
                 case RaceState.FINISHED:
                     this.raceFinishedClean()
@@ -428,19 +437,12 @@ export default class NewClass extends cc.Component {
         })
 
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-            cc.log('接收到地主改变通知')
-            let oningRaceNum = RoomManage.roomItem.oningRaceNum //地主改变通知
-            if (RaceManage.raceList[oningRaceNum].state !== RaceState.CHOICE_LANDLORD &&
-                RaceManage.raceList[oningRaceNum].state !== RaceState.NOT_BEGIN) {
-                cc.log('错误！接收到了地主改变通知，但当前房间状态不是选地主')
-                return
-            }
             if (landlordId === UserManage.userInfo.id) {
                 this.roleSprite.spriteFrame = this.zhuangIcon
             } else {
                 this.roleSprite.spriteFrame = this.xianIcon
             }
-            this.closeChoiceLandLordPanel()
+            // this.closeChoiceLandLordPanel()
         })
     }
 
@@ -469,10 +471,7 @@ export default class NewClass extends cc.Component {
 
     //清空发牌相关动画
     cleanDeal() {
-        this.destroyChildNodeByName('MjDouble' + TableLocationType.LAND)
-        this.destroyChildNodeByName('MjDouble' + TableLocationType.LANDLORD)
-        this.destroyChildNodeByName('MjDouble' + TableLocationType.MIDDLE)
-        this.destroyChildNodeByName('MjDouble' + TableLocationType.SKY)
+        this.node.getChildByName('DealMachine').getComponent('DealMachine').cleanMajong()
     }
 
     //清空下注相关动画

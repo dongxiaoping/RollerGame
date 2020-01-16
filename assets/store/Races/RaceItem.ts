@@ -56,7 +56,7 @@ export default class RaceItem {
         return 0
     }
 
-    getLocationResult(location: betLocaion): CompareDxRe{
+    getLocationResult(location: betLocaion): CompareDxRe {
         switch (location) {
             case betLocaion.SKY:
                 return this.skyResult
@@ -97,13 +97,10 @@ export default class RaceItem {
         return this._landlordId
     }
 
-    set landlordId(val: string) {
-        cc.log('地主改变了,下发通知')
-        this._landlordId = val
-        eventBus.emit(EventType.LANDLORD_CAHNGE_EVENT, val)
-    }
-
-    setLandlordIdWithoutNotice(val: string) {
+    setLandlordId(val: string, oningRace: number) {
+        if (oningRace == this.num) {
+            eventBus.emit(EventType.LANDLORD_CAHNGE_EVENT, val)
+        }
         this._landlordId = val
     }
 
