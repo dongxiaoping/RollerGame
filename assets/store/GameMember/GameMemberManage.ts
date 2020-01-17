@@ -1,5 +1,5 @@
 import { config, } from '../../common/Config'
-import { PromiseParam, PromiseResult, GameMember, EventType, LocalNoticeEventType, LocalNoticeEventPara, RaceState, roomState } from '../../common/Const'
+import { PromiseParam, PromiseResult, GameMember, EventType, LocalNoticeEventType, LocalNoticeEventPara, RaceState, roomState, memberState } from '../../common/Const'
 import GameMemberItem from './GameMemberItem'
 import { GameMemberList } from '../../mock/GameMemberList'
 import { eventBus } from '../../common/EventBus';
@@ -16,17 +16,6 @@ class GameMemberManage {
     }
 
     set gameMenmberList(list: GameMemberItem[]) {
-        if (this._gameMenmberList === null) {
-            cc.log('玩家成员数据第一次被初始化')
-        } else { //对比2次数据变化情况，并对数据的变化发出通知
-            list.forEach((item: GameMemberItem, index: any) => {
-                if (typeof (this.gameMenmberList[index]) === 'undefined') {
-                    cc.log('有新的成员添加进去')
-                } else if (item.roleType !== this.gameMenmberList[index].roleType) {
-                    cc.log('成员状态有修改')
-                }
-            })
-        }
         this._gameMenmberList = list
     }
 
@@ -40,21 +29,21 @@ class GameMemberManage {
 
     //用户退出游戏
     outGameMember(userId: string) {
-        if ((RoomManage.roomItem.roomState === roomState.OPEN) && (typeof (this._gameMenmberList[userId]) !== 'undefined')) {
+        if (typeof (this._gameMenmberList[userId]) !== 'undefined') {
             delete this._gameMenmberList[userId]
         }
-        eventBus.emit(EventType.MEMBER_OUT_ROOM, userId)
+        eventBus.emit(EventType.MEMBER_DELETE_FROM_ROOM, userId)
     }
 
     addGameMember(gameMember: GameMember) {
         let userId = gameMember.userId
         if (typeof (this.gameMenmberList[userId]) !== 'undefined') {
-            cc.log('该成员存在')
+            this.gameMenmberList[userId].state = memberState.OnLine
+            cc.log('成员上线')
             return false
         }
         let newMember = new GameMemberItem(gameMember)
         this._gameMenmberList[gameMember.userId] = newMember
-        cc.log('成员有改变，发出本地通知，新增了玩家')
         eventBus.emit(EventType.NEW_MEMBER_IN_ROOM, gameMember)
         return true
     }

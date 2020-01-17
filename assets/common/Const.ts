@@ -52,13 +52,13 @@ export enum betLocaion {
 export enum EventType {
     ROOM_STATE_CHANGE_EVENT = 1, //房间状态改变通知   （数据改变触发）
     RACE_STATE_CHANGE_EVENT = 2,  //当前比赛状态改变通知 （数据改变触发）
-    MEMBER_OUT_ROOM = 3,  //用户退出房间
+    MEMBER_DELETE_FROM_ROOM = 3,  //用户退出房间(这种情况，数据库中也没有用户数据，不包括用户离线等情况)
     LOCAL_NOTICE_EVENT = 4,  //本地通知事件 （本地对本地 和数据改变无关）
     LANDLORD_CAHNGE_EVENT = 5,//地主改变通知 （数据改变触发）
     BET_CHIP_CHANGE_EVENT = 6, //下注改变通知 （数据改变触发）
     RACING_NUM_CHANGE_EVENT = 7, //进行中的比赛场次号改变通知（数据改变触发）
     NEW_MEMBER_IN_ROOM = 8, //有新成员加入房间
-    SOCKET_CREAT_ROOM_SUCCESS = 9,  //websocket创建房间成功通知
+    MEMBER_STATE_CHANGE = 9, //成员状态有改变
     BET_CANCE_NOTICE = 10,//用户取消下注通知
 }
 
@@ -91,7 +91,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     LOCAL_TIME_XIAZHU_FINISHED_NOTICE = 8, //本地设置的下注段时间完毕通知
     LOCAL_BET_CLICK_NOTICE = 9, //本地下注按钮点击通知
     TO_LOBBY_EVENT = 10, //返回到大厅通知
-    BACK_MUSIC_STATE_CHANGE_NOTICE = 11 //背景音乐开关改变通知
+    BACK_MUSIC_STATE_CHANGE_NOTICE = 11, //背景音乐开关改变通知
+    TO_SHOW_START_BUTTON = 12 //通知显示开始按钮
 }
 
 export interface LocalNoticeEventPara {
@@ -266,6 +267,7 @@ export interface EnterRoomParam {
 
 export interface MemberInChairData {
     userId: string,
+    state: memberState,
     userName?: string,
     userIcon?: string //模拟房间不用传这些
     winVal: number //前几场输赢值
@@ -342,12 +344,18 @@ export interface NoticeData {
     info: NoticeInfo
 }
 
+export interface MemberStateData{
+    userId: string
+    state: memberState
+}
+
 export const InterfaceUrl = {
     CREATE_ROOM: '/race/room/create_room',
     LOGIN_IN_ROOM: '/race/room/login_in_room',
     COST_DIAMOND: '/race/user/cost_diamond_in_room',
     CREATE_VISIT: '/race/user/create_visit_account',
-    CANCEL_BET: '/race/betrecord/cancel_bet_by_location'
+    CANCEL_BET: '/race/betrecord/cancel_bet_by_location',
+    IS_ROOM_EXIST: '/race/room/is_room_exist'
 }
 
 

@@ -1,5 +1,5 @@
 import { eventBus } from "../../common/EventBus";
-import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData } from "../../common/Const";
+import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState } from "../../common/Const";
 import { randEventId } from '../../common/Util'
 import RaceManage from "../../store/Races/RaceManage";
 import RoomManage from "../../store/Room/RoomManage";
@@ -17,18 +17,34 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     userIcon: cc.Sprite = null;
 
+    @property(cc.Sprite)
+    offLineIcon: cc.Sprite = null;
+
     eventIdOne: string = ''
     eventIdTwo: string = ''
     eventIdThree: string = ''
+    eventIdFour: string = ''
     memberData: MemberInChairData = null
     start() {
 
+    }
+
+    changeByUserState(myState: memberState) {
+        switch (myState) {
+            case memberState.OffLine:
+                this.offLineIcon.node.active = true
+                break
+            case memberState.OnLine:
+                this.offLineIcon.node.active = false
+                break
+        }
     }
 
     setShow(memberData: MemberInChairData) {
         this.memberData = memberData
         this.userIcon.spriteFrame = null
         this.userName.string = memberData.userName
+        this.changeByUserState(memberData.state)
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && this.memberData.userId !== UserManage.userInfo.id) {
             cc.loader.loadRes(memberData.userIcon, (error, img) => {
@@ -81,12 +97,19 @@ export default class NewClass extends cc.Component {
                 this.userScoreLabel.string = (this.memberData.winVal - this.memberData.xiaZhuVal) + ''
             }
         })
+        this.eventIdFour = randEventId()
+        eventBus.on(EventType.MEMBER_STATE_CHANGE, this.eventIdFour, (info: MemberStateData): void => {
+            if (info.userId == this.memberData.userId) {
+                this.changeByUserState(info.state)
+            }
+        })
     }
 
     onDisable() {
         eventBus.off(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdOne)
         eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.eventIdTwo)
         eventBus.off(EventType.BET_CANCE_NOTICE, this.eventIdThree)
+        eventBus.off(EventType.MEMBER_STATE_CHANGE, this.eventIdFour)
     }
 
     update(dt) {

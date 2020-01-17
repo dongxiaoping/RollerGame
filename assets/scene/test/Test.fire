@@ -622,8 +622,8 @@
       "__id__": 2
     },
     "_enabled": true,
-    "qinQiangZhuangVoice": {
-      "__id__": 10
+    "playUserIcon": {
+      "__uuid__": "18e7cff4-757a-4120-90bb-7466780e6fa2"
     },
     "_id": "d6eqfXyM9L0b9ta3fG+dYY"
   }

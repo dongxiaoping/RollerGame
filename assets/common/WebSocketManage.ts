@@ -1,4 +1,4 @@
-import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData } from "./Const";
+import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType, memberState } from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
@@ -53,12 +53,27 @@ class WebSocketManage {
         var message = info.info
         console.log(JSON.stringify(info));
         switch (type) {
-            case 'newMemberInRoom':
+            case 'memberInSocketRoom':
                 message as GameMember
-                console.log('socket收到有新成员加入房间通知');
+                console.log('socket房间有新成员进入通知');
                 GameMemberManage.addGameMember(message)
-                if (message.userId === RoomManage.roomItem.creatUserId) {
-                    eventBus.emit(EventType.SOCKET_CREAT_ROOM_SUCCESS, null)
+                if (RoomManage.roomItem.creatUserId == message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
+                    cc.log('房主加入房间')
+                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                        type: LocalNoticeEventType.TO_SHOW_START_BUTTON,
+                        info: null
+                    })
+                }
+                break;
+            case 'memberOutSocketRoom':
+                console.log('socket房间有成员退出通知，用户：' + message.userId);
+                if (UserManage.userInfo.id != message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
+                    GameMemberManage.outGameMember(message.user_id)
+                } else {
+                    //状态改为离线
+                    if (typeof (GameMemberManage.gameMenmberList[message.userId]) !== 'undefined') {
+                        GameMemberManage.gameMenmberList[message.userId].state = memberState.OffLine
+                    }
                 }
                 break;
             case 'raceStateChoiceLandlord': //接收选地主通知
@@ -108,10 +123,6 @@ class WebSocketManage {
             case 'cancelBetSuccessNotice': //删除下注成功通知
                 message as BetNoticeData
                 BetManage.cancelBet(message)
-                break;
-            case 'memberOutRoom': //用户退出房间
-                GameMemberManage.outGameMember(message.user_id)
-                console.log('用户退出房间，用户：' + message.user_id)
                 break;
         }
     }

@@ -96,35 +96,22 @@ export default class NewClass extends cc.Component {
     }
 
     async checkRoom(roomId: number) {
-        let result = await RoomManage.loginRoom(UserManage.userInfo.id, roomId)
+        let result = await RoomManage.isRoomExist(roomId)
         if (result.result === ResponseStatus.FAIL) {
-            cc.log('进入房间失败')
-            this.showEnterRoomFailTip(result.extObject)
+            cc.log('进入房间失败,房间号：' + roomId)
+            this.showEnterRoomFailTip()
         } else {
             cc.director.loadScene("RollRoomScene");
         }
         this.node.destroy()
     }
 
-    showEnterRoomFailTip(info: ResponseData) {
-        if (info.message === 'diamond_not_enough') { 
-            cc.log('钻不足')
-            let node = cc.instantiate(this.diamondNotDialog)
-            let scriptOb = node.getComponent('DiaNotEnTipDial')
-            node.parent = this.node.parent
-            node.active = true
-            return
-        }
-        let message = info.message as EnterRoomFail
+    showEnterRoomFailTip() {
         let node = cc.instantiate(this.tipDialog)
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node.parent
         node.active = true
-        try {
-            scriptOb.showContent(EnterRoomFail[message])
-        } catch (e) {
-            scriptOb.showContent('进入异常')
-        }
+        scriptOb.showContent('进入房间失败')
     }
 
     onDisable() {

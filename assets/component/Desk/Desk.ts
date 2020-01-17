@@ -92,16 +92,18 @@ export default class Desk extends cc.Component {
             this.node.getChildByName('LandCornerPart').getComponent('DeskPart').betCancel(info)
         })
 
-        eventBus.on(EventType.NEW_MEMBER_IN_ROOM, randEventId(), (newMember: GameMember): void => {
+        eventBus.on(EventType.NEW_MEMBER_IN_ROOM, randEventId(), (newMember: GameMember): void => { //TODO 这个位置要优化
             cc.log('我是桌子，我收到新玩家加入的本地通知,我将玩家入座')
-            let member = {
-                userId: newMember.userId, userName: newMember.nick,
-                userIcon: newMember.icon
-            } as MemberInChairData
-            this.chairManage.inChair(member)
+            if (this.chairManage.getChairByUserId(newMember.userId) == null) {
+                let member = {
+                    userId: newMember.userId, userName: newMember.nick, state: newMember.state,
+                    userIcon: newMember.icon
+                } as MemberInChairData
+                this.chairManage.inChair(member)
+            }
         })
 
-        eventBus.on(EventType.MEMBER_OUT_ROOM, randEventId(), (userId: string): void => {
+        eventBus.on(EventType.MEMBER_DELETE_FROM_ROOM, randEventId(), (userId: string): void => {
             cc.log('我是桌子，我收到玩家退出房间通过之')
             if (RoomManage.roomItem.roomState === roomState.OPEN) {
                 this.chairManage.outChair(userId)
@@ -254,6 +256,7 @@ export default class Desk extends cc.Component {
         }, 1.5);
     }
 
+    //初始显示所有用户
     showMembers() {
         this.chairManage.clearAllChair()
         let memberList = GameMemberManage.gameMenmberList === null ? [] : GameMemberManage.gameMenmberList
@@ -261,6 +264,7 @@ export default class Desk extends cc.Component {
             let member = {
                 userId: item.userId, userName: item.nick,
                 userIcon: item.icon,
+                state: item.state,
                 winVal: 0,
                 xiaZhuVal: 0
             } as MemberInChairData

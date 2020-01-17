@@ -117,7 +117,6 @@ export default class NewClass extends cc.Component {
             cc.director.preloadScene('LobbyScene');//预加载
             return
         }
-        webSocketManage.closeWs()
         this.enterWebGame()
         cc.director.preloadScene('LobbyScene');//预加载
     }
@@ -185,7 +184,7 @@ export default class NewClass extends cc.Component {
         this.controller = new RollEmulator()
         this.controller.start()
         this.initRoom()
-        this.changeStartButtonState()
+        this.showStartButton()
         let landlordId = RaceManage.raceList[0].landlordId
         this.scheduleOnce(() => {
             RaceManage.changeRaceLandlord(landlordId, 8, 0)
@@ -199,16 +198,6 @@ export default class NewClass extends cc.Component {
         this.initDesk()
         this.showTopLeftRaceInfo()
         this.addListener()
-        //this.startByRaceState()
-    }
-
-    //取消 TODO 删除该逻辑 该逻辑和下发事件之间会产生各种问题
-    private startByRaceState() {
-        let enterRoomParam = RoomManage.getEnterRoomParam()
-        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
-            return
-        }
-        RaceManage.changeRaceState(RaceManage.raceList[RoomManage.roomItem.oningRaceNum].state)
     }
 
     private initDesk() {
@@ -307,11 +296,6 @@ export default class NewClass extends cc.Component {
             }
         })
 
-        eventBus.on(EventType.SOCKET_CREAT_ROOM_SUCCESS, randEventId(), (info: any): void => {
-            cc.log('start_game_test:房间收到socket创建虚拟房成功通知，显示开发游戏按钮')
-            this.changeStartButtonState()
-        })
-
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
@@ -352,6 +336,9 @@ export default class NewClass extends cc.Component {
                     } else {
                         this.backMusic.stop()
                     }
+                    break
+                case LocalNoticeEventType.TO_SHOW_START_BUTTON:
+                    this.showStartButton()
                     break
             }
         })
@@ -416,7 +403,7 @@ export default class NewClass extends cc.Component {
                     node.active = true
                     this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
                     break
-                case RaceState.SHOW_DOWN: //这个由控制器来响应
+                case RaceState.SHOW_DOWN:
                     let theNode = this.node.getChildByName('MiddleTopTimePanel')
                     if (theNode) {
                         theNode.destroy()
@@ -448,6 +435,7 @@ export default class NewClass extends cc.Component {
 
     raceFinishedClean() {
         cc.log('当场比赛结束，清空相关显示')
+        this.closeChoiceLandLordPanel()
         let ob = this.node.getChildByName('Desk')
         if (ob) {
             let jsOb = ob.getComponent('Desk')
@@ -459,9 +447,11 @@ export default class NewClass extends cc.Component {
         this.userScoreLabel.string = this.userWinScore + ''
         this.userXiaZhuScore = 0
         this.cleanShowResult()
+        this.closeStartButton()
         this.cleanRollDice()
         this.cleanDeal()
         this.cleanBet()
+        this.node.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip()
     }
 
     //清空摇色子相关动画
@@ -544,7 +534,7 @@ export default class NewClass extends cc.Component {
         node.active = true
     }
 
-    //选地主
+    //显示抢庄按钮
     private showChoiceLandLordPanel() {
         let node = this.node.getChildByName('RapLandlordButton')
         if (node) {
@@ -560,6 +550,7 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    //删除抢庄按钮
     private closeChoiceLandLordPanel() {
         if (this.node.getChildByName('RapLandlordButton')) {
             this.node.getChildByName('RapLandlordButton').destroy()
@@ -603,25 +594,23 @@ export default class NewClass extends cc.Component {
         node.getChildByName('Layout').active = false
     }
 
-    changeStartButtonState() {
-        cc.log('初始化开始按钮')
-        let roomInfo = Room.roomItem
-        let userInfo = UserManage.userInfo
-        if (userInfo.id === roomInfo.creatUserId && roomInfo.roomState === roomState.OPEN) {
-            var node = cc.instantiate(this.playButtonPrefab)
-            node.parent = this.node
-            node.setPosition(-124.514, -268.949);
-            node.active = true
-            cc.log('start_game_test:是房主，并且房间游戏没有开始，显示开始游戏按钮')
-        } else {
-            cc.log('不是房主，或者房间游戏已开始，不显示开始游戏按钮')
-        }
+    showStartButton() {
+        cc.log('显示开始按钮')
+        this.closeStartButton()
+        var node = cc.instantiate(this.playButtonPrefab)
+        node.name = 'PlayButton'
+        node.parent = this.node
+        node.setPosition(-124.514, -268.949);
+        node.active = true
     }
 
     closeStartButton(): void {
         let ob = this.node.getChildByName('PlayButton')
-        ob.destroy()
+        if (ob) {
+            ob.destroy()
+        }
     }
+
     onDisable() {
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model !== EnterRoomModel.EMULATOR_ROOM) {

@@ -130,9 +130,11 @@ export default class ChairManage {
         userIconNode.runAction(b)
     }
 
+    //通过用户ID获取对应的椅子信息，如果没有返回null
     public getChairByUserId(userId: string): ChairItem {
-        for (let i = 0; i < this.chairList.length; i++) {
-            if ((!this.chairList[i].isChairEmputy()) && this.chairList[i].getUserInfo().userId === userId) {
+        let i = 0
+        for (; i < this.chairList.length; i++) {
+            if (this.chairList[i].getUserInfo() != null && this.chairList[i].getUserInfo().userId === userId) {
                 return this.chairList[i]
             }
         }

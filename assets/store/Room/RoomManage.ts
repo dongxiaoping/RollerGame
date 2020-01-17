@@ -58,7 +58,7 @@ class RoomManage {
 
     public loginRoom(userId: string, rommId: number): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
-            let httpUrl = config.serverAddress + InterfaceUrl.LOGIN_IN_ROOM + '?userId=' + userId + "&roomId=" + rommId
+            let httpUrl = config.serverAddress + InterfaceUrl.LOGIN_IN_ROOM + '?userId=' + userId + '&roomId=' + rommId
             http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
                 if (error) {
                     resolve({ result: ResponseStatus.FAIL, extObject: { message: EnterRoomFail.interface_fail } })
@@ -84,6 +84,23 @@ class RoomManage {
                 this.setRoomItem(roomInfo);
                 RaceManage.setRaceList(races);
                 GameMemberManage.setGameMemberList(members);
+                resolve({ result: ResponseStatus.SUCCESS, extObject: info })
+            })
+        })
+    }
+
+    public isRoomExist(rommId: number): Promise<PromiseParam> {
+        return new Promise((resolve: (param: PromiseParam) => void): void => {
+            let httpUrl = config.serverAddress + InterfaceUrl.IS_ROOM_EXIST + '?roomId=' + rommId
+            http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
+                if (error) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: { message: EnterRoomFail.interface_fail } })
+                    return
+                }
+                if (info.status === ResponseStatus.FAIL) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: info })
+                    return
+                }
                 resolve({ result: ResponseStatus.SUCCESS, extObject: info })
             })
         })
