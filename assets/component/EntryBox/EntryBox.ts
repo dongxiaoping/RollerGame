@@ -111,7 +111,7 @@ export default class NewClass extends cc.Component {
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node.parent
         node.active = true
-        scriptOb.showContent('进入房间失败')
+        scriptOb.showContent('房间不存在或已关闭')
     }
 
     onDisable() {

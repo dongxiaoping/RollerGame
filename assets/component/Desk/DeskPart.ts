@@ -69,6 +69,7 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    //删除桌子方位上的下注信息、focus显示
     toClearn() {
         this.bg.node.active = false
         this.focus.node.active = false

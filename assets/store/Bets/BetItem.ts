@@ -18,12 +18,12 @@ export default class Betitem {
     constructor(val: BetRecord) {
         this.raceNum = val.raceNum
         this.userId = val.userId
-        this.sky = val.sky
-        this.land = val.land
-        this.middle = val.middle
-        this.bridg = val.bridg
-        this.skyCorner = val.skyCorner
-        this.landCorner = val.landCorner
+        this._sky = val.sky
+        this._land = val.land
+        this._middle = val.middle
+        this._bridg = val.bridg
+        this._skyCorner = val.skyCorner
+        this._landCorner = val.landCorner
     }
 
     get sky(): number {

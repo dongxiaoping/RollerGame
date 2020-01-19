@@ -101,10 +101,6 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     showTrendButton: cc.Sprite = null;
 
-
-    userWinScore: number = 0
-    userXiaZhuScore: number = 0
-
     start() {
         RoomManage.reSet() //清楚上次房间的数据记录
         if (ConfigManage.isBackMusicOpen()) {
@@ -221,55 +217,6 @@ export default class NewClass extends cc.Component {
             trendMap.active = true
             trendMap.getComponent('TrendMap').show()
         })
-
-        this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
-            let isTouchMove = touchMoveEvent(event)
-            if (isTouchMove) {
-                return
-                cc.log('滑动事件')
-                let onNum = RoomManage.roomItem.oningRaceNum
-                let state = RaceManage.raceList[onNum].state
-                switch (state) {
-                    case RaceState.CHOICE_LANDLORD:
-                        this.cleanRollDice()
-                        this.cleanDeal()
-                        this.cleanBet()
-                        this.cleanShowDown()
-                        this.cleanShowResult()
-                        break
-                    // case RaceState.ROLL_DICE:
-                    //     this.cleanDeal()
-                    //     this.cleanBet()
-                    //     this.cleanShowDown()
-                    //     this.cleanShowResult()
-                    //     break
-                    case RaceState.DEAL:
-                        this.cleanRollDice()
-                        this.cleanBet()
-                        this.cleanShowDown()
-                        this.cleanShowResult()
-                        break
-                    case RaceState.BET:
-                        this.cleanRollDice()
-                        this.cleanDeal()
-                        this.cleanShowDown()
-                        this.cleanShowResult()
-                        break
-                    case RaceState.SHOW_DOWN:
-                        this.cleanRollDice()
-                        this.cleanDeal()
-                        this.cleanBet()
-                        this.cleanShowResult()
-                        break
-                    // case RaceState.SHOW_RESULT:
-                    //     this.cleanRollDice()
-                    //     this.cleanDeal()
-                    //     this.cleanBet()
-                    //     this.cleanShowDown()
-                    //     break
-                }
-            }
-        })
     }
 
     private addListener() {
@@ -279,21 +226,6 @@ export default class NewClass extends cc.Component {
             node.parent = this.node
             node.setPosition(0, 0);
             node.active = true
-        })
-
-        eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, randEventId(), (betInfo: BetChipChangeInfo): void => {
-            if (betInfo.userId == UserManage.userInfo.id) {
-                let costVal = betInfo.toValue - betInfo.fromVal
-                this.userXiaZhuScore += costVal
-                this.userScoreLabel.string = (this.userWinScore - this.userXiaZhuScore) + ''
-            }
-        })
-
-        eventBus.on(EventType.BET_CANCE_NOTICE, randEventId(), (info: BetChipChangeInfo): void => {
-            if (UserManage.userInfo.id === info.userId) {
-                this.userXiaZhuScore -= info.fromVal
-                this.userScoreLabel.string = (this.userWinScore - this.userXiaZhuScore) + ''
-            }
         })
 
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
@@ -311,6 +243,7 @@ export default class NewClass extends cc.Component {
                     this.destroy()
                     break
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
+                    this.userScoreLabel.string = RaceManage.getUserScore(UserManage.userInfo.id) + ''
                     let enterRoomParam = RoomManage.getEnterRoomParam()
                     if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
                         let raceResultListOne = this.controller.getRaceResultList(RoomManage.roomItem.oningRaceNum)
@@ -346,7 +279,7 @@ export default class NewClass extends cc.Component {
             switch (state) {
                 case roomState.CLOSE:
                     cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
-                    this.raceFinishedClean()
+                    this.adjustBeforeRaceStateChange(RaceState.FINISHED)
                     var node = cc.instantiate(this.roomResultPanel)
                     node.parent = this.node
                     node.setPosition(0, -70);
@@ -360,13 +293,11 @@ export default class NewClass extends cc.Component {
             let raceNum = info.raceNum
             switch (to) {
                 case RaceState.CHOICE_LANDLORD:
-                    cc.log('start_game_test:房间收到选地主指令，开始选地主流程,玩家显示抢地主按钮，到此按钮出现')
-                    this.raceFinishedClean()
+                    this.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)
                     this.showChoiceLandLordPanel()
                     break
                 case RaceState.DEAL:
-                    cc.log('房间收到发牌指令，开始发牌流程')
-                    this.raceFinishedClean()
+                    this.adjustBeforeRaceStateChange(RaceState.DEAL)
                     let kaiShi = cc.instantiate(this.kaiShipTip)
                     this.scheduleOnce(() => {
                         kaiShi.parent = this.node
@@ -389,7 +320,9 @@ export default class NewClass extends cc.Component {
                     }, roomGameConfig.timeBeforeBeginText);
                     break
                 case RaceState.BET:
-                    cc.log('房间收到下注指令，显示下注倒计时面板')
+                    this.adjustBeforeRaceStateChange(RaceState.BET)
+                    this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
+
                     var node = cc.instantiate(this.middleTopTimePanel)
                     node.name = 'MiddleTopTimePanel'
                     node.parent = this.node
@@ -401,18 +334,15 @@ export default class NewClass extends cc.Component {
                     node.parent = this.node
                     node.setPosition(15, 258);
                     node.active = true
-                    this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
                     break
                 case RaceState.SHOW_DOWN:
-                    let theNode = this.node.getChildByName('MiddleTopTimePanel')
-                    if (theNode) {
-                        theNode.destroy()
-                    }
+                    this.adjustBeforeRaceStateChange(RaceState.SHOW_DOWN)
                     this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
+
                     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
                     break
                 case RaceState.FINISHED:
-                    this.raceFinishedClean()
+                    this.adjustBeforeRaceStateChange(RaceState.FINISHED)
                     break
             }
         })
@@ -429,56 +359,33 @@ export default class NewClass extends cc.Component {
             } else {
                 this.roleSprite.spriteFrame = this.xianIcon
             }
-            // this.closeChoiceLandLordPanel()
         })
     }
 
-    raceFinishedClean() {
-        cc.log('当场比赛结束，清空相关显示')
-        this.closeChoiceLandLordPanel()
-        let ob = this.node.getChildByName('Desk')
-        if (ob) {
-            let jsOb = ob.getComponent('Desk')
-            jsOb.deskPartsToClean()
-            jsOb.cleanMahjongResulNodes()
+    //状态改变前，清理刷新显示
+    adjustBeforeRaceStateChange(stateVal: RaceState) {
+        this.closeChoiceLandLordPanel() // 删除抢庄按钮
+        if (stateVal != RaceState.SHOW_DOWN) {
+           this.node.getChildByName('Desk').getComponent('Desk').deskPartsToClean() //删除桌子上各方位上的下注信息、focus显示
+           this.node.getChildByName('Desk').getComponent('Desk').cleanMahjongResulNodes() //删除麻将结果文字标签
         }
-        let winVal = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getUserRaceScore(UserManage.userInfo.id)
-        this.userWinScore = this.userWinScore + winVal
-        this.userScoreLabel.string = this.userWinScore + ''
-        this.userXiaZhuScore = 0
-        this.cleanShowResult()
-        this.closeStartButton()
-        this.cleanRollDice()
-        this.cleanDeal()
-        this.cleanBet()
-        this.node.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip()
+        this.destroyChild('RaceResultPanel') //删除指定场次结果面板
+        this.closeStartButton() //删除关闭按钮
+        this.cleanRollDice() //删除锺以及色子
+        if (stateVal != RaceState.BET && stateVal != RaceState.SHOW_DOWN) {
+            this.node.getChildByName('DealMachine').getComponent('DealMachine').cleanMajong() //删除下发的麻将
+        }
+        if (stateVal != RaceState.SHOW_DOWN) {
+           // this.destroyChild('BetChipItem')  //不知道是什么
+            this.destroyChild('MiddleTopScorePanel') //删除总下注信息面板
+            this.node.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip() //删除桌上的下注币
+        }
+        this.destroyChild('MiddleTopTimePanel') //删除倒计时时间面板
     }
 
     //清空摇色子相关动画
     cleanRollDice() {
         this.destroyChild('RollDice')
-    }
-
-    //清空发牌相关动画
-    cleanDeal() {
-        this.node.getChildByName('DealMachine').getComponent('DealMachine').cleanMajong()
-    }
-
-    //清空下注相关动画
-    cleanBet() {
-        this.destroyChild('BetChipItem')
-        this.destroyChild('MiddleTopScorePanel')
-        this.destroyChild('MiddleTopTimePanel')
-    }
-
-    //清空比大小相关动画
-    cleanShowDown() {
-
-    }
-
-    //清空结果显示相关动画
-    cleanShowResult() {
-        this.destroyChild('RaceResultPanel')
     }
 
     destroyChildNodeByName(nameString: string) {
@@ -560,8 +467,8 @@ export default class NewClass extends cc.Component {
     //左下方用户面板显示
     showUserPanel() {
         let userInfo = UserManage.userInfo
-        let enterRoomParam = RoomManage.getEnterRoomParam()
         this.userNameLabel.string = userInfo.nick
+        this.userScoreLabel.string = RaceManage.getUserScore(userInfo.id) + ''
         cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {//loadRes
             let myIcon = new cc.SpriteFrame(img);
             this.userIcon.spriteFrame = myIcon;

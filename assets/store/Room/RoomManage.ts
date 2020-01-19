@@ -1,6 +1,6 @@
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { InterfaceUrl, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, EnterRoomParam, EnterRoomFail, CreateRoomFail } from '../../common/Const'
+import { InterfaceUrl, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, EnterRoomParam, EnterRoomFail, CreateRoomFail, BetRecord } from '../../common/Const'
 import http from '../../common/Http'
 import RaceManage from '../Races/RaceManage';
 import GameMemberManage from '../GameMember/GameMemberManage';
@@ -84,6 +84,8 @@ class RoomManage {
                 this.setRoomItem(roomInfo);
                 RaceManage.setRaceList(races);
                 GameMemberManage.setGameMemberList(members);
+                let betRecordList = data.betRecords as BetRecord[]
+                BetManage.setBetList(betRecordList)
                 resolve({ result: ResponseStatus.SUCCESS, extObject: info })
             })
         })

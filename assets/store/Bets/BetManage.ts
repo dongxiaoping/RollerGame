@@ -3,16 +3,7 @@ import { PromiseParam, PromiseResult, BetRecord, betLocaion, BetNoticeData, Inte
 import Betitem from './BetItem';
 import http from '../../common/Http'
 class BetManage {
-    public betList: Betitem[][] = [] //场次+用户Id 信息集合
-    public requestBetList(): Promise<PromiseParam> {
-        return new Promise((resolve: (param: PromiseParam) => void): void => {
-            if (this.betList !== null) {
-                resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
-                return
-            }
-            resolve({ result: PromiseResult.SUCCESS, extObject: this.betList })
-        })
-    }
+    public betList: Betitem[][] = []
 
     //用户取消下注
     public cancelBetByLocation(roomId: number, userId: string, raceNum: number, betLocation: betLocaion): Promise<PromiseParam> {
@@ -27,6 +18,7 @@ class BetManage {
     public reSet() {
         this.betList = []
     }
+
     public cancelBet(info: BetNoticeData) {
         let partLocation = info.betLocation
         let userId = info.userId
@@ -37,6 +29,18 @@ class BetManage {
             cc.log(e)
         }
     }
+
+    public setBetList(betlist: BetRecord[]) {
+        let list = []
+        betlist.forEach((item: BetRecord): void => {
+            if (typeof (list[item.raceNum]) === 'undefined') {
+                list[item.raceNum] = []
+            }
+            list[item.raceNum][item.userId] = new Betitem(item)
+        })
+        this.betList = list
+    }
+
     addBet(oningRaceNum: number, userId: string, location: betLocaion, val: number) {
         if (typeof (this.betList[oningRaceNum]) === 'undefined') {
             this.betList[oningRaceNum] = [];

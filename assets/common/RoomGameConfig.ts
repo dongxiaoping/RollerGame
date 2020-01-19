@@ -18,7 +18,7 @@ export const roomGameConfig: RoomGameConfig = {
     rollDiceTime: 4,
     dealTime: 3,
     betTime: 13,
-    showDownTime: 8,
+    showDownTime: 9,
     showResultKeepTime: 4,
     showResultTime: 4
 }

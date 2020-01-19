@@ -45,6 +45,7 @@ export default class NewClass extends cc.Component {
         this.userIcon.spriteFrame = null
         this.userName.string = memberData.userName
         this.changeByUserState(memberData.state)
+        this.userScoreLabel.string = this.memberData.xiaZhuVal + ''
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && this.memberData.userId !== UserManage.userInfo.id) {
             cc.loader.loadRes(memberData.userIcon, (error, img) => {
@@ -72,20 +73,17 @@ export default class NewClass extends cc.Component {
         this.eventIdOne = randEventId()
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdOne, (betInfo: BetChipChangeInfo): void => {
             if (betInfo.userId == this.memberData.userId) {
-                let costVal = betInfo.toValue - betInfo.fromVal
-                this.memberData.xiaZhuVal += costVal
-                this.userScoreLabel.string = (this.memberData.winVal - this.memberData.xiaZhuVal) + ''
+                this.memberData.xiaZhuVal = betInfo.toValue
+                this.userScoreLabel.string = this.memberData.xiaZhuVal + ''
             }
         })
         this.eventIdTwo = randEventId()
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, this.eventIdTwo, (info: RaceStateChangeParam): void => {
             let to = info.toState
             switch (to) {
-                case RaceState.FINISHED:
-                    let winVal = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getUserRaceScore(this.userId)
-                    this.memberData.winVal = this.memberData.winVal + winVal
-                    this.userScoreLabel.string = this.memberData.winVal + ''
+                case RaceState.DEAL:
                     this.memberData.xiaZhuVal = 0
+                    this.userScoreLabel.string = '0'
                     break
             }
         })
@@ -93,8 +91,8 @@ export default class NewClass extends cc.Component {
         //接收到取消下注通知
         eventBus.on(EventType.BET_CANCE_NOTICE, this.eventIdThree, (info: BetChipChangeInfo): void => {
             if (info.userId == this.memberData.userId) {
-                this.memberData.xiaZhuVal -= info.fromVal
-                this.userScoreLabel.string = (this.memberData.winVal - this.memberData.xiaZhuVal) + ''
+                this.memberData.xiaZhuVal = 0
+                this.userScoreLabel.string = '0'
             }
         })
         this.eventIdFour = randEventId()

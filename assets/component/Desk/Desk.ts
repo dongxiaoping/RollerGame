@@ -265,7 +265,6 @@ export default class Desk extends cc.Component {
                 userId: item.userId, userName: item.nick,
                 userIcon: item.icon,
                 state: item.state,
-                winVal: 0,
                 xiaZhuVal: 0
             } as MemberInChairData
             this.chairManage.inChair(member)

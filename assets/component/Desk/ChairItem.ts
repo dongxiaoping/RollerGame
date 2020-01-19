@@ -20,9 +20,6 @@ export default class ChairItem {
         userIconNode.setPosition(0, 0)
     }
 
-
-
-    //winVal 当前用户前几场输赢值  xiaZhuVal 当前用户当前下注值
     public inChair(memberInChairData: MemberInChairData): boolean {
         if (!this.isChairEmputy()) {
             return false

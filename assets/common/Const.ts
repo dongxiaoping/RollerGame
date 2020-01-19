@@ -270,7 +270,6 @@ export interface MemberInChairData {
     state: memberState,
     userName?: string,
     userIcon?: string //模拟房间不用传这些
-    winVal: number //前几场输赢值
     xiaZhuVal: number //当前场下注值
 }
 

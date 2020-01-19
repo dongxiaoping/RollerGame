@@ -43,7 +43,7 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     erbagangVoice: cc.AudioSource = null //二八杠
 
-    openHeight: number = 20 //开牌跳起高度
+    openHeight: number = 23 //开牌跳起高度
 
     start() {
         this.initTime()

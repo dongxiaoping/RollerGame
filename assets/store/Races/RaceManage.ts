@@ -50,6 +50,14 @@ class RaceManage {
             raceItem.skyCornerResult, raceItem.bridgResult, raceItem.landCornerResult)
     }
 
+    getUserScore(userId: string) {
+        let score = 0
+        BetManage.betList.forEach((item: Betitem[], index) => {
+            score += this.getUserTheRaceScore(index, userId)
+        })
+        return score
+    }
+
     public requestRaceList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             resolve({ result: PromiseResult.SUCCESS, extObject: this.raceList })
