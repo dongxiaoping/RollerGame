@@ -30,7 +30,7 @@ export default class NewClass extends cc.Component {
 
     singleIntervalTime = 0.2 //翻牌 (开一张牌的时间)
     twoIntervalTime = 0.1  //两张牌之间的停顿时间 s  
-    twoLocationIntervalTime = 0.5 //两个位置之间的翻牌间隔时间 s 
+    twoLocationIntervalTime = 0.45 //两个位置之间的翻牌间隔时间 s 
     localEventId: string
 
     @property([cc.AudioSource])
