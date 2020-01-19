@@ -269,6 +269,11 @@ export default class Desk extends cc.Component {
             } as MemberInChairData
             this.chairManage.inChair(member)
         })
-        this.chairManage.moveToLandlordChair(RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId)
+        let landlordId = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId
+        if (landlordId != null && landlordId != '') {
+            this.scheduleOnce(() => {
+                this.chairManage.moveToLandlordChair(RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId)
+            }, 0.8);
+        }
     }
 }

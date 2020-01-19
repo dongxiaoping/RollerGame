@@ -41,8 +41,8 @@ export default class NewClass extends cc.Component {
             }
             this.scheduleOnce(() => {
                 this.oning = false
+                this.yaosaiziVoice.pause()
                 this.scheduleOnce(() => {
-                    this.yaosaiziVoice.pause()
                     this.showDice()
                 }, this.secondKeepStopTime)
             }, this.rollKeepTime);

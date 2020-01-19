@@ -1,7 +1,5 @@
-import { config } from '../../common/Config'
 import RaceItem from './RaceItem'
 import { PromiseParam, PromiseResult, raceRecord, RaceState, betLocaion, raceResultData, CompareDxRe } from '../../common/Const'
-import { RaceList } from '../../mock/RaceList'
 import RoomManage from '../../store/Room/RoomManage'
 import BetManage from '../Bets/BetManage';
 import Betitem from '../Bets/BetItem';
