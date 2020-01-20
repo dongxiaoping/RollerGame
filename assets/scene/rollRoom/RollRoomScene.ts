@@ -1,8 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, BetChipChangeInfo, ResponseStatus, EnterRoomFail, ResponseData } from '../../common/Const'
-import Room from '../../store/Room/RoomManage'
+import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam } from '../../common/Const'
 import { randEventId, getFaPaiLocation, touchMoveEvent } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -161,11 +160,13 @@ export default class NewClass extends cc.Component {
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node
         node.active = true
+        let dialogParam = { sureButtonShow: true, cancelButtonShow: false, content: '', cancelButtonAction: null, sureButtonAction: null } as TipDialogParam
         try {
-            scriptOb.showContent(EnterRoomFail[message])
+            dialogParam.content = EnterRoomFail[message]
         } catch (e) {
-            scriptOb.showContent('进入异常')
+            dialogParam.content = '进入异常'
         }
+        scriptOb.tipDialogShow(dialogParam)
     }
 
     showTopLeftRaceInfo() {
@@ -308,14 +309,8 @@ export default class NewClass extends cc.Component {
                         }
                         this.scheduleOnce(() => {
                             kaiShi.destroy()
-                            let landlordId = RaceManage.raceList[raceNum].landlordId
                             this.beginRollDice()
-                            if (UserManage.userInfo.id !== landlordId) {
-                                cc.log('不是地主,显示下注面板')
-                                this.showXiaZhuPanel()
-                            } else {
-                                cc.log('是地主,不显示下注面板')
-                            }
+                            this.showXiaZhuPanel()
                         }, roomGameConfig.beginTextShowTime);
                     }, roomGameConfig.timeBeforeBeginText);
                     break
@@ -323,7 +318,6 @@ export default class NewClass extends cc.Component {
                     this.adjustBeforeRaceStateChange(RaceState.BET)
                     this.showXiaZhuPanel()
                     this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
-
                     var node = cc.instantiate(this.middleTopTimePanel)
                     node.name = 'MiddleTopTimePanel'
                     node.parent = this.node
@@ -367,8 +361,8 @@ export default class NewClass extends cc.Component {
     adjustBeforeRaceStateChange(stateVal: RaceState) {
         this.closeChoiceLandLordPanel() // 删除抢庄按钮
         if (stateVal != RaceState.SHOW_DOWN) {
-           this.node.getChildByName('Desk').getComponent('Desk').deskPartsToClean() //删除桌子上各方位上的下注信息、focus显示
-           this.node.getChildByName('Desk').getComponent('Desk').cleanMahjongResulNodes() //删除麻将结果文字标签
+            this.node.getChildByName('Desk').getComponent('Desk').deskPartsToClean() //删除桌子上各方位上的下注信息、focus显示
+            this.node.getChildByName('Desk').getComponent('Desk').cleanMahjongResulNodes() //删除麻将结果文字标签
         }
         this.destroyChild('RaceResultPanel') //删除指定场次结果面板
         this.closeStartButton() //删除关闭按钮
@@ -377,7 +371,7 @@ export default class NewClass extends cc.Component {
             this.node.getChildByName('DealMachine').getComponent('DealMachine').cleanMajong() //删除下发的麻将
         }
         if (stateVal != RaceState.SHOW_DOWN) {
-           // this.destroyChild('BetChipItem')  //不知道是什么
+            // this.destroyChild('BetChipItem')  //不知道是什么
             this.destroyChild('MiddleTopScorePanel') //删除总下注信息面板
             this.node.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip() //删除桌上的下注币
         }
@@ -490,10 +484,13 @@ export default class NewClass extends cc.Component {
     }
     //显示下注面板
     showXiaZhuPanel() {
-        let node = this.node.getChildByName('XiaZhu')
-        node.setPosition(250, -260);
-        node.getChildByName('Layout').active = true
-        cc.log('显示下注面板')
+        let landlordId = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId
+        if (UserManage.userInfo.id !== landlordId) {
+            let node = this.node.getChildByName('XiaZhu')
+            node.setPosition(250, -260);
+            node.getChildByName('Layout').active = true
+            cc.log('显示下注面板')
+        }
     }
 
     //关闭下注面板

@@ -1,5 +1,5 @@
 import RoomManage from "../../store/Room/RoomManage";
-import { EnterRoomModel, EnterRoomParam, ResponseStatus, EnterRoomFail, ResponseData } from "../../common/Const";
+import { EnterRoomModel, EnterRoomParam, ResponseStatus, TipDialogParam } from "../../common/Const";
 import UserManage from "../../store/User/UserManage";
 
 const { ccclass, property } = cc._decorator;
@@ -111,7 +111,8 @@ export default class NewClass extends cc.Component {
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node.parent
         node.active = true
-        scriptOb.showContent('房间不存在或已关闭')
+        let dialogParam = { sureButtonShow: true, cancelButtonShow: false, content: '房间不存在或已关闭', cancelButtonAction: null, sureButtonAction: null } as TipDialogParam
+        scriptOb.tipDialogShow(dialogParam)
     }
 
     onDisable() {

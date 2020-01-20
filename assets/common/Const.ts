@@ -343,7 +343,7 @@ export interface NoticeData {
     info: NoticeInfo
 }
 
-export interface MemberStateData{
+export interface MemberStateData {
     userId: string
     state: memberState
 }
@@ -356,5 +356,21 @@ export const InterfaceUrl = {
     CANCEL_BET: '/race/betrecord/cancel_bet_by_location',
     IS_ROOM_EXIST: '/race/room/is_room_exist'
 }
+
+export interface TipDialogParam {
+    sureButtonShow: boolean, //是否显示sure按钮
+    cancelButtonShow: boolean,  //是否显示取消按钮
+    content: string,  //提示文字内容显示
+    cancelButtonAction: TipDialogButtonAction, //取消按钮行为
+    sureButtonAction: TipDialogButtonAction //确认按钮行为
+}
+
+//提示框行为类型
+export enum TipDialogButtonAction {
+    CLOSE_DIALOG = 1, //关闭当前面板
+    OUT_ROOM = 2, //退出房间
+    RECHARGE = 3, //充值
+}
+
 
 

@@ -1,4 +1,4 @@
-import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel, ResponseData, CreateRoomFail } from "../../common/Const";
+import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel, ResponseData, CreateRoomFail, TipDialogParam } from "../../common/Const";
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 
@@ -155,9 +155,9 @@ export default class NewClass extends cc.Component {
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node.parent
         node.active = true
-        scriptOb.showContent(CreateRoomFail[info.message])
+        let dialogParam = { sureButtonShow: true, cancelButtonShow: false, content: CreateRoomFail[info.message], cancelButtonAction: null, sureButtonAction: null } as TipDialogParam
+        scriptOb.tipDialogShow(dialogParam)
     }
-
 
     toggleInit() {
         /////人数
