@@ -321,6 +321,7 @@ export default class NewClass extends cc.Component {
                     break
                 case RaceState.BET:
                     this.adjustBeforeRaceStateChange(RaceState.BET)
+                    this.showXiaZhuPanel()
                     this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
 
                     var node = cc.instantiate(this.middleTopTimePanel)

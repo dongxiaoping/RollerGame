@@ -45,7 +45,7 @@ export default class NewClass extends cc.Component {
         this.userIcon.spriteFrame = null
         this.userName.string = memberData.userName
         this.changeByUserState(memberData.state)
-        this.userScoreLabel.string = this.memberData.xiaZhuVal + ''
+        this.userScoreLabel.string = this.memberData.xiaZhuVal == 0 ? '0' : ('-' + this.memberData.xiaZhuVal)
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && this.memberData.userId !== UserManage.userInfo.id) {
             cc.loader.loadRes(memberData.userIcon, (error, img) => {
@@ -73,8 +73,8 @@ export default class NewClass extends cc.Component {
         this.eventIdOne = randEventId()
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdOne, (betInfo: BetChipChangeInfo): void => {
             if (betInfo.userId == this.memberData.userId) {
-                this.memberData.xiaZhuVal = betInfo.toValue
-                this.userScoreLabel.string = this.memberData.xiaZhuVal + ''
+                this.memberData.xiaZhuVal += (betInfo.toValue - betInfo.fromVal)
+                this.userScoreLabel.string = '-' + this.memberData.xiaZhuVal
             }
         })
         this.eventIdTwo = randEventId()

@@ -96,7 +96,7 @@ export default class Desk extends cc.Component {
             cc.log('我是桌子，我收到新玩家加入的本地通知,我将玩家入座')
             if (this.chairManage.getChairByUserId(newMember.userId) == null) {
                 let member = {
-                    userId: newMember.userId, userName: newMember.nick, state: newMember.state,
+                    userId: newMember.userId, userName: newMember.nick, state: newMember.state, xiaZhuVal: 0,
                     userIcon: newMember.icon
                 } as MemberInChairData
                 this.chairManage.inChair(member)

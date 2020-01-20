@@ -55,6 +55,9 @@ export default class NewClass extends cc.Component {
     majongIcons: cc.SpriteFrame[] = [] //结果图
     start() {
         this.show()
+        this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
+            this.node.destroy()
+        })
     }
 
     drawResult(ob: cc.Sprite, val: number) {

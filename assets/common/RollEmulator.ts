@@ -218,7 +218,7 @@ class RollEmulator extends RollControlerBase {
             setTimeout(() => {
                 RaceManage.setGameOverResultList(this.getRoomResultList())
                 RoomManage.roomItem.roomState = roomState.CLOSE
-            }, 2000)
+            }, 1000)
             return
         }
         if ((oningRaceNum + 1) > RoomManage.roomItem.playCount) {
