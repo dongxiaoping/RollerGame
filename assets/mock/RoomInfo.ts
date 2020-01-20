@@ -3,8 +3,8 @@ import { RoomInfo, playMode, roomState, CreateRoomPayModel } from '../common/Con
 export const roomInfo: RoomInfo = {
     id: 88888,
     creatUserId: '6666660',
-    memberLimit: 8,
-    playCount: 2,
+    memberLimit: 10,
+    playCount: 4,
     playMode: playMode.TURN,
     roomFee: 10,
     roomPay: CreateRoomPayModel.AA,

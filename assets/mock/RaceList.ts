@@ -17,7 +17,7 @@ export const RaceList: raceRecord[] = [
         skyCornerResult: CompareDxRe.SMALL,
         skyResult: CompareDxRe.SMALL
     }, {
-        id: '3',
+        id: '2',
         raceNum: 1,
         landlordId: '6666661',
         playState: RaceState.NOT_BEGIN,
@@ -32,7 +32,38 @@ export const RaceList: raceRecord[] = [
         landCornerResult: CompareDxRe.EQ,
         skyCornerResult: CompareDxRe.BIG,
         skyResult: CompareDxRe.BIG
+    }, {
+        id: '3',
+        raceNum: 2,
+        landlordId: '6666661',
+        playState: RaceState.NOT_BEGIN,
+        landlordScore: { 'one': 2, 'two': 4 },
+        skyScore: { 'one': 6, 'two': 1 },
+        middleScore: { 'one': 7, 'two': 0.5 },
+        landScore: { 'one': 8, 'two': 8 },
+        points: { one: 4, two: 4 },
+        landResult: CompareDxRe.BIG,
+        middleResult: CompareDxRe.BIG,
+        bridgResult: CompareDxRe.BIG,
+        landCornerResult: CompareDxRe.BIG,
+        skyCornerResult: CompareDxRe.BIG,
+        skyResult: CompareDxRe.BIG
+    }, {
+        id: '4',
+        raceNum: 3,
+        landlordId: '6666661',
+        playState: RaceState.NOT_BEGIN,
+        landlordScore: { 'one': 5, 'two': 5 },
+        skyScore: { 'one': 1, 'two': 1 },
+        middleScore: { 'one': 3, 'two': 4 },
+        landScore: { 'one': 8, 'two': 2 },
+        points: { one: 2, two: 3 },
+        landResult: CompareDxRe.BIG,
+        middleResult: CompareDxRe.SMALL,
+        bridgResult: CompareDxRe.EQ,
+        landCornerResult: CompareDxRe.EQ,
+        skyCornerResult: CompareDxRe.SMALL,
+        skyResult: CompareDxRe.SMALL
     }
-
 ]
 
