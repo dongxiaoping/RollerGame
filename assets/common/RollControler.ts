@@ -9,7 +9,6 @@ export class RollControler extends RollControlerBase {
     public start() {
         cc.log('游戏控制器被启动')
         this.eventReceive()
-        this.enterSocketRoom()
     }
 
     public enterSocketRoom() {
@@ -29,20 +28,6 @@ export class RollControler extends RollControlerBase {
 
     //添加事件接受
     eventReceive() {
-        //比赛流程状态改变通知
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
-            let to = info.toState
-            switch (to) {
-                case RaceState.BET:
-                    cc.log('我是游戏控制器，我接受到比赛事件，状态改为下注的通知')
-                    break
-                case RaceState.FINISHED:
-                    cc.log('我是游戏控制器，我接受到比赛事件，状态改为比赛结束的通知')
-                    this.dealtheRaceFinished() //将当前进行中的游戏改为下场
-                    break
-            }
-        })
-
         //本地事件通知
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type
@@ -54,17 +39,6 @@ export class RollControler extends RollControlerBase {
                 case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT:
                     cc.log('我是游戏控制器，我接受到本地事件，响应是否当地主的通知')
                     this.responseLocalBeLandlordDeal(info.info)
-                    break
-                case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE:
-                    cc.log('我是游戏控制器，我接受到本地事件，摇色子动画结束的通知')
-
-                    break
-                case LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE:
-                    cc.log('我是游戏控制器，我接受到本地事件，发牌动画结束的通知')
-
-                    break
-                case LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE:
-                    cc.log('我是游戏控制器，我接受到本地事件，下注时间结束的通知')
                     break
                 case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件
                     let betInfo = info.info as BetNoticeData
@@ -84,16 +58,6 @@ export class RollControler extends RollControlerBase {
         webSocketManage.send(JSON.stringify(startRoomGame));
         cc.log('start_game_test:我是游戏控制器，我向服务器发起游戏开始的websocket通知')
         cc.log('start_game_test:' + JSON.stringify(startRoomGame))
-    }
-
-    public dealtheRaceFinished() {
-        cc.log('我是游戏控制器，我将进行中的比赛改为下一场')
-        let nextOningRaceNum = RoomManage.roomItem.oningRaceNum + 1
-        if (nextOningRaceNum >= RoomManage.roomItem.playCount) {
-            cc.log('所有比赛结束')
-            return
-        }
-        RoomManage.roomItem.changeOningRaceNum(nextOningRaceNum)
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {

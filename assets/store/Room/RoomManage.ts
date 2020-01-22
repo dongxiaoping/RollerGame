@@ -43,7 +43,7 @@ class RoomManage {
             httpUrl = httpUrl + paramString
             http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
                 if (error) {
-                    resolve({ result: ResponseStatus.FAIL, extObject: { message: CreateRoomFail.interface_fail } })
+                    resolve({ result: ResponseStatus.FAIL, extObject: { message: 'interface_fail' } })
                     return
                 }
                 if (info.status === ResponseStatus.FAIL) { //创建房间失败

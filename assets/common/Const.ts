@@ -92,7 +92,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     LOCAL_BET_CLICK_NOTICE = 9, //本地下注按钮点击通知
     TO_LOBBY_EVENT = 10, //返回到大厅通知
     BACK_MUSIC_STATE_CHANGE_NOTICE = 11, //背景音乐开关改变通知
-    TO_SHOW_START_BUTTON = 12 //通知显示开始按钮
+    TO_SHOW_START_BUTTON = 12, //通知显示开始按钮
+    SOCKET_CONNECT_NOTICE = 13 //socket连接结果通知
 }
 
 export interface LocalNoticeEventPara {
@@ -367,7 +368,7 @@ export interface TipDialogParam {
 
 //提示框行为类型
 export enum TipDialogButtonAction {
-    CLOSE_DIALOG = 1, //关闭当前面板
+    SOCKET_CONNECT = 1, //发起socket连接
     OUT_ROOM = 2, //退出房间
     RECHARGE = 3, //充值
 }

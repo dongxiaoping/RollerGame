@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam } from '../../common/Const'
+import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction } from '../../common/Const'
 import { randEventId, getFaPaiLocation, touchMoveEvent } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -141,12 +141,20 @@ export default class NewClass extends cc.Component {
             return
         }
         this.initRoom()
+        this.controller = new RollControler()
+        this.controller.start()
         webSocketManage.openWs(() => {
-            cc.log('socket连接成功，执行下步房间初始化相关操作')
-            this.controller = new RollControler()
-            this.controller.start()
+            cc.log('socket连接成功，发送连接成功本地通知')
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
+                info: true
+            } as LocalNoticeEventPara)
         }, () => {
-            cc.log('socket异常关闭了，打印异常提示')
+            cc.log('socket连接失败，发送连接失败本地通知')
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
+                info: false
+            } as LocalNoticeEventPara)
         })
     }
 
@@ -274,6 +282,23 @@ export default class NewClass extends cc.Component {
                 case LocalNoticeEventType.TO_SHOW_START_BUTTON:
                     this.showStartButton()
                     break
+                case LocalNoticeEventType.SOCKET_CONNECT_NOTICE:
+                    if (info.info) { //连接成功通知
+                        cc.log('接到socket连接通知，进入socket房间')
+                        this.controller.enterSocketRoom()
+                    } else {
+                        cc.log('接到socket连接失败通知，弹出提示框')
+                        let node = cc.instantiate(this.tipDialog)
+                        let scriptOb = node.getComponent('TipDialog')
+                        node.parent = this.node
+                        let dialogParam = {
+                            sureButtonShow: true, cancelButtonShow: true, content: '房间连接失败，是否重新连接？',
+                            cancelButtonAction: TipDialogButtonAction.OUT_ROOM, sureButtonAction: TipDialogButtonAction.SOCKET_CONNECT
+                        } as TipDialogParam
+                        scriptOb.tipDialogShow(dialogParam)
+                    }
+                    break
+
             }
         })
         eventBus.on(EventType.ROOM_STATE_CHANGE_EVENT, randEventId(), (state: roomState): void => {
