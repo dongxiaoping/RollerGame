@@ -122,6 +122,7 @@ export default class ChairManage {
         let url = "Canvas/Desk"
         let parentNode = this.cc.find(url)
         userIconNode.parent = parentNode
+        userIconNode.name = 'user_'+userInfo.userId
         userIconNode.setPosition(fromLocation.x, fromLocation.y)
         let action = this.cc.moveTo(1, toLocation.x, toLocation.y)
         let b = cc.sequence(action, this.cc.callFunc(() => {

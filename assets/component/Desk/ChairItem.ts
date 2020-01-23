@@ -15,9 +15,14 @@ export default class ChairItem {
         if (!this.isChairEmputy()) {
             return false
         }
-        userIconNode.name = "PlayerIcon"
         userIconNode.parent = this.cc.find("Canvas/" + this.chairName)
         userIconNode.setPosition(0, 0)
+
+        let userInfo = userIconNode.getComponent('PlayUserIcon').getMemberData() as MemberInChairData
+        let theUserNode = this.cc.find('Canvas/Desk').getChildByName('user_' + userInfo.userId)
+        if (theUserNode) {
+            theUserNode.destroy()
+        }
     }
 
     public inChair(memberInChairData: MemberInChairData): boolean {
@@ -36,6 +41,7 @@ export default class ChairItem {
     public outChair(func: any) {
         let ob = this.cc.find("Canvas/" + this.chairName).getChildByName("PlayerIcon")
         if (ob) {
+            ob.getComponent('PlayUserIcon').onDisable()
             ob.destroy()
         }
         func()

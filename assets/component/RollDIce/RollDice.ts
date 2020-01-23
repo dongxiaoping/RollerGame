@@ -25,7 +25,7 @@ export default class NewClass extends cc.Component {
     private rollKeepTime: number = 0.3 //单位s 晃动持续时间
     private secondKeepStopTime: number = 0.2 //晃动停止后，保持不动持续时间
     private diceShowTime: number = 0.3 //点数结果显示持续时间
-
+    private swingVal = 14 //摆动幅度
     @property(cc.AudioSource)
     yaosaiziVoice: cc.AudioSource = null //摇色子声音语音
 
@@ -49,7 +49,7 @@ export default class NewClass extends cc.Component {
         }, this.firstKeepStopTime);
     }
 
-    initTime(){
+    initTime() {
         let weights = Math.floor((ConfigManage.getRollDiceTime() / (this.firstKeepStopTime + this.rollKeepTime + this.secondKeepStopTime + this.diceShowTime)) * 100) / 100
         this.firstKeepStopTime = weights * this.firstKeepStopTime
         this.rollKeepTime = weights * this.rollKeepTime
@@ -101,10 +101,10 @@ export default class NewClass extends cc.Component {
 
     //摆动动画
     waggle(): void {
-        if (this.node.angle === 10) {
+        if (this.node.angle === this.swingVal) {
             this.isAdd = false
         }
-        if (this.node.angle === -10) {
+        if (this.node.angle === -this.swingVal) {
             this.isAdd = true
         }
         if (!this.oning && this.node.angle === 0) {
