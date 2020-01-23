@@ -42,11 +42,15 @@ export default class ChairManage {
     }
 
     public outChair(userId: string) {
-        for (let i = 0; i < this.chairList.length; i++) {
-            if (this.chairList[i].getUserInfo().userId === userId) {
-                this.chairList[i].outChair(() => { })
-                break
+        try {
+            for (let i = 0; i < this.chairList.length; i++) {
+                if (!this.chairList[i].isChairEmputy() && this.chairList[i].getUserInfo().userId === userId) {
+                    this.chairList[i].outChair(() => { })
+                    break
+                }
             }
+        } catch (e) {
+            console.log(e)
         }
     }
 
@@ -122,7 +126,7 @@ export default class ChairManage {
         let url = "Canvas/Desk"
         let parentNode = this.cc.find(url)
         userIconNode.parent = parentNode
-        userIconNode.name = 'user_'+userInfo.userId
+        userIconNode.name = 'user_' + userInfo.userId
         userIconNode.setPosition(fromLocation.x, fromLocation.y)
         let action = this.cc.moveTo(1, toLocation.x, toLocation.y)
         let b = cc.sequence(action, this.cc.callFunc(() => {

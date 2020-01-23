@@ -168,7 +168,10 @@ export default class NewClass extends cc.Component {
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node
         node.active = true
-        let dialogParam = { sureButtonShow: true, cancelButtonShow: false, content: '', cancelButtonAction: null, sureButtonAction: null } as TipDialogParam
+        let dialogParam = {
+            sureButtonShow: true, cancelButtonShow: false, content: '', cancelButtonAction: null,
+            sureButtonAction: TipDialogButtonAction.OUT_ROOM
+        } as TipDialogParam
         try {
             dialogParam.content = EnterRoomFail[message]
         } catch (e) {
@@ -384,23 +387,27 @@ export default class NewClass extends cc.Component {
 
     //状态改变前，清理刷新显示
     adjustBeforeRaceStateChange(stateVal: RaceState) {
-        this.closeChoiceLandLordPanel() // 删除抢庄按钮
-        if (stateVal != RaceState.SHOW_DOWN) {
-            this.node.getChildByName('Desk').getComponent('Desk').deskPartsToClean() //删除桌子上各方位上的下注信息、focus显示
-            this.node.getChildByName('Desk').getComponent('Desk').cleanMahjongResulNodes() //删除麻将结果文字标签
+        try {
+            this.closeChoiceLandLordPanel() // 删除抢庄按钮
+            if (stateVal != RaceState.SHOW_DOWN) {
+                this.node.getChildByName('Desk').getComponent('Desk').deskPartsToClean() //删除桌子上各方位上的下注信息、focus显示
+                this.node.getChildByName('Desk').getComponent('Desk').cleanMahjongResulNodes() //删除麻将结果文字标签
+            }
+            this.destroyChild('RaceResultPanel') //删除指定场次结果面板
+            this.closeStartButton() //删除关闭按钮
+            this.cleanRollDice() //删除锺以及色子
+            if (stateVal != RaceState.BET && stateVal != RaceState.SHOW_DOWN) {
+                this.node.getChildByName('DealMachine').getComponent('DealMachine').cleanMajong() //删除下发的麻将
+            }
+            if (stateVal != RaceState.SHOW_DOWN) {
+                // this.destroyChild('BetChipItem')  //不知道是什么
+                this.destroyChild('MiddleTopScorePanel') //删除总下注信息面板
+                this.node.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip() //删除桌上的下注币
+            }
+            this.destroyChild('MiddleTopTimePanel') //删除倒计时时间面板
+        } catch (e) {
+            cc.log(e)
         }
-        this.destroyChild('RaceResultPanel') //删除指定场次结果面板
-        this.closeStartButton() //删除关闭按钮
-        this.cleanRollDice() //删除锺以及色子
-        if (stateVal != RaceState.BET && stateVal != RaceState.SHOW_DOWN) {
-            this.node.getChildByName('DealMachine').getComponent('DealMachine').cleanMajong() //删除下发的麻将
-        }
-        if (stateVal != RaceState.SHOW_DOWN) {
-            // this.destroyChild('BetChipItem')  //不知道是什么
-            this.destroyChild('MiddleTopScorePanel') //删除总下注信息面板
-            this.node.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip() //删除桌上的下注币
-        }
-        this.destroyChild('MiddleTopTimePanel') //删除倒计时时间面板
     }
 
     //清空摇色子相关动画
@@ -542,18 +549,20 @@ export default class NewClass extends cc.Component {
     }
 
     onDisable() {
-        let enterRoomParam = RoomManage.getEnterRoomParam()
-        if (enterRoomParam.model !== EnterRoomModel.EMULATOR_ROOM) {
-            let notice = {
-                type: NoticeType.outRoom, info: {
-                    roomId: RoomManage.roomItem.id,
-                    userId: UserManage.userInfo.id
-                }
-            } as NoticeData
-            webSocketManage.send(JSON.stringify(notice))
-            webSocketManage.closeWs()
-            cc.log('我是玩家，我向服务器发起退出房间通知')
-        }
+        try {
+            let enterRoomParam = RoomManage.getEnterRoomParam()
+            if (enterRoomParam.model !== EnterRoomModel.EMULATOR_ROOM) {
+                let notice = {
+                    type: NoticeType.outRoom, info: {
+                        roomId: RoomManage.roomItem.id,
+                        userId: UserManage.userInfo.id
+                    }
+                } as NoticeData
+                webSocketManage.send(JSON.stringify(notice))
+                webSocketManage.closeWs()
+                cc.log('我是玩家，我向服务器发起退出房间通知')
+            }
+        } catch (e) { }
     }
 
     // update (dt) {}

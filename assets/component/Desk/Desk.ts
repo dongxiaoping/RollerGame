@@ -104,7 +104,7 @@ export default class Desk extends cc.Component {
         })
 
         eventBus.on(EventType.MEMBER_DELETE_FROM_ROOM, randEventId(), (userId: string): void => {
-            cc.log('我是桌子，我收到玩家退出房间通过之')
+            cc.log('我是桌子，我收到玩家退出房间通知')
             if (RoomManage.roomItem.roomState === roomState.OPEN) {
                 this.chairManage.outChair(userId)
             }

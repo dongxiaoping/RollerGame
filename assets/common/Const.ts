@@ -306,6 +306,7 @@ export enum EnterRoomFail {
     room_not_open_state = '游戏已开始，无法进入', //游戏已开始，无法进入
     diamond_not_enough = '钻数量不够，请充值', //钻石不够，无法进入该房间
     member_count_limit = '房间已满，无法进入', //房间已满，无法进入
+    room_close = '房间已关闭',
     in_room_fail = '进入房间异常', //进入房间，插入数据库异常
     interface_fail = '接口请求异常' //接口异常
 }

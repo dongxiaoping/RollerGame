@@ -57,7 +57,7 @@ class WebSocketManage {
                 message as GameMember
                 console.log('socket房间有新成员进入通知');
                 GameMemberManage.addGameMember(message)
-                if (RoomManage.roomItem.creatUserId == message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
+                if (message.userId == UserManage.userInfo.id && RoomManage.roomItem.creatUserId == message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
                     cc.log('房主加入房间')
                     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                         type: LocalNoticeEventType.TO_SHOW_START_BUTTON,
@@ -68,7 +68,7 @@ class WebSocketManage {
             case 'memberOutSocketRoom':
                 console.log('socket房间有成员退出通知，用户：' + message.userId);
                 if (UserManage.userInfo.id != message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
-                    GameMemberManage.outGameMember(message.user_id)
+                    GameMemberManage.outGameMember(message.userId)
                 } else {
                     //状态改为离线
                     if (typeof (GameMemberManage.gameMenmberList[message.userId]) !== 'undefined') {
