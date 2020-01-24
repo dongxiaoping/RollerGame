@@ -15,6 +15,7 @@ export default class ChairItem {
         if (!this.isChairEmputy()) {
             return false
         }
+
         userIconNode.parent = this.cc.find("Canvas/" + this.chairName)
         userIconNode.setPosition(0, 0)
 
@@ -23,6 +24,8 @@ export default class ChairItem {
         if (theUserNode) {
             theUserNode.destroy()
         }
+
+        userIconNode.name = "PlayerIcon"
     }
 
     public inChair(memberInChairData: MemberInChairData): boolean {

@@ -80,7 +80,8 @@ export default class NewClass extends cc.Component {
         this.drawResult(this.landlord_dian_1, raceInfo.landlordScore.one)
         this.drawResult(this.landlord_dian_2, raceInfo.landlordScore.two)
         this.showWinOrFailIcon(raceInfo)
-        let raceResultList = RaceManage.raceList[raceNum].raceResultList
+        let raceResultList = RaceManage.raceList[raceNum].raceResultList == null
+            ? [] : RaceManage.raceList[raceNum].raceResultList
         let i = 0
         raceResultList.forEach((item: raceResultData) => {
             i++

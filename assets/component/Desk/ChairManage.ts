@@ -20,10 +20,11 @@ export default class ChairManage {
     }
 
     public getChairPositionByUserId(userId: string): Coordinate {
-        for (let i = 0; i < this.chairList.length; i++) {
+        let i = 0
+        for (; i < this.chairList.length; i++) {
             if (!this.chairList[i].isChairEmputy()) {
                 let userInfo = this.chairList[i].getUserInfo()
-                if (userInfo.userId === userId) {
+                if (userInfo != null && userInfo.userId == userId) {
                     return this.chairList[i].getChairPosition()
                 }
             }

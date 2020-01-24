@@ -67,7 +67,7 @@ class WebSocketManage {
                 break;
             case 'memberOutSocketRoom':
                 console.log('socket房间有成员退出通知，用户：' + message.userId);
-                if (UserManage.userInfo.id != message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
+                if (RoomManage.roomItem.creatUserId != message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
                     GameMemberManage.outGameMember(message.userId)
                 } else {
                     //状态改为离线
