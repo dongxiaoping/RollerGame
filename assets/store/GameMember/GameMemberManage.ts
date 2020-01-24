@@ -70,7 +70,7 @@ class GameMemberManage {
     }
 
     getGameMemberByUserId(userId: string): GameMemberItem {
-        if (typeof (this._gameMenmberList[userId] === 'undefined')) {
+        if (typeof (this._gameMenmberList[userId]) === 'undefined') {
             return null
         }
         return this._gameMenmberList[userId]

@@ -258,22 +258,34 @@ export default class Desk extends cc.Component {
 
     //初始显示所有用户
     showMembers() {
-        this.chairManage.clearAllChair()
-        let memberList = GameMemberManage.gameMenmberList === null ? [] : GameMemberManage.gameMenmberList
-        memberList.forEach((item: GameMemberItem) => {
-            let member = {
-                userId: item.userId, userName: item.nick,
-                userIcon: item.icon,
-                state: item.state,
-                xiaZhuVal: 0
-            } as MemberInChairData
-            this.chairManage.inChair(member)
-        })
-        let landlordId = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId
-        if (landlordId != null && landlordId != '') {
-            this.scheduleOnce(() => {
-                this.chairManage.moveToLandlordChair(RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId)
-            }, 0.8);
-        }
+        try {
+            this.chairManage.clearAllChair()
+            let memberList = GameMemberManage.gameMenmberList === null ? [] : GameMemberManage.gameMenmberList
+            let landlordId = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId
+            if (landlordId != null && landlordId != '') {
+                let landlordInfo = GameMemberManage.getGameMemberByUserId(landlordId)
+                if (landlordInfo != null) {
+                    this.chairManage.inChair({
+                        userId: landlordInfo.userId, userName: landlordInfo.nick,
+                        userIcon: landlordInfo.icon,
+                        state: landlordInfo.state,
+                        xiaZhuVal: 0
+                    } as MemberInChairData)
+                } else {
+                    cc.log('庄家数据异常')
+                }
+            }
+            memberList.forEach((item: GameMemberItem) => {
+                if (item.userId != landlordId) {
+                    let member = {
+                        userId: item.userId, userName: item.nick,
+                        userIcon: item.icon,
+                        state: item.state,
+                        xiaZhuVal: 0
+                    } as MemberInChairData
+                    this.chairManage.inChair(member)
+                }
+            })
+        } catch (e) { cc.log(e) }
     }
 }
