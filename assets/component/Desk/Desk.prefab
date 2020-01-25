@@ -948,7 +948,7 @@
     "_clip": {
       "__uuid__": "75c60844-a1fa-4314-9520-0db8ad935833"
     },
-    "_volume": 0.6,
+    "_volume": 0.5,
     "_mute": false,
     "_loop": false,
     "playOnLoad": false,
@@ -4434,7 +4434,7 @@
     "_clip": {
       "__uuid__": "4a7a6eb6-16e6-4369-8a11-25e0f41648e4"
     },
-    "_volume": 0.7,
+    "_volume": 0.6,
     "_mute": false,
     "_loop": false,
     "playOnLoad": false,
