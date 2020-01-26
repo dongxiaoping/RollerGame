@@ -4,6 +4,7 @@ import { randEventId } from '../../common/Util'
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 import RaceManage from "../../store/Races/RaceManage";
+import { roomGameConfig } from "../../common/RoomGameConfig";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -110,6 +111,22 @@ export default class NewClass extends cc.Component {
             }
         })
 
+        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
+            let to = info.toState
+            switch (to) {
+                case RaceState.SHOW_DOWN:
+                    if (RoomManage.getEnterRoomParam().model === EnterRoomModel.EMULATOR_ROOM) {
+                        let theScore = RaceManage.getUserScore(this.memberData.userId) + ''
+                        this.scheduleOnce(() => {
+                            this.userScoreLabel.string = theScore
+                            if (this.memberData.userId == UserManage.userInfo.id) {
+                                cc.find('Canvas').getComponent('RollRoomScene').userScoreLabel.string = this.userScoreLabel.string
+                            }
+                        }, roomGameConfig.showDownTime + 1);
+                    }
+                    break
+            }
+        })
     }
 
     onDisable() {
