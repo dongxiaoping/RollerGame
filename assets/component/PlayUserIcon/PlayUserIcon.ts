@@ -25,6 +25,7 @@ export default class NewClass extends cc.Component {
     eventIdTwo: string = ''
     eventIdThree: string = ''
     eventIdFour: string = ''
+    eventIdFive: string = ''
     memberData: MemberInChairData = null
     start() {
 
@@ -46,7 +47,7 @@ export default class NewClass extends cc.Component {
         this.userIcon.spriteFrame = null
         this.userName.string = memberData.userName
         this.changeByUserState(memberData.state)
-        this.userScoreLabel.string = RaceManage.getUserScore(memberData.userId) + ''
+        this.updateScoreShow(memberData.xiaZhuVal)
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && this.memberData.userId !== UserManage.userInfo.id) {
             cc.loader.loadRes(memberData.userIcon, (error, img) => {
@@ -65,6 +66,11 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    updateScoreShow(score: number) {
+        this.memberData.xiaZhuVal = score
+        this.userScoreLabel.string = score + ''
+    }
+
 
     getMemberData(): MemberInChairData {
         return this.memberData
@@ -75,8 +81,8 @@ export default class NewClass extends cc.Component {
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.eventIdOne, (betInfo: BetChipChangeInfo): void => {
             if (betInfo.userId == this.memberData.userId) {
                 let xiaZhuVal = betInfo.toValue - betInfo.fromVal
-                let nowVal = parseInt(this.userScoreLabel.string) - xiaZhuVal
-                this.userScoreLabel.string = nowVal + ''
+                let nowVal = this.memberData.xiaZhuVal - xiaZhuVal
+                this.updateScoreShow(nowVal)
                 if (betInfo.userId == UserManage.userInfo.id) {
                     cc.find('Canvas').getComponent('RollRoomScene').userScoreLabel.string = this.userScoreLabel.string
                 }
@@ -87,8 +93,8 @@ export default class NewClass extends cc.Component {
         eventBus.on(EventType.BET_CANCE_NOTICE, this.eventIdThree, (info: BetChipChangeInfo): void => {
             if (info.userId == this.memberData.userId) {
                 let fromVal = info.fromVal
-                let nowVal = parseInt(this.userScoreLabel.string) + fromVal
-                this.userScoreLabel.string = nowVal + ''
+                let nowVal = this.memberData.xiaZhuVal + fromVal
+                this.updateScoreShow(nowVal)
                 if (info.userId == UserManage.userInfo.id) {
                     cc.find('Canvas').getComponent('RollRoomScene').userScoreLabel.string = this.userScoreLabel.string
                 }
@@ -101,24 +107,22 @@ export default class NewClass extends cc.Component {
             }
         })
         this.eventIdTwo = randEventId()
-        eventBus.on(EventType.USER_SCORE_NOTICE, this.eventIdTwo, (list: raceResultData[]): void => {
-            let i = 0
-            for (; i < list.length; i++) {
-                if (list[i].userId == this.memberData.userId) {
-                    this.userScoreLabel.string = list[i].score + ''
-                    break
-                }
+        eventBus.on(EventType.USER_SCORE_NOTICE, this.eventIdTwo, (list: any[]): void => {
+            if (typeof (list[this.memberData.userId]) != 'undefined') {
+                this.updateScoreShow(list[this.memberData.userId])
+            } else {
+                this.updateScoreShow(0)
             }
         })
-
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
+        this.eventIdFive = randEventId()
+        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, this.eventIdFive, (info: RaceStateChangeParam): void => {
             let to = info.toState
             switch (to) {
                 case RaceState.SHOW_DOWN:
                     if (RoomManage.getEnterRoomParam().model === EnterRoomModel.EMULATOR_ROOM) {
-                        let theScore = RaceManage.getUserScore(this.memberData.userId) + ''
+                        let theScore = RaceManage.getUserScore(this.memberData.userId)
                         this.scheduleOnce(() => {
-                            this.userScoreLabel.string = theScore
+                            this.updateScoreShow(theScore)
                             if (this.memberData.userId == UserManage.userInfo.id) {
                                 cc.find('Canvas').getComponent('RollRoomScene').userScoreLabel.string = this.userScoreLabel.string
                             }
@@ -134,6 +138,7 @@ export default class NewClass extends cc.Component {
         eventBus.off(EventType.USER_SCORE_NOTICE, this.eventIdTwo)
         eventBus.off(EventType.BET_CANCE_NOTICE, this.eventIdThree)
         eventBus.off(EventType.MEMBER_STATE_CHANGE, this.eventIdFour)
+        eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.eventIdFive)
     }
 
     update(dt) {

@@ -386,12 +386,10 @@ export default class NewClass extends cc.Component {
         })
 
         eventBus.on(EventType.USER_SCORE_NOTICE, randEventId(), (list: raceResultData[]): void => {
-            let i = 0
-            for (; i < list.length; i++) {
-                if (list[i].userId == UserManage.userInfo.id) {
-                    this.userScoreLabel.string = list[i].score + ''
-                    break
-                }
+            if (typeof (list[UserManage.userInfo.id]) != 'undefined') {
+                this.userScoreLabel.string = list[UserManage.userInfo.id] + ''
+            } else {
+                this.userScoreLabel.string = '0'
             }
         })
     }

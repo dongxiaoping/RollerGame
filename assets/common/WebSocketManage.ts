@@ -107,9 +107,8 @@ class WebSocketManage {
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
                 RaceManage.changeRaceLandlord(message.landlordId, 1, message.raceNum)
                 let raceResult = message.raceResult as raceResultData[]
-                roomResult = message.roomResult as raceResultData[]
                 setTimeout(() => {
-                    eventBus.emit(EventType.USER_SCORE_NOTICE, roomResult)
+                    eventBus.emit(EventType.USER_SCORE_NOTICE, message.roomResult)
                 }, (roomGameConfig.showDownTime + 1) * 1000)
                 RaceManage.raceList[message.raceNum].setRaceResultList(raceResult)
                 RaceManage.changeRaceState(RaceState.SHOW_DOWN)
