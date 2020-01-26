@@ -6,7 +6,7 @@ import { getMemeberResultScoreList } from '../../common/Util';
 export default class RaceItem {
     public raceId: string = null
     public num: number = null
-    public _state: RaceState = null
+    private _state: RaceState = null
     private _landlordId: string = null
     public landlordScore: DiceCountInfo = null
     public skyScore: DiceCountInfo = null  //牌值

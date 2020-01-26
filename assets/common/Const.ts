@@ -60,6 +60,7 @@ export enum EventType {
     NEW_MEMBER_IN_ROOM = 8, //有新成员加入房间
     MEMBER_STATE_CHANGE = 9, //成员状态有改变
     BET_CANCE_NOTICE = 10,//用户取消下注通知
+    USER_SCORE_NOTICE = 11,//用户图标分数显示通知
 }
 
 //单场游戏状态

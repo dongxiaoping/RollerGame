@@ -34,13 +34,17 @@ class RaceManage {
         let score = 0
         let raceItem = this.raceList[raceNum]
         if (userId === this.raceList[raceNum].landlordId) {
+            if (typeof (BetManage.betList[raceNum]) === 'undefined') {
+                return score
+            }
             BetManage.betList[raceNum].forEach((item: Betitem) => {
                 score -= item.getScore(raceItem.skyResult, raceItem.middleResult, raceItem.landResult,
                     raceItem.skyCornerResult, raceItem.bridgResult, raceItem.landCornerResult)
             })
             return score
         }
-        if (typeof (BetManage.betList[raceNum][userId]) === 'undefined') {
+        if (typeof (BetManage.betList[raceNum]) === 'undefined' ||
+            typeof (BetManage.betList[raceNum][userId]) === 'undefined') {
             return score
         }
         let userBetitem = BetManage.betList[raceNum][userId] as Betitem
@@ -48,13 +52,23 @@ class RaceManage {
             raceItem.skyCornerResult, raceItem.bridgResult, raceItem.landCornerResult)
     }
 
+    //通过本地下注信息获取用户比赛分数，下注进行中的直接做减法
     getUserScore(userId: string) {
         let score = 0
-        BetManage.betList.forEach((item: Betitem[], index) => {
-            score += this.getUserTheRaceScore(index, userId)
-        })
+        let i = 0
+        for (; i <= RoomManage.roomItem.oningRaceNum; i++) {
+            if (this.raceList[i].state == RaceState.BET) {
+                if (typeof (BetManage.betList[i]) != 'undefined' &&
+                    typeof (BetManage.betList[i][userId]) != 'undefined') {
+                    score -= BetManage.betList[i][userId].getXiaZhuVal()
+                }
+            } else {
+                score += this.getUserTheRaceScore(i, userId)
+            }
+        }
         return score
     }
+
 
     public requestRaceList(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {

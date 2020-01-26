@@ -1,8 +1,8 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction } from '../../common/Const'
-import { randEventId, getFaPaiLocation, touchMoveEvent } from '../../common/Util'
+import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData } from '../../common/Const'
+import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollEmulator from "../../common/RollEmulator"
@@ -255,7 +255,6 @@ export default class NewClass extends cc.Component {
                     this.destroy()
                     break
                 case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
-                    this.userScoreLabel.string = RaceManage.getUserScore(UserManage.userInfo.id) + ''
                     let enterRoomParam = RoomManage.getEnterRoomParam()
                     if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
                         let raceResultListOne = this.controller.getRaceResultList(RoomManage.roomItem.oningRaceNum)
@@ -284,6 +283,8 @@ export default class NewClass extends cc.Component {
                     break
                 case LocalNoticeEventType.TO_SHOW_START_BUTTON:
                     this.showStartButton()
+                    break
+                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
                     break
                 case LocalNoticeEventType.SOCKET_CONNECT_NOTICE:
                     if (info.info) { //连接成功通知
@@ -381,6 +382,16 @@ export default class NewClass extends cc.Component {
                 this.roleSprite.spriteFrame = this.zhuangIcon
             } else {
                 this.roleSprite.spriteFrame = this.xianIcon
+            }
+        })
+
+        eventBus.on(EventType.USER_SCORE_NOTICE, randEventId(), (list: raceResultData[]): void => {
+            let i = 0
+            for (; i < list.length; i++) {
+                if (list[i].userId == UserManage.userInfo.id) {
+                    this.userScoreLabel.string = list[i].score + ''
+                    break
+                }
             }
         })
     }

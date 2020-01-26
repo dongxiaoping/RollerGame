@@ -6,6 +6,7 @@ import { eventBus } from "./EventBus";
 import RaceManage from "../store/Races/RaceManage";
 import BetManage from "../store/Bets/BetManage";
 import { config } from "./Config";
+import { roomGameConfig } from "./RoomGameConfig";
 
 class WebSocketManage {
     public ws: any = null
@@ -48,9 +49,10 @@ class WebSocketManage {
 
     //每个状态都带比赛房间号以及当前场次，一旦发现场次不匹配，立即执行恢复同步动作
     private onmessage(e: any): void {
-        var info = JSON.parse(e.data)
-        var type = info.type
-        var message = info.info
+        let info = JSON.parse(e.data)
+        let type = info.type
+        let message = info.info
+        let roomResult: raceResultData[] = null
         console.log(JSON.stringify(info));
         switch (type) {
             case 'memberInSocketRoom':
@@ -104,8 +106,12 @@ class WebSocketManage {
                 message as NoticeInfo
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
                 RaceManage.changeRaceLandlord(message.landlordId, 1, message.raceNum)
-                let resultList = message.resultList as raceResultData[]
-                RaceManage.raceList[message.raceNum].setRaceResultList(resultList)
+                let raceResult = message.raceResult as raceResultData[]
+                roomResult = message.roomResult as raceResultData[]
+                setTimeout(() => {
+                    eventBus.emit(EventType.USER_SCORE_NOTICE, roomResult)
+                }, (roomGameConfig.showDownTime + 1) * 1000)
+                RaceManage.raceList[message.raceNum].setRaceResultList(raceResult)
                 RaceManage.changeRaceState(RaceState.SHOW_DOWN)
                 console.log('比大小，包括开牌，播报牌位的胜负关系');
                 break;
@@ -115,7 +121,7 @@ class WebSocketManage {
                 console.log('下注接收通知');
                 break;
             case 'allRaceFinished': //所有游戏结束
-                let roomResult = message.roomResult as raceResultData[]
+                roomResult = message.roomResult as raceResultData[]
                 console.log('所有游戏执行完毕,设置房间比赛结果');
                 RaceManage.setGameOverResultList(roomResult)
                 RoomManage.roomItem.roomState = roomState.CLOSE
