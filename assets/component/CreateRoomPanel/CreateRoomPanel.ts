@@ -116,6 +116,7 @@ export default class NewClass extends cc.Component {
             }
             cc.log('创建信息：人数：' + renshu + ",局数：" + jushu + ",付款模式:" + payMode + ',下注上限：' + xiazhu)
             cc.log('start_game_test:面板创建游戏')
+            jushu = 3
             this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu)
         })
     }

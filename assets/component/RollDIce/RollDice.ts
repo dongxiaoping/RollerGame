@@ -25,7 +25,7 @@ export default class NewClass extends cc.Component {
     private rollKeepTime: number = 0.3 //单位s 晃动持续时间
     private secondKeepStopTime: number = 0.2 //晃动停止后，保持不动持续时间
     private diceShowTime: number = 0.3 //点数结果显示持续时间
-    private swingVal = 14 //摆动幅度
+    private swingVal = 15 //摆动幅度
     @property(cc.AudioSource)
     yaosaiziVoice: cc.AudioSource = null //摇色子声音语音
 
@@ -111,9 +111,9 @@ export default class NewClass extends cc.Component {
             return
         }
         if (this.isAdd) {
-            this.node.angle = this.node.angle + 2
+            this.node.angle = this.node.angle + 3
         } else {
-            this.node.angle = this.node.angle - 2
+            this.node.angle = this.node.angle - 3
         }
     }
 }

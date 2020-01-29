@@ -108,6 +108,25 @@ class RoomManage {
         })
     }
 
+
+    //获取指定房间从0到场次raceNum的比分结果
+    public getRoomResult(rommId: number, raceNum: number): Promise<PromiseParam> {
+        return new Promise((resolve: (param: PromiseParam) => void): void => {
+            let httpUrl = config.serverAddress + InterfaceUrl.GET_ROOM_RESULT + '?roomId=' + rommId + '&raceNum=' + raceNum
+            http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
+                if (error) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: { message: EnterRoomFail.interface_fail } })
+                    return
+                }
+                if (info.status === ResponseStatus.FAIL) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: info })
+                    return
+                }
+                resolve({ result: ResponseStatus.SUCCESS, extObject: info })
+            })
+        })
+    }
+
 }
 
 export default new RoomManage()

@@ -357,6 +357,7 @@ export const InterfaceUrl = {
     COST_DIAMOND: '/race/user/cost_diamond_in_room',
     CREATE_VISIT: '/race/user/create_visit_account',
     CANCEL_BET: '/race/betrecord/cancel_bet_by_location',
+    GET_ROOM_RESULT: '/race/room/get_room_result',
     IS_ROOM_EXIST: '/race/room/is_room_exist'
 }
 

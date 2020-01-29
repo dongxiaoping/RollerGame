@@ -143,6 +143,7 @@ export default class NewClass extends cc.Component {
         this.initRoom()
         this.controller = new RollControler()
         this.controller.start()
+        this.initShowAction()
         webSocketManage.openWs(() => {
             cc.log('socket连接成功，发送连接成功本地通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
@@ -156,6 +157,16 @@ export default class NewClass extends cc.Component {
                 info: false
             } as LocalNoticeEventPara)
         })
+    }
+
+    //初始进入房间执行的显示行为
+    async initShowAction() {
+        if (RoomManage.roomItem.roomState == roomState.CLOSE) {
+            let roomResult = await RoomManage.getRoomResult(RoomManage.roomItem.id, RoomManage.roomItem.playCount - 1)
+            let list = roomResult.extObject.data as raceResultData[]
+            RaceManage.setGameOverResultList(list)
+            RoomManage.roomItem.roomState = roomState.CLOSE
+        }
     }
 
     showEnterRoomFailTip(info: ResponseData) {
