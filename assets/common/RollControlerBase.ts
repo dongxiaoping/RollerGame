@@ -9,14 +9,48 @@ import UserManage from "../store/User/UserManage";
 import webSocketManage from '../common/WebSocketManage'
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import GameMemberItem from "../store/GameMember/GameMemberItem";
+import { roomGameConfig } from "./RoomGameConfig";
 export class RollControlerBase {
     public isEmulatorRoom: boolean //是否是模拟房间
     public eventIdList: string[] = []
     public setTimeoutList: any[] = []
     public cc: any
-    constructor(cc: any, isEmulatorRoom: boolean) {
+    public roomScene: any
+    constructor(cc: any, isEmulatorRoom: boolean, roomScene: any) {
         this.cc = cc
         this.isEmulatorRoom = isEmulatorRoom
+        this.roomScene = roomScene
+    }
+
+    //执行下注业务逻辑
+    execBetAction() {
+        if (this.isEmulatorRoom) {
+            this.emulateBet()
+        }
+        this.roomScene.adjustBeforeRaceStateChange(RaceState.BET)
+        this.roomScene.showXiaZhuPanel()
+        this.cc.find('Canvas').getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
+        this.roomScene.showMiddleTopTimePanel()
+        this.roomScene.showMiddleTopScorePanel()
+    }
+
+    //执行发牌逻辑
+    execDealAction() {
+        this.roomScene.adjustBeforeRaceStateChange(RaceState.DEAL)
+        let kaiShi = cc.instantiate(this.roomScene.kaiShipTip)
+        this.roomScene.scheduleOnce(() => {
+            kaiShi.parent = this.cc.find("Canvas")
+            kaiShi.setPosition(0, 0);
+            kaiShi.active = true
+            if (ConfigManage.isTxMusicOpen()) {
+                this.roomScene.beginVoice.play()
+            }
+            this.roomScene.scheduleOnce(() => {
+                kaiShi.destroy()
+                this.roomScene.beginRollDice()
+                this.roomScene.showXiaZhuPanel()
+            }, roomGameConfig.beginTextShowTime);
+        }, roomGameConfig.timeBeforeBeginText);
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {

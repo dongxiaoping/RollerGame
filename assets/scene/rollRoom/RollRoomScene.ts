@@ -106,7 +106,7 @@ export default class NewClass extends cc.Component {
         }
         let enterRoomParam = RoomManage.getEnterRoomParam()
         let isEmulatorRoom = enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM ? true : false
-        this.controller = new RollControler(cc, isEmulatorRoom)
+        this.controller = new RollControler(cc, isEmulatorRoom, this)
         if (isEmulatorRoom) {
             cc.log('进入了模拟房间')
             this.enterEmulatorRoom()
@@ -210,7 +210,6 @@ export default class NewClass extends cc.Component {
     }
 
     initRoom() {
-        this.addListener()
         this.showUserPanel()
         this.initXiaZhuPanel()
         this.initMahjongPanel()
@@ -239,9 +238,7 @@ export default class NewClass extends cc.Component {
             trendMap.active = true
             trendMap.getComponent('TrendMap').show()
         })
-    }
 
-    private addListener() {
         this.setButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             cc.log('设置按钮被点击')
             var node = cc.instantiate(this.SetPanel)
@@ -249,159 +246,35 @@ export default class NewClass extends cc.Component {
             node.setPosition(0, 0);
             node.active = true
         })
+    }
+    
+    scoketFailTip() {
+        let node = cc.instantiate(this.tipDialog)
+        let scriptOb = node.getComponent('TipDialog')
+        node.parent = this.node
+        let dialogParam = {
+            sureButtonShow: true, cancelButtonShow: true, content: '房间连接失败，是否重新连接？',
+            cancelButtonAction: TipDialogButtonAction.OUT_ROOM, sureButtonAction: TipDialogButtonAction.SOCKET_CONNECT
+        } as TipDialogParam
+        scriptOb.tipDialogShow(dialogParam)
+    }
 
-        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
-            let localNoticeEventType = info.type
-            switch (localNoticeEventType) {
-                case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //摇色子结束
-                    this.cleanRollDice()
-                    this.beginDeal()
-                    break
-                case LocalNoticeEventType.TO_LOBBY_EVENT:
-                    cc.log('退出到主页')
-                    this.controller.close()
-                    this.controller = null
-                    cc.director.loadScene("LobbyScene");
-                    this.destroy()
-                    break
-                case LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE: //比大小动画结束通知
-                    let enterRoomParam = RoomManage.getEnterRoomParam()
-                    if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
-                        let raceResultListOne = this.controller.getRaceResultList(RoomManage.roomItem.oningRaceNum)
-                        RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(raceResultListOne)
-                        this.scheduleOnce(() => {
-                            cc.log('显示单局比赛结果显示完毕，我将单场比赛状态改为结束')
-                            RaceManage.changeRaceState(RaceState.FINISHED)
-                        }, ConfigManage.getShowResultTime());
-                    }
-                    let node = this.node.getChildByName('MiddleTopScorePanel')
-                    if (node != null) {
-                        node.active = false
-                        node.destroy()
-                    }
-                    cc.log('控制器公布结果')
-                    this.toShowRaceResultPanel()
-                    this.closeXiaZhuPanel()
-                    break
-                case LocalNoticeEventType.BACK_MUSIC_STATE_CHANGE_NOTICE:
-                    let isOpen = info.info
-                    if (isOpen) {
-                        this.backMusic.play()
-                    } else {
-                        this.backMusic.stop()
-                    }
-                    break
-                case LocalNoticeEventType.TO_SHOW_START_BUTTON:
-                    this.showStartButton()
-                    break
-                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-                    break
-                case LocalNoticeEventType.SOCKET_CONNECT_NOTICE:
-                    if (info.info) { //连接成功通知
-                        cc.log('接到socket连接通知，进入socket房间')
-                        this.controller.enterSocketRoom()
-                    } else {
-                        cc.log('接到socket连接失败通知，弹出提示框')
-                        let node = cc.instantiate(this.tipDialog)
-                        let scriptOb = node.getComponent('TipDialog')
-                        node.parent = this.node
-                        let dialogParam = {
-                            sureButtonShow: true, cancelButtonShow: true, content: '房间连接失败，是否重新连接？',
-                            cancelButtonAction: TipDialogButtonAction.OUT_ROOM, sureButtonAction: TipDialogButtonAction.SOCKET_CONNECT
-                        } as TipDialogParam
-                        scriptOb.tipDialogShow(dialogParam)
-                    }
-                    break
+    //返回大厅行为
+    execBackLobby() {
+        cc.log('退出到主页')
+        this.controller.close()
+        this.controller = null
+        cc.director.loadScene("LobbyScene");
+        this.destroy()
+    }
 
-            }
-        })
-        eventBus.on(EventType.ROOM_STATE_CHANGE_EVENT, randEventId(), (state: roomState): void => {
-            switch (state) {
-                case roomState.CLOSE:
-                    cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
-                    this.adjustBeforeRaceStateChange(RaceState.FINISHED)
-                    var node = cc.instantiate(this.roomResultPanel)
-                    node.parent = this.node
-                    node.setPosition(0, -70);
-                    node.active = true
-                    break
-            }
-        })
-
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
-            let to = info.toState
-            let raceNum = info.raceNum
-            switch (to) {
-                case RaceState.CHOICE_LANDLORD:
-                    this.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)
-                    this.showChoiceLandLordPanel()
-                    break
-                case RaceState.DEAL:
-                    this.adjustBeforeRaceStateChange(RaceState.DEAL)
-                    let kaiShi = cc.instantiate(this.kaiShipTip)
-                    this.scheduleOnce(() => {
-                        kaiShi.parent = this.node
-                        kaiShi.setPosition(0, 0);
-                        kaiShi.active = true
-                        if (ConfigManage.isTxMusicOpen()) {
-                            this.beginVoice.play()
-                        }
-                        this.scheduleOnce(() => {
-                            kaiShi.destroy()
-                            this.beginRollDice()
-                            this.showXiaZhuPanel()
-                        }, roomGameConfig.beginTextShowTime);
-                    }, roomGameConfig.timeBeforeBeginText);
-                    break
-                case RaceState.BET:
-                    this.adjustBeforeRaceStateChange(RaceState.BET)
-                    this.showXiaZhuPanel()
-                    this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
-                    var node = cc.instantiate(this.middleTopTimePanel)
-                    node.name = 'MiddleTopTimePanel'
-                    node.parent = this.node
-                    node.setPosition(-215, 218);
-                    node.active = true
-
-                    var node = cc.instantiate(this.middleTopScorePanel)
-                    node.name = 'MiddleTopScorePanel'
-                    node.parent = this.node
-                    node.setPosition(15, 258);
-                    node.active = true
-                    break
-                case RaceState.SHOW_DOWN:
-                    this.adjustBeforeRaceStateChange(RaceState.SHOW_DOWN)
-                    this.node.getChildByName('DealMachine').getComponent('DealMachine').checkAndAddMajong()
-
-                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: TableLocationType.LANDLORD } as LocalNoticeEventPara)
-                    break
-                case RaceState.FINISHED:
-                    this.adjustBeforeRaceStateChange(RaceState.FINISHED)
-                    break
-            }
-        })
-
-        eventBus.on(EventType.RACING_NUM_CHANGE_EVENT, randEventId(), (num: number): void => {
-            let roomInfo = RoomManage.roomItem
-            let count = RoomManage.roomItem.oningRaceNum
-            this.showPlayCountLimit.string = '当前牌局：' + (count + 1) + '/' + roomInfo.playCount
-        })
-
-        eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-            if (landlordId === UserManage.userInfo.id) {
-                this.roleSprite.spriteFrame = this.zhuangIcon
-            } else {
-                this.roleSprite.spriteFrame = this.xianIcon
-            }
-        })
-
-        eventBus.on(EventType.USER_SCORE_NOTICE, randEventId(), (list: raceResultData[]): void => {
-            if (typeof (list[UserManage.userInfo.id]) != 'undefined') {
-                this.userScoreLabel.string = list[UserManage.userInfo.id] + ''
-            } else {
-                this.userScoreLabel.string = '0'
-            }
-        })
+    showRoomResultPanel() {
+        cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
+        this.adjustBeforeRaceStateChange(RaceState.FINISHED)
+        var node = cc.instantiate(this.roomResultPanel)
+        node.parent = this.node
+        node.setPosition(0, -70);
+        node.active = true
     }
 
     //状态改变前，清理刷新显示
@@ -437,6 +310,30 @@ export default class NewClass extends cc.Component {
     destroyChildNodeByName(nameString: string) {
         let node = this.node.getChildByName(nameString)
         if (node) {
+            node.active = false
+            node.destroy()
+        }
+    }
+
+    showMiddleTopTimePanel() {
+        var node = cc.instantiate(this.middleTopTimePanel)
+        node.name = 'MiddleTopTimePanel'
+        node.parent = this.node
+        node.setPosition(-215, 218);
+        node.active = true
+    }
+
+    showMiddleTopScorePanel() {
+        let node = cc.instantiate(this.middleTopScorePanel)
+        node.name = 'MiddleTopScorePanel'
+        node.parent = this.node
+        node.setPosition(15, 258);
+        node.active = true
+    }
+
+    destroyMiddleTopScorePanel() {
+        let node = this.node.getChildByName('MiddleTopScorePanel')
+        if (node != null) {
             node.active = false
             node.destroy()
         }
