@@ -29,6 +29,7 @@ export class RollControler extends RollControlerBase {
         this.eventIdList.push(eventIdOne)
         eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, eventIdOne, (info: RaceStateChangeParam): void => {
             let to = info.toState
+            this.roomScene.destroyChild('MiddleTopTimePanel') //删除同步计时面板
             switch (to) {
                 case RaceState.CHOICE_LANDLORD: //选庄
                     this.roomScene.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)

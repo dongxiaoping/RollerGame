@@ -14,9 +14,12 @@ export default class NewClass extends cc.Component {
     showTime: number = 0
 
     start() {
+
+    }
+    betTimeShow() {
         cc.log('下注时间管理面板收到下注通知，设置本地下注时间定时器')
         let time = ConfigManage.getBetTime()
-        this.showTime = time - 1;
+        this.showTime = time - 1
         this.time.string = this.showTime.toString()
         this.schedule(() => {
             this.showTime--
@@ -33,7 +36,16 @@ export default class NewClass extends cc.Component {
         }, 1, time, 1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
     }
 
-    getShowTime(){
+    waitRaceSync() {
+        this.showTime = 1
+        this.time.string = this.showTime.toString()
+        this.schedule(() => {
+            this.showTime++
+            this.time.string = this.showTime.toString()
+        }, 1, 1000, 1);
+    }
+
+    getShowTime() {
         return this.showTime
     }
 

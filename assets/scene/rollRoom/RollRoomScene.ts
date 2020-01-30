@@ -164,6 +164,10 @@ export default class NewClass extends cc.Component {
             let list = roomResult.extObject.data as raceResultData[]
             RaceManage.setGameOverResultList(list)
             RoomManage.roomItem.roomState = roomState.CLOSE
+            return
+        }
+        if (RoomManage.roomItem.roomState == roomState.PLAYING) {
+            this.showRaceSncyTimePanel()
         }
     }
 
@@ -313,12 +317,20 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    showRaceSncyTimePanel() {
+        var node = cc.instantiate(this.middleTopTimePanel)
+        node.name = 'MiddleTopTimePanel'
+        node.parent = this.node
+        node.setPosition(-215, 218);
+        node.getComponent('MiddleTopTimePanel').waitRaceSync()
+    }
+
     showMiddleTopTimePanel() {
         var node = cc.instantiate(this.middleTopTimePanel)
         node.name = 'MiddleTopTimePanel'
         node.parent = this.node
         node.setPosition(-215, 218);
-        node.active = true
+        node.getComponent('MiddleTopTimePanel').betTimeShow()
     }
 
     showMiddleTopScorePanel() {
