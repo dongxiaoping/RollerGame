@@ -1,14 +1,12 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomState, RaceStateChangeParam, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData } from '../../common/Const'
-import { randEventId, getFaPaiLocation } from '../../common/Util'
+import { NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData } from '../../common/Const'
+import { getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollControler from '../../common/RollControler'
 import ConfigManage from '../../store/Config/ConfigManage'
-import { roomGameConfig } from '../../common/RoomGameConfig';
-
 import webSocketManage from '../../common/WebSocketManage'
 @ccclass
 export default class NewClass extends cc.Component {
@@ -247,7 +245,7 @@ export default class NewClass extends cc.Component {
             node.active = true
         })
     }
-    
+
     scoketFailTip() {
         let node = cc.instantiate(this.tipDialog)
         let scriptOb = node.getComponent('TipDialog')

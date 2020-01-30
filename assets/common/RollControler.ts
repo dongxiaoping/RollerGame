@@ -1,6 +1,6 @@
 import { eventBus } from '../common/EventBus'
-import { NoticeData, NoticeType, RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData, gameMemberType, memberState, GameMember, betLocaion, raceResultData } from '../common/Const'
-import { randEventId, randFloatNum, mergeRaceResult } from '../common/Util'
+import { NoticeData, NoticeType, RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData, gameMemberType, memberState, GameMember, raceResultData } from '../common/Const'
+import { randEventId } from '../common/Util'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage';
 import { roomInfo } from '../mock/RoomInfo'
@@ -11,9 +11,7 @@ import GameMemberManage from '../store/GameMember/GameMemberManage';
 import RaceManage from '../store/Races/RaceManage';
 import { RaceList } from '../mock/RaceList';
 import BetManage from '../store/Bets/BetManage';
-import GameMemberItem from '../store/GameMember/GameMemberItem';
 import ConfigManage from '../store/Config/ConfigManage';
-import { roomGameConfig } from './RoomGameConfig';
 export class RollControler extends RollControlerBase {
     constructor(cc: any, isEmulatorRoom: boolean, roomScene: any) {
         super(cc, isEmulatorRoom, roomScene)
