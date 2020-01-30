@@ -100,3 +100,20 @@ export function touchMoveEvent(event: any) {
     }
     return true
 }
+
+export function mergeRaceResult(listOne: raceResultData[], listTwo: raceResultData[]): raceResultData[] {
+    for (let i = 0; i < listOne.length; i++) {
+        let item = listOne[i]
+        let itemExist = false
+        for (let j = 0; j < listTwo.length; j++) {
+            if (item.userId === listTwo[j].userId) {
+                itemExist = true
+                listTwo[j].score += item.score
+            }
+        }
+        if (!itemExist) {
+            listTwo.push(item)
+        }
+    }
+    return listTwo
+}

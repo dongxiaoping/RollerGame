@@ -5,7 +5,6 @@ import { NoticeType, NoticeData, RaceState, EventType, TableLocationType, roomSt
 import { randEventId, getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
-import RollEmulator from "../../common/RollEmulator"
 import RollControler from '../../common/RollControler'
 import ConfigManage from '../../store/Config/ConfigManage'
 import { roomGameConfig } from '../../common/RoomGameConfig';
@@ -106,7 +105,9 @@ export default class NewClass extends cc.Component {
             this.backMusic.play()
         }
         let enterRoomParam = RoomManage.getEnterRoomParam()
-        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
+        let isEmulatorRoom = enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM ? true : false
+        this.controller = new RollControler(cc, isEmulatorRoom)
+        if (isEmulatorRoom) {
             cc.log('进入了模拟房间')
             this.enterEmulatorRoom()
             cc.director.preloadScene('LobbyScene');//预加载
@@ -141,7 +142,6 @@ export default class NewClass extends cc.Component {
             return
         }
         this.initRoom()
-        this.controller = new RollControler()
         this.controller.start()
         this.initShowAction()
         webSocketManage.openWs(() => {
@@ -200,7 +200,6 @@ export default class NewClass extends cc.Component {
     }
 
     enterEmulatorRoom() {
-        this.controller = new RollEmulator()
         this.controller.start()
         this.initRoom()
         this.showStartButton()
@@ -211,12 +210,12 @@ export default class NewClass extends cc.Component {
     }
 
     initRoom() {
+        this.addListener()
         this.showUserPanel()
         this.initXiaZhuPanel()
         this.initMahjongPanel()
         this.initDesk()
         this.showTopLeftRaceInfo()
-        this.addListener()
     }
 
     private initDesk() {
