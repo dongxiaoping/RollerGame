@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData } from '../../common/Const'
+import { NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel } from '../../common/Const'
 import { getFaPaiLocation } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -191,8 +191,12 @@ export default class NewClass extends cc.Component {
 
     showTopLeftRaceInfo() {
         let roomInfo = RoomManage.roomItem
+        if (roomInfo.roomPay == CreateRoomPayModel.AA) {
+            this.showPlayMode.string = 'AA房间：' + roomInfo.roomFee + '钻'
+        } else {
+            this.showPlayMode.string = '代开房间：' + roomInfo.roomFee + '钻'
+        }
         this.showRoomNum.string = '房间号：' + roomInfo.id
-        this.showPlayMode.string = '上庄模式：抢庄'
         this.showBetLimit.string = '下注上限：' + roomInfo.costLimit
         this.showPlayCountLimit.string = '当前牌局：' + (roomInfo.oningRaceNum + 1) + '/' + roomInfo.playCount
     }

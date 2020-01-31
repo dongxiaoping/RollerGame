@@ -200,7 +200,7 @@ export interface RoomInfo {
     playCount: number  //场次限制
     playMode: playMode  //上庄模式
     roomFee: number //房间费用
-    roomPay: number //付费模式
+    roomPay: CreateRoomPayModel //付费模式
     costLimit: number  //消费上限
     roomState: roomState  //房间状态
     oningRaceNum: number //当前进行中的场次编号

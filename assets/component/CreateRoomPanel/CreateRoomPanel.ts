@@ -1,6 +1,7 @@
 import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel, ResponseData, CreateRoomFail, TipDialogParam, TipDialogButtonAction } from "../../common/Const";
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
+import { creatDiamondConfig } from "../../common/CreatDiamondConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,20 +15,33 @@ export default class NewClass extends cc.Component {
 
     //////////////////////房间人数
     @property(cc.Toggle)
-    renshu_6: cc.Toggle = null
+    renshu_one: cc.Toggle = null
+    @property(cc.Label)
+    one_renshu_label: cc.Label = null
     @property(cc.Toggle)
-    renshu_8: cc.Toggle = null
+    renshu_two: cc.Toggle = null
+    @property(cc.Label)
+    two_renshu_label: cc.Label = null
     @property(cc.Toggle)
-    renshu_10: cc.Toggle = null
+    renshu_three: cc.Toggle = null
+    @property(cc.Label)
+    three_renshu_label: cc.Label = null
     ////////////////////////////////
 
     //////////////////////总共局数
     @property(cc.Toggle)
-    jushu_15: cc.Toggle = null
+    jushu_one: cc.Toggle = null
     @property(cc.Toggle)
-    jushu_20: cc.Toggle = null
+    jushu_two: cc.Toggle = null
     @property(cc.Toggle)
-    jushu_25: cc.Toggle = null
+    jushu_three: cc.Toggle = null
+
+    @property(cc.Label)
+    one_jushu_label: cc.Label = null
+    @property(cc.Label)
+    two_jushu_label: cc.Label = null
+    @property(cc.Label)
+    three_jushu_label: cc.Label = null
     ////////////////////////////////
 
     //////////////////////扣钻模式
@@ -39,23 +53,88 @@ export default class NewClass extends cc.Component {
 
     //////////////////////房间人数
     @property(cc.Toggle)
-    xiazhu_200: cc.Toggle = null
+    xiazhu_one: cc.Toggle = null
     @property(cc.Toggle)
-    xiazhu_300: cc.Toggle = null
+    xiazhu_two: cc.Toggle = null
     @property(cc.Toggle)
-    xiazhu_500: cc.Toggle = null
+    xiazhu_three: cc.Toggle = null
+
+    @property(cc.Label)
+    one_xiazhu_label: cc.Label = null
+    @property(cc.Label)
+    two_xiazhu_label: cc.Label = null
+    @property(cc.Label)
+    three_xiazhu_label: cc.Label = null
     ////////////////////////////////
+
+    @property(cc.Label)
+    one_jushu_diamond_label: cc.Label = null
+    @property(cc.Label)
+    two_jushu_diamond_label: cc.Label = null
+    @property(cc.Label)
+    three_jushu_diamond_label: cc.Label = null
+    /////////////////////////////////////
+
+    @property(cc.Label)
+    one_xiazhu_diamond_label: cc.Label = null
+    @property(cc.Label)
+    two_xiazhu_diamond_label: cc.Label = null
+    @property(cc.Label)
+    three_xiazhu_diamond_label: cc.Label = null
+    /////////////////////////////////////
+
     @property(cc.Prefab)
     private tipDialog: cc.Prefab = null  //提示框
 
     start() {
-        this.renshu_6.isChecked = true
-        this.jushu_15.isChecked = true
+        this.renshu_one.isChecked = true
+        this.jushu_one.isChecked = true
         this.DaiKai.isChecked = true
-        this.xiazhu_200.isChecked = true
+        this.xiazhu_one.isChecked = true
+    }
+
+    setShow() {
+        this.one_renshu_label.string = creatDiamondConfig.roomPeople.one.peoplecount + '人'
+        this.two_renshu_label.string = creatDiamondConfig.roomPeople.two.peoplecount + '人'
+        this.three_renshu_label.string = creatDiamondConfig.roomPeople.three.peoplecount + '人'
+
+        this.one_jushu_label.string = creatDiamondConfig.totalRace.one.raceCount + '局'
+        this.two_jushu_label.string = creatDiamondConfig.totalRace.two.raceCount + '局'
+        this.three_jushu_label.string = creatDiamondConfig.totalRace.three.raceCount + '局'
+
+        this.one_xiazhu_label.string = creatDiamondConfig.betLimit.one.limitVal + ''
+        this.two_xiazhu_label.string = creatDiamondConfig.betLimit.two.limitVal + ''
+        this.three_xiazhu_label.string = creatDiamondConfig.betLimit.three.limitVal + ''
+       // this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
+       // this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
+    }
+
+    setJuShuDiamondShow(mode: CreateRoomPayModel) {
+        if (mode == CreateRoomPayModel.AA) {
+            this.one_jushu_diamond_label.string = creatDiamondConfig.totalRace.one.aaDiamond + ''
+            this.two_jushu_diamond_label.string = creatDiamondConfig.totalRace.two.aaDiamond + ''
+            this.three_jushu_diamond_label.string = creatDiamondConfig.totalRace.three.aaDiamond + ''
+        } else {
+            this.one_jushu_diamond_label.string = creatDiamondConfig.totalRace.one.daiKaiDiamond + ''
+            this.two_jushu_diamond_label.string = creatDiamondConfig.totalRace.two.daiKaiDiamond + ''
+            this.three_jushu_diamond_label.string = creatDiamondConfig.totalRace.three.daiKaiDiamond + ''
+        }
+    }
+
+    setXiaZhuDiamondShow(mode: CreateRoomPayModel) {
+        if (mode == CreateRoomPayModel.AA) {
+            this.one_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.one.aaRate + '倍'
+            this.two_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.two.aaRate + '倍'
+            this.three_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.three.aaRate + '倍'
+        } else {
+            this.one_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.one.daiKaiRate + '倍'
+            this.two_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.two.daiKaiRate + '倍'
+            this.three_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.three.daiKaiRate + '倍'
+        }
     }
 
     onEnable() {
+        this.setShow()
         this.toggleInit()
         this.cancelButton.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.node.destroy()
@@ -66,11 +145,11 @@ export default class NewClass extends cc.Component {
             let jushu: number = null
             let payMode: CreateRoomPayModel = null
             let xiazhu: number = null
-            if (this.renshu_6.isChecked) {
+            if (this.renshu_one.isChecked) {
                 renshu = 6
-            } else if (this.renshu_8.isChecked) {
+            } else if (this.renshu_two.isChecked) {
                 renshu = 8
-            } else if (this.renshu_10.isChecked) {
+            } else if (this.renshu_three.isChecked) {
                 renshu = 10
             } else {
                 renshu = null
@@ -78,11 +157,11 @@ export default class NewClass extends cc.Component {
                 return
             }
 
-            if (this.jushu_15.isChecked) {
+            if (this.jushu_one.isChecked) {
                 jushu = 15
-            } else if (this.jushu_20.isChecked) {
+            } else if (this.jushu_two.isChecked) {
                 jushu = 20
-            } else if (this.jushu_25.isChecked) {
+            } else if (this.jushu_three.isChecked) {
                 jushu = 25
             } else {
                 jushu = null
@@ -92,19 +171,23 @@ export default class NewClass extends cc.Component {
 
             if (this.DaiKai.isChecked) {
                 payMode = CreateRoomPayModel.DAI_KAI
+                this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
+                this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
             } else if (this.AA.isChecked) {
                 payMode = CreateRoomPayModel.AA
+                this.setJuShuDiamondShow(CreateRoomPayModel.AA)
+                this.setXiaZhuDiamondShow(CreateRoomPayModel.AA)
             } else {
                 payMode = null
                 cc.log('付款模式不能为空')
                 return
             }
 
-            if (this.xiazhu_200.isChecked) {
+            if (this.xiazhu_one.isChecked) {
                 xiazhu = 200
-            } else if (this.xiazhu_300.isChecked) {
+            } else if (this.xiazhu_two.isChecked) {
                 xiazhu = 300
-            } else if (this.xiazhu_500.isChecked) {
+            } else if (this.xiazhu_three.isChecked) {
                 xiazhu = 500
             } else {
                 xiazhu = null
@@ -157,50 +240,50 @@ export default class NewClass extends cc.Component {
 
     toggleInit() {
         /////人数
-        this.renshu_6.node.on('toggle', () => {
-            if (this.renshu_6.isChecked) {
-                this.renshu_8.isChecked = false
-                this.renshu_10.isChecked = false
-                cc.log('renshu_6')
+        this.renshu_one.node.on('toggle', () => {
+            if (this.renshu_one.isChecked) {
+                this.renshu_two.isChecked = false
+                this.renshu_three.isChecked = false
+                cc.log('renshu_one')
             }
         }, this);
-        this.renshu_8.node.on('toggle', () => {
-            if (this.renshu_8.isChecked) {
-                this.renshu_6.isChecked = false
-                this.renshu_10.isChecked = false
-                cc.log('renshu_8')
+        this.renshu_two.node.on('toggle', () => {
+            if (this.renshu_two.isChecked) {
+                this.renshu_one.isChecked = false
+                this.renshu_three.isChecked = false
+                cc.log('renshu_two')
             }
         }, this);
-        this.renshu_10.node.on('toggle', () => {
-            if (this.renshu_10.isChecked) {
-                this.renshu_6.isChecked = false
-                this.renshu_8.isChecked = false
-                cc.log('renshu_10')
+        this.renshu_three.node.on('toggle', () => {
+            if (this.renshu_three.isChecked) {
+                this.renshu_one.isChecked = false
+                this.renshu_two.isChecked = false
+                cc.log('renshu_three')
             }
         }, this);
         ////
 
 
         /////局数
-        this.jushu_15.node.on('toggle', () => {
-            if (this.jushu_15.isChecked) {
-                this.jushu_20.isChecked = false
-                this.jushu_25.isChecked = false
-                cc.log('renshu_6')
+        this.jushu_one.node.on('toggle', () => {
+            if (this.jushu_one.isChecked) {
+                this.jushu_two.isChecked = false
+                this.jushu_three.isChecked = false
+                cc.log('renshu_one')
             }
         }, this);
-        this.jushu_20.node.on('toggle', () => {
-            if (this.jushu_20.isChecked) {
-                this.jushu_15.isChecked = false
-                this.jushu_25.isChecked = false
-                cc.log('renshu_8')
+        this.jushu_two.node.on('toggle', () => {
+            if (this.jushu_two.isChecked) {
+                this.jushu_one.isChecked = false
+                this.jushu_three.isChecked = false
+                cc.log('renshu_two')
             }
         }, this);
-        this.jushu_25.node.on('toggle', () => {
-            if (this.jushu_25.isChecked) {
-                this.jushu_15.isChecked = false
-                this.jushu_20.isChecked = false
-                cc.log('renshu_10')
+        this.jushu_three.node.on('toggle', () => {
+            if (this.jushu_three.isChecked) {
+                this.jushu_one.isChecked = false
+                this.jushu_two.isChecked = false
+                cc.log('renshu_three')
             }
         }, this);
         ////
@@ -209,12 +292,16 @@ export default class NewClass extends cc.Component {
         this.DaiKai.node.on('toggle', () => {
             if (this.DaiKai.isChecked) {
                 this.AA.isChecked = false
+                this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
+                this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
                 cc.log('选择了代开')
             }
         }, this);
         this.AA.node.on('toggle', () => {
             if (this.AA.isChecked) {
                 this.DaiKai.isChecked = false
+                this.setJuShuDiamondShow(CreateRoomPayModel.AA)
+                this.setXiaZhuDiamondShow(CreateRoomPayModel.AA)
                 cc.log('先择了AA')
             } else {
 
@@ -222,25 +309,25 @@ export default class NewClass extends cc.Component {
         }, this);
 
         ////倍率
-        this.xiazhu_200.node.on('toggle', () => {
-            if (this.xiazhu_200.isChecked) {
-                this.xiazhu_300.isChecked = false
-                this.xiazhu_500.isChecked = false
-                cc.log('renshu_6')
+        this.xiazhu_one.node.on('toggle', () => {
+            if (this.xiazhu_one.isChecked) {
+                this.xiazhu_two.isChecked = false
+                this.xiazhu_three.isChecked = false
+                cc.log('renshu_one')
             }
         }, this);
-        this.xiazhu_300.node.on('toggle', () => {
-            if (this.xiazhu_300.isChecked) {
-                this.xiazhu_200.isChecked = false
-                this.xiazhu_500.isChecked = false
-                cc.log('renshu_8')
+        this.xiazhu_two.node.on('toggle', () => {
+            if (this.xiazhu_two.isChecked) {
+                this.xiazhu_one.isChecked = false
+                this.xiazhu_three.isChecked = false
+                cc.log('renshu_two')
             }
         }, this);
-        this.xiazhu_500.node.on('toggle', () => {
-            if (this.xiazhu_500.isChecked) {
-                this.xiazhu_200.isChecked = false
-                this.xiazhu_300.isChecked = false
-                cc.log('renshu_10')
+        this.xiazhu_three.node.on('toggle', () => {
+            if (this.xiazhu_three.isChecked) {
+                this.xiazhu_one.isChecked = false
+                this.xiazhu_two.isChecked = false
+                cc.log('renshu_three')
             }
         }, this);
         ////

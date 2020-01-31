@@ -1,13 +1,15 @@
-import { RoomInfo, playMode, roomState, EventType } from '../../common/Const'
+import { RoomInfo, playMode, roomState, EventType, CreateRoomPayModel } from '../../common/Const'
 import { eventBus } from '../../common/EventBus';
 
 export default class RoomItem {
-    id: number = null
+    public id: number = null
     public creatUserId: string = null
-    memberLimit: number = null
-    playCount: number = null //比赛有多少场
-    playMode: playMode = null
-    costLimit: number = null
+    public memberLimit: number = null
+    public playCount: number = null //比赛有多少场
+    public playMode: playMode = null
+    public costLimit: number = null
+    public roomFee: number = null  //房间费用
+    public roomPay: CreateRoomPayModel = null  //付费模式
     private _roomState: roomState = null
     private _oningRaceNum: number = null //当前正在进行的比赛场次号 从0开始
 
@@ -17,6 +19,8 @@ export default class RoomItem {
         this.memberLimit = val.memberLimit
         this.playCount = val.playCount
         this.playMode = val.playMode
+        this.roomFee = val.roomFee
+        this.roomPay = val.roomPay
         this.costLimit = val.costLimit
         this._roomState = val.roomState
         this._oningRaceNum = val.oningRaceNum
