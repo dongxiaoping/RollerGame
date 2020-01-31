@@ -172,23 +172,19 @@ export default class NewClass extends cc.Component {
     }
 
     showEnterRoomFailTip(info: ResponseData) {
-        if (info.message === EnterRoomFail.diamond_not_enough) {
-            cc.log('钻不够')
-            return
-        }
-        let message = info.message as EnterRoomFail
+        let contenShow = EnterRoomFail[info.message]
         let node = cc.instantiate(this.tipDialog)
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node
-        node.active = true
         let dialogParam = {
-            sureButtonShow: true, cancelButtonShow: false, content: '', cancelButtonAction: null,
+            sureButtonShow: true, cancelButtonShow: false, content: contenShow, cancelButtonAction: null,
             sureButtonAction: TipDialogButtonAction.OUT_ROOM
         } as TipDialogParam
-        try {
-            dialogParam.content = EnterRoomFail[message]
-        } catch (e) {
-            dialogParam.content = '进入异常'
+        if (info.message === 'diamond_not_enough') {
+            dialogParam.cancelButtonShow = true
+            dialogParam.content = '钻余额' + info.data.has + ',进入房间需要钻' + info.data.need + ',请点击确认购买！'
+            dialogParam.sureButtonAction = TipDialogButtonAction.RECHARGE
+            dialogParam.cancelButtonAction = TipDialogButtonAction.OUT_ROOM
         }
         scriptOb.tipDialogShow(dialogParam)
     }
