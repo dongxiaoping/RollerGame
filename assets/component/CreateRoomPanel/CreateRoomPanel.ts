@@ -1,4 +1,4 @@
-import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel, ResponseData, CreateRoomFail, TipDialogParam } from "../../common/Const";
+import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel, ResponseData, CreateRoomFail, TipDialogParam, TipDialogButtonAction } from "../../common/Const";
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 
@@ -47,9 +47,6 @@ export default class NewClass extends cc.Component {
     ////////////////////////////////
     @property(cc.Prefab)
     private tipDialog: cc.Prefab = null  //提示框
-
-    @property(cc.Prefab)
-    private diamondNotDialog: cc.Prefab = null  //钻不足提示框
 
     start() {
         this.renshu_6.isChecked = true
@@ -116,7 +113,6 @@ export default class NewClass extends cc.Component {
             }
             cc.log('创建信息：人数：' + renshu + ",局数：" + jushu + ",付款模式:" + payMode + ',下注上限：' + xiazhu)
             cc.log('start_game_test:面板创建游戏')
-            jushu = 3
             this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu)
         })
     }
@@ -144,19 +140,18 @@ export default class NewClass extends cc.Component {
     }
 
     showCreateRoomFailTip(info: ResponseData) {
-        if (info.message === 'diamond_not_enough') { //
-            cc.log('钻不足')
-            let node = cc.instantiate(this.diamondNotDialog)
-            let scriptOb = node.getComponent('DiaNotEnTipDial')
-            node.parent = this.node.parent
-            node.active = true
-            return
-        }
         let node = cc.instantiate(this.tipDialog)
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node.parent
         node.active = true
-        let dialogParam = { sureButtonShow: true, cancelButtonShow: false, content: CreateRoomFail[info.message], cancelButtonAction: null, sureButtonAction: null } as TipDialogParam
+        let contenShow = CreateRoomFail[info.message]
+        if (info.message === 'diamond_not_enough') {
+            contenShow = '钻余额' + info.data.has + ',创建房间需要钻' + info.data.need + ',请点击确认购买！'
+        }
+        let dialogParam = {
+            sureButtonShow: true, cancelButtonShow: true, content: contenShow,
+            cancelButtonAction: null, sureButtonAction: TipDialogButtonAction.RECHARGE
+        } as TipDialogParam
         scriptOb.tipDialogShow(dialogParam)
     }
 

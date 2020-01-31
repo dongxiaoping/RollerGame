@@ -40,9 +40,6 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     Num: cc.Label = null;
 
-    @property(cc.Prefab)
-    private diamondNotDialog: cc.Prefab = null  //钻不足提示框
-
     onEnable() {
 
     }
