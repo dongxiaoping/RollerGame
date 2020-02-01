@@ -135,7 +135,7 @@ export default class NewClass extends cc.Component {
         }
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {
-            cc.log('房间不存在或已开始')
+            cc.log('进入房间失败')
             this.showEnterRoomFailTip(result.extObject)
             return
         }
@@ -231,10 +231,7 @@ export default class NewClass extends cc.Component {
     //添加面板上组件的一些响应事件
     private addClickEvent() {
         this.exit.node.on(cc.Node.EventType.TOUCH_END, () => {
-            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                type: LocalNoticeEventType.TO_LOBBY_EVENT,
-                info: null
-            } as LocalNoticeEventPara)
+            this.execBackLobby()
         })
 
         this.showTrendButton.node.on(cc.Node.EventType.TOUCH_END, () => {
