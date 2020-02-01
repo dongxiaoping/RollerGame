@@ -14,6 +14,8 @@ export default class NewClass extends cc.Component {
     middleSureButton: cc.Node = null
     @property(cc.Node)
     cancelButton: cc.Node = null
+    @property(cc.Prefab)
+    rechargePanel: cc.Prefab = null
 
     sureButton: cc.Node = null
 
@@ -50,6 +52,10 @@ export default class NewClass extends cc.Component {
                 break
             case TipDialogButtonAction.OUT_ROOM:
                 cc.director.loadScene("LobbyScene");
+                break
+            case TipDialogButtonAction.RECHARGE:
+                let node = cc.instantiate(this.rechargePanel)
+                node.parent = this.node.parent
                 break
         }
         this.node.active = false
