@@ -8842,6 +8842,12 @@
     "exitButton": {
       "__id__": 41
     },
+    "diamondBugPart": {
+      "__id__": 81
+    },
+    "rechargePanel": {
+      "__uuid__": "fbfd74e9-f28c-46c7-8611-387ea5f53236"
+    },
     "userName": {
       "__id__": 72
     },

@@ -94,7 +94,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     TO_LOBBY_EVENT = 10, //返回到大厅通知
     BACK_MUSIC_STATE_CHANGE_NOTICE = 11, //背景音乐开关改变通知
     TO_SHOW_START_BUTTON = 12, //通知显示开始按钮
-    SOCKET_CONNECT_NOTICE = 13 //socket连接结果通知
+    SOCKET_CONNECT_NOTICE = 13, //socket连接结果通知
+    DIAMOND_COUNT_CHANGE = 14 //钻数量改变通知
 }
 
 export interface LocalNoticeEventPara {
@@ -358,6 +359,7 @@ export const InterfaceUrl = {
     CREATE_VISIT: '/race/user/create_visit_account',
     CANCEL_BET: '/race/betrecord/cancel_bet_by_location',
     GET_ROOM_RESULT: '/race/room/get_room_result',
+    RECHARGE_DIAMOND: '/race/user/recharge_diamond',
     IS_ROOM_EXIST: '/race/room/is_room_exist'
 }
 

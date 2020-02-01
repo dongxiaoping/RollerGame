@@ -1,8 +1,9 @@
 import UserManage from "../../store/User/UserManage";
-import { isUrlToGameRoom, getUrlParam } from "../../common/Util";
+import { isUrlToGameRoom, getUrlParam, randEventId } from "../../common/Util";
 import RoomManage from "../../store/Room/RoomManage";
-import { EnterRoomModel, EnterRoomParam } from "../../common/Const";
+import { EnterRoomModel, EnterRoomParam, EventType, LocalNoticeEventType, LocalNoticeEventPara } from "../../common/Const";
 import { config } from "../../common/Config";
+import { eventBus } from "../../common/EventBus";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,6 +37,12 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Sprite)
     exitButton: cc.Sprite = null;
 
+    @property(cc.Node)
+    diamondBugPart: cc.Node = null;
+
+    @property(cc.Prefab)
+    rechargePanel: cc.Prefab = null;
+
     @property(cc.Label)
     userName: cc.Label = null;
     @property(cc.Label)
@@ -53,6 +60,7 @@ export default class LobbyScene extends cc.Component {
     userIconSprite: cc.Sprite = null; //用户图标
 
     emulatorRoomHasClick: boolean = true
+    eventIdOne: any = null
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
@@ -67,6 +75,15 @@ export default class LobbyScene extends cc.Component {
     }
 
     onEnable() {
+        this.eventIdOne = randEventId()
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne, (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.DIAMOND_COUNT_CHANGE:
+                    this.diamond.string = info.info + ''
+                    break
+            }
+        })
     }
 
     //退出
@@ -112,6 +129,7 @@ export default class LobbyScene extends cc.Component {
 
     onDisable() {
         this.JoinPart.node.off(cc.Node.EventType.TOUCH_END, () => { })
+        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne)
     }
 
     start() {
@@ -162,6 +180,11 @@ export default class LobbyScene extends cc.Component {
 
         this.ruleButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             this.node.getChildByName('PlayRule').active = true
+        })
+
+        this.diamondBugPart.on(cc.Node.EventType.TOUCH_START, () => {
+            let node = cc.instantiate(this.rechargePanel)
+            node.parent = this.node
         })
 
         this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {

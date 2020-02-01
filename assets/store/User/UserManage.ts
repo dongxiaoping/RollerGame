@@ -1,5 +1,5 @@
 import { config } from '../../common/Config'
-import { PromiseParam, PromiseResult, ResponseStatus, InterfaceUrl } from '../../common/Const'
+import { PromiseParam, PromiseResult, ResponseStatus, InterfaceUrl, ResponseData } from '../../common/Const'
 import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';
@@ -45,6 +45,24 @@ class UserManage {
             let httpUrl = config.serverAddress + InterfaceUrl.COST_DIAMOND + '?userId=' + userId + '&roomId=' + roomId
             http.getWithUrl(httpUrl, (status: boolean, info: any) => {
 
+            })
+        })
+    }
+
+    //购买钻
+    public rechargeDiamond(userId: string, diamondCount: number): Promise<PromiseParam> {
+        return new Promise((resolve: (param: PromiseParam) => void): void => {
+            let httpUrl = config.serverAddress + InterfaceUrl.RECHARGE_DIAMOND + '?userId=' + userId + '&diamondCount=' + diamondCount
+            http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
+                if (error) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: { message: 'interface_fail' } })
+                    return
+                }
+                if (info.status === ResponseStatus.FAIL) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: info })
+                    return
+                }
+                resolve({ result: ResponseStatus.SUCCESS, extObject: info.data })
             })
         })
     }
