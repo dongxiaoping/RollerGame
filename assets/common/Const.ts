@@ -360,6 +360,7 @@ export const InterfaceUrl = {
     CANCEL_BET: '/race/betrecord/cancel_bet_by_location',
     GET_ROOM_RESULT: '/race/room/get_room_result',
     RECHARGE_DIAMOND: '/race/user/recharge_diamond',
+    GET_USER_DIAMOND: '/race/user/get_user_diamond', //获取用户当前钻数量
     IS_ROOM_EXIST: '/race/room/is_room_exist'
 }
 

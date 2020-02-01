@@ -1,4 +1,4 @@
-import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType, memberState } from "./Const";
+import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType, memberState, ResponseStatus } from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
@@ -82,7 +82,7 @@ class WebSocketManage {
                 message as NoticeInfo
                 if (message.raceNum == 0) { //房间开始
                     RoomManage.roomItem.roomState = roomState.PLAYING
-                    // UserManage.costDiamondInRoom(RoomManage.roomItem.id, UserManage.userInfo.id)
+                    UserManage.costDiamond(RoomManage.roomItem.id, UserManage.userInfo.id)
                 }
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
                 console.log('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' + RoomManage.roomItem.oningRaceNum);

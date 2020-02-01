@@ -4,6 +4,7 @@ import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';
 import { RoomGameConfig } from '../../common/RoomGameConfig'
+import RoomManage from '../Room/RoomManage';
 
 class UserManage {
     public userInfo: UserItem = null
@@ -39,12 +40,31 @@ class UserManage {
         })
     }
 
+    public updateUserDiamond(): Promise<PromiseParam> {
+        return new Promise((resolve: (param: PromiseParam) => void): void => {
+            let httpUrl = config.serverAddress + InterfaceUrl.GET_USER_DIAMOND + '?userId=' + this.userInfo.id
+            http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
+                if (!error && info.status != ResponseStatus.FAIL) {
+                    this.userInfo.diamond = info.data
+                }
+            })
+        })
+    }
+
     //游戏开始，扣钻流程
     public costDiamondInRoom(roomId: number, userId: string): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             let httpUrl = config.serverAddress + InterfaceUrl.COST_DIAMOND + '?userId=' + userId + '&roomId=' + roomId
-            http.getWithUrl(httpUrl, (status: boolean, info: any) => {
-
+            http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
+                if (error) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: { message: 'interface_fail' } })
+                    return
+                }
+                if (info.status === ResponseStatus.FAIL) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: info })
+                    return
+                }
+                resolve({ result: ResponseStatus.SUCCESS, extObject: info.data })
             })
         })
     }
@@ -65,6 +85,14 @@ class UserManage {
                 resolve({ result: ResponseStatus.SUCCESS, extObject: info.data })
             })
         })
+    }
+
+    async costDiamond(roomId: number, userId: string) {
+        let result = await this.costDiamondInRoom(roomId, userId)
+        if (result.result === ResponseStatus.FAIL) {
+            return
+        }
+        this.userInfo.diamond = result.extObject
     }
 }
 

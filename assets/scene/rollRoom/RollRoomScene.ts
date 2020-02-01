@@ -155,6 +155,9 @@ export default class NewClass extends cc.Component {
                 info: false
             } as LocalNoticeEventPara)
         })
+        if (RoomManage.roomItem.roomState == roomState.PLAYING) {
+            UserManage.updateUserDiamond()
+        }
     }
 
     //初始进入房间执行的显示行为

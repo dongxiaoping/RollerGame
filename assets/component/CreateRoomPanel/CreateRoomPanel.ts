@@ -105,8 +105,8 @@ export default class NewClass extends cc.Component {
         this.one_xiazhu_label.string = creatDiamondConfig.betLimit.one.limitVal + ''
         this.two_xiazhu_label.string = creatDiamondConfig.betLimit.two.limitVal + ''
         this.three_xiazhu_label.string = creatDiamondConfig.betLimit.three.limitVal + ''
-       // this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
-       // this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
+        // this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
+        // this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
     }
 
     setJuShuDiamondShow(mode: CreateRoomPayModel) {
@@ -158,11 +158,11 @@ export default class NewClass extends cc.Component {
             }
 
             if (this.jushu_one.isChecked) {
-                jushu = 15
+                jushu = creatDiamondConfig.totalRace.one.raceCount
             } else if (this.jushu_two.isChecked) {
-                jushu = 20
+                jushu = creatDiamondConfig.totalRace.two.raceCount
             } else if (this.jushu_three.isChecked) {
-                jushu = 25
+                jushu = creatDiamondConfig.totalRace.three.raceCount
             } else {
                 jushu = null
                 cc.log('局数不能为空')
@@ -184,11 +184,11 @@ export default class NewClass extends cc.Component {
             }
 
             if (this.xiazhu_one.isChecked) {
-                xiazhu = 200
+                xiazhu = creatDiamondConfig.betLimit.one.limitVal
             } else if (this.xiazhu_two.isChecked) {
-                xiazhu = 300
+                xiazhu = creatDiamondConfig.betLimit.two.limitVal
             } else if (this.xiazhu_three.isChecked) {
-                xiazhu = 500
+                xiazhu = creatDiamondConfig.betLimit.three.limitVal
             } else {
                 xiazhu = null
                 cc.log('下注上限不能为空')
