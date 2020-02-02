@@ -2,7 +2,7 @@ import { eventBus } from "./EventBus";
 import RoomManage from "../store/Room/RoomManage";
 import RaceManage from "../store/Races/RaceManage";
 import ConfigManage from "../store/Config/ConfigManage";
-import { randFloatNum, mergeRaceResult } from "./Util";
+import { randFloatNum, mergeRaceResult, randomRange } from "./Util";
 import { betLocaion, NoticeType, NoticeData, RaceState, raceResultData, roomState } from "./Const";
 import BetManage from "../store/Bets/BetManage";
 import UserManage from "../store/User/UserManage";
@@ -71,6 +71,7 @@ export class RollControlerBase {
 
     //模拟对指定用户进行下注
     emulateXiaZhuByUser(userId: string): void {
+        let randVal = [10, 20, 50, 100]
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
             this.cc.log('当前不是下注状态，不能下注')
@@ -80,37 +81,38 @@ export class RollControlerBase {
         let ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
 
         let setTimeOutOne = setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND_CORNER, 10)
+
+            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND_CORNER, randVal[randomRange(0, 4)])
         }, ranTime * 1000)
         this.setTimeoutList.push(setTimeOutOne)
         ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
 
         let setTimeOutTwo = setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY, 20)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY, randVal[randomRange(0, 4)])
         }, ranTime * 1000)
         this.setTimeoutList.push(setTimeOutTwo)
 
         ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         let setTimeOut7 = setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.BRIDG, 20)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.BRIDG, randVal[randomRange(0, 4)])
         }, ranTime * 1000)
         this.setTimeoutList.push(setTimeOut7)
 
         ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         let setTimeOut8 = setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND, 50)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.LAND, randVal[randomRange(0, 4)])
         }, ranTime * 1000)
         this.setTimeoutList.push(setTimeOut8)
 
         ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         let setTimeOut9 = setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.MIDDLE, 100)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.MIDDLE, randVal[randomRange(0, 4)])
         }, ranTime * 1000)
         this.setTimeoutList.push(setTimeOut9)
 
         ranTime = randFloatNum(1, localXiaZhuLimiTime - 1)
         let setTimeOut10 = setTimeout(() => {
-            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY_CORNER, 100)
+            BetManage.addBet(oningRaceNum, userId, betLocaion.SKY_CORNER, randVal[randomRange(0, 4)])
         }, ranTime * 1000)
         this.setTimeoutList.push(setTimeOut10)
 

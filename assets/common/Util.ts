@@ -117,3 +117,8 @@ export function mergeRaceResult(listOne: raceResultData[], listTwo: raceResultDa
     }
     return listTwo
 }
+
+//返回指定返回随机整数
+export function randomRange(min: number, max: number) { // min最小值，max最大值
+    return Math.floor(Math.random() * (max - min)) + min;
+}
