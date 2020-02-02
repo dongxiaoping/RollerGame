@@ -1,10 +1,19 @@
 import { roomGameConfig } from '../../common/RoomGameConfig';
+import { PromiseParam, InterfaceUrl, ResponseStatus } from '../../common/Const';
+import { config } from '../../common/Config';
+import http from '../../common/Http'
 class ConfigManage {
     private isBackMusic: boolean = true //背景音乐是否开启
     private isTxMusic: boolean = true //特效音乐是否开启
+    private configHasLoad: boolean = false //网络配置文件是否加载
+    private createDiamondConfig: any = null //创建房间的相关数据信息
 
     public setBackMusic(isOpen: boolean) {
         this.isBackMusic = isOpen
+    }
+
+    public isConfigHasLoad(): boolean {
+        return this.configHasLoad
     }
 
     public setTxMusic(isOpen: boolean) {
@@ -17,6 +26,10 @@ class ConfigManage {
 
     public isTxMusicOpen() {
         return this.isTxMusic
+    }
+
+    public getCreateDiamondConfig() {
+       return this.createDiamondConfig
     }
 
     //摇色子时间
@@ -47,6 +60,18 @@ class ConfigManage {
     //结果面板显示时间
     public getShowResultTime(): number {
         return roomGameConfig.showResultTime
+    }
+
+    public loadConfigInfo(): Promise<PromiseParam> {
+        return new Promise((resolve: (param: PromiseParam) => void): void => {
+            let httpUrl = config.serverAddress + InterfaceUrl.GET_CONFIG
+            http.getWithUrl(httpUrl, (error: boolean, info: any) => {
+                if (!error && info.status != ResponseStatus.FAIL) {
+                    this.createDiamondConfig = info.data.createDiamond
+                    this.configHasLoad = true
+                }
+            })
+        })
     }
 }
 

@@ -1,7 +1,7 @@
 import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel, ResponseData, CreateRoomFail, TipDialogParam, TipDialogButtonAction } from "../../common/Const";
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
-import { creatDiamondConfig } from "../../common/CreatDiamondConfig";
+import ConfigManage from "../../store/Config/ConfigManage";
 
 const { ccclass, property } = cc._decorator;
 
@@ -83,6 +83,7 @@ export default class NewClass extends cc.Component {
     three_xiazhu_diamond_label: cc.Label = null
     /////////////////////////////////////
 
+    creatDiamondConfig:any
     @property(cc.Prefab)
     private tipDialog: cc.Prefab = null  //提示框
 
@@ -94,46 +95,47 @@ export default class NewClass extends cc.Component {
     }
 
     setShow() {
-        this.one_renshu_label.string = creatDiamondConfig.roomPeople.one.peoplecount + '人'
-        this.two_renshu_label.string = creatDiamondConfig.roomPeople.two.peoplecount + '人'
-        this.three_renshu_label.string = creatDiamondConfig.roomPeople.three.peoplecount + '人'
+        this.one_renshu_label.string = this.creatDiamondConfig.roomPeople.one.peoplecount + '人'
+        this.two_renshu_label.string = this.creatDiamondConfig.roomPeople.two.peoplecount + '人'
+        this.three_renshu_label.string = this.creatDiamondConfig.roomPeople.three.peoplecount + '人'
 
-        this.one_jushu_label.string = creatDiamondConfig.totalRace.one.raceCount + '局'
-        this.two_jushu_label.string = creatDiamondConfig.totalRace.two.raceCount + '局'
-        this.three_jushu_label.string = creatDiamondConfig.totalRace.three.raceCount + '局'
+        this.one_jushu_label.string = this.creatDiamondConfig.totalRace.one.raceCount + '局'
+        this.two_jushu_label.string = this.creatDiamondConfig.totalRace.two.raceCount + '局'
+        this.three_jushu_label.string = this.creatDiamondConfig.totalRace.three.raceCount + '局'
 
-        this.one_xiazhu_label.string = creatDiamondConfig.betLimit.one.limitVal + ''
-        this.two_xiazhu_label.string = creatDiamondConfig.betLimit.two.limitVal + ''
-        this.three_xiazhu_label.string = creatDiamondConfig.betLimit.three.limitVal + ''
+        this.one_xiazhu_label.string = this.creatDiamondConfig.betLimit.one.limitVal + ''
+        this.two_xiazhu_label.string = this.creatDiamondConfig.betLimit.two.limitVal + ''
+        this.three_xiazhu_label.string = this.creatDiamondConfig.betLimit.three.limitVal + ''
         // this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
         // this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
     }
 
     setJuShuDiamondShow(mode: CreateRoomPayModel) {
         if (mode == CreateRoomPayModel.AA) {
-            this.one_jushu_diamond_label.string = creatDiamondConfig.totalRace.one.aaDiamond + ''
-            this.two_jushu_diamond_label.string = creatDiamondConfig.totalRace.two.aaDiamond + ''
-            this.three_jushu_diamond_label.string = creatDiamondConfig.totalRace.three.aaDiamond + ''
+            this.one_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.one.aaDiamond + ''
+            this.two_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.two.aaDiamond + ''
+            this.three_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.three.aaDiamond + ''
         } else {
-            this.one_jushu_diamond_label.string = creatDiamondConfig.totalRace.one.daiKaiDiamond + ''
-            this.two_jushu_diamond_label.string = creatDiamondConfig.totalRace.two.daiKaiDiamond + ''
-            this.three_jushu_diamond_label.string = creatDiamondConfig.totalRace.three.daiKaiDiamond + ''
+            this.one_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.one.daiKaiDiamond + ''
+            this.two_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.two.daiKaiDiamond + ''
+            this.three_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.three.daiKaiDiamond + ''
         }
     }
 
     setXiaZhuDiamondShow(mode: CreateRoomPayModel) {
         if (mode == CreateRoomPayModel.AA) {
-            this.one_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.one.aaRate + '倍'
-            this.two_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.two.aaRate + '倍'
-            this.three_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.three.aaRate + '倍'
+            this.one_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.one.aaRate + '倍'
+            this.two_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.two.aaRate + '倍'
+            this.three_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.three.aaRate + '倍'
         } else {
-            this.one_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.one.daiKaiRate + '倍'
-            this.two_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.two.daiKaiRate + '倍'
-            this.three_xiazhu_diamond_label.string = creatDiamondConfig.betLimit.three.daiKaiRate + '倍'
+            this.one_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.one.daiKaiRate + '倍'
+            this.two_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.two.daiKaiRate + '倍'
+            this.three_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.three.daiKaiRate + '倍'
         }
     }
 
     onEnable() {
+        this.creatDiamondConfig = ConfigManage.getCreateDiamondConfig()
         this.setShow()
         this.toggleInit()
         this.cancelButton.node.on(cc.Node.EventType.TOUCH_END, () => {
@@ -158,11 +160,11 @@ export default class NewClass extends cc.Component {
             }
 
             if (this.jushu_one.isChecked) {
-                jushu = creatDiamondConfig.totalRace.one.raceCount
+                jushu = this.creatDiamondConfig.totalRace.one.raceCount
             } else if (this.jushu_two.isChecked) {
-                jushu = creatDiamondConfig.totalRace.two.raceCount
+                jushu = this.creatDiamondConfig.totalRace.two.raceCount
             } else if (this.jushu_three.isChecked) {
-                jushu = creatDiamondConfig.totalRace.three.raceCount
+                jushu = this.creatDiamondConfig.totalRace.three.raceCount
             } else {
                 jushu = null
                 cc.log('局数不能为空')
@@ -184,11 +186,11 @@ export default class NewClass extends cc.Component {
             }
 
             if (this.xiazhu_one.isChecked) {
-                xiazhu = creatDiamondConfig.betLimit.one.limitVal
+                xiazhu = this.creatDiamondConfig.betLimit.one.limitVal
             } else if (this.xiazhu_two.isChecked) {
-                xiazhu = creatDiamondConfig.betLimit.two.limitVal
+                xiazhu = this.creatDiamondConfig.betLimit.two.limitVal
             } else if (this.xiazhu_three.isChecked) {
-                xiazhu = creatDiamondConfig.betLimit.three.limitVal
+                xiazhu = this.creatDiamondConfig.betLimit.three.limitVal
             } else {
                 xiazhu = null
                 cc.log('下注上限不能为空')
@@ -229,7 +231,8 @@ export default class NewClass extends cc.Component {
         node.active = true
         let contenShow = CreateRoomFail[info.message]
         if (info.message === 'diamond_not_enough') {
-            contenShow = '钻余额' + info.data.has + ',创建房间需要钻' + info.data.need + ',请点击确认购买！'
+            //contenShow = '钻余额' + info.data.has + ',创建房间需要钻' + info.data.need + ',请点击确认购买！'
+            contenShow = '钻余额不足，请点击购买！'
         }
         let dialogParam = {
             sureButtonShow: true, cancelButtonShow: true, content: contenShow,

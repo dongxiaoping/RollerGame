@@ -4,7 +4,6 @@ import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';
 import { RoomGameConfig } from '../../common/RoomGameConfig'
-import RoomManage from '../Room/RoomManage';
 
 class UserManage {
     public userInfo: UserItem = null

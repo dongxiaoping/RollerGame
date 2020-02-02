@@ -18,8 +18,6 @@ export default class NewClass extends cc.Component {
     userItem: cc.Prefab = null;
 
     @property(cc.Label)
-    roomModel: cc.Label = null;
-    @property(cc.Label)
     roomNum: cc.Label = null;
     @property(cc.Label)
     raceCount: cc.Label = null;

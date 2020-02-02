@@ -4,6 +4,7 @@ import RoomManage from "../../store/Room/RoomManage";
 import { EnterRoomModel, EnterRoomParam, EventType, LocalNoticeEventType, LocalNoticeEventPara } from "../../common/Const";
 import { config } from "../../common/Config";
 import { eventBus } from "../../common/EventBus";
+import ConfigManage from "../../store/Config/ConfigManage";
 
 const { ccclass, property } = cc._decorator;
 
@@ -75,6 +76,9 @@ export default class LobbyScene extends cc.Component {
     }
 
     onEnable() {
+        if (!ConfigManage.isConfigHasLoad()) {
+            ConfigManage.loadConfigInfo()
+        }
         this.eventIdOne = randEventId()
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne, (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type

@@ -117,6 +117,9 @@ export default class NewClass extends cc.Component {
     }
 
     onEnable() {
+        if (!ConfigManage.isConfigHasLoad()) {
+            ConfigManage.loadConfigInfo()
+        }
         this.addClickEvent()
         this.localNoticeEvent()
 
@@ -200,7 +203,8 @@ export default class NewClass extends cc.Component {
         } as TipDialogParam
         if (info.message === 'diamond_not_enough') {
             dialogParam.cancelButtonShow = true
-            dialogParam.content = '钻余额' + info.data.has + ',进入房间需要钻' + info.data.need + ',请点击确认购买！'
+            //dialogParam.content = '钻余额' + info.data.has + ',进入房间需要钻' + info.data.need + ',请点击确认购买！'
+            dialogParam.content = '钻余额不足，请点击购买！'
             dialogParam.sureButtonAction = TipDialogButtonAction.RECHARGE
             dialogParam.cancelButtonAction = TipDialogButtonAction.OUT_ROOM
         }
@@ -210,9 +214,9 @@ export default class NewClass extends cc.Component {
     showTopLeftRaceInfo() {
         let roomInfo = RoomManage.roomItem
         if (roomInfo.roomPay == CreateRoomPayModel.AA) {
-            this.showPlayMode.string = 'AA房间：' + roomInfo.roomFee + '钻'
+            this.showPlayMode.string = 'AA房间：' + roomInfo.roomFee
         } else {
-            this.showPlayMode.string = '代开房间：' + roomInfo.roomFee + '钻'
+            this.showPlayMode.string = '代开房间：' + roomInfo.roomFee
         }
         this.showRoomNum.string = '房间号：' + roomInfo.id
         this.showBetLimit.string = '下注上限：' + roomInfo.costLimit
