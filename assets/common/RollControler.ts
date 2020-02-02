@@ -158,15 +158,15 @@ export class RollControler extends RollControlerBase {
         })
 
 
-        let eventIdThree = randEventId()
-        this.eventIdList.push(eventIdThree)
-        eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, eventIdThree, (landlordId: string): void => {
-            if (landlordId === UserManage.userInfo.id) {
-                this.roomScene.roleSprite.spriteFrame = this.roomScene.zhuangIcon
-            } else {
-                this.roomScene.roleSprite.spriteFrame = this.roomScene.xianIcon
-            }
-        })
+        // let eventIdThree = randEventId()
+        // this.eventIdList.push(eventIdThree)
+        // eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, eventIdThree, (landlordId: string): void => {
+        //     if (landlordId === UserManage.userInfo.id) {
+        //         this.roomScene.roleSprite.spriteFrame = this.roomScene.zhuangIcon
+        //     } else {
+        //         this.roomScene.roleSprite.spriteFrame = this.roomScene.xianIcon
+        //     }
+        // })
 
         let eventIdFour = randEventId()
         this.eventIdList.push(eventIdFour)

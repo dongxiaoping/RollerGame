@@ -2,7 +2,7 @@ const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
 import { NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel } from '../../common/Const'
-import { getFaPaiLocation } from '../../common/Util'
+import { getFaPaiLocation, randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollControler from '../../common/RollControler'
@@ -64,8 +64,8 @@ export default class NewClass extends cc.Component {
     showPlayCountLimit: cc.Label = null; //牌局进行信息显示
     @property(cc.Label)
     showPlayMode: cc.Label = null; //上庄模式显示
-    @property(cc.Sprite)
-    roleSprite: cc.Sprite = null; //当前用户角色类型图标容器
+    // @property(cc.Sprite)
+    // roleSprite: cc.Sprite = null; //当前用户角色类型图标容器
     @property(cc.SpriteFrame)
     zhuangIcon: cc.SpriteFrame = null //庄家类型图标
     @property(cc.SpriteFrame)
@@ -74,7 +74,7 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     userScoreLabel: cc.Label = null; //当前用户左下方分数值
     @property(cc.Label)
-    userNameLabel: cc.Label = null; //当前用户左下方名称
+    diamondScoreLable: cc.Label = null; //当前用户钻数量
 
     controller: any = null //游戏控制器
 
@@ -96,6 +96,7 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Sprite)
     showTrendButton: cc.Sprite = null;
+    eventIdOne: string = null
 
     start() {
         RoomManage.reSet() //清楚上次房间的数据记录
@@ -117,6 +118,20 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.addClickEvent()
+        this.localNoticeEvent()
+
+    }
+
+    localNoticeEvent() {
+        this.eventIdOne = randEventId()
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne, (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.DIAMOND_COUNT_CHANGE:
+                    this.diamondScoreLable.string = info.info + ''
+                    break
+            }
+        })
     }
 
     playWoQiangVoice() {
@@ -420,12 +435,16 @@ export default class NewClass extends cc.Component {
     //左下方用户面板显示
     showUserPanel() {
         let userInfo = UserManage.userInfo
-        this.userNameLabel.string = userInfo.nick
         this.userScoreLabel.string = RaceManage.getUserScore(userInfo.id) + ''
+        this.diamondScoreLable.string = userInfo.diamond + ''
         cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {//loadRes
             let myIcon = new cc.SpriteFrame(img);
             this.userIcon.spriteFrame = myIcon;
         });
+        // cc.loader.loadRes('renwu/1_1', (error, img) => {
+        //     let myIcon = new cc.SpriteFrame(img);
+        //     this.userIcon.spriteFrame = myIcon;
+        // })
     }
 
     onLoad() {
@@ -475,6 +494,7 @@ export default class NewClass extends cc.Component {
     }
 
     onDisable() {
+        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne)
         try {
             let enterRoomParam = RoomManage.getEnterRoomParam()
             if (enterRoomParam.model !== EnterRoomModel.EMULATOR_ROOM) {
