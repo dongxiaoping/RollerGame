@@ -24,20 +24,9 @@ export default class NewClass extends cc.Component {
 
     start() {
         this.eventId = randEventId()
-        // eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventId, (info: LocalNoticeEventPara): void => {
-        //     let localNoticeEventType = info.type
-        //     switch (localNoticeEventType) {
-        //         case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
-        //             let onRaceNum = RoomManage.roomItem.oningRaceNum
-        //             let result = this.getRaceResult(onRaceNum)
-        //             this.addItem(result[0], result[1], result[2])
-        //             break
-        //     }
-        // })
-
         this.switchButton.on(cc.Node.EventType.TOUCH_END, () => {
-            this.node.active = false
             this.node.parent.getChildByName('ShowTrendButton').active = true
+            this.node.destroy()
         })
         this.show()
     }

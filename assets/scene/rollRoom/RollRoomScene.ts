@@ -98,6 +98,9 @@ export default class NewClass extends cc.Component {
     showTrendButton: cc.Sprite = null;
     eventIdOne: string = null
 
+    @property(cc.Prefab)
+    TrendMap: cc.Prefab = null; //设置面板
+
     start() {
         RoomManage.reSet() //清楚上次房间的数据记录
         if (ConfigManage.isBackMusicOpen()) {
@@ -255,9 +258,8 @@ export default class NewClass extends cc.Component {
 
         this.showTrendButton.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.showTrendButton.node.active = false
-            let trendMap = this.node.getChildByName('TrendMap')
-            trendMap.active = true
-            trendMap.getComponent('TrendMap').show()
+            var node = cc.instantiate(this.TrendMap)
+            node.parent = this.node
         })
 
         this.setButton.node.on(cc.Node.EventType.TOUCH_START, () => {
