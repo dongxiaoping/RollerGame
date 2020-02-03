@@ -83,7 +83,7 @@ export default class NewClass extends cc.Component {
     three_xiazhu_diamond_label: cc.Label = null
     /////////////////////////////////////
 
-    creatDiamondConfig:any
+    creatDiamondConfig: any
     @property(cc.Prefab)
     private tipDialog: cc.Prefab = null  //提示框
 
@@ -106,8 +106,8 @@ export default class NewClass extends cc.Component {
         this.one_xiazhu_label.string = this.creatDiamondConfig.betLimit.one.limitVal + ''
         this.two_xiazhu_label.string = this.creatDiamondConfig.betLimit.two.limitVal + ''
         this.three_xiazhu_label.string = this.creatDiamondConfig.betLimit.three.limitVal + ''
-        // this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
-        // this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
+        this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
+        this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
     }
 
     setJuShuDiamondShow(mode: CreateRoomPayModel) {

@@ -61,6 +61,7 @@ export enum EventType {
     MEMBER_STATE_CHANGE = 9, //成员状态有改变
     BET_CANCE_NOTICE = 10,//用户取消下注通知
     USER_SCORE_NOTICE = 11,//用户图标分数显示通知
+    CARTON_MESSAGE_NOTICE = 12 //卡通动画消息通知
 }
 
 //单场游戏状态
@@ -339,6 +340,7 @@ export enum NoticeType {
     enterRoom = 'enterRoom', //普通玩家进入房间
     outRoom = 'outRoom', //玩家退出socket的房间，如果房间比赛未开始，同时也会退出数据库中的房间
     raceBet = 'raceBet', //玩家下注通知
+    chatCartonMessage = 'chatCartonMessage', //消息动画
     cancelRaceBet = 'cancelRaceBet' //取消指定区域的下注
 }
 
@@ -378,6 +380,18 @@ export enum TipDialogButtonAction {
     SOCKET_CONNECT = 1, //发起socket连接
     OUT_ROOM = 2, //退出房间
     RECHARGE = 3, //充值
+}
+
+//发送消息类型
+export enum ChatMessageType {
+    WEN_ZI = 1, //文字
+    PIC = 2, //图片
+}
+
+export interface CartonMessage {
+    userId: string
+    type: ChatMessageType
+    message: any
 }
 
 

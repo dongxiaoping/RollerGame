@@ -7,7 +7,7 @@ import { eventBus } from '../../common/EventBus'
 import BetManage from '../../store/Bets/BetManage'
 import webSocketManage from '../../common/WebSocketManage'
 import ConfigManage from '../../store/Config/ConfigManage'
-import { randEventId, touchMoveEvent } from '../../common/Util'
+import { touchMoveEvent } from '../../common/Util'
 @ccclass
 export default class NewClass extends cc.Component {
 

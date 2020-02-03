@@ -1,4 +1,4 @@
-import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType, memberState, ResponseStatus } from "./Const";
+import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType, memberState, ResponseStatus, CartonMessage } from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
@@ -128,6 +128,10 @@ class WebSocketManage {
             case 'cancelBetSuccessNotice': //删除下注成功通知
                 message as BetNoticeData
                 BetManage.cancelBet(message)
+                break;
+            case 'chatCartonMessage': //动画消息信息
+                message as CartonMessage
+                eventBus.emit(EventType.CARTON_MESSAGE_NOTICE, message)
                 break;
         }
     }

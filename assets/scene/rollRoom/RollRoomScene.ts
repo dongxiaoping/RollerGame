@@ -56,6 +56,11 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     private tipDialog: cc.Prefab = null  //提示框
 
+    @property(cc.Prefab)
+    private chatCartonPanel: cc.Prefab = null  //动画消息发送面板
+    @property(cc.Sprite)
+    chatCartonButton: cc.Sprite = null;//显示动画消息发送面板按钮
+
     @property(cc.Label)
     showRoomNum: cc.Label = null; //房间号显示  
     @property(cc.Label)
@@ -269,6 +274,14 @@ export default class NewClass extends cc.Component {
             node.setPosition(0, 0);
             node.active = true
         })
+
+        this.chatCartonButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+            var node = cc.instantiate(this.chatCartonPanel)
+            node.parent = this.node
+            node.setPosition(0, 0);
+            node.active = true
+        })
+        
     }
 
     scoketFailTip() {

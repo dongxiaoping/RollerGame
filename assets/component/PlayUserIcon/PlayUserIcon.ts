@@ -1,5 +1,5 @@
 import { eventBus } from "../../common/EventBus";
-import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState, LocalNoticeEventType, LocalNoticeEventPara, raceResultData } from "../../common/Const";
+import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState, LocalNoticeEventType, LocalNoticeEventPara, raceResultData, CartonMessage } from "../../common/Const";
 import { randEventId } from '../../common/Util'
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
@@ -26,7 +26,11 @@ export default class NewClass extends cc.Component {
     eventIdThree: string = ''
     eventIdFour: string = ''
     eventIdFive: string = ''
+    eventIdSix: string = ''
     memberData: MemberInChairData = null
+    @property(cc.Prefab)
+    messageIconPref: cc.Prefab = null;
+
     start() {
 
     }
@@ -88,6 +92,14 @@ export default class NewClass extends cc.Component {
                 }
             }
         })
+        this.eventIdTwo = randEventId()
+        eventBus.on(EventType.USER_SCORE_NOTICE, this.eventIdTwo, (list: any[]): void => {
+            if (typeof (list[this.memberData.userId]) != 'undefined') {
+                this.updateScoreShow(list[this.memberData.userId])
+            } else {
+                this.updateScoreShow(0)
+            }
+        })
         this.eventIdThree = randEventId()
         //接收到取消下注通知
         eventBus.on(EventType.BET_CANCE_NOTICE, this.eventIdThree, (info: BetChipChangeInfo): void => {
@@ -104,14 +116,6 @@ export default class NewClass extends cc.Component {
         eventBus.on(EventType.MEMBER_STATE_CHANGE, this.eventIdFour, (info: MemberStateData): void => {
             if (info.userId == this.memberData.userId) {
                 this.changeByUserState(info.state)
-            }
-        })
-        this.eventIdTwo = randEventId()
-        eventBus.on(EventType.USER_SCORE_NOTICE, this.eventIdTwo, (list: any[]): void => {
-            if (typeof (list[this.memberData.userId]) != 'undefined') {
-                this.updateScoreShow(list[this.memberData.userId])
-            } else {
-                this.updateScoreShow(0)
             }
         })
         this.eventIdFive = randEventId()
@@ -131,6 +135,24 @@ export default class NewClass extends cc.Component {
                     break
             }
         })
+        this.eventIdSix = randEventId()
+        eventBus.on(EventType.CARTON_MESSAGE_NOTICE, this.eventIdSix, (info: CartonMessage): void => {
+            if (info.userId == this.memberData.userId) {
+                cc.log('显示动画')
+                let node = cc.instantiate(this.messageIconPref)
+                node.parent = this.node.parent.parent
+                let x = this.node.parent.position.x + 50
+                let y = this.node.parent.position.y + 30
+                node.setPosition(x, y);
+                cc.loader.loadRes('ChatCarton/' + info.message, (error, img) => {
+                    let myIcon = new cc.SpriteFrame(img);
+                    node.getComponents(cc.Sprite)[0].spriteFrame = myIcon
+                })
+                this.scheduleOnce(() => {
+                    node.destroy()
+                }, 2);
+            }
+        })
     }
 
     onDisable() {
@@ -139,6 +161,7 @@ export default class NewClass extends cc.Component {
         eventBus.off(EventType.BET_CANCE_NOTICE, this.eventIdThree)
         eventBus.off(EventType.MEMBER_STATE_CHANGE, this.eventIdFour)
         eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.eventIdFive)
+        eventBus.off(EventType.CARTON_MESSAGE_NOTICE, this.eventIdSix)
     }
 
     update(dt) {
