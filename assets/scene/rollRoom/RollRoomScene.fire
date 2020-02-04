@@ -133,18 +133,15 @@
       },
       {
         "__id__": 93
-      },
-      {
-        "__id__": 96
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 98
+        "__id__": 96
       },
       {
-        "__id__": 99
+        "__id__": 97
       }
     ],
     "_prefab": null,
@@ -4259,7 +4256,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ShowTrendButton",
+    "_name": "ChatCartonButton",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -4285,129 +4282,6 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 45,
-      "height": 85
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        457.5,
-        73.843,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "7a29HP1OxDgqGiaDg4nSPL"
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 93
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "a83d90ae-d421-4be9-b925-a40cab15cf76"
-    },
-    "_type": 0,
-    "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "f2de8236-cc55-40e3-af49-776911f5528e"
-    },
-    "_id": "09uuHXbv5AN63cf1jjOIlV"
-  },
-  {
-    "__type__": "cc.Widget",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 93
-    },
-    "_enabled": true,
-    "alignMode": 1,
-    "_target": null,
-    "_alignFlags": 32,
-    "_left": 0,
-    "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
-    "_verticalCenter": 0,
-    "_horizontalCenter": 0,
-    "_isAbsLeft": true,
-    "_isAbsRight": true,
-    "_isAbsTop": true,
-    "_isAbsBottom": true,
-    "_isAbsHorizontalCenter": true,
-    "_isAbsVerticalCenter": true,
-    "_originalWidth": 0,
-    "_originalHeight": 0,
-    "_id": "3aQgyMriJO0IdjL4ZwRaBL"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "ChatCartonButton",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 97
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
       "width": 70,
       "height": 69
     },
@@ -4420,8 +4294,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        433.334,
-        -59.77,
+        415,
+        -64.5,
         0,
         0,
         0,
@@ -4450,7 +4324,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 96
+      "__id__": 93
     },
     "_enabled": true,
     "_materials": [
@@ -4476,6 +4350,33 @@
     "_isTrimmedMode": true,
     "_atlas": null,
     "_id": "e7aIzN8kFIwKrEHS8A3Ag6"
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 93
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 33,
+    "_left": 0,
+    "_right": 30,
+    "_top": 350,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": "3f1zGXuOlHhZJqRzGgV/yI"
   },
   {
     "__type__": "cc.Canvas",
@@ -4551,7 +4452,7 @@
       "__uuid__": "57612c10-dcf6-4e5a-87b2-b309b182f01c"
     },
     "chatCartonButton": {
-      "__id__": 97
+      "__id__": 94
     },
     "showRoomNum": {
       "__id__": 27
@@ -4592,12 +4493,7 @@
     "beginVoice": {
       "__id__": 92
     },
-    "showTrendButton": {
-      "__id__": 94
-    },
-    "TrendMap": {
-      "__uuid__": "8ac24186-0d5b-4505-9a85-b0f688c5f133"
-    },
+    "showTrendButton": null,
     "_id": "feJlsZ4RBOK6EdKyA1WVAs"
   }
 ]

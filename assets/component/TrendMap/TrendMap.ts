@@ -5,7 +5,7 @@ import { eventBus } from "../../common/EventBus";
 import { randEventId } from "../../common/Util";
 
 const { ccclass, property } = cc._decorator;
-
+//弃用 TODO
 @ccclass
 export default class NewClass extends cc.Component {
 

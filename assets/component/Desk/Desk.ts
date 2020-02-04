@@ -40,11 +40,55 @@ export default class Desk extends cc.Component {
 
     mahjongResulNodes: any[] = [] //麻将结果文字标签节点，需要在结束后销毁，所以保存实例化node
 
+    @property(cc.Sprite)
+    skyLineSprite: cc.Sprite = null
+
+    @property(cc.Sprite)
+    middleLineSprite: cc.Sprite = null
+
+    @property(cc.Sprite)
+    landLineSprite: cc.Sprite = null
+
     private chairManage: ChairManage;
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
         this.showMembers()
         this.addEventListener()
+    }
+
+    updateTrendLine() {
+        let onRaceNum = RoomManage.roomItem.oningRaceNum === null ? 0 : RoomManage.roomItem.oningRaceNum
+        let i = 0
+        let skyWinCount = 0
+        let middleWinCount = 0
+        let landWinCount = 0
+        for (; i <= onRaceNum; i++) {
+            let result = this.getRaceResult(i)
+            if (result[0]) {
+                skyWinCount = skyWinCount + 1
+            }
+            if (result[1]) {
+                middleWinCount = middleWinCount + 1
+            }
+            if (result[2]) {
+                landWinCount = landWinCount + 1
+            }
+        }
+        if (skyWinCount + middleWinCount + landWinCount != 0) {
+            this.skyLineSprite.node.width = 220 * skyWinCount / (skyWinCount + middleWinCount + landWinCount)
+            this.middleLineSprite.node.width = 190 * middleWinCount / (skyWinCount + middleWinCount + landWinCount)
+            this.landLineSprite.node.width = 220 * landWinCount / (skyWinCount + middleWinCount + landWinCount)
+        }
+    }
+
+    getRaceResult(raceNum: number) {
+        let race = RaceManage.raceList[raceNum]
+        let skyWin = race.getLocationResult(betLocaion.SKY) === CompareDxRe.BIG ? true : false
+        let middleWin = race.getLocationResult(betLocaion.MIDDLE) === CompareDxRe.BIG ? true : false
+        let landWin = race.getLocationResult(betLocaion.LAND) === CompareDxRe.BIG ? true : false
+        return [skyWin, middleWin, landWin]
+
+
     }
 
     cleanMahjongResulNodes() {
@@ -127,6 +171,7 @@ export default class Desk extends cc.Component {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    this.updateTrendLine()
                     this.winFocusAmination()
                     this.scheduleOnce(() => {
                         this.playingBiDaXiaAnimation((): void => { })
