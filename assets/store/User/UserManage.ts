@@ -10,7 +10,6 @@ class UserManage {
     public userInfo: UserItem = null
     selectChipValue: number = 0 //当前用户选中的下注值，默认10
     constructor() {
-        this.selectChipValue = ConfigManage.getChipValList()[0]
     }
 
     getSelectChipValue(): number {

@@ -2,11 +2,13 @@ import { roomGameConfig } from '../../common/RoomGameConfig';
 import { PromiseParam, InterfaceUrl, ResponseStatus } from '../../common/Const';
 import { config } from '../../common/Config';
 import http from '../../common/Http'
+import UserManage from '../User/UserManage';
 class ConfigManage {
     private isBackMusic: boolean = true //背景音乐是否开启
     private isTxMusic: boolean = true //特效音乐是否开启
     private configHasLoad: boolean = false //网络配置文件是否加载
     private createDiamondConfig: any = null //创建房间的相关数据信息
+    private chipValList: any = []
 
     public setBackMusic(isOpen: boolean) {
         this.isBackMusic = isOpen
@@ -29,7 +31,7 @@ class ConfigManage {
     }
 
     public getCreateDiamondConfig() {
-       return this.createDiamondConfig
+        return this.createDiamondConfig
     }
 
     //摇色子时间
@@ -68,14 +70,19 @@ class ConfigManage {
             http.getWithUrl(httpUrl, (error: boolean, info: any) => {
                 if (!error && info.status != ResponseStatus.FAIL) {
                     this.createDiamondConfig = info.data.createDiamond
+                    this.setChipValList(info.data.roomGame.chipValList)
+                    UserManage.setSelectChipValue(info.data.roomGame.chipValList[0])
                     this.configHasLoad = true
                 }
             })
         })
     }
 
-    public getChipValList(){
-        return [1,2,3,20]
+    public getChipValList() {
+        return this.chipValList
+    }
+    public setChipValList(valList: any) {
+        this.chipValList = valList
     }
 }
 
