@@ -44,10 +44,17 @@ export default class Desk extends cc.Component {
     skyLineSprite: cc.Sprite = null
 
     @property(cc.Sprite)
+    skyRacecLineSprite: cc.Sprite = null
+
+    @property(cc.Sprite)
     middleLineSprite: cc.Sprite = null
+    @property(cc.Sprite)
+    middleRacecLineSprite: cc.Sprite = null
 
     @property(cc.Sprite)
     landLineSprite: cc.Sprite = null
+    @property(cc.Sprite)
+    landRacecLineSprite: cc.Sprite = null
 
     private chairManage: ChairManage;
     start() {
@@ -74,11 +81,13 @@ export default class Desk extends cc.Component {
                 landWinCount = landWinCount + 1
             }
         }
-        if (skyWinCount + middleWinCount + landWinCount != 0) {
-            this.skyLineSprite.node.width = 220 * skyWinCount / (skyWinCount + middleWinCount + landWinCount)
-            this.middleLineSprite.node.width = 190 * middleWinCount / (skyWinCount + middleWinCount + landWinCount)
-            this.landLineSprite.node.width = 220 * landWinCount / (skyWinCount + middleWinCount + landWinCount)
-        }
+        let raceLineLen = 190 * (RoomManage.roomItem.oningRaceNum + 1) / RoomManage.roomItem.playCount
+        this.skyRacecLineSprite.node.width = raceLineLen
+        this.middleRacecLineSprite.node.width = raceLineLen
+        this.landRacecLineSprite.node.width = raceLineLen
+        this.skyLineSprite.node.width = 190 * skyWinCount / RoomManage.roomItem.playCount
+        this.middleLineSprite.node.width = 190 * middleWinCount / RoomManage.roomItem.playCount
+        this.landLineSprite.node.width = 190 * landWinCount / RoomManage.roomItem.playCount
     }
 
     getRaceResult(raceNum: number) {

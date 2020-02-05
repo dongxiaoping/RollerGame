@@ -139,18 +139,18 @@ export default class NewClass extends cc.Component {
         eventBus.on(EventType.CARTON_MESSAGE_NOTICE, this.eventIdSix, (info: CartonMessage): void => {
             if (info.userId == this.memberData.userId) {
                 cc.log('显示动画')
-                let node = cc.instantiate(this.messageIconPref)
-                node.parent = this.node.parent.parent
-                let x = this.node.parent.position.x + 50
-                let y = this.node.parent.position.y + 30
-                node.setPosition(x, y);
                 cc.loader.loadRes('ChatCarton/' + info.message, (error, img) => {
+                    let node = cc.instantiate(this.messageIconPref)
+                    node.parent = this.node.parent.parent
+                    let x = this.node.parent.position.x + 50
+                    let y = this.node.parent.position.y + 30
+                    node.setPosition(x, y);
                     let myIcon = new cc.SpriteFrame(img);
                     node.getComponents(cc.Sprite)[0].spriteFrame = myIcon
+                    this.scheduleOnce(() => {
+                        node.destroy()
+                    }, 2);
                 })
-                this.scheduleOnce(() => {
-                    node.destroy()
-                }, 2);
             }
         })
     }
