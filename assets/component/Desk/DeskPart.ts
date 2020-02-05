@@ -172,9 +172,13 @@ export default class NewClass extends cc.Component {
                 let roomId = RoomManage.roomItem.id
                 let userId = UserManage.userInfo.id
                 let betLocation = this.typeValue as betLocaion
+                let betParam = { userId: userId, raceNum: raceNum, betLocation: betLocation } as BetNoticeData
+                let localBetVal = BetManage.getBetByLocation(betParam)
+                let xiaZhuVal = RaceManage.getClickXiaZhuVal()
+                RaceManage.setClickXiaZhuVal(xiaZhuVal - localBetVal)
                 let enterRoomParam = RoomManage.getEnterRoomParam()
                 if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
-                    BetManage.cancelBet({ userId: userId, raceNum: raceNum, betLocation: betLocation } as BetNoticeData)
+                    BetManage.cancelBet(betParam)
                     this.scheduleOnce(() => {
                         this.cancelBetLock = false
                     }, 0.5);
@@ -230,12 +234,7 @@ export default class NewClass extends cc.Component {
                 return
             }
             let limitCount = RoomManage.roomItem.costLimit
-            let xiaZhuVal = 0
-            if (typeof BetManage.betList[oningRaceNum] !== "undefined" &&
-                typeof BetManage.betList[oningRaceNum][UserManage.userInfo.id] !== "undefined") {
-                xiaZhuVal = BetManage.betList[oningRaceNum][UserManage.userInfo.id].getXiaZhuVal()
-
-            }
+            let xiaZhuVal = RaceManage.getClickXiaZhuVal()
             if (xiaZhuVal + UserManage.selectChipValue > limitCount) {
                 cc.log('下注超限')
                 this.overBetLimitLock = true
@@ -248,13 +247,18 @@ export default class NewClass extends cc.Component {
                 this.node.parent.getComponent('Desk').showBetLimitTip()
                 return
             }
-            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                type: LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE,
-                info: {
-                    roomId: RoomManage.roomItem.id, raceNum: RoomManage.roomItem.oningRaceNum,
-                    betLocation: this.typeValue, userId: UserManage.userInfo.id, betVal: UserManage.selectChipValue
-                } as BetNoticeData
-            })
+            RaceManage.setClickXiaZhuVal(xiaZhuVal + UserManage.selectChipValue)
+            let enterRoomParam = RoomManage.getEnterRoomParam()
+            let betInfo = {
+                roomId: RoomManage.roomItem.id, raceNum: RoomManage.roomItem.oningRaceNum,
+                betLocation: this.typeValue, userId: UserManage.userInfo.id, betVal: UserManage.selectChipValue
+            } as BetNoticeData
+            if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) {
+                BetManage.addBet(betInfo.raceNum, betInfo.userId, betInfo.betLocation, betInfo.betVal)
+            } else {
+                let notice = { type: NoticeType.raceBet, info: betInfo } as NoticeData
+                webSocketManage.send(JSON.stringify(notice));
+            }
         })
     }
 

@@ -8,6 +8,7 @@ import { getMemeberResultScoreList } from '../../common/Util';
 class RaceManage {
     public raceList: RaceItem[] = []
     public gameOverResultList: raceResultData[] //所有场次比赛的结果统计
+    private clickXiaZhuVal: number = 0 //当前用户当前场次总下注值
 
     setRaceList(list: raceRecord[]) {
         list.forEach((item: raceRecord): void => {
@@ -20,7 +21,13 @@ class RaceManage {
         this.gameOverResultList = null
     }
 
+    getClickXiaZhuVal(): number {
+        return this.clickXiaZhuVal
+    }
 
+    setClickXiaZhuVal(val: number) {
+        this.clickXiaZhuVal = val
+    }
 
     setGameOverResultList(list: raceResultData[]) {
         this.gameOverResultList = getMemeberResultScoreList(list, GameMemberManage.gameMenmberList)

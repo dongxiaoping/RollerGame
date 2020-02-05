@@ -20,13 +20,18 @@ class BetManage {
     }
 
     public cancelBet(info: BetNoticeData) {
-        let partLocation = info.betLocation
-        let userId = info.userId
-        let onRaceNum = info.raceNum
         try {
-            this.betList[onRaceNum][userId][partLocation] = 0
+            this.betList[info.raceNum][info.userId][info.betLocation] = 0
         } catch (e) {
             cc.log(e)
+        }
+    }
+
+    public getBetByLocation(info: BetNoticeData) {
+        try {
+            return this.betList[info.raceNum][info.userId][info.betLocation]
+        } catch (e) {
+            return 0
         }
     }
 

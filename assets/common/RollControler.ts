@@ -48,6 +48,7 @@ export class RollControler extends RollControlerBase {
                         type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE,
                         info: TableLocationType.LANDLORD
                     } as LocalNoticeEventPara)
+                    RaceManage.setClickXiaZhuVal(0)
                     break
                 case RaceState.FINISHED:  //当场比赛结束
                     if (this.isEmulatorRoom) {
@@ -92,16 +93,6 @@ export class RollControler extends RollControlerBase {
                 case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT: //
                     this.cc.log('我是游戏控制器，我接受到本地事件，响应是否当地主的通知')
                     this.responseLocalBeLandlordDeal(info.info)
-                    break
-                case LocalNoticeEventType.LOCAL_BET_CLICK_NOTICE: //本地下注事件通知
-                    if (this.isEmulatorRoom) {
-                        let betInfo = info.info as BetNoticeData
-                        BetManage.addBet(betInfo.raceNum, betInfo.userId, betInfo.betLocation, betInfo.betVal)
-                    } else {
-                        let betInfo = info.info as BetNoticeData
-                        let notice = { type: NoticeType.raceBet, info: betInfo } as NoticeData
-                        webSocketManage.send(JSON.stringify(notice));
-                    }
                     break
                 case LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE: //本地下注时间已过
                     if (this.isEmulatorRoom) {
