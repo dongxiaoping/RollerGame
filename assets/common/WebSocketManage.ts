@@ -1,4 +1,4 @@
-import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType, memberState, ResponseStatus, CartonMessage } from "./Const";
+import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType, memberState, ResponseStatus, CartonMessage, ChatMessageType } from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
@@ -132,6 +132,10 @@ class WebSocketManage {
             case 'chatCartonMessage': //动画消息信息
                 message as CartonMessage
                 eventBus.emit(EventType.CARTON_MESSAGE_NOTICE, message)
+                break;
+            case 'memberWaitForLandlord': //用户选择当庄
+                let setInfo = { userId: message.userId, type: ChatMessageType.PIC, message: 'EE45' } as CartonMessage
+                eventBus.emit(EventType.CARTON_MESSAGE_NOTICE, setInfo)
                 break;
         }
     }

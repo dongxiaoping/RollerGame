@@ -272,7 +272,7 @@ export default class NewClass extends cc.Component {
             node.setPosition(0, 0);
             node.active = true
         })
-        
+
     }
 
     scoketFailTip() {
@@ -348,6 +348,14 @@ export default class NewClass extends cc.Component {
         node.parent = this.node
         node.setPosition(-215, 218);
         node.getComponent('MiddleTopTimePanel').waitRaceSync()
+    }
+
+    showLandlordSncyTimePanel() {
+        var node = cc.instantiate(this.middleTopTimePanel)
+        node.name = 'MiddleTopTimePanel'
+        node.parent = this.node
+        node.setPosition(-215, 218);
+        node.getComponent('MiddleTopTimePanel').waitLandlordSync()
     }
 
     showMiddleTopTimePanel() {

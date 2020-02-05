@@ -45,6 +45,15 @@ export default class NewClass extends cc.Component {
         }, 1, 1000, 1);
     }
 
+    waitLandlordSync() {
+        this.showTime = 7
+        this.time.string = this.showTime.toString()
+        this.schedule(() => {
+            this.showTime--
+            this.time.string = this.showTime.toString()
+        }, 1, 1000, 1);
+    }
+
     getShowTime() {
         return this.showTime
     }
