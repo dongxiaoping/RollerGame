@@ -41,19 +41,14 @@ export default class NewClass extends cc.Component {
     button_3: cc.Sprite = null
     @property(cc.Sprite)
     button_4: cc.Sprite = null
-    chipValueList: number[] = [100, 50, 20, 10] //下注值集合
-
+    chipValueList: number[] = [] //下注值集合
     flyTime: number = 0.35  //下注硬币飞行时间
-
     ownChipSize: number = 40 //自己下注硬币的大（
     otherMemberChipSize: number = 25 //其它成员下注硬币的大
-
     @property(cc.AudioSource)
     chipBetVoice: cc.AudioSource = null //硬币声音语音
-
     @property(cc.AudioSource)
     ownChipBetVoice: cc.AudioSource = null //自己下注附加的声音
-
     betCancelEventId: string
     start() {
 
@@ -90,11 +85,11 @@ export default class NewClass extends cc.Component {
 
     createChip(isOwn: Boolean, val: number, chipInfo: chipObData): any {
         let chip: cc.Prefab
-        if (val === 10) {
+        if (val === this.chipValueList[0]) {
             chip = this.chip_1
-        } else if (val === 20) {
+        } else if (val === this.chipValueList[1]) {
             chip = this.chip_2
-        } else if (val === 50) {
+        } else if (val === this.chipValueList[2]) {
             chip = this.chip_3
         } else {
             chip = this.chip_4
@@ -102,6 +97,7 @@ export default class NewClass extends cc.Component {
         let node = cc.instantiate(chip)
         node.name = randEventId()
         let label = node.getChildByName('ValLabel').getComponent(cc.Label)
+        label.string = val + ''
         //设置chip信息
         node.getComponent('Chip').initData(chipInfo)
         if (isOwn) {
@@ -161,6 +157,11 @@ export default class NewClass extends cc.Component {
     }
 
     onEnable() {
+        this.chipValueList = ConfigManage.getChipValList()
+        this.button_1.node.getChildByName('Label').getComponent(cc.Label).string = this.chipValueList[0] + ''
+        this.button_2.node.getChildByName('Label').getComponent(cc.Label).string = this.chipValueList[1] + ''
+        this.button_3.node.getChildByName('Label').getComponent(cc.Label).string = this.chipValueList[2] + ''
+        this.button_4.node.getChildByName('Label').getComponent(cc.Label).string = this.chipValueList[3] + ''
         this.initFocus()
         this.pushEventId = randEventId()
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.pushEventId, (betInfo: BetChipChangeInfo): void => {
@@ -185,8 +186,8 @@ export default class NewClass extends cc.Component {
             }
             this.closeAllFocus()
             this.focus_1.node.active = true
-            UserManage.setSelectChipValue(10)
-            cc.log('10元按钮被点击')
+            UserManage.setSelectChipValue(this.chipValueList[0])
+            cc.log('1硬币被点击')
         })
         this.button_2.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
@@ -194,8 +195,8 @@ export default class NewClass extends cc.Component {
             }
             this.closeAllFocus()
             this.focus_2.node.active = true
-            UserManage.setSelectChipValue(20)
-            cc.log('20元按钮被点击')
+            UserManage.setSelectChipValue(this.chipValueList[1])
+            cc.log('2硬币被点击')
         })
         this.button_3.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
@@ -203,8 +204,8 @@ export default class NewClass extends cc.Component {
             }
             this.closeAllFocus()
             this.focus_3.node.active = true
-            UserManage.setSelectChipValue(50)
-            cc.log('50元按钮被点击')
+            UserManage.setSelectChipValue(this.chipValueList[2])
+            cc.log('3硬币被点击')
         })
         this.button_4.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
@@ -212,8 +213,8 @@ export default class NewClass extends cc.Component {
             }
             this.closeAllFocus()
             this.focus_4.node.active = true
-            UserManage.setSelectChipValue(100)
-            cc.log('100元按钮被点击')
+            UserManage.setSelectChipValue(this.chipValueList[3])
+            cc.log('4硬币被点击')
         })
     }
 
@@ -251,7 +252,7 @@ export default class NewClass extends cc.Component {
 
     splitChipList(theVal: number) {
         let theList = []
-        for (let i = 0; i < this.chipValueList.length; i++) {
+        for (let i = (this.chipValueList.length - 1); i >= 0; i--) {
             let targeVal = this.chipValueList[i]
             while (theVal >= targeVal) {
                 theList.push(targeVal)
@@ -268,16 +269,16 @@ export default class NewClass extends cc.Component {
     getChipLocationByChipValue(val: number): Coordinate {
         let location: Coordinate = { x: 127, y: -245 }
         switch (val) {
-            case 10:
+            case this.chipValueList[0]:
                 location = { x: 127, y: -245 }
                 break
-            case 20:
+            case this.chipValueList[1]:
                 location = { x: 223, y: -245 }
                 break
-            case 50:
+            case this.chipValueList[2]:
                 location = { x: 318, y: -245 }
                 break
-            case 100:
+            case this.chipValueList[3]:
                 location = { x: 414, y: -245 }
                 break
             default:
@@ -290,16 +291,16 @@ export default class NewClass extends cc.Component {
         this.closeAllFocus()
         let selectedValue = UserManage.getSelectChipValue()
         switch (selectedValue) {
-            case 10:
+            case this.chipValueList[0]:
                 this.focus_1.node.active = true
                 break
-            case 20:
+            case this.chipValueList[1]:
                 this.focus_2.node.active = true
                 break
-            case 50:
+            case this.chipValueList[2]:
                 this.focus_3.node.active = true
                 break
-            case 100:
+            case this.chipValueList[3]:
                 this.focus_4.node.active = true
                 break
             default:

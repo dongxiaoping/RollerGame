@@ -73,6 +73,10 @@ class ConfigManage {
             })
         })
     }
+
+    public getChipValList(){
+        return [1,2,3,20]
+    }
 }
 
 export default new ConfigManage

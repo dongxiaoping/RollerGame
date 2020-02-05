@@ -4,11 +4,13 @@ import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';
 import { RoomGameConfig } from '../../common/RoomGameConfig'
+import ConfigManage from '../Config/ConfigManage';
 
 class UserManage {
     public userInfo: UserItem = null
-    selectChipValue: number = 10 //当前用户选中的下注值，默认10
+    selectChipValue: number = 0 //当前用户选中的下注值，默认10
     constructor() {
+        this.selectChipValue = ConfigManage.getChipValList()[0]
     }
 
     getSelectChipValue(): number {

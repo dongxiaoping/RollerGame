@@ -71,7 +71,7 @@ export class RollControlerBase {
 
     //模拟对指定用户进行下注
     emulateXiaZhuByUser(userId: string): void {
-        let randVal = [10, 20, 50, 100]
+        let randVal = ConfigManage.getChipValList()
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
             this.cc.log('当前不是下注状态，不能下注')
