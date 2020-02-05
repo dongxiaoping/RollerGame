@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Chip_20",
+    "_name": "Chip_1",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -55,8 +55,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        0,
+        -145.584,
+        15.06,
         0,
         0,
         0,
@@ -161,8 +161,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "20",
-    "_N$string": "20",
+    "_string": "10",
+    "_N$string": "10",
     "_fontSize": 25,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -188,10 +188,10 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 18,
-    "_left": 0,
-    "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
+    "_left": 13.946250000000003,
+    "_right": 23.24375,
+    "_top": 16.75,
+    "_bottom": 16.75,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -200,8 +200,8 @@
     "_isAbsBottom": true,
     "_isAbsHorizontalCenter": true,
     "_isAbsVerticalCenter": true,
-    "_originalWidth": 0,
-    "_originalHeight": 0,
+    "_originalWidth": 27.81,
+    "_originalHeight": 31.5,
     "_id": ""
   },
   {
@@ -210,9 +210,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "3862d597-189c-4111-94a4-4d01470bc054"
+      "__uuid__": "25be1243-be57-48f0-adc5-36409c86643a"
     },
-    "fileId": "8ekxtE3J5LHK3GgSiyTriX",
+    "fileId": "2c0im2VrNI4qNl8T0x8a2L",
     "sync": false
   },
   {
@@ -231,7 +231,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "736448be-eb2e-4a9e-95e6-7230c5f9023f"
+      "__uuid__": "92abfd7b-e7f6-41ee-b53e-fee2393713c1"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -265,9 +265,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "3862d597-189c-4111-94a4-4d01470bc054"
+      "__uuid__": "25be1243-be57-48f0-adc5-36409c86643a"
     },
-    "fileId": "d27EWFN5BKrZ/eMS8ivi5y",
+    "fileId": "03XSKTWQRDarhTepFVEc2x",
     "sync": false
   }
 ]

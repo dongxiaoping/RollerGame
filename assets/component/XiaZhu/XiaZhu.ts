@@ -12,35 +12,35 @@ export default class NewClass extends cc.Component {
 
     //币预制件
     @property(cc.Prefab)
-    chip_10: cc.Prefab = null
+    chip_1: cc.Prefab = null
     @property(cc.Prefab)
-    chip_20: cc.Prefab = null
+    chip_2: cc.Prefab = null
     @property(cc.Prefab)
-    chip_50: cc.Prefab = null
+    chip_3: cc.Prefab = null
     @property(cc.Prefab)
-    chip_100: cc.Prefab = null
+    chip_4: cc.Prefab = null
     pushEventId: string = ''
     deskChipList: string[] = [] //桌子上的chip名称集合
 
     //落焦圈对象
     @property(cc.Sprite)
-    focus_10: cc.Sprite = null
+    focus_1: cc.Sprite = null
     @property(cc.Sprite)
-    focus_20: cc.Sprite = null
+    focus_2: cc.Sprite = null
     @property(cc.Sprite)
-    focus_50: cc.Sprite = null
+    focus_3: cc.Sprite = null
     @property(cc.Sprite)
-    focus_100: cc.Sprite = null
+    focus_4: cc.Sprite = null
 
     //下注按钮
     @property(cc.Sprite)
-    button_10: cc.Sprite = null
+    button_1: cc.Sprite = null
     @property(cc.Sprite)
-    button_20: cc.Sprite = null
+    button_2: cc.Sprite = null
     @property(cc.Sprite)
-    button_50: cc.Sprite = null
+    button_3: cc.Sprite = null
     @property(cc.Sprite)
-    button_100: cc.Sprite = null
+    button_4: cc.Sprite = null
     chipValueList: number[] = [100, 50, 20, 10] //下注值集合
 
     flyTime: number = 0.35  //下注硬币飞行时间
@@ -66,10 +66,10 @@ export default class NewClass extends cc.Component {
     }
 
     closeAllFocus() {
-        this.focus_10.node.active = false
-        this.focus_20.node.active = false
-        this.focus_50.node.active = false
-        this.focus_100.node.active = false
+        this.focus_1.node.active = false
+        this.focus_2.node.active = false
+        this.focus_3.node.active = false
+        this.focus_4.node.active = false
     }
 
     flyAnimation(isOwn: Boolean, fromLocation: Coordinate, toLocaiton: Coordinate, val: number, chipInfo: chipObData) {
@@ -91,13 +91,13 @@ export default class NewClass extends cc.Component {
     createChip(isOwn: Boolean, val: number, chipInfo: chipObData): any {
         let chip: cc.Prefab
         if (val === 10) {
-            chip = this.chip_10
+            chip = this.chip_1
         } else if (val === 20) {
-            chip = this.chip_20
+            chip = this.chip_2
         } else if (val === 50) {
-            chip = this.chip_50
+            chip = this.chip_3
         } else {
-            chip = this.chip_100
+            chip = this.chip_4
         }
         let node = cc.instantiate(chip)
         node.name = randEventId()
@@ -179,39 +179,39 @@ export default class NewClass extends cc.Component {
         })
 
         ////////////////////按钮事件  这个只负责设置选中下注值，发出下注是点击桌面位置来实现的
-        this.button_10.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.button_1.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
                 this.ownChipBetVoice.play()
             }
             this.closeAllFocus()
-            this.focus_10.node.active = true
+            this.focus_1.node.active = true
             UserManage.setSelectChipValue(10)
             cc.log('10元按钮被点击')
         })
-        this.button_20.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.button_2.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
                 this.ownChipBetVoice.play()
             }
             this.closeAllFocus()
-            this.focus_20.node.active = true
+            this.focus_2.node.active = true
             UserManage.setSelectChipValue(20)
             cc.log('20元按钮被点击')
         })
-        this.button_50.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.button_3.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
                 this.ownChipBetVoice.play()
             }
             this.closeAllFocus()
-            this.focus_50.node.active = true
+            this.focus_3.node.active = true
             UserManage.setSelectChipValue(50)
             cc.log('50元按钮被点击')
         })
-        this.button_100.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.button_4.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
                 this.ownChipBetVoice.play()
             }
             this.closeAllFocus()
-            this.focus_100.node.active = true
+            this.focus_4.node.active = true
             UserManage.setSelectChipValue(100)
             cc.log('100元按钮被点击')
         })
@@ -291,16 +291,16 @@ export default class NewClass extends cc.Component {
         let selectedValue = UserManage.getSelectChipValue()
         switch (selectedValue) {
             case 10:
-                this.focus_10.node.active = true
+                this.focus_1.node.active = true
                 break
             case 20:
-                this.focus_20.node.active = true
+                this.focus_2.node.active = true
                 break
             case 50:
-                this.focus_50.node.active = true
+                this.focus_3.node.active = true
                 break
             case 100:
-                this.focus_100.node.active = true
+                this.focus_4.node.active = true
                 break
             default:
                 cc.log('错误的初始化下注选择值:' + selectedValue)
@@ -322,9 +322,9 @@ export default class NewClass extends cc.Component {
     }
 
     update(dt) {
-        this.focus_10.node.angle = this.focus_10.node.angle + 0.2
-        this.focus_20.node.angle = this.focus_20.node.angle + 0.2
-        this.focus_50.node.angle = this.focus_50.node.angle + 0.2
-        this.focus_100.node.angle = this.focus_100.node.angle + 0.2
+        this.focus_1.node.angle = this.focus_1.node.angle + 0.2
+        this.focus_2.node.angle = this.focus_2.node.angle + 0.2
+        this.focus_3.node.angle = this.focus_3.node.angle + 0.2
+        this.focus_4.node.angle = this.focus_4.node.angle + 0.2
     }
 }

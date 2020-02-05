@@ -2351,40 +2351,40 @@
       "__id__": 1
     },
     "_enabled": true,
-    "chip_10": {
+    "chip_1": {
       "__uuid__": "25be1243-be57-48f0-adc5-36409c86643a"
     },
-    "chip_20": {
+    "chip_2": {
       "__uuid__": "3862d597-189c-4111-94a4-4d01470bc054"
     },
-    "chip_50": {
+    "chip_3": {
       "__uuid__": "22b3e5c3-5c3e-43ae-8a50-a05365b106c9"
     },
-    "chip_100": {
+    "chip_4": {
       "__uuid__": "629af50f-c3cd-4e80-9a62-268740195dee"
     },
-    "focus_10": {
+    "focus_1": {
       "__id__": 5
     },
-    "focus_20": {
+    "focus_2": {
       "__id__": 18
     },
-    "focus_50": {
+    "focus_3": {
       "__id__": 31
     },
-    "focus_100": {
+    "focus_4": {
       "__id__": 44
     },
-    "button_10": {
+    "button_1": {
       "__id__": 12
     },
-    "button_20": {
+    "button_2": {
       "__id__": 25
     },
-    "button_50": {
+    "button_3": {
       "__id__": 38
     },
-    "button_100": {
+    "button_4": {
       "__id__": 51
     },
     "chipBetVoice": {
