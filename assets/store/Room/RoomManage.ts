@@ -83,6 +83,7 @@ class RoomManage {
                 let members = data.members as GameMember[];
                 this.setRoomItem(roomInfo);
                 RaceManage.setRaceList(races);
+                RaceManage.setClickXiaZhuVal(0)
                 GameMemberManage.setGameMemberList(members);
                 let betRecordList = data.betRecords as BetRecord[]
                 BetManage.setBetList(betRecordList)

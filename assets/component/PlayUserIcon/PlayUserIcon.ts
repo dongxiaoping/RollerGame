@@ -147,9 +147,9 @@ export default class NewClass extends cc.Component {
                     node.setPosition(x, y);
                     let myIcon = new cc.SpriteFrame(img);
                     node.getComponents(cc.Sprite)[0].spriteFrame = myIcon
-                    this.scheduleOnce(() => {
+                    setTimeout(() => {
                         node.destroy()
-                    }, 2);
+                    }, 2000)
                 })
             }
         })

@@ -81,13 +81,13 @@ export default class Desk extends cc.Component {
                 landWinCount = landWinCount + 1
             }
         }
-        let raceLineLen = 190 * (RoomManage.roomItem.oningRaceNum + 1) / RoomManage.roomItem.playCount
+        let raceLineLen = 200 * (RoomManage.roomItem.oningRaceNum + 1) / RoomManage.roomItem.playCount
         this.skyRacecLineSprite.node.width = raceLineLen
         this.middleRacecLineSprite.node.width = raceLineLen
         this.landRacecLineSprite.node.width = raceLineLen
-        this.skyLineSprite.node.width = 190 * skyWinCount / RoomManage.roomItem.playCount
-        this.middleLineSprite.node.width = 190 * middleWinCount / RoomManage.roomItem.playCount
-        this.landLineSprite.node.width = 190 * landWinCount / RoomManage.roomItem.playCount
+        this.skyLineSprite.node.width = 200 * skyWinCount / RoomManage.roomItem.playCount
+        this.middleLineSprite.node.width = 200 * middleWinCount / RoomManage.roomItem.playCount
+        this.landLineSprite.node.width = 200 * landWinCount / RoomManage.roomItem.playCount
     }
 
     getRaceResult(raceNum: number) {
