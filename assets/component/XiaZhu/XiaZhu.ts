@@ -109,15 +109,15 @@ export default class NewClass extends cc.Component {
             node.width = this.otherMemberChipSize
             node.height = this.otherMemberChipSize
         }
+        node.parent = this.node.parent.getChildByName('Desk')
         this.deskChipList.push(node.name)
-        node.parent = this.node.parent
         return node
     }
 
     //清除发出去的chip
     destroyDeskChip(): void {
         this.deskChipList.forEach(element => {
-            let ob = this.node.parent.getChildByName(element)
+            let ob = this.node.parent.getChildByName('Desk').getChildByName(element)
             if (ob) {
                 ob.destroy()
             }
@@ -146,7 +146,8 @@ export default class NewClass extends cc.Component {
     backAllChipe() {
         let isSuccess = false
         this.deskChipList.forEach(element => {
-            let ob = this.node.parent.getChildByName(element)
+            let desk = this.node.parent.getChildByName('Desk')
+            let ob = this.node.parent.getChildByName('Desk').getChildByName(element)
             if (ob) {
                 isSuccess = true
                 let jsOb = ob.getComponent('Chip')

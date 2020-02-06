@@ -61,8 +61,7 @@ export default class NewClass extends cc.Component {
     }
 
     getUserChairPosition(userId: string): Coordinate {
-        let node = this.node.parent
-        let deskOb = node.getChildByName('Desk').getComponent('Desk')
+        let deskOb = this.node.parent.getComponent('Desk')
         return deskOb.chairManage.getChairPositionByUserId(userId)
     }
 

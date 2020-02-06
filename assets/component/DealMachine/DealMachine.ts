@@ -95,7 +95,7 @@ export default class DealMachine extends cc.Component {
     //在下注以及比大小开始环节，如果出现麻将没有，应该立即补上
     checkAndAddMajong() {
         this.mahjongNameList.forEach((item: any) => {
-            let mhjong = this.node.parent.getChildByName(item.name)
+            let mhjong = this.node.parent.getChildByName('Desk').getChildByName(item.name)
             if (!mhjong) {
                 mhjong = cc.instantiate(this.mjDouble)
                 mhjong.name = item.name
@@ -107,7 +107,7 @@ export default class DealMachine extends cc.Component {
 
     cleanMajong() {
         this.mahjongNameList.forEach((item: any) => {
-            let mhjong = this.node.parent.getChildByName(item.name)
+            let mhjong = this.node.parent.getChildByName('Desk').getChildByName(item.name)
             if (mhjong) {
                 mhjong.active = false
                 mhjong.destroy()
@@ -131,7 +131,7 @@ export default class DealMachine extends cc.Component {
             return
         }
         let mahjongName = 'MjDouble' + tableLocationType
-        let mhjong = this.node.parent.getChildByName(mahjongName)
+        let mhjong = this.node.parent.getChildByName('Desk').getChildByName(mahjongName)
         if (mhjong) {
             mhjong.active = false
             mhjong.destroy()
@@ -142,7 +142,7 @@ export default class DealMachine extends cc.Component {
 
         let node = cc.instantiate(this.mjDouble)
         node.name = mahjongName
-        node.parent = this.node.parent
+        node.parent = this.node.parent.getChildByName('Desk')
         node.setPosition(320, 207);
         node.active = true
 

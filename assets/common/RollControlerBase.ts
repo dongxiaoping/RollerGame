@@ -39,7 +39,7 @@ export class RollControlerBase {
         this.roomScene.adjustBeforeRaceStateChange(RaceState.DEAL)
         let kaiShi = cc.instantiate(this.roomScene.kaiShipTip)
         this.roomScene.scheduleOnce(() => {
-            kaiShi.parent = this.cc.find("Canvas")
+            kaiShi.parent = this.cc.find("Canvas").getChildByName('Desk')
             kaiShi.setPosition(0, 0);
             kaiShi.active = true
             if (ConfigManage.isTxMusicOpen()) {

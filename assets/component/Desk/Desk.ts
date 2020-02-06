@@ -163,19 +163,6 @@ export default class Desk extends cc.Component {
             }
         })
 
-        eventBus.on(EventType.RACE_STATE_CHANGE_EVENT, randEventId(), (info: RaceStateChangeParam): void => {
-            let to = info.toState
-            switch (to) {
-                case RaceState.BET:  //下注
-                    this.deskPartsToOpen()
-                    this.playingXiaZhuAnimation()
-                    this.deskShanDong()
-                    break
-                case RaceState.FINISHED:
-                    break
-            }
-        })
-
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
@@ -198,7 +185,7 @@ export default class Desk extends cc.Component {
                 case LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE:
                     let tableLocationType = info.info as TableLocationType
                     let majongScore = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getMahjongScore(tableLocationType)
-                    this.toMahjongValueLabelShow(tableLocationType, majongScore)
+                    this.toMahjongValueLabelShow(tableLocationType, majongScore) //麻将值文字 显示
                     break
             }
         })
@@ -222,7 +209,7 @@ export default class Desk extends cc.Component {
     toMahjongValueLabelShow(tableLocationType: TableLocationType, majongScore: DiceCountInfo) {
         let location = getLocationByLocaitonType(tableLocationType)
         let node = cc.instantiate(this.majongResultLabel)
-        node.parent = this.node.parent
+        node.parent = this.node.parent.getChildByName('Desk')
         node.setPosition(location.x, location.y - 20);
         node.getComponent('MahjongResultLabel').showResultWenZi(majongScore)
         node.active = true
@@ -280,7 +267,7 @@ export default class Desk extends cc.Component {
                 race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL)) {
             cc.log('显示通赔或者通杀')
             middleResultAmimation = cc.instantiate(this.middleResultWenZi)
-            middleResultAmimation.parent = this.node.parent
+            middleResultAmimation.parent = this.node
             middleResultAmimation.active = true
         }
         this.scheduleOnce(() => {
@@ -299,13 +286,10 @@ export default class Desk extends cc.Component {
             this.qingxiazhu.play()
         }
         let node = cc.instantiate(this.qingXiaZhu)
-        node.parent = this.node.parent
-        node.active = true
+        node.parent = this.node
         this.scheduleOnce(() => {
             try {
-                node.active = false
                 node.destroy()
-                node.parent.getChildByName('QingXiaZhu').destroy()
             } catch (e) { }
         }, 1.5);
     }

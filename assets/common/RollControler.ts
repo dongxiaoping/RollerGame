@@ -40,6 +40,10 @@ export class RollControler extends RollControlerBase {
                     break
                 case RaceState.BET:  //下注
                     this.execBetAction()
+                    let deskJs = this.cc.find('Canvas').getChildByName('Desk').getComponent('Desk')
+                    deskJs.deskPartsToOpen()
+                    deskJs.playingXiaZhuAnimation()
+                    deskJs.deskShanDong()
                     break
                 case RaceState.SHOW_DOWN:
                     this.roomScene.adjustBeforeRaceStateChange(RaceState.SHOW_DOWN)

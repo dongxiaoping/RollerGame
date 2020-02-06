@@ -329,11 +329,6 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    //清空摇色子相关动画
-    cleanRollDice() {
-        this.destroyChild('RollDice')
-    }
-
     destroyChildNodeByName(nameString: string) {
         let node = this.node.getChildByName(nameString)
         if (node) {
@@ -422,9 +417,20 @@ export default class NewClass extends cc.Component {
     private beginRollDice(): void {
         var node = cc.instantiate(this.rollDicePrefab)
         node.name = 'RollDice'
-        node.parent = this.node
+        node.parent = this.node.getChildByName('Desk')
         node.setPosition(0, 0);
         node.active = true
+    }
+
+    //清空摇色子相关动画
+    cleanRollDice() {
+        let nodes = this.node.getChildByName('Desk').children
+        let i = 0;
+        for (; i < nodes.length; i++) {
+            if (nodes[i].name === 'RollDice') {
+                nodes[i].destroy()
+            }
+        }
     }
 
     //显示抢庄按钮
