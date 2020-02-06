@@ -172,7 +172,7 @@ export default class NewClass extends cc.Component {
         this.betCancelEventId = randEventId()
         eventBus.on(EventType.BET_CANCE_NOTICE, this.betCancelEventId, (info: BetChipChangeInfo): void => {
             this.deskChipList.forEach(element => {
-                let ob = this.node.parent.getChildByName(element)
+                let ob = this.node.parent.getChildByName('Desk').getChildByName(element)
                 if (ob) {
                     let jsOb = ob.getComponent('Chip')
                     jsOb.cancelChip(info)
