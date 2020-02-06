@@ -7,8 +7,8 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Sprite)
-    cancel: cc.Sprite = null;
+    @property(cc.Node)
+    cancel: cc.Node = null;
 
     @property(cc.Toggle)
     bj: cc.Toggle = null
@@ -17,7 +17,7 @@ export default class NewClass extends cc.Component {
     tx: cc.Toggle = null
 
     start() {
-        this.cancel.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.cancel.on(cc.Node.EventType.TOUCH_END, () => {
             this.node.active = false
             this.node.destroy()
         })
