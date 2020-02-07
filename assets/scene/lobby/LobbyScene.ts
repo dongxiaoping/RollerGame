@@ -23,6 +23,9 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Prefab)
     SetPanel: cc.Prefab = null; //设置面板
 
+    @property(cc.Prefab)
+    RulePanel: cc.Prefab = null; //规则面板
+
     @property(cc.Sprite)
     ruleButton: cc.Sprite = null; //玩法按钮
 
@@ -173,7 +176,6 @@ export default class LobbyScene extends cc.Component {
             var node = cc.instantiate(this.SetPanel)
             node.parent = this.node
             node.setPosition(0, 0);
-            node.active = true
         })
 
 
@@ -183,7 +185,8 @@ export default class LobbyScene extends cc.Component {
         })
 
         this.ruleButton.node.on(cc.Node.EventType.TOUCH_START, () => {
-            this.node.getChildByName('PlayRule').active = true
+            var node = cc.instantiate(this.RulePanel)
+            node.parent = this.node
         })
 
         this.diamondBugPart.on(cc.Node.EventType.TOUCH_START, () => {
