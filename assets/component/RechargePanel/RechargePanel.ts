@@ -13,8 +13,6 @@ export default class NewClass extends cc.Component {
     threeRechargePart: cc.Node = null;
     @property(cc.Node)
     fourRechargePart: cc.Node = null;
-    @property(cc.Sprite)
-    closeButton: cc.Sprite = null;
     start() {
 
     }
@@ -36,7 +34,7 @@ export default class NewClass extends cc.Component {
             this.buyDiamond(100)
             //cc.log('购买4')
         })
-        this.closeButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+        this.node.on(cc.Node.EventType.TOUCH_START, () => {
             //cc.log('关闭')
             this.node.destroy()
         })
