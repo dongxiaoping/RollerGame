@@ -66,11 +66,11 @@ export default class NewClass extends cc.Component {
     }
 
     show() {
-        cc.log('开始显示结果面板信息')
+        //cc.log('开始显示结果面板信息')
         let raceNum = RoomManage.roomItem.oningRaceNum
         let raceInfo = RaceManage.raceList[raceNum]
         let landloardId = raceInfo.landlordId
-        cc.log(raceInfo)
+        //cc.log(raceInfo)
         this.drawResult(this.sky_dian_1, raceInfo.skyScore.one)
         this.drawResult(this.sky_dian_2, raceInfo.skyScore.two)
         this.drawResult(this.middle_dian_1, raceInfo.middleScore.one)

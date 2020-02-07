@@ -50,7 +50,7 @@ class EventBus {
               try {
                 listener.fn(fnArgs)
               } catch (err) {
-                console.log(err)
+                //console.log(err)
               }
             } else {
               deleteArray.push({ eventType: eventType, listenerId: listenerId })
@@ -65,7 +65,7 @@ class EventBus {
         this.off(del.eventType, del.listenerId)
       }
     } catch (e) {
-      cc.log('触发器报错')
+      //cc.log('触发器报错')
      }
   }
 }

@@ -19,14 +19,14 @@ export default class NewClass extends cc.Component {
 
     onEnable() {
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
-            console.log('start_game_test:开始游戏按钮被点击')
+            //console.log('start_game_test:开始游戏按钮被点击')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {type: LocalNoticeEventType.PLAY_BUTTON_EVENT} as LocalNoticeEventPara)
             this.node.destroy()
         })
     }
 
     onDisable() {
-        cc.log('开始按钮对象被销毁')
+        //cc.log('开始按钮对象被销毁')
         this.node.off(cc.Node.EventType.TOUCH_END, () => { })
     }
 

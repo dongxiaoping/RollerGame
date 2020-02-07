@@ -65,7 +65,7 @@ export default class NewClass extends cc.Component {
         this.isFlying = true
         this.diceTwo.spriteFrame = this.dicePicList[points.two - 1]
         this.scheduleOnce(() => {
-            cc.log('发出摇色子动画结束通知')
+            //cc.log('发出摇色子动画结束通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { //请除动作在房间里面处理
                 type: LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE
             } as LocalNoticeEventPara)

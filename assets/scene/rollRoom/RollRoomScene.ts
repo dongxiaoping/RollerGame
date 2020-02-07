@@ -112,7 +112,7 @@ export default class NewClass extends cc.Component {
         let isEmulatorRoom = enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM ? true : false
         this.controller = new RollControler(cc, isEmulatorRoom, this)
         if (isEmulatorRoom) {
-            cc.log('进入了模拟房间')
+            //cc.log('进入了模拟房间')
             this.enterEmulatorRoom()
             cc.director.preloadScene('LobbyScene');//预加载
             return
@@ -153,12 +153,12 @@ export default class NewClass extends cc.Component {
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
         if (enterRoomParam.model === EnterRoomModel.SHARE) {
-            cc.log('进入了分享房间')
+            //cc.log('进入了分享房间')
             await UserManage.requestUserInfo()
         }
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {
-            cc.log('进入房间失败')
+            //cc.log('进入房间失败')
             this.showEnterRoomFailTip(result.extObject)
             return
         }
@@ -166,13 +166,13 @@ export default class NewClass extends cc.Component {
         this.controller.start()
         this.initShowAction()
         webSocketManage.openWs(() => {
-            cc.log('socket连接成功，发送连接成功本地通知')
+            //cc.log('socket连接成功，发送连接成功本地通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                 type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
                 info: true
             } as LocalNoticeEventPara)
         }, () => {
-            cc.log('socket连接失败，发送连接失败本地通知')
+            //cc.log('socket连接失败，发送连接失败本地通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                 type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
                 info: false
@@ -259,7 +259,7 @@ export default class NewClass extends cc.Component {
         })
 
         this.setButton.node.on(cc.Node.EventType.TOUCH_START, () => {
-            cc.log('设置按钮被点击')
+            //cc.log('设置按钮被点击')
             var node = cc.instantiate(this.SetPanel)
             node.parent = this.node
             node.setPosition(0, 0);
@@ -288,7 +288,7 @@ export default class NewClass extends cc.Component {
 
     //返回大厅行为
     execBackLobby() {
-        cc.log('退出到主页')
+        //cc.log('退出到主页')
         this.controller.close()
         this.controller = null
         cc.director.loadScene("LobbyScene");
@@ -296,7 +296,7 @@ export default class NewClass extends cc.Component {
     }
 
     showRoomResultPanel() {
-        cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
+        //cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
         this.adjustBeforeRaceStateChange(RaceState.FINISHED)
         var node = cc.instantiate(this.roomResultPanel)
         node.parent = this.node
@@ -325,7 +325,7 @@ export default class NewClass extends cc.Component {
             }
             this.destroyChild('MiddleTopTimePanel') //删除倒计时时间面板
         } catch (e) {
-            cc.log(e)
+            //cc.log(e)
         }
     }
 
@@ -481,7 +481,7 @@ export default class NewClass extends cc.Component {
         node.parent = this.node
         node.getChildByName('Layout').active = false
         node.active = true
-        cc.log('初始化下注功能')
+        //cc.log('初始化下注功能')
     }
     //显示下注面板
     showXiaZhuPanel() {
@@ -490,7 +490,7 @@ export default class NewClass extends cc.Component {
             let node = this.node.getChildByName('XiaZhu')
             node.setPosition(250, -260);
             node.getChildByName('Layout').active = true
-            cc.log('显示下注面板')
+            //cc.log('显示下注面板')
         }
     }
 
@@ -501,7 +501,7 @@ export default class NewClass extends cc.Component {
     }
 
     showStartButton() {
-        cc.log('显示开始按钮')
+        //cc.log('显示开始按钮')
         this.closeStartButton()
         var node = cc.instantiate(this.playButtonPrefab)
         node.name = 'PlayButton'
@@ -530,7 +530,7 @@ export default class NewClass extends cc.Component {
                 } as NoticeData
                 webSocketManage.send(JSON.stringify(notice))
                 webSocketManage.closeWs()
-                cc.log('我是玩家，我向服务器发起退出房间通知')
+                //cc.log('我是玩家，我向服务器发起退出房间通知')
             }
         } catch (e) { }
     }

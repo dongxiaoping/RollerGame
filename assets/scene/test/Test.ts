@@ -25,10 +25,10 @@ export default class NewClass extends cc.Component {
 
         // BetManage.setBetList([item])
         // BetManage.betList.forEach((item: Betitem[], index) => {
-        //     console.log(item)
-        //     console.log(index)
+        //     //console.log(item)
+        //     //console.log(index)
         // })
-        // console.log(BetManage.betList)
+        // //console.log(BetManage.betList)
         //userIconNode.getComponent('PlayUserIcon').setShow(memberInChairData)
         // this.qinQiangZhuangVoice.play()
 
@@ -40,11 +40,11 @@ export default class NewClass extends cc.Component {
     }
 
     onEnable() {
-        cc.log('onEnable')
+        //cc.log('onEnable')
     }
 
     onLoad() {
-        cc.log('onLoad')
+        //cc.log('onLoad')
     }
 }
 

@@ -44,10 +44,10 @@ export default class RoomItem {
 
     set roomState(val: roomState) {
         if (this._roomState != null) {
-            cc.log('房间状态被改变')
+            //cc.log('房间状态被改变')
             this._roomState = val
             eventBus.emit(EventType.ROOM_STATE_CHANGE_EVENT, val)
-            cc.log(val)
+            //cc.log(val)
         } else {
             this._roomState = val
         }

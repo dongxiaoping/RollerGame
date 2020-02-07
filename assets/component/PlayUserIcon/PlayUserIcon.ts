@@ -138,7 +138,7 @@ export default class NewClass extends cc.Component {
         this.eventIdSix = randEventId()
         eventBus.on(EventType.CARTON_MESSAGE_NOTICE, this.eventIdSix, (info: CartonMessage): void => {
             if (info.userId == this.memberData.userId) {
-                cc.log('显示动画')
+                //cc.log('显示动画')
                 cc.loader.loadRes('ChatCarton/' + info.message, (error, img) => {
                     let node = cc.instantiate(this.messageIconPref)
                     node.parent = this.node.parent.parent

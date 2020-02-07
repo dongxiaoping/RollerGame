@@ -127,7 +127,7 @@ export default class RollLable extends cc.Component {
                 }.bind(this), 800);
             }
         } catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
 

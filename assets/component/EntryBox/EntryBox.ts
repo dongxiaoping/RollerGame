@@ -84,14 +84,14 @@ export default class NewClass extends cc.Component {
                 roomId: roomId
             } as EnterRoomParam)
             this.checkRoom(roomId)
-            console.log(this.Num.string)
+            //console.log(this.Num.string)
         })
     }
 
     async checkRoom(roomId: number) {
         let result = await RoomManage.isRoomExist(roomId)
         if (result.result === ResponseStatus.FAIL) {
-            cc.log('进入房间失败,房间号：' + roomId)
+            //cc.log('进入房间失败,房间号：' + roomId)
             this.showEnterRoomFailTip()
         } else {
             cc.director.loadScene("RollRoomScene");

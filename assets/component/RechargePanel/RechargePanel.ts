@@ -22,22 +22,22 @@ export default class NewClass extends cc.Component {
     onEnable() {
         this.oneRechargePart.on(cc.Node.EventType.TOUCH_END, () => {
             this.buyDiamond(2000)
-            cc.log('购买1')
+            //cc.log('购买1')
         })
         this.twoRechargePart.on(cc.Node.EventType.TOUCH_END, () => {
             this.buyDiamond(1000)
-            cc.log('购买2')
+            //cc.log('购买2')
         })
         this.threeRechargePart.on(cc.Node.EventType.TOUCH_END, () => {
             this.buyDiamond(500)
-            cc.log('购买3')
+            //cc.log('购买3')
         })
         this.fourRechargePart.on(cc.Node.EventType.TOUCH_END, () => {
             this.buyDiamond(100)
-            cc.log('购买4')
+            //cc.log('购买4')
         })
         this.closeButton.node.on(cc.Node.EventType.TOUCH_START, () => {
-            cc.log('关闭')
+            //cc.log('关闭')
             this.node.destroy()
         })
     }

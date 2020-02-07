@@ -143,13 +143,13 @@ export default class LobbyScene extends cc.Component {
         this.initUserInfo()
         cc.director.preloadScene('RollRoomScene');//预加载房间，提高进入房间的速度
         this.versionLabel.string = config.version
-        console.log('应用启动')
+        //console.log('应用启动')
         this.scheduleOnce(() => {
             this.emulatorRoomHasClick = false
         }, 1.5);
         this.JoinPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (this.node.getChildByName('EntryBox') !== null) {
-                cc.log('进入房间数字面板已存在')
+                //cc.log('进入房间数字面板已存在')
                 return
             }
             this.closeCreateRoomPanel()
@@ -159,9 +159,9 @@ export default class LobbyScene extends cc.Component {
             node.active = true
         })
         this.LianXiChang.node.on(cc.Node.EventType.TOUCH_START, () => {
-            cc.log('练习场被点击了')
+            //cc.log('练习场被点击了')
             // if (this.emulatorRoomHasClick) {
-            //     cc.log('练习场不能重复点击或者点击过早！')
+            //     //cc.log('练习场不能重复点击或者点击过早！')
             //     return
             // }
             this.emulatorRoomHasClick = true
@@ -172,7 +172,7 @@ export default class LobbyScene extends cc.Component {
         })
 
         this.setButton.node.on(cc.Node.EventType.TOUCH_START, () => {
-            cc.log('设置按钮被点击')
+            //cc.log('设置按钮被点击')
             var node = cc.instantiate(this.SetPanel)
             node.parent = this.node
             node.setPosition(0, 0);
@@ -181,7 +181,7 @@ export default class LobbyScene extends cc.Component {
 
         this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             this.closeApp()
-            cc.log('退出按钮被点击')
+            //cc.log('退出按钮被点击')
         })
 
         this.ruleButton.node.on(cc.Node.EventType.TOUCH_START, () => {
@@ -195,9 +195,9 @@ export default class LobbyScene extends cc.Component {
         })
 
         this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
-            cc.log('创建房间被点击了')
+            //cc.log('创建房间被点击了')
             if (this.node.getChildByName('CreateRoomPanel') !== null) {
-                cc.log('创建房间已存在！')
+                //cc.log('创建房间已存在！')
                 return
             }
             this.closeEntryBox()

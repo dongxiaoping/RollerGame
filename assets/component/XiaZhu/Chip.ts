@@ -54,7 +54,7 @@ export default class NewClass extends cc.Component {
             }, this))
             this.node.runAction(b)
         } catch (e) {
-            cc.log('硬币返回异常')
+            //cc.log('硬币返回异常')
             this.node.active = false
             this.node.destroy()
         }

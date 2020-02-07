@@ -88,7 +88,7 @@ export default class Betitem {
             eventBus.emit(EventType.BET_CANCE_NOTICE, info)
         } else {
             let info = { raceNum: this.raceNum, userId: this.userId, betLocation: locatIon, fromVal: fromVal, toValue: toValue } as BetChipChangeInfo
-            cc.log('投注值改变通知' + JSON.stringify(info))
+            //cc.log('投注值改变通知' + JSON.stringify(info))
             eventBus.emit(EventType.BET_CHIP_CHANGE_EVENT, info)
         }
     }

@@ -43,7 +43,7 @@ export default class NewClass extends cc.Component {
     cancelBetLock: boolean = false //取消下注锁
     scheduleOb: any = null
     start() {
-        cc.log('按钮类型：' + this.typeValue)
+        //cc.log('按钮类型：' + this.typeValue)
         this.toClearn()
     }
 
@@ -57,7 +57,7 @@ export default class NewClass extends cc.Component {
         let betValue = betInfo.toValue - betInfo.fromVal
         if (this.typeValue === betLocationType) {
             this.allScore = this.allScore + betValue
-            cc.log(this.typeValue + '位置接收到下注通知')
+            //cc.log(this.typeValue + '位置接收到下注通知')
             if (UserManage.userInfo.id === userId) {
                 this.ownScore = this.ownScore + betValue
             }
@@ -163,7 +163,7 @@ export default class NewClass extends cc.Component {
                 if (this.isOverBetTime()) {
                     return
                 }
-                cc.log('删除打印：执行删除动作')
+                //cc.log('删除打印：执行删除动作')
                 this.cancelBetLock = true
                 this.showCancelChipAn()
                 if (ConfigManage.isTxMusicOpen()) {
@@ -223,11 +223,11 @@ export default class NewClass extends cc.Component {
             let oningRaceNum = RoomManage.roomItem.oningRaceNum
 
             if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
-                cc.log('当前不是下注环节，不能下注')
+                //cc.log('当前不是下注环节，不能下注')
                 return
             }
             if (RaceManage.raceList[oningRaceNum].landlordId === UserManage.userInfo.id) {
-                cc.log('地主不能下注')
+                //cc.log('地主不能下注')
                 return
             }
             if (this.isOverBetTime()) {
@@ -236,7 +236,7 @@ export default class NewClass extends cc.Component {
             let limitCount = RoomManage.roomItem.costLimit
             let xiaZhuVal = RaceManage.getClickXiaZhuVal()
             if (xiaZhuVal + UserManage.selectChipValue > limitCount) {
-                cc.log('下注超限')
+                //cc.log('下注超限')
                 this.overBetLimitLock = true
                 this.scheduleOnce(() => {
                     this.overBetLimitLock = false
@@ -265,7 +265,7 @@ export default class NewClass extends cc.Component {
     isOverBetTime(): boolean {
         let betTime = cc.find('Canvas/MiddleTopTimePanel').getComponent('MiddleTopTimePanel').getShowTime()
         if (betTime <= 1) {
-            cc.log('超出下注时间')
+            //cc.log('超出下注时间')
             return true
         }
         return false
@@ -276,7 +276,7 @@ export default class NewClass extends cc.Component {
         this.scheduleOnce(() => {
             this.cancelBetLock = false
         }, 0.5);
-        cc.log('删除打印：成功删除下注')
+        //cc.log('删除打印：成功删除下注')
         let notice = {
             type: NoticeType.cancelRaceBet, info: {
                 userId: userId,

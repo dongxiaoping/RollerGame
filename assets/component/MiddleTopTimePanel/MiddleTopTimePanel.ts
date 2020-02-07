@@ -17,7 +17,7 @@ export default class NewClass extends cc.Component {
 
     }
     betTimeShow() {
-        cc.log('下注时间管理面板收到下注通知，设置本地下注时间定时器')
+        //cc.log('下注时间管理面板收到下注通知，设置本地下注时间定时器')
         let time = ConfigManage.getBetTime()
         this.showTime = time - 1
         this.time.string = this.showTime.toString()

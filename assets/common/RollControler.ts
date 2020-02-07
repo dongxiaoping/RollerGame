@@ -18,7 +18,7 @@ export class RollControler extends RollControlerBase {
     }
 
     public start() {
-        this.cc.log('游戏控制器被启动')
+        //this.cc.log('游戏控制器被启动')
         this.initData()
         this.localNoticeEvent()
         this.raceStateChangeEvent()
@@ -81,7 +81,7 @@ export class RollControler extends RollControlerBase {
             let localNoticeEventType = info.type
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.PLAY_BUTTON_EVENT: //开始按钮被点击事件通知
-                    this.cc.log('start_game_test:我是游戏控制器，我接受到本地事件，游戏开始按钮被点击的通知')
+                    //this.cc.log('start_game_test:我是游戏控制器，我接受到本地事件，游戏开始按钮被点击的通知')
                     this.playButtonExec()
                     break
                 case LocalNoticeEventType.ROLL_DICE_FINISHED_NOTICE: //摇色子结束通知
@@ -89,18 +89,18 @@ export class RollControler extends RollControlerBase {
                     this.roomScene.beginDeal()
                     break
                 case LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE: //发牌结束通知
-                    this.cc.log('响应发牌动画结束通知,将状态改为下注')
+                    //this.cc.log('响应发牌动画结束通知,将状态改为下注')
                     if (this.isEmulatorRoom) {
                         RaceManage.changeRaceState(RaceState.BET)
                     }
                     break
                 case LocalNoticeEventType.LOCAL_BE_LANDLORD_RESULT: //
-                    this.cc.log('我是游戏控制器，我接受到本地事件，响应是否当地主的通知')
+                    //this.cc.log('我是游戏控制器，我接受到本地事件，响应是否当地主的通知')
                     this.responseLocalBeLandlordDeal(info.info)
                     break
                 case LocalNoticeEventType.LOCAL_TIME_XIAZHU_FINISHED_NOTICE: //本地下注时间已过
                     if (this.isEmulatorRoom) {
-                        this.cc.log('我是模拟器，当前下注时间已过，我将比赛状态改为比大小')
+                        //this.cc.log('我是模拟器，当前下注时间已过，我将比赛状态改为比大小')
                         setTimeout(() => {
                             RaceManage.changeRaceState(RaceState.SHOW_DOWN)
                         }, 2000)
@@ -111,7 +111,7 @@ export class RollControler extends RollControlerBase {
                         let raceResultListOne = this.getRaceResultList(RoomManage.roomItem.oningRaceNum)
                         RaceManage.raceList[RoomManage.roomItem.oningRaceNum].setRaceResultList(raceResultListOne)
                         this.roomScene.scheduleOnce(() => {
-                            cc.log('显示单局比赛结果显示完毕，我将单场比赛状态改为结束')
+                            //cc.log('显示单局比赛结果显示完毕，我将单场比赛状态改为结束')
                             RaceManage.changeRaceState(RaceState.FINISHED)
                         }, ConfigManage.getShowResultTime());
                     }
@@ -134,10 +134,10 @@ export class RollControler extends RollControlerBase {
                     break
                 case LocalNoticeEventType.SOCKET_CONNECT_NOTICE: //socket连接结果通知
                     if (info.info) { //连接成功通知
-                        cc.log('接到socket连接通知，进入socket房间')
+                        //cc.log('接到socket连接通知，进入socket房间')
                         this.enterSocketRoom()
                     } else {
-                        cc.log('接到socket连接失败通知，弹出提示框')
+                        //cc.log('接到socket连接失败通知，弹出提示框')
                         this.roomScene.scoketFailTip()
                     }
                     break
@@ -177,7 +177,7 @@ export class RollControler extends RollControlerBase {
     //初始化本地数据
     initData() {
         if (this.isEmulatorRoom) {
-            this.cc.log('模拟器初始化本地数据')
+            //this.//cc.log('模拟器初始化本地数据')
             let userInfo = UserManage.userInfo
             RoomManage.setRoomItem(roomInfo)
             RoomManage.roomItem.creatUserId = userInfo.id

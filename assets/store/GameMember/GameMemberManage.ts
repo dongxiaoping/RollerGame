@@ -39,7 +39,7 @@ class GameMemberManage {
         let userId = gameMember.userId
         if (typeof (this.gameMenmberList[userId]) !== 'undefined') {
             this.gameMenmberList[userId].state = memberState.OnLine
-            cc.log('成员上线')
+            //cc.log('成员上线')
             return false
         }
         let newMember = new GameMemberItem(gameMember)

@@ -23,7 +23,7 @@ class BetManage {
         try {
             this.betList[info.raceNum][info.userId][info.betLocation] = 0
         } catch (e) {
-            cc.log(e)
+            //cc.log(e)
         }
     }
 

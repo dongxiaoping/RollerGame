@@ -140,7 +140,7 @@ export default class NewClass extends cc.Component {
             a.active = true
         }
         this.node.setPosition(locaton.x, locaton.y)
-        cc.log(this.node)
+        //cc.log(this.node)
     }
 
     backAllChipe() {
@@ -166,7 +166,7 @@ export default class NewClass extends cc.Component {
         this.initFocus()
         this.pushEventId = randEventId()
         eventBus.on(EventType.BET_CHIP_CHANGE_EVENT, this.pushEventId, (betInfo: BetChipChangeInfo): void => {
-            cc.log('收到下注值改变通知')
+            //cc.log('收到下注值改变通知')
             this.toXiaZhu(betInfo)
         })
         this.betCancelEventId = randEventId()
@@ -188,7 +188,7 @@ export default class NewClass extends cc.Component {
             this.closeAllFocus()
             this.focus_1.node.active = true
             UserManage.setSelectChipValue(this.chipValueList[0])
-            cc.log('1硬币被点击')
+            //cc.log('1硬币被点击')
         })
         this.button_2.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
@@ -197,7 +197,7 @@ export default class NewClass extends cc.Component {
             this.closeAllFocus()
             this.focus_2.node.active = true
             UserManage.setSelectChipValue(this.chipValueList[1])
-            cc.log('2硬币被点击')
+            //cc.log('2硬币被点击')
         })
         this.button_3.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
@@ -206,7 +206,7 @@ export default class NewClass extends cc.Component {
             this.closeAllFocus()
             this.focus_3.node.active = true
             UserManage.setSelectChipValue(this.chipValueList[2])
-            cc.log('3硬币被点击')
+            //cc.log('3硬币被点击')
         })
         this.button_4.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (ConfigManage.isTxMusicOpen()) {
@@ -215,7 +215,7 @@ export default class NewClass extends cc.Component {
             this.closeAllFocus()
             this.focus_4.node.active = true
             UserManage.setSelectChipValue(this.chipValueList[3])
-            cc.log('4硬币被点击')
+            //cc.log('4硬币被点击')
         })
     }
 
@@ -227,12 +227,12 @@ export default class NewClass extends cc.Component {
         let fromLocation: Coordinate
         fromLocation = this.getUserChairPosition(userId)
         if (fromLocation === null) {
-            cc.log('没找到用户所在椅子的位置')
+            //cc.log('没找到用户所在椅子的位置')
             return
         }
         let isOwn: Boolean = false //是否是当前用户下的注
         if (userId === UserManage.userInfo.id) {
-            cc.log('是自己投的注')
+            //cc.log('是自己投的注')
             isOwn = true
         }
         let chipList = this.splitChipList(betValue)
@@ -283,7 +283,7 @@ export default class NewClass extends cc.Component {
                 location = { x: 414, y: -245 }
                 break
             default:
-                cc.log('下注值异常：' + val)
+                //cc.log('下注值异常：' + val)
         }
         return location
     }
@@ -305,7 +305,7 @@ export default class NewClass extends cc.Component {
                 this.focus_4.node.active = true
                 break
             default:
-                cc.log('错误的初始化下注选择值:' + selectedValue)
+                //cc.log('错误的初始化下注选择值:' + selectedValue)
         }
     }
     //通过下注区间的2个水平点，获取中间随机的一个点，做为下注点

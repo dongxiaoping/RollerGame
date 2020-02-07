@@ -71,7 +71,7 @@ export default class RaceItem {
             case betLocaion.LAND_CORNER:
                 return this.landCornerResult
         }
-        cc.log('位置错误')
+        //cc.log('位置错误')
         return null
     }
 
@@ -111,10 +111,10 @@ export default class RaceItem {
 
     set state(val: RaceState) {
         if (this._state != null) {
-            cc.log('单场游戏状态改变了,下发通知')
+            //cc.log('单场游戏状态改变了,下发通知')
             this._state = val
             let raceChangeInfo = { toState: val, raceId: this.raceId, raceNum: this.num } as RaceStateChangeParam
-            cc.log(raceChangeInfo)
+            //cc.log(raceChangeInfo)
             eventBus.emit(EventType.RACE_STATE_CHANGE_EVENT, raceChangeInfo)
         }
         this._state = val

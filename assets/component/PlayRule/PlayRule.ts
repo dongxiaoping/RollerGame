@@ -8,7 +8,7 @@ export default class NewClass extends cc.Component {
 
     start () {
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
-            cc.log('关闭按钮')
+            //cc.log('关闭按钮')
             this.node.active =false
         })
     }

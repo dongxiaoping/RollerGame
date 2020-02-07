@@ -66,15 +66,15 @@ export default class DealMachine extends cc.Component {
         function backFun() {
             ++count
             if (count >= 4) {
-                cc.log('全部动画执行完毕')
+                //cc.log('全部动画执行完毕')
                 this.scheduleOnce(() => {
-                    cc.log('发牌动画执行完毕通知')
+                    //cc.log('发牌动画执行完毕通知')
                     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                         type: LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE
                     } as LocalNoticeEventPara)
                 }, this.mahjongShowKeepTime);
             } else {
-                cc.log('当前动画执行完毕')
+                //cc.log('当前动画执行完毕')
                 ++this.mjIndex
                 this.flyAnimation(this.mjIndex, circleList[count], backFun)
             }
@@ -122,7 +122,7 @@ export default class DealMachine extends cc.Component {
      */
     flyAnimation(mjIndex: number, tableLocationType: TableLocationType, func: any) {
         if (this.mahjongList.length <= 0) {
-            cc.log('没有麻将队列')
+            //cc.log('没有麻将队列')
             return
         }
         if (this.mjIndex >= this.mahjongList.length - 1) {

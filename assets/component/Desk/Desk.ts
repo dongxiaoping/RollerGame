@@ -132,7 +132,7 @@ export default class Desk extends cc.Component {
 
     addEventListener() {
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-            cc.log('桌子接收当前比赛有庄设置,将该用户挪动到地主椅子')
+            //cc.log('桌子接收当前比赛有庄设置,将该用户挪动到地主椅子')
             this.chairManage.moveToLandlordChair(landlordId)
         })
 
@@ -146,7 +146,7 @@ export default class Desk extends cc.Component {
         })
 
         eventBus.on(EventType.NEW_MEMBER_IN_ROOM, randEventId(), (newMember: GameMember): void => { //TODO 这个位置要优化
-            cc.log('我是桌子，我收到新玩家加入的本地通知,我将玩家入座')
+            //cc.log('我是桌子，我收到新玩家加入的本地通知,我将玩家入座')
             if (this.chairManage.getChairByUserId(newMember.userId) == null) {
                 let member = {
                     userId: newMember.userId, userName: newMember.nick, state: newMember.state, xiaZhuVal: 0,
@@ -157,7 +157,7 @@ export default class Desk extends cc.Component {
         })
 
         eventBus.on(EventType.MEMBER_DELETE_FROM_ROOM, randEventId(), (userId: string): void => {
-            cc.log('我是桌子，我收到玩家退出房间通知')
+            //cc.log('我是桌子，我收到玩家退出房间通知')
             if (RoomManage.roomItem.roomState === roomState.OPEN) {
                 this.chairManage.outChair(userId)
             }
@@ -177,7 +177,7 @@ export default class Desk extends cc.Component {
                         this.chipBetVoice.play()
                     }
                     this.scheduleOnce(() => {
-                        cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
+                        //cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
                         this.node.parent.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip()
                         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
                     }, ConfigManage.showResultKeepTime());
@@ -234,7 +234,7 @@ export default class Desk extends cc.Component {
         } else if (betLocationType === betLocaion.LAND_CORNER) {
             this.node.getChildByName('LandCornerPart').getComponent('DeskPart').toBet(betInfo)
         } else {
-            cc.log('下注异常，没有找到位置')
+            //cc.log('下注异常，没有找到位置')
         }
 
     }
@@ -265,7 +265,7 @@ export default class Desk extends cc.Component {
         if ((race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
             race.landResult === CompareDxRe.BIG) || (race.skyResult === CompareDxRe.SMALL &&
                 race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL)) {
-            cc.log('显示通赔或者通杀')
+            //cc.log('显示通赔或者通杀')
             middleResultAmimation = cc.instantiate(this.middleResultWenZi)
             middleResultAmimation.parent = this.node
             middleResultAmimation.active = true
@@ -273,7 +273,7 @@ export default class Desk extends cc.Component {
         this.scheduleOnce(() => {
             if (middleResultAmimation !== null) {
                 middleResultAmimation.destroy()
-                cc.log('关闭通赔通杀显示面板')
+                //cc.log('关闭通赔通杀显示面板')
             }
             func()
         }, 1.5);
@@ -310,7 +310,7 @@ export default class Desk extends cc.Component {
                         xiaZhuVal: 0
                     } as MemberInChairData)
                 } else {
-                    cc.log('庄家数据异常')
+                    //cc.log('庄家数据异常')
                 }
             }
             memberList.forEach((item: GameMemberItem) => {
@@ -324,6 +324,6 @@ export default class Desk extends cc.Component {
                     this.chairManage.inChair(member)
                 }
             })
-        } catch (e) { cc.log(e) }
+        } catch (e) { //cc.log(e) }
     }
 }

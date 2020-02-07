@@ -60,8 +60,8 @@ export default class NewClass extends cc.Component {
     open(tableLocationType: TableLocationType) {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         let majongScore = RaceManage.raceList[oningRaceNum].getMahjongScore(tableLocationType)
-        cc.log('当前翻牌位置：' + tableLocationType)
-        cc.log(majongScore)
+        //cc.log('当前翻牌位置：' + tableLocationType)
+        //cc.log(majongScore)
         this.openAnimation(this.one, majongScore.one, () => {
             this.scheduleOnce(() => {
                 this.toVoiceNotice(majongScore)
@@ -69,11 +69,11 @@ export default class NewClass extends cc.Component {
                     let nextLocation = this.getNextTableLocation(tableLocationType)
                     if (nextLocation) {  //下个位置的翻牌
                         this.scheduleOnce(() => {
-                            cc.log('发出下个位置的翻牌请求,下个位置为' + nextLocation + ',当前位置为：' + tableLocationType)
+                            //cc.log('发出下个位置的翻牌请求,下个位置为' + nextLocation + ',当前位置为：' + tableLocationType)
                             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE, info: nextLocation } as LocalNoticeEventPara)
                         }, this.twoLocationIntervalTime);
                     } else {
-                        cc.log('全部的翻牌动作执行完毕，发出翻牌动画结束通知')
+                        //cc.log('全部的翻牌动作执行完毕，发出翻牌动画结束通知')
                         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE } as LocalNoticeEventPara)
                     }
                 })
@@ -169,9 +169,9 @@ export default class NewClass extends cc.Component {
             if (info.type === LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE) {
                 let tableLocationType = info.info as TableLocationType
                 if (this.node.name === 'MjDouble' + tableLocationType) {
-                    cc.log('接收到翻牌通知')
+                    //cc.log('接收到翻牌通知')
                     this.open(tableLocationType)
-                    cc.log(info)
+                    //cc.log(info)
                 }
             }
         })

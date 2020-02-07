@@ -23,7 +23,7 @@ export default class NewClass extends cc.Component {
         let i = 0
         for (; i < this.faceSpritenList.length; i++) {
             this.faceSpritenList[i].node.on(cc.Node.EventType.TOUCH_START, (targe: any) => {
-                cc.log('发送消息动画通知')
+                //cc.log('发送消息动画通知')
                 let enterRoomParam = RoomManage.getEnterRoomParam()
                 if (enterRoomParam.model == EnterRoomModel.EMULATOR_ROOM) {
                     let setInfo = { userId: UserManage.userInfo.id, type: ChatMessageType.PIC, message: targe.currentTarget._name } as CartonMessage

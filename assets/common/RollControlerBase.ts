@@ -65,7 +65,7 @@ export class RollControlerBase {
                 }
             } as NoticeData
             webSocketManage.send(JSON.stringify(notice));
-            this.cc.log('我是游戏控制器，我向服务器发起抢地主通知')
+            //this.cc.log('我是游戏控制器，我向服务器发起抢地主通知')
         }
     }
 
@@ -74,7 +74,7 @@ export class RollControlerBase {
         let randVal = ConfigManage.getChipValList()
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
-            this.cc.log('当前不是下注状态，不能下注')
+            //this.cc.log('当前不是下注状态，不能下注')
             return
         }
         let localXiaZhuLimiTime = ConfigManage.getBetTime()
@@ -142,7 +142,7 @@ export class RollControlerBase {
 
     //模拟器模拟相关推送数据
     public emulateBet(): void {
-        this.cc.log('模拟器发起模拟下注')
+        //this.cc.log('模拟器发起模拟下注')
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         let landlordId = RaceManage.raceList[oningRaceNum].landlordId
         let memberList = GameMemberManage.gameMenmberList
@@ -162,9 +162,9 @@ export class RollControlerBase {
                 }
             } as NoticeData
             webSocketManage.send(JSON.stringify(notice));
-            this.cc.log('我是玩家，我向服务器发起进入socket房间的websocket通知')
+            //this.cc.log('我是玩家，我向服务器发起进入socket房间的websocket通知')
         } else {
-            this.cc.log('房间已关闭，无法进入')
+            //this.cc.log('房间已关闭，无法进入')
         }
     }
 
@@ -187,8 +187,8 @@ export class RollControlerBase {
     toStartNextEmulatorRace(): void {
         let oningRaceNum = RoomManage.roomItem.oningRaceNum
         if ((oningRaceNum + 1) === RoomManage.roomItem.playCount) {
-            this.cc.log('所有比赛都完成')
-            this.cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
+            //this.cc.log('所有比赛都完成')
+            //this.cc.log('因为所有比赛都完成了，将房间状态改为比赛全部结束')
             setTimeout(() => {
                 RaceManage.setGameOverResultList(this.getRoomResultList())
                 RoomManage.roomItem.roomState = roomState.CLOSE
@@ -196,15 +196,15 @@ export class RollControlerBase {
             return
         }
         if ((oningRaceNum + 1) > RoomManage.roomItem.playCount) {
-            this.cc.log('所有比赛已完成，无下场比赛')
+            //this.cc.log('所有比赛已完成，无下场比赛')
             return
         }
-        this.cc.log('我是游戏模拟器，我修改了进行中的场次值，开始下场比赛')
+        //this.cc.log('我是游戏模拟器，我修改了进行中的场次值，开始下场比赛')
         let nextRaceNum = oningRaceNum + 1
-        this.cc.log('当前场次的编号：' + oningRaceNum + ',下场比赛的编号:' + nextRaceNum)
+        //this.cc.log('当前场次的编号：' + oningRaceNum + ',下场比赛的编号:' + nextRaceNum)
         setTimeout(() => {
             RoomManage.roomItem.changeOningRaceNum(nextRaceNum)
-            this.cc.log('我是游戏模拟器，我开始了下局比赛，所以直接将下场比赛状态改为摇色子')
+            //this.cc.log('我是游戏模拟器，我开始了下局比赛，所以直接将下场比赛状态改为摇色子')
             RaceManage.changeRaceState(RaceState.DEAL)
         }, 2000)
     }
