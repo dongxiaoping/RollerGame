@@ -6,10 +6,6 @@ const { ccclass, property } = cc._decorator;
 //输入房间号加入房间面板
 @ccclass
 export default class NewClass extends cc.Component {
-
-    @property(cc.Sprite)
-    CloseButton: cc.Sprite = null;
-
     @property(cc.Button)
     One: cc.Button = null;
     @property(cc.Button)
@@ -44,7 +40,7 @@ export default class NewClass extends cc.Component {
 
     }
     start() {
-        this.CloseButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.node.destroy()
         })
         this.One.node.on(cc.Node.EventType.TOUCH_END, () => {
@@ -113,7 +109,6 @@ export default class NewClass extends cc.Component {
     }
 
     onDisable() {
-        this.CloseButton.node.off(cc.Node.EventType.TOUCH_END, () => { })
     }
     // update (dt) {}
 }

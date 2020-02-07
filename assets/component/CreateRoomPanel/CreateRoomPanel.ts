@@ -141,6 +141,9 @@ export default class NewClass extends cc.Component {
         this.cancelButton.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.node.destroy()
         })
+        this.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.node.destroy()
+        })
         this.createButton.node.on(cc.Node.EventType.TOUCH_END, () => {
             cc.log('创建按钮被点击')
             let renshu: number = null
