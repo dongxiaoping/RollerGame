@@ -152,14 +152,16 @@ export default class NewClass extends cc.Component {
     }
 
     faceShow(info: CartonMessage) {
-        cc.loader.loadRes('ChatCarton/' + faceList[info.message], (error, img) => {
+        cc.loader.loadRes('ChatCarton/' + faceList[info.message].name, (error, img) => {
             let node = cc.instantiate(this.messageIconPref)
             node.parent = this.node.parent.parent
             let x = this.node.parent.position.x + 50
             let y = this.node.parent.position.y + 30
             node.setPosition(x, y);
+            node.width = faceList[info.message].size.x
+            node.height = faceList[info.message].size.y
             let myIcon = new cc.SpriteFrame(img);
-            node.getComponents(cc.Sprite)[0].spriteFrame = myIcon
+            node.getChildByName('Pic').getComponents(cc.Sprite)[0].spriteFrame = myIcon
             setTimeout(() => {
                 node.destroy()
             }, 2000)

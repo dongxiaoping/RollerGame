@@ -21,10 +21,13 @@ export default class NewClass extends cc.Component {
     faceButton: cc.Node = null //表情列表按钮
 
     @property(cc.Node)
-    ziPart: cc.Node = null //字列表
+    ziPart: cc.Node = null //字区域
     @property(cc.Node)
-    facePart: cc.Node = null //表情列表
-
+    ziContent: cc.Node = null //字列表
+    @property(cc.Node)
+    facePart: cc.Node = null //表情区域
+    @property(cc.Node)
+    faceContent: cc.Node = null //表情列表
     start() {
         this.addFaceIconEvent()
     }
@@ -47,10 +50,10 @@ export default class NewClass extends cc.Component {
         for (; i < faceList.length; i++) {
             let itemNode = cc.instantiate(this.faceItem)
             itemNode.name = i + ''
-            this.facePart.addChild(itemNode)
-            cc.loader.loadRes('ChatCarton/' + faceList[i], (error, img) => {
+            this.faceContent.addChild(itemNode)
+            cc.loader.loadRes('ChatCarton/' + faceList[i].name, (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
-                itemNode.getComponent(cc.Sprite).spriteFrame = myIcon
+                itemNode.getChildByName('Pic').getComponent(cc.Sprite).spriteFrame = myIcon
             })
             this.addNotice(itemNode, ChatMessageType.PIC)
         }
@@ -60,13 +63,13 @@ export default class NewClass extends cc.Component {
             let itemNode = cc.instantiate(this.ziItem)
             itemNode.getComponent(cc.Label).string = wenZiList[i]['content']
             itemNode.name = i + ''
-            this.ziPart.addChild(itemNode)
+            this.ziContent.addChild(itemNode)
             this.addNotice(itemNode, ChatMessageType.WEN_ZI)
         }
     }
 
     addNotice(nodeItem: any, typeSet: ChatMessageType) {
-        nodeItem.on(cc.Node.EventType.TOUCH_START, (targe: any) => {
+        nodeItem.on(cc.Node.EventType.TOUCH_END, (targe: any) => {
             let index = targe.currentTarget._name
             let enterRoomParam = RoomManage.getEnterRoomParam()
             if (enterRoomParam.model == EnterRoomModel.EMULATOR_ROOM) {
