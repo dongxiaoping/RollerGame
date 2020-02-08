@@ -61,6 +61,11 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     chatCartonButton: cc.Sprite = null;//显示动画消息发送面板按钮
 
+    @property(cc.Prefab)
+    private trendPanel: cc.Prefab = null  //趋势图面板
+    @property(cc.Sprite)
+    trendButton: cc.Sprite = null;//趋势图按钮
+
     @property(cc.Label)
     showRoomNum: cc.Label = null; //房间号显示  
     @property(cc.Label)
@@ -69,8 +74,6 @@ export default class NewClass extends cc.Component {
     showPlayCountLimit: cc.Label = null; //牌局进行信息显示
     @property(cc.Label)
     showPlayMode: cc.Label = null; //上庄模式显示
-    // @property(cc.Sprite)
-    // roleSprite: cc.Sprite = null; //当前用户角色类型图标容器
     @property(cc.SpriteFrame)
     zhuangIcon: cc.SpriteFrame = null //庄家类型图标
     @property(cc.SpriteFrame)
@@ -97,10 +100,6 @@ export default class NewClass extends cc.Component {
 
     @property(cc.AudioSource)
     beginVoice: cc.AudioSource = null;
-
-
-    @property(cc.Sprite)
-    showTrendButton: cc.Sprite = null;
     eventIdOne: string = null
 
     start() {
@@ -268,6 +267,13 @@ export default class NewClass extends cc.Component {
 
         this.chatCartonButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             var node = cc.instantiate(this.chatCartonPanel)
+            node.parent = this.node
+            node.setPosition(0, 0);
+            node.active = true
+        })
+
+        this.trendButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+            var node = cc.instantiate(this.trendPanel)
             node.parent = this.node
             node.setPosition(0, 0);
             node.active = true

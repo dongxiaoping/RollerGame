@@ -51,5 +51,6 @@ export const faceList: any = [
     { name: 'ES17', size: { x: 95, y: 95 } },
     { name: 'ES18', size: { x: 95, y: 95 } },
     { name: 'ES19', size: { x: 95, y: 95 } },
-    { name: 'ES20', size: { x: 95, y: 95 } }
+    { name: 'ES20', size: { x: 95, y: 95 } },
+    { name: 'ES21', size: { x: 95, y: 95 } }
 ]
