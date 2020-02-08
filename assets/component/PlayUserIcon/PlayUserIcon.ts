@@ -1,10 +1,12 @@
 import { eventBus } from "../../common/EventBus";
-import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState, LocalNoticeEventType, LocalNoticeEventPara, raceResultData, CartonMessage } from "../../common/Const";
+import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState, LocalNoticeEventType, LocalNoticeEventPara, raceResultData, CartonMessage, ChatMessageType } from "../../common/Const";
 import { randEventId } from '../../common/Util'
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 import RaceManage from "../../store/Races/RaceManage";
 import { roomGameConfig } from "../../common/RoomGameConfig";
+import { faceList } from "../../common/FaceList";
+import { wenZiList } from "../../common/WenZiList";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -30,7 +32,8 @@ export default class NewClass extends cc.Component {
     memberData: MemberInChairData = null
     @property(cc.Prefab)
     messageIconPref: cc.Prefab = null;
-
+    @property(cc.Prefab)
+    messageZiPref: cc.Prefab = null;
     start() {
 
     }
@@ -139,20 +142,40 @@ export default class NewClass extends cc.Component {
         eventBus.on(EventType.CARTON_MESSAGE_NOTICE, this.eventIdSix, (info: CartonMessage): void => {
             if (info.userId == this.memberData.userId) {
                 //cc.log('显示动画')
-                cc.loader.loadRes('ChatCarton/' + info.message, (error, img) => {
-                    let node = cc.instantiate(this.messageIconPref)
-                    node.parent = this.node.parent.parent
-                    let x = this.node.parent.position.x + 50
-                    let y = this.node.parent.position.y + 30
-                    node.setPosition(x, y);
-                    let myIcon = new cc.SpriteFrame(img);
-                    node.getComponents(cc.Sprite)[0].spriteFrame = myIcon
-                    setTimeout(() => {
-                        node.destroy()
-                    }, 2000)
-                })
+                if (info.type == ChatMessageType.PIC) {
+                    this.faceShow(info)
+                } else {
+                    this.ziShow(info)
+                }
             }
         })
+    }
+
+    faceShow(info: CartonMessage) {
+        cc.loader.loadRes('ChatCarton/' + faceList[info.message], (error, img) => {
+            let node = cc.instantiate(this.messageIconPref)
+            node.parent = this.node.parent.parent
+            let x = this.node.parent.position.x + 50
+            let y = this.node.parent.position.y + 30
+            node.setPosition(x, y);
+            let myIcon = new cc.SpriteFrame(img);
+            node.getComponents(cc.Sprite)[0].spriteFrame = myIcon
+            setTimeout(() => {
+                node.destroy()
+            }, 2000)
+        })
+    }
+
+    ziShow(info: CartonMessage) {
+        let node = cc.instantiate(this.messageZiPref)
+        node.parent = this.node.parent.parent
+        let x = this.node.parent.position.x
+        let y = this.node.parent.position.y - 50
+        node.setPosition(x, y);
+        node.getComponent(cc.Label).string = wenZiList[info.message]['content']
+        setTimeout(() => {
+            node.destroy()
+        }, 2000)
     }
 
     onDisable() {
