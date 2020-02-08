@@ -51,6 +51,10 @@ export default class NewClass extends cc.Component {
             let itemNode = cc.instantiate(this.faceItem)
             itemNode.name = i + ''
             this.faceContent.addChild(itemNode)
+            if (faceList[i].name.indexOf('ES') != -1) {
+                itemNode.width = 70
+                itemNode.height = 70
+            }
             cc.loader.loadRes('ChatCarton/' + faceList[i].name, (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 itemNode.getChildByName('Pic').getComponent(cc.Sprite).spriteFrame = myIcon
