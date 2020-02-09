@@ -114,11 +114,11 @@ export default class NewClass extends cc.Component {
         if (deskLocation == betLocaion.SKY) {
             ctx.strokeColor = this.colorSet[0]
             ctx.lineWidth = this.lineWith
-            y = 6
+            y = 4
         } else if (deskLocation == betLocaion.MIDDLE) {
             ctx.strokeColor = this.colorSet[1]
             ctx.lineWidth = this.lineWith
-            y = 3
+            y = 2
         } else {
             ctx.strokeColor = this.colorSet[2]
             ctx.lineWidth = this.lineWith
