@@ -1,6 +1,8 @@
-import { betLocaion, CompareDxRe } from "../../common/Const";
+import { betLocaion, CompareDxRe, EventType, LocalNoticeEventType, LocalNoticeEventPara, RaceState } from "../../common/Const";
 import RaceManage from "../../store/Races/RaceManage";
 import RoomManage from "../../store/Room/RoomManage";
+import { randEventId } from "../../common/Util";
+import { eventBus } from "../../common/EventBus";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,7 +19,16 @@ export default class NewClass extends cc.Component {
     skyResult: boolean[] = []
     middleResult: boolean[] = []
     landResult: boolean[] = []
+    colorSet: any[] = [cc.Color.BLUE, cc.Color.RED, cc.Color.GRAY]
+    lineWith: number = 1.5
+    eventIdOne: any = null
     start() {
+        this.reDraw()
+    }
+
+    reDraw() {
+        let ctx = this.drawPanel.getComponent(cc.Graphics)
+        ctx.clear()
         this.drawBase()
         this.initResult()
         this.drawByResult(this.skyResult, betLocaion.SKY)
@@ -34,12 +45,20 @@ export default class NewClass extends cc.Component {
     }
 
     initResult() {
-        let onRaceNum = -1
+        this.skyResult = []
+        this.middleResult = []
+        this.landResult = []
+        let onRaceNum = 0
+        let showRaceNum = 0
         try {
             onRaceNum = RoomManage.roomItem.oningRaceNum === null ? 0 : RoomManage.roomItem.oningRaceNum
+            if (RaceManage.raceList[onRaceNum].state == RaceState.FINISHED || RaceManage.raceList[onRaceNum].state == RaceState.SHOW_DOWN) {
+                showRaceNum = onRaceNum
+            } else {
+                showRaceNum = onRaceNum - 1
+            }
         } catch (e) { }
-        let i = 0
-        for (; i < onRaceNum; i++) {
+        for (let i = 0; i <= showRaceNum; i++) {
             let result = this.getRaceResult(i)
             this.skyResult.push(result[0])
             this.middleResult.push(result[1])
@@ -49,54 +68,63 @@ export default class NewClass extends cc.Component {
 
     drawBase() {
         let ctx = this.drawPanel.getComponent(cc.Graphics)
-        ctx.lineWidth = 4
+        ctx.lineWidth = this.lineWith
         ctx.moveTo(0, 0)
         ctx.lineTo(0, this.drawPanelHeight)
-        ctx.strokeColor = cc.Color.GRAY
+        ctx.lineTo(4, this.drawPanelHeight - 8)
+        ctx.moveTo(0, this.drawPanelHeight)
+        ctx.lineTo(-4, this.drawPanelHeight - 8)
+        ctx.strokeColor = cc.Color.BLACK
         ctx.stroke()
+
         ctx.moveTo(0, 0)
         ctx.lineTo(this.drawPanelWidth, 0)
-        ctx.strokeColor = cc.Color.GRAY
+        ctx.lineTo(this.drawPanelWidth - 8, 4)
+        ctx.moveTo(this.drawPanelWidth, 0)
+        ctx.lineTo(this.drawPanelWidth - 8, -4)
+        ctx.strokeColor = cc.Color.BLACK
         ctx.stroke()
 
 
         ctx.moveTo(30, this.drawPanelHeight - 30)
         ctx.lineTo(50, this.drawPanelHeight - 30)
-        ctx.strokeColor = cc.Color.RED
-        ctx.lineWidth = 3
+        ctx.strokeColor = this.colorSet[0]
+        ctx.lineWidth = this.lineWith
         ctx.stroke()
 
         ctx.moveTo(30, this.drawPanelHeight - 60)
         ctx.lineTo(50, this.drawPanelHeight - 60)
-        ctx.strokeColor = cc.Color.YELLOW
-        ctx.lineWidth = 2
+        ctx.strokeColor = this.colorSet[1]
+        ctx.lineWidth = this.lineWith
         ctx.stroke()
 
         ctx.moveTo(30, this.drawPanelHeight - 90)
         ctx.lineTo(50, this.drawPanelHeight - 90)
-        ctx.strokeColor = cc.Color.BLUE
-        ctx.lineWidth = 1
+        ctx.strokeColor = this.colorSet[2]
+        ctx.lineWidth = this.lineWith
         ctx.stroke()
     }
     drawByResult(winResult: boolean[], deskLocation: betLocaion) {
-        let count = winResult.length
-        let xItemLen = this.drawPanelWidth / count
-        let yItemLen = this.drawPanelHeight / count
+        let RaceCount = RoomManage.roomItem.playCount
+        let xItemLen = this.drawPanelWidth / RaceCount
+        let yItemLen = this.drawPanelHeight / RaceCount
         let ctx = this.drawPanel.getComponent(cc.Graphics)
-        if (deskLocation == betLocaion.SKY) {
-            ctx.strokeColor = cc.Color.RED
-            ctx.lineWidth = 3
-        } else if (deskLocation == betLocaion.MIDDLE) {
-            ctx.strokeColor = cc.Color.YELLOW
-            ctx.lineWidth = 2
-        } else {
-            ctx.strokeColor = cc.Color.BLUE
-            ctx.lineWidth = 1
-        }
-        ctx.moveTo(0, 0)
         let x = 0
         let y = 0
-        for (let i = 0; i < count; i++) {
+        if (deskLocation == betLocaion.SKY) {
+            ctx.strokeColor = this.colorSet[0]
+            ctx.lineWidth = this.lineWith
+            y = 6
+        } else if (deskLocation == betLocaion.MIDDLE) {
+            ctx.strokeColor = this.colorSet[1]
+            ctx.lineWidth = this.lineWith
+            y = 3
+        } else {
+            ctx.strokeColor = this.colorSet[2]
+            ctx.lineWidth = this.lineWith
+        }
+        ctx.moveTo(0, 0)
+        for (let i = 0; i < winResult.length; i++) {
             x += xItemLen
             if (winResult[i]) {
                 y += yItemLen
@@ -106,11 +134,24 @@ export default class NewClass extends cc.Component {
         ctx.stroke()
     }
 
+    onDisable() {
+        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne)
+    }
+
     onEnable() {
         this.drawPanelWidth = this.drawPanel.width
         this.drawPanelHeight = this.drawPanel.height
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.node.destroy()
+        })
+
+        this.eventIdOne = randEventId()
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, randEventId(), (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.OPEN_CARD_FINISHED_NOTICE:
+                    this.reDraw()
+            }
         })
     }
 }

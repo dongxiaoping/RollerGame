@@ -305,7 +305,7 @@ export default class NewClass extends cc.Component {
         //cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
         this.adjustBeforeRaceStateChange(RaceState.FINISHED)
         var node = cc.instantiate(this.roomResultPanel)
-        node.parent = this.node
+        node.parent = this.node.getChildByName('Desk')
         node.setPosition(0, -70);
         node.active = true
     }
@@ -318,7 +318,7 @@ export default class NewClass extends cc.Component {
                 this.node.getChildByName('Desk').getComponent('Desk').deskPartsToClean() //删除桌子上各方位上的下注信息、focus显示
                 this.node.getChildByName('Desk').getComponent('Desk').cleanMahjongResulNodes() //删除麻将结果文字标签
             }
-            this.destroyChild('RaceResultPanel') //删除指定场次结果面板
+            this.destroyRaceResultPanel() //删除指定场次结果面板
             this.closeStartButton() //删除关闭按钮
             this.cleanRollDice() //删除锺以及色子
             if (stateVal != RaceState.BET && stateVal != RaceState.SHOW_DOWN) {
@@ -396,8 +396,18 @@ export default class NewClass extends cc.Component {
     toShowRaceResultPanel(): void {
         let node = cc.instantiate(this.raceResultPanel)
         node.name = 'RaceResultPanel'
-        node.parent = this.node
+        node.parent = this.node.getChildByName('Desk')
         node.active = true
+    }
+
+    destroyRaceResultPanel(): void {
+        let nodes = this.node.getChildByName('Desk').children
+        let i = 0;
+        for (; i < nodes.length; i++) {
+            if (nodes[i].name === 'RaceResultPanel') {
+                nodes[i].destroy()
+            }
+        }
     }
 
     //开始发牌流程
