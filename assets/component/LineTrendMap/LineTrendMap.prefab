@@ -167,7 +167,7 @@
     "_prefab": {
       "__id__": 6
     },
-    "_opacity": 255,
+    "_opacity": 225,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -230,7 +230,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "e392e531-e6a6-40bd-aa6c-950bc89b1f67"
+      "__uuid__": "637cfb59-819f-488e-9ca8-4b7b4c1c7ad8"
     },
     "_type": 0,
     "_sizeMode": 0,

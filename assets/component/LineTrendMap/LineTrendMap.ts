@@ -19,8 +19,8 @@ export default class NewClass extends cc.Component {
     skyResult: boolean[] = []
     middleResult: boolean[] = []
     landResult: boolean[] = []
-    colorSet: any[] = [cc.Color.BLUE, cc.Color.RED, cc.Color.GRAY]
-    lineWith: number = 1.5
+    colorSet: any[] = [cc.Color.YELLOW, cc.Color.RED, cc.Color.GREEN]
+    lineWith: number = 2
     eventIdOne: any = null
     start() {
         this.reDraw()
@@ -74,7 +74,7 @@ export default class NewClass extends cc.Component {
         ctx.lineTo(4, this.drawPanelHeight - 8)
         ctx.moveTo(0, this.drawPanelHeight)
         ctx.lineTo(-4, this.drawPanelHeight - 8)
-        ctx.strokeColor = cc.Color.BLACK
+        ctx.strokeColor = cc.Color.WHITE
         ctx.stroke()
 
         ctx.moveTo(0, 0)
@@ -82,7 +82,7 @@ export default class NewClass extends cc.Component {
         ctx.lineTo(this.drawPanelWidth - 8, 4)
         ctx.moveTo(this.drawPanelWidth, 0)
         ctx.lineTo(this.drawPanelWidth - 8, -4)
-        ctx.strokeColor = cc.Color.BLACK
+        ctx.strokeColor = cc.Color.WHITE
         ctx.stroke()
 
 
@@ -114,11 +114,11 @@ export default class NewClass extends cc.Component {
         if (deskLocation == betLocaion.SKY) {
             ctx.strokeColor = this.colorSet[0]
             ctx.lineWidth = this.lineWith
-            y = 4
+            y = 8
         } else if (deskLocation == betLocaion.MIDDLE) {
             ctx.strokeColor = this.colorSet[1]
             ctx.lineWidth = this.lineWith
-            y = 2
+            y = 4
         } else {
             ctx.strokeColor = this.colorSet[2]
             ctx.lineWidth = this.lineWith
