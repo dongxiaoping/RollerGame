@@ -8,20 +8,25 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
-    @property(cc.Label)
-    label: cc.Label = null;
     @property(cc.Node)
     drawPanel: cc.Node = null //画板
     drawPanelWidth: number = 0//画板宽 
     drawPanelHeight: number = 0//画板高 
-    @property
-    text: string = 'hello';
     skyResult: boolean[] = []
     middleResult: boolean[] = []
     landResult: boolean[] = []
     colorSet: any[] = [cc.Color.YELLOW, cc.Color.RED, cc.Color.GREEN]
     lineWith: number = 2
     eventIdOne: any = null
+
+    @property(cc.Label)
+    xMiddlelabel: cc.Label = null;
+    @property(cc.Label)
+    yMiddlelabel: cc.Label = null;
+    @property(cc.Label)
+    xEndlabel: cc.Label = null;
+    @property(cc.Label)
+    yEndlabel: cc.Label = null;
     start() {
         this.reDraw()
     }
@@ -85,6 +90,25 @@ export default class NewClass extends cc.Component {
         ctx.strokeColor = cc.Color.WHITE
         ctx.stroke()
 
+        ctx.moveTo(this.drawPanelWidth / 2, 0)
+        ctx.lineTo(this.drawPanelWidth / 2, 6)
+        ctx.strokeColor = cc.Color.WHITE
+        ctx.stroke()
+
+
+        ctx.moveTo(this.drawPanelWidth - 12, 0)
+        ctx.lineTo(this.drawPanelWidth - 12, 6)
+        ctx.strokeColor = cc.Color.WHITE
+        ctx.stroke()
+
+        ctx.moveTo(0, this.drawPanelHeight / 2)
+        ctx.lineTo(6, this.drawPanelHeight / 2)
+        ctx.strokeColor = cc.Color.WHITE
+        ctx.stroke()
+        ctx.moveTo(0, this.drawPanelHeight - 12)
+        ctx.lineTo(6, this.drawPanelHeight - 12)
+        ctx.strokeColor = cc.Color.WHITE
+        ctx.stroke()
 
         ctx.moveTo(30, this.drawPanelHeight - 30)
         ctx.lineTo(50, this.drawPanelHeight - 30)
@@ -103,6 +127,11 @@ export default class NewClass extends cc.Component {
         ctx.strokeColor = this.colorSet[2]
         ctx.lineWidth = this.lineWith
         ctx.stroke()
+        let RaceCount = RoomManage.roomItem.playCount
+        this.yEndlabel.string = RaceCount + ''
+        this.xEndlabel.string = RaceCount + ''
+        this.xMiddlelabel.string = Math.floor(RaceCount / 2) + ''
+        this.yMiddlelabel.string = Math.floor(RaceCount / 2) + ''
     }
     drawByResult(winResult: boolean[], deskLocation: betLocaion) {
         let RaceCount = RoomManage.roomItem.playCount
@@ -114,11 +143,11 @@ export default class NewClass extends cc.Component {
         if (deskLocation == betLocaion.SKY) {
             ctx.strokeColor = this.colorSet[0]
             ctx.lineWidth = this.lineWith
-            y = 8
+            y = 4
         } else if (deskLocation == betLocaion.MIDDLE) {
             ctx.strokeColor = this.colorSet[1]
             ctx.lineWidth = this.lineWith
-            y = 4
+            y = 2
         } else {
             ctx.strokeColor = this.colorSet[2]
             ctx.lineWidth = this.lineWith
@@ -141,7 +170,7 @@ export default class NewClass extends cc.Component {
     onEnable() {
         this.drawPanelWidth = this.drawPanel.width
         this.drawPanelHeight = this.drawPanel.height
-        this.node.on(cc.Node.EventType.TOUCH_END, () => {
+        this.node.on(cc.Node.EventType.TOUCH_START, () => {
             this.node.destroy()
         })
 

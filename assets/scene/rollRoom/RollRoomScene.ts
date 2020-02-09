@@ -329,7 +329,7 @@ export default class NewClass extends cc.Component {
                 this.destroyChild('MiddleTopScorePanel') //删除总下注信息面板
                 this.node.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip() //删除桌上的下注币
             }
-            this.destroyChild('MiddleTopTimePanel') //删除倒计时时间面板
+            this.destroyTimePanel()
         } catch (e) {
             //cc.log(e)
         }
@@ -343,10 +343,17 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    destroyTimePanel() {//删除倒计时时间面板
+        let node = this.node.getChildByName('Desk').getChildByName('MiddleTopTimePanel')
+        if (node != null) {
+            node.destroy()
+        }
+    }
+
     showRaceSncyTimePanel() {
         var node = cc.instantiate(this.middleTopTimePanel)
         node.name = 'MiddleTopTimePanel'
-        node.parent = this.node
+        node.parent = this.node.getChildByName('Desk')
         node.setPosition(-215, 218);
         node.getComponent('MiddleTopTimePanel').waitRaceSync()
     }
@@ -354,7 +361,7 @@ export default class NewClass extends cc.Component {
     showLandlordSncyTimePanel() {
         var node = cc.instantiate(this.middleTopTimePanel)
         node.name = 'MiddleTopTimePanel'
-        node.parent = this.node
+        node.parent = this.node.getChildByName('Desk')
         node.setPosition(-215, 218);
         node.getComponent('MiddleTopTimePanel').waitLandlordSync()
     }
@@ -362,7 +369,7 @@ export default class NewClass extends cc.Component {
     showMiddleTopTimePanel() {
         var node = cc.instantiate(this.middleTopTimePanel)
         node.name = 'MiddleTopTimePanel'
-        node.parent = this.node
+        node.parent = this.node.getChildByName('Desk')
         node.setPosition(-215, 218);
         node.getComponent('MiddleTopTimePanel').betTimeShow()
     }
@@ -378,7 +385,6 @@ export default class NewClass extends cc.Component {
     destroyMiddleTopScorePanel() {
         let node = this.node.getChildByName('MiddleTopScorePanel')
         if (node != null) {
-            node.active = false
             node.destroy()
         }
     }
@@ -451,12 +457,12 @@ export default class NewClass extends cc.Component {
 
     //显示抢庄按钮
     private showChoiceLandLordPanel() {
-        let node = this.node.getChildByName('RapLandlordButton')
+        let node = this.node.getChildByName('Desk').getChildByName('RapLandlordButton')
         if (node) {
             node.active = true
         } else {
             node = cc.instantiate(this.rapLandlordButton)
-            node.parent = this.node
+            node.parent = this.node.getChildByName('Desk')
             node.setPosition(308, -220);
             node.active = true
         }
@@ -467,8 +473,8 @@ export default class NewClass extends cc.Component {
 
     //删除抢庄按钮
     private closeChoiceLandLordPanel() {
-        if (this.node.getChildByName('RapLandlordButton')) {
-            this.node.getChildByName('RapLandlordButton').destroy()
+        if (this.node.getChildByName('Desk').getChildByName('RapLandlordButton')) {
+            this.node.getChildByName('Desk').getChildByName('RapLandlordButton').destroy()
         }
     }
 
