@@ -12,8 +12,9 @@ export default class ChairManage {
     }
 
     private init() {
-        for (let i = 0; i < 10; i++) {
-            let chairName = 'Member_' + i
+        let list = [0, 1, 9, 2, 8, 3, 7, 4, 6, 5]
+        for (let i = 0; i < list.length; i++) {
+            let chairName = 'Member_' + list[i]
             let item = new ChairItem(this.cc, chairName, this.playUserIcon)
             this.chairList.push(item)
         }
