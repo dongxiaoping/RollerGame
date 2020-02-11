@@ -244,7 +244,7 @@ export default class NewClass extends cc.Component {
                 if (ConfigManage.isTxMusicOpen()) {
                     this.overBetLimitVoice.play()
                 }
-                this.node.parent.getComponent('Desk').showBetLimitTip()
+                cc.find('Canvas/Desk').getComponent('Desk').showBetLimitTip()
                 return
             }
             RaceManage.setClickXiaZhuVal(xiaZhuVal + UserManage.selectChipValue)
@@ -263,7 +263,7 @@ export default class NewClass extends cc.Component {
     }
 
     isOverBetTime(): boolean {
-        let betTime = cc.find('Canvas/MiddleTopTimePanel').getComponent('MiddleTopTimePanel').getShowTime()
+        let betTime = cc.find('Canvas/Desk/MiddleTopTimePanel').getComponent('MiddleTopTimePanel').getShowTime()
         if (betTime <= 1) {
             //cc.log('超出下注时间')
             return true

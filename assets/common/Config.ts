@@ -8,5 +8,5 @@ export const config: Config = {
   //websocketAddress: 'ws://127.0.0.1:2346',
   serverAddress: 'http://120.26.52.88/phpserver/public/index.php',
   websocketAddress: 'ws://120.26.52.88:2346',
-  version: 'rc-1.0.30'
+  version: 'rc-1.0.32'
 }

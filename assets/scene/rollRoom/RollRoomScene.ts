@@ -305,7 +305,7 @@ export default class NewClass extends cc.Component {
         //cc.log('我是房间面板，我收到所有比赛结束通知，我准备显示房间比赛分数统计面板')
         this.adjustBeforeRaceStateChange(RaceState.FINISHED)
         var node = cc.instantiate(this.roomResultPanel)
-        node.parent = this.node.getChildByName('Desk')
+        node.parent = cc.find('Canvas/Desk')
         node.setPosition(0, -70);
         node.active = true
     }
@@ -315,8 +315,8 @@ export default class NewClass extends cc.Component {
         try {
             this.closeChoiceLandLordPanel() // 删除抢庄按钮
             if (stateVal != RaceState.SHOW_DOWN) {
-                this.node.getChildByName('Desk').getComponent('Desk').deskPartsToClean() //删除桌子上各方位上的下注信息、focus显示
-                this.node.getChildByName('Desk').getComponent('Desk').cleanMahjongResulNodes() //删除麻将结果文字标签
+                cc.find('Canvas/Desk').getComponent('Desk').deskPartsToClean() //删除桌子上各方位上的下注信息、focus显示
+                cc.find('Canvas/Desk').getComponent('Desk').cleanMahjongResulNodes() //删除麻将结果文字标签
             }
             this.destroyRaceResultPanel() //删除指定场次结果面板
             this.closeStartButton() //删除关闭按钮
@@ -344,7 +344,7 @@ export default class NewClass extends cc.Component {
     }
 
     destroyTimePanel() {//删除倒计时时间面板
-        let node = this.node.getChildByName('Desk').getChildByName('MiddleTopTimePanel')
+        let node = cc.find('Canvas/Desk').getChildByName('MiddleTopTimePanel')
         if (node != null) {
             node.destroy()
         }
@@ -353,7 +353,7 @@ export default class NewClass extends cc.Component {
     showRaceSncyTimePanel() {
         var node = cc.instantiate(this.middleTopTimePanel)
         node.name = 'MiddleTopTimePanel'
-        node.parent = this.node.getChildByName('Desk')
+        node.parent = cc.find('Canvas/Desk')
         node.setPosition(-215, 218);
         node.getComponent('MiddleTopTimePanel').waitRaceSync()
     }
@@ -361,7 +361,7 @@ export default class NewClass extends cc.Component {
     showLandlordSncyTimePanel() {
         var node = cc.instantiate(this.middleTopTimePanel)
         node.name = 'MiddleTopTimePanel'
-        node.parent = this.node.getChildByName('Desk')
+        node.parent = cc.find('Canvas/Desk')
         node.setPosition(-215, 218);
         node.getComponent('MiddleTopTimePanel').waitLandlordSync()
     }
@@ -369,7 +369,7 @@ export default class NewClass extends cc.Component {
     showMiddleTopTimePanel() {
         var node = cc.instantiate(this.middleTopTimePanel)
         node.name = 'MiddleTopTimePanel'
-        node.parent = this.node.getChildByName('Desk')
+        node.parent = cc.find('Canvas/Desk')
         node.setPosition(-215, 218);
         node.getComponent('MiddleTopTimePanel').betTimeShow()
     }
@@ -402,12 +402,12 @@ export default class NewClass extends cc.Component {
     toShowRaceResultPanel(): void {
         let node = cc.instantiate(this.raceResultPanel)
         node.name = 'RaceResultPanel'
-        node.parent = this.node.getChildByName('Desk')
+        node.parent = cc.find('Canvas/Desk')
         node.active = true
     }
 
     destroyRaceResultPanel(): void {
-        let nodes = this.node.getChildByName('Desk').children
+        let nodes = cc.find('Canvas/Desk').children
         let i = 0;
         for (; i < nodes.length; i++) {
             if (nodes[i].name === 'RaceResultPanel') {
@@ -439,14 +439,14 @@ export default class NewClass extends cc.Component {
     private beginRollDice(): void {
         var node = cc.instantiate(this.rollDicePrefab)
         node.name = 'RollDice'
-        node.parent = this.node.getChildByName('Desk')
+        node.parent = cc.find('Canvas/Desk')
         node.setPosition(0, 0);
         node.active = true
     }
 
     //清空摇色子相关动画
     cleanRollDice() {
-        let nodes = this.node.getChildByName('Desk').children
+        let nodes = cc.find('Canvas/Desk').children
         let i = 0;
         for (; i < nodes.length; i++) {
             if (nodes[i].name === 'RollDice') {
@@ -457,12 +457,12 @@ export default class NewClass extends cc.Component {
 
     //显示抢庄按钮
     private showChoiceLandLordPanel() {
-        let node = this.node.getChildByName('Desk').getChildByName('RapLandlordButton')
+        let node = cc.find('Canvas/Desk').getChildByName('RapLandlordButton')
         if (node) {
             node.active = true
         } else {
             node = cc.instantiate(this.rapLandlordButton)
-            node.parent = this.node.getChildByName('Desk')
+            node.parent = cc.find('Canvas/Desk')
             node.setPosition(308, -220);
             node.active = true
         }
@@ -473,8 +473,8 @@ export default class NewClass extends cc.Component {
 
     //删除抢庄按钮
     private closeChoiceLandLordPanel() {
-        if (this.node.getChildByName('Desk').getChildByName('RapLandlordButton')) {
-            this.node.getChildByName('Desk').getChildByName('RapLandlordButton').destroy()
+        if (cc.find('Canvas/Desk').getChildByName('RapLandlordButton')) {
+            cc.find('Canvas/Desk').getChildByName('RapLandlordButton').destroy()
         }
     }
 

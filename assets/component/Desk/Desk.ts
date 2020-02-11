@@ -209,7 +209,7 @@ export default class Desk extends cc.Component {
     toMahjongValueLabelShow(tableLocationType: TableLocationType, majongScore: DiceCountInfo) {
         let location = getLocationByLocaitonType(tableLocationType)
         let node = cc.instantiate(this.majongResultLabel)
-        node.parent = this.node.parent.getChildByName('Desk')
+        node.parent = cc.find('Canvas/Desk')
         node.setPosition(location.x, location.y - 20);
         node.getComponent('MahjongResultLabel').showResultWenZi(majongScore)
         node.active = true

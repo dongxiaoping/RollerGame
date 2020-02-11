@@ -55,8 +55,7 @@ export default class NewClass extends cc.Component {
     }
 
     getUserChairPosition(userId: string): Coordinate {
-        let node = this.node.parent
-        let deskOb = node.getChildByName('Desk').getComponent('Desk')
+        let deskOb = cc.find('Canvas/Desk').getComponent('Desk')
         return deskOb.chairManage.getChairPositionByUserId(userId)
     }
 
@@ -109,7 +108,7 @@ export default class NewClass extends cc.Component {
             node.width = this.otherMemberChipSize
             node.height = this.otherMemberChipSize
         }
-        node.parent = this.node.parent.getChildByName('Desk')
+        node.parent = cc.find('Canvas/Desk')
         this.deskChipList.push(node.name)
         return node
     }
@@ -117,7 +116,7 @@ export default class NewClass extends cc.Component {
     //清除发出去的chip
     destroyDeskChip(): void {
         this.deskChipList.forEach(element => {
-            let ob = this.node.parent.getChildByName('Desk').getChildByName(element)
+            let ob = cc.find('Canvas/Desk').getChildByName(element)
             if (ob) {
                 ob.destroy()
             }
@@ -146,8 +145,7 @@ export default class NewClass extends cc.Component {
     backAllChipe() {
         let isSuccess = false
         this.deskChipList.forEach(element => {
-            let desk = this.node.parent.getChildByName('Desk')
-            let ob = this.node.parent.getChildByName('Desk').getChildByName(element)
+            let ob = cc.find('Canvas/Desk').getChildByName(element)
             if (ob) {
                 isSuccess = true
                 let jsOb = ob.getComponent('Chip')
@@ -172,7 +170,7 @@ export default class NewClass extends cc.Component {
         this.betCancelEventId = randEventId()
         eventBus.on(EventType.BET_CANCE_NOTICE, this.betCancelEventId, (info: BetChipChangeInfo): void => {
             this.deskChipList.forEach(element => {
-                let ob = this.node.parent.getChildByName('Desk').getChildByName(element)
+                let ob = cc.find('Canvas/Desk').getChildByName(element)
                 if (ob) {
                     let jsOb = ob.getComponent('Chip')
                     jsOb.cancelChip(info)

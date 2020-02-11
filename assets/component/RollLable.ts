@@ -92,10 +92,11 @@ export default class RollLable extends cc.Component {
     }
 
     _rollText(): void {
-        try {
-            //var self = this;
-            if (this._strings.length > 0) {
-                setTimeout(function () {
+
+        //var self = this;
+        if (this._strings.length > 0) {
+            setTimeout(function () {
+                try {
                     var d = this.label.node.x + this._d1;
                     var x = - this._d1;
                     var t = d / this.speed;
@@ -124,10 +125,10 @@ export default class RollLable extends cc.Component {
                             }
                         }.bind(this))
                     ));
-                }.bind(this), 800);
-            }
-        } catch (e) {
-            //console.log(e)
+                } catch (e) {
+                    //console.log(e)
+                }
+            }.bind(this), 800);
         }
     }
 

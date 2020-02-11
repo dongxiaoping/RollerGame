@@ -33,42 +33,46 @@ export default class NewClass extends cc.Component {
     }
 
     addFaceIconEvent() {
-        this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
-            this.node.destroy()
-        })
-
-        this.ziButton.on(cc.Node.EventType.TOUCH_END, (event: any) => {
-            this.ziPart.active = true
-            this.facePart.active = false
-        })
-        this.faceButton.on(cc.Node.EventType.TOUCH_END, (event: any) => {
-            this.ziPart.active = false
-            this.facePart.active = true
-        })
-
-        let i = 0
-        for (; i < faceList.length; i++) {
-            let itemNode = cc.instantiate(this.faceItem)
-            itemNode.name = i + ''
-            this.faceContent.addChild(itemNode)
-            if (faceList[i].name.indexOf('ES') != -1) {
-                itemNode.width = 70
-                itemNode.height = 70
-            }
-            cc.loader.loadRes('ChatCarton/' + faceList[i].name, (error, img) => {
-                let myIcon = new cc.SpriteFrame(img);
-                itemNode.getChildByName('Pic').getComponent(cc.Sprite).spriteFrame = myIcon
+        try {
+            this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
+                this.node.destroy()
             })
-            this.addNotice(itemNode, ChatMessageType.PIC)
-        }
 
-        i = 0
-        for (; i < wenZiList.length; i++) {
-            let itemNode = cc.instantiate(this.ziItem)
-            itemNode.getComponent(cc.Label).string = wenZiList[i]['content']
-            itemNode.name = i + ''
-            this.ziContent.addChild(itemNode)
-            this.addNotice(itemNode, ChatMessageType.WEN_ZI)
+            this.ziButton.on(cc.Node.EventType.TOUCH_END, (event: any) => {
+                this.ziPart.active = true
+                this.facePart.active = false
+            })
+            this.faceButton.on(cc.Node.EventType.TOUCH_END, (event: any) => {
+                this.ziPart.active = false
+                this.facePart.active = true
+            })
+
+            let i = 0
+            for (; i < faceList.length; i++) {
+                let itemNode = cc.instantiate(this.faceItem)
+                itemNode.name = i + ''
+                this.faceContent.addChild(itemNode)
+                if (faceList[i].name.indexOf('ES') != -1) {//
+                    itemNode.width = 70
+                    itemNode.height = 70
+                }
+                cc.loader.loadRes('ChatCarton/' + faceList[i].name, (error, img) => {
+                    let myIcon = new cc.SpriteFrame(img);
+                    itemNode.getChildByName('Pic').getComponent(cc.Sprite).spriteFrame = myIcon
+                })
+                this.addNotice(itemNode, ChatMessageType.PIC)
+            }
+
+            i = 0
+            for (; i < wenZiList.length; i++) {
+                let itemNode = cc.instantiate(this.ziItem)
+                itemNode.getComponent(cc.Label).string = wenZiList[i]['content']
+                itemNode.name = i + ''
+                this.ziContent.addChild(itemNode)
+                this.addNotice(itemNode, ChatMessageType.WEN_ZI)
+            }
+        } catch (e) {
+            console.log(e)
         }
     }
 
