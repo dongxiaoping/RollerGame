@@ -47,7 +47,7 @@ export default class NewClass extends cc.Component {
                 this.facePart.active = true
             })
 
-            let i = 0
+            let i = 1
             for (; i < faceList.length; i++) {
                 let itemNode = cc.instantiate(this.faceItem)
                 itemNode.name = i + ''
@@ -63,14 +63,14 @@ export default class NewClass extends cc.Component {
                 this.addNotice(itemNode, ChatMessageType.PIC)
             }
 
-            i = 0
-            for (; i < wenZiList.length; i++) {
-                let itemNode = cc.instantiate(this.ziItem)
-                itemNode.getComponent(cc.Label).string = wenZiList[i]['content']
-                itemNode.name = i + ''
-                this.ziContent.addChild(itemNode)
-                this.addNotice(itemNode, ChatMessageType.WEN_ZI)
-            }
+            // i = 0
+            // for (; i < wenZiList.length; i++) {
+            //     let itemNode = cc.instantiate(this.ziItem)
+            //     itemNode.getComponent(cc.Label).string = wenZiList[i]['content']
+            //     itemNode.name = i + ''
+            //     this.ziContent.addChild(itemNode)
+            //     this.addNotice(itemNode, ChatMessageType.WEN_ZI)
+            // }
         } catch (e) {
             console.log(e)
         }

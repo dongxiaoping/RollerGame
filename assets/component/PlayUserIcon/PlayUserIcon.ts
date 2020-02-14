@@ -22,6 +22,8 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Sprite)
     offLineIcon: cc.Sprite = null;
+    @property(cc.Sprite)
+    fangZhuIcon: cc.Sprite = null;
 
     eventIdOne: string = ''
     eventIdTwo: string = ''
@@ -51,6 +53,9 @@ export default class NewClass extends cc.Component {
 
     setShow(memberData: MemberInChairData) {
         this.memberData = memberData
+        if (this.memberData.userId == RoomManage.roomItem.creatUserId) {
+            this.fangZhuIcon.node.active = true
+        }
         this.userIcon.spriteFrame = null
         this.userName.string = memberData.userName
         this.changeByUserState(memberData.state)
