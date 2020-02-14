@@ -99,7 +99,7 @@ export default class DealMachine extends cc.Component {
             if (!mhjong) {
                 mhjong = cc.instantiate(this.mjDouble)
                 mhjong.name = item.name
-                mhjong.parent = this.node.parent
+                mhjong.parent = cc.find('Canvas/Desk')
                 mhjong.setPosition(item.location.x, item.location.y);
             }
         })

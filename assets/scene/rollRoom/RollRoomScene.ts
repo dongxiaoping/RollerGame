@@ -322,7 +322,7 @@ export default class NewClass extends cc.Component {
             this.closeStartButton() //删除关闭按钮
             this.cleanRollDice() //删除锺以及色子
             if (stateVal != RaceState.BET && stateVal != RaceState.SHOW_DOWN) {
-                this.node.getChildByName('DealMachine').getComponent('DealMachine').cleanMajong() //删除下发的麻将
+                cc.find('Canvas/DealMachine').getComponent('DealMachine').cleanMajong() //删除下发的麻将
             }
             if (stateVal != RaceState.SHOW_DOWN) {
                 // this.destroyChild('BetChipItem')  //不知道是什么

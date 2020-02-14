@@ -69,12 +69,18 @@ export default class NewClass extends cc.Component {
                 }
             })
         } else {
-            cc.loader.load({ url: memberData.userIcon, type: 'png' }, (err, img: any) => {
+            cc.loader.loadRes('renwu/1_3', (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 if (myIcon !== null && this.userIcon != null) {
                     this.userIcon.spriteFrame = myIcon
                 }
-            });
+            })
+            // cc.loader.load({ url: 'http://www.toplaygame.cn/default_user_icon.png', type: 'png' }, (err, img: any) => {
+            //     let myIcon = new cc.SpriteFrame(img);
+            //     if (myIcon !== null && this.userIcon != null) {
+            //         this.userIcon.spriteFrame = myIcon
+            //     }
+            // });
         }
     }
 
