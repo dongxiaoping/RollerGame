@@ -7,6 +7,6 @@ export const config: Config = {
   //serverAddress: 'http://127.0.0.1/phpserver/public/index.php',
   //websocketAddress: 'ws://127.0.0.1:2346',
   serverAddress: 'https://www.toplaygame.cn/phpserver/public/index.php',
-  websocketAddress: 'ws://www.toplaygame.cn:2346',
-  version: 'rc-1.0.38'
+  websocketAddress: 'wss://www.toplaygame.cn/wss',
+  version: 'rc-1.0.41'
 }
