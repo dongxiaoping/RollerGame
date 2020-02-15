@@ -6,7 +6,7 @@ interface Config {
 export const config: Config = {
   //serverAddress: 'http://127.0.0.1/phpserver/public/index.php',
   //websocketAddress: 'ws://127.0.0.1:2346',
-  serverAddress: 'http://120.26.52.88/phpserver/public/index.php',
-  websocketAddress: 'ws://120.26.52.88:2346',
-  version: 'rc-1.0.34'
+  serverAddress: 'https://www.toplaygame.cn/phpserver/public/index.php',
+  websocketAddress: 'ws://www.toplaygame.cn:2346',
+  version: 'rc-1.0.38'
 }
