@@ -134,7 +134,7 @@ class WebSocketManage {
                 eventBus.emit(EventType.CARTON_MESSAGE_NOTICE, message)
                 break;
             case 'memberWaitForLandlord': //用户选择当庄
-                let setInfo = { userId: message.userId, type: ChatMessageType.PIC, message: 0 } as CartonMessage
+                let setInfo = { userId: message.userId, type: ChatMessageType.QIANG_ZHUANG, message: 0 } as CartonMessage
                // console.log('接收到用户抢庄通知：'+JSON.stringify(setInfo))
                 eventBus.emit(EventType.CARTON_MESSAGE_NOTICE, setInfo)
                 break;

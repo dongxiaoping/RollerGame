@@ -378,6 +378,7 @@ export enum TipDialogButtonAction {
 export enum ChatMessageType {
     WEN_ZI = 1, //文字
     PIC = 2, //图片
+    QIANG_ZHUANG = 3 //抢庄动画通知
 }
 
 export interface CartonMessage {

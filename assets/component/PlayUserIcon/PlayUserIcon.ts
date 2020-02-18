@@ -154,7 +154,11 @@ export default class NewClass extends cc.Component {
             if (info.userId == this.memberData.userId) {
                 //cc.log('显示动画')
                 if (info.type == ChatMessageType.PIC) {
-                    this.faceShow(info)
+                    let facecItem = faceList[info.message]
+                    this.faceShow(facecItem)
+                } else if (info.type == ChatMessageType.QIANG_ZHUANG) {
+                    let facecItem = { name: 'jzhuang', size: { x: 80, y: 41 } }
+                    this.faceShow(facecItem)
                 } else {
                     this.ziShow(info)
                 }
@@ -162,15 +166,15 @@ export default class NewClass extends cc.Component {
         })
     }
 
-    faceShow(info: CartonMessage) {
-        cc.loader.loadRes('ChatCarton/' + faceList[info.message].name, (error, img) => {
+    faceShow(facecItem: any) {
+        cc.loader.loadRes('ChatCarton/' + facecItem.name, (error, img) => {
             let node = cc.instantiate(this.messageIconPref)
             node.parent = this.node.parent.parent
             let x = this.node.parent.position.x + 50
             let y = this.node.parent.position.y + 30
             node.setPosition(x, y);
-            node.width = faceList[info.message].size.x
-            node.height = faceList[info.message].size.y
+            node.width = facecItem.size.x
+            node.height = facecItem.size.y
             let myIcon = new cc.SpriteFrame(img);
             node.getChildByName('Pic').getComponents(cc.Sprite)[0].spriteFrame = myIcon
             setTimeout(() => {
