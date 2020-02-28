@@ -8,5 +8,5 @@ export const config: Config = {
   //websocketAddress: 'ws://127.0.0.1:2346',
   serverAddress: 'https://www.toplaygame.cn/phpserver/public/index.php',
   websocketAddress: 'wss://www.toplaygame.cn/wss',
-  version: 'rc-1.0.41'
+  version: 'rc-1.0.42'
 }
