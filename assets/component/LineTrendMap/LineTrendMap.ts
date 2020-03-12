@@ -15,7 +15,7 @@ export default class NewClass extends cc.Component {
     skyResult: boolean[] = []
     middleResult: boolean[] = []
     landResult: boolean[] = []
-    colorSet: any[] = [cc.Color.YELLOW, cc.Color.RED, cc.Color.GREEN]
+    colorSet: any[] = [cc.Color.GRAY, cc.Color.RED, cc.Color.GREEN]
     lineWith: number = 2
     eventIdOne: any = null
 
