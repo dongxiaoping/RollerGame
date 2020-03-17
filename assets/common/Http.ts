@@ -8,6 +8,7 @@ export class Http {
         let err = false
         var xhr = cc.loader.getXMLHttpRequest();
         xhr.open("GET", url, true);
+        xhr.setRequestHeader('cache-control','no-cache');
         xhr["onloadend"] = function () {
             if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status <= 207)) {
                 err = false;
@@ -33,6 +34,7 @@ export class Http {
     sendWithUrl(url: string, params: string, callback: any) {
         var xhr = cc.loader.getXMLHttpRequest();
         xhr.open("POST", url);
+        xhr.setRequestHeader('cache-control','no-cache');
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
         xhr["onloadend"] = function () {
             var sc = -1
