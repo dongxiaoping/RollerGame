@@ -71,6 +71,8 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     showBetLimit: cc.Label = null; //下注限制数显示
     @property(cc.Label)
+    memberLimit: cc.Label = null; //人数
+    @property(cc.Label)
     showPlayCountLimit: cc.Label = null; //牌局进行信息显示
     @property(cc.Label)
     showPlayMode: cc.Label = null; //上庄模式显示
@@ -109,7 +111,14 @@ export default class NewClass extends cc.Component {
             if (isUrlToGameRoom()) {
                 this.startByUrl()
             } else {
-                this.execBackLobby()
+                let node = cc.instantiate(this.tipDialog)
+                let scriptOb = node.getComponent('TipDialog')
+                node.parent = this.node
+                let dialogParam = {
+                    sureButtonShow: true, cancelButtonShow: false, content: "房间不存在或已关闭！", cancelButtonAction: null,
+                    sureButtonAction: TipDialogButtonAction.OUT_ROOM
+                } as TipDialogParam
+                scriptOb.tipDialogShow(dialogParam)
             }
         } else {
             this.startByEnterMode(enterRoomParam)
@@ -258,6 +267,7 @@ export default class NewClass extends cc.Component {
         this.showRoomNum.string = '房间号：' + roomInfo.id
         this.showBetLimit.string = '下注上限：' + roomInfo.costLimit
         this.showPlayCountLimit.string = '当前牌局：' + (roomInfo.oningRaceNum + 1) + '/' + roomInfo.playCount
+        this.memberLimit.string = '玩家上限：'+roomInfo.memberLimit
     }
 
     enterEmulatorRoom() {

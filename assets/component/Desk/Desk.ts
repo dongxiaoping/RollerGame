@@ -36,7 +36,7 @@ export default class Desk extends cc.Component {
     private majongResultLabel: cc.Prefab = null  //麻将分数文字标签
 
     @property(cc.AudioSource)
-    qingxiazhu: cc.AudioSource = null //请下注语音
+    qingxiazhuVoice: cc.AudioSource = null //请下注语音
 
     mahjongResulNodes: any[] = [] //麻将结果文字标签节点，需要在结束后销毁，所以保存实例化node
 
@@ -283,7 +283,7 @@ export default class Desk extends cc.Component {
     //执行请下注动画
     playingXiaZhuAnimation() {
         if (ConfigManage.isTxMusicOpen()) {
-            this.qingxiazhu.play()
+            this.qingxiazhuVoice.play()
         }
         let node = cc.instantiate(this.qingXiaZhu)
         node.parent = this.node

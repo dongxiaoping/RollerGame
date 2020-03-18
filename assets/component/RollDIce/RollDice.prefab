@@ -596,7 +596,7 @@
     "_mute": false,
     "_loop": true,
     "playOnLoad": false,
-    "preload": false,
+    "preload": true,
     "_id": ""
   },
   {

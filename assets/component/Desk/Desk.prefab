@@ -4114,7 +4114,7 @@
     "_mute": false,
     "_loop": false,
     "playOnLoad": false,
-    "preload": false,
+    "preload": true,
     "_id": ""
   },
   {
@@ -5513,7 +5513,7 @@
     "majongResultLabel": {
       "__uuid__": "66d5e15e-a278-4fb6-9ec9-9f54323a0c61"
     },
-    "qingxiazhu": {
+    "qingxiazhuVoice": {
       "__id__": 114
     },
     "skyLineSprite": {
