@@ -1,8 +1,8 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel } from '../../common/Const'
-import { getFaPaiLocation, randEventId } from '../../common/Util'
+import { NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam } from '../../common/Const'
+import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollControler from '../../common/RollControler'
@@ -104,10 +104,35 @@ export default class NewClass extends cc.Component {
 
     start() {
         RoomManage.reSet() //清楚上次房间的数据记录
+        let enterRoomParam = RoomManage.getEnterRoomParam()
+        if (enterRoomParam == null) {
+            if (isUrlToGameRoom()) {
+                this.startByUrl()
+            }else{
+                this.execBackLobby()
+            }
+        } else {
+            this.startByEnterMode(enterRoomParam)
+        }
+
+    }
+
+    async startByUrl() {
+        let info = await UserManage.requestUserInfo();
+        let userId = UserManage.userInfo.id
+        RoomManage.setEnterRoomParam({
+            model: EnterRoomModel.SHARE,
+            userId: userId,
+            roomId: parseInt(getUrlParam('roomId'))
+        } as EnterRoomParam)
+        let enterRoomParam = RoomManage.getEnterRoomParam()
+        this.startByEnterMode(enterRoomParam)
+    }
+
+    startByEnterMode(enterRoomParam: EnterRoomParam) {
         if (ConfigManage.isBackMusicOpen()) {
             this.backMusic.play()
         }
-        let enterRoomParam = RoomManage.getEnterRoomParam()
         let isEmulatorRoom = enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM ? true : false
         this.controller = new RollControler(cc, isEmulatorRoom, this)
         if (isEmulatorRoom) {
@@ -295,8 +320,10 @@ export default class NewClass extends cc.Component {
     //返回大厅行为
     execBackLobby() {
         //cc.log('退出到主页')
-        this.controller.close()
-        this.controller = null
+        if(this.controller){
+            this.controller.close()
+            this.controller = null
+        }
         cc.director.loadScene("LobbyScene");
         this.destroy()
     }

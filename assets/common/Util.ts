@@ -48,8 +48,7 @@ export function getUrlParam(name: string) {
 //是否是Url直接去游戏房间的URL,如果是 要传userId 以及roomId
 export function isUrlToGameRoom(): boolean {
     let roomId = getUrlParam('roomId')
-    let userId = getUrlParam('userId')
-    if (roomId !== null && userId !== null) {
+    if (roomId !== null ) {
         return true
     }
     return false

@@ -68,14 +68,14 @@ export default class LobbyScene extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        if (isUrlToGameRoom()) {
-            RoomManage.setEnterRoomParam({
-                model: EnterRoomModel.SHARE,
-                userId: getUrlParam('userId'),
-                roomId: parseInt(getUrlParam('roomId'))
-            } as EnterRoomParam)
-            cc.director.loadScene("RollRoomScene")
-        }
+        // if (isUrlToGameRoom()) {
+        //     RoomManage.setEnterRoomParam({
+        //         model: EnterRoomModel.SHARE,
+        //         userId: getUrlParam('userId'),
+        //         roomId: parseInt(getUrlParam('roomId'))
+        //     } as EnterRoomParam)
+        //     cc.director.loadScene("RollRoomScene")
+        // }
     }
 
     onEnable() {
