@@ -108,7 +108,7 @@ export default class NewClass extends cc.Component {
         if (enterRoomParam == null) {
             if (isUrlToGameRoom()) {
                 this.startByUrl()
-            }else{
+            } else {
                 this.execBackLobby()
             }
         } else {
@@ -130,9 +130,17 @@ export default class NewClass extends cc.Component {
     }
 
     startByEnterMode(enterRoomParam: EnterRoomParam) {
-        if (ConfigManage.isBackMusicOpen()) {
-            this.backMusic.play()
-        }
+        this.scheduleOnce(() => { //定时器
+            if (ConfigManage.isBackMusicOpen()) {
+                this.backMusic.play()
+
+            }
+        }, 0.5);
+        this.scheduleOnce(() => { //定时器
+            if (ConfigManage.isBackMusicOpen() && (!this.backMusic.isPlaying)) {
+                this.backMusic.play()
+            }
+        }, 4);
         let isEmulatorRoom = enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM ? true : false
         this.controller = new RollControler(cc, isEmulatorRoom, this)
         if (isEmulatorRoom) {
@@ -320,7 +328,7 @@ export default class NewClass extends cc.Component {
     //返回大厅行为
     execBackLobby() {
         //cc.log('退出到主页')
-        if(this.controller){
+        if (this.controller) {
             this.controller.close()
             this.controller = null
         }
