@@ -46,9 +46,13 @@ export default class ChairManage {
     public outChair(userId: string) {
         try {
             for (let i = 0; i < this.chairList.length; i++) {
-                if (!this.chairList[i].isChairEmputy() && this.chairList[i].getUserInfo().userId === userId) {
-                    this.chairList[i].outChair(() => { })
-                    break
+                if(!this.chairList[i].isChairEmputy()){
+                    let theUserId = this.chairList[i].getUserInfo().userId
+                    if ( theUserId == userId) {
+                        this.chairList[i].outChair(() => { })
+                        cc.log('用户离开桌位:'+userId)
+                        break
+                    }
                 }
             }
         } catch (e) {

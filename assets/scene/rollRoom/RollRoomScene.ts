@@ -103,6 +103,7 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     beginVoice: cc.AudioSource = null;
     eventIdOne: string = null
+    eventIdTwo: string = null
 
     start() {
         RoomManage.reSet() //清楚上次房间的数据记录
@@ -179,6 +180,14 @@ export default class NewClass extends cc.Component {
                 case LocalNoticeEventType.DIAMOND_COUNT_CHANGE:
                     this.diamondScoreLable.string = info.info + ''
                     break
+            }
+        })
+
+        this.eventIdTwo = randEventId()
+        eventBus.on(EventType.MEMBER_DELETE_FROM_ROOM, this.eventIdTwo, (userId: string): void => {
+            if (UserManage.userInfo.id == userId) {
+                cc.log('我被踢出房间:'+userId)
+                this.execBackLobby()
             }
         })
     }
@@ -586,6 +595,8 @@ export default class NewClass extends cc.Component {
 
     onDisable() {
         eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne)
+        eventBus.off(EventType.MEMBER_DELETE_FROM_ROOM, this.eventIdTwo)
+        
         try {
             let enterRoomParam = RoomManage.getEnterRoomParam()
             if (enterRoomParam.model !== EnterRoomModel.EMULATOR_ROOM) {
