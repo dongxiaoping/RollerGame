@@ -209,6 +209,7 @@ export default class NewClass extends cc.Component {
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {
             //cc.log('进入房间失败')
+            cc.log(result)
             this.showEnterRoomFailTip(result.extObject)
             return
         }
