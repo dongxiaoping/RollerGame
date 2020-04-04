@@ -304,7 +304,8 @@ export enum EnterRoomFail {
     room_close = '房间已关闭',
     in_room_fail = '进入房间异常', //进入房间，插入数据库异常
     interface_fail = '接口请求异常', //接口异常
-    has_kickout = '无法进入该房间'
+    has_kickout = '无法进入该房间',
+    has_playing = '游戏已开始，无法进入'
 }
 
 //创建房间错误类型
