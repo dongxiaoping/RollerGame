@@ -75,6 +75,26 @@ class GameMemberManage {
         }
         return this._gameMenmberList[userId]
     }
+
+    //将socket传过来的玩家信息和本地玩家信息对比，对本地玩家信息进行核对
+    checkRoomMember(memeberIdList: string[]) {
+        let invaildMemeberIds = []
+        this.gameMenmberList.forEach((item: GameMemberItem) => {
+            let isExist = false
+            for (let j = 0; j < memeberIdList.length; j++) {
+                if (memeberIdList[j] == item.userId) {
+                    isExist = true
+                    break
+                }
+            }
+            if (!isExist) {
+                invaildMemeberIds.push(item.userId)
+            }
+        })
+        for (let i = 0; i < invaildMemeberIds.length; i++) {
+            this.outGameMember(invaildMemeberIds[i])
+        }
+    }
 }
 
 export default new GameMemberManage

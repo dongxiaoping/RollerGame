@@ -139,6 +139,11 @@ class WebSocketManage {
                // console.log('接收到用户抢庄通知：'+JSON.stringify(setInfo))
                 eventBus.emit(EventType.CARTON_MESSAGE_NOTICE, setInfo)
                 break;
+            case 'checkRoomMember': //房间游戏启动前的成员核对
+                console.log("成员核对")
+                console.log(message)
+                GameMemberManage.checkRoomMember(message);
+            break;
         }
     }
 }
