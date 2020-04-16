@@ -148,45 +148,56 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    //是否需要执行取消下注动作
+    isNeedToCancel(event: any): boolean {
+        let isTouchMove = touchMoveEvent(event)
+        if (!isTouchMove) {
+            return false
+        }
+        if (this.cancelBetLock || this.ownScore == 0) {
+            return false
+        }
+        let raceNum = RoomManage.roomItem.oningRaceNum
+        if (RaceManage.raceList[raceNum].state !== RaceState.BET) {
+            return false
+        }
+        if (this.isOverBetTime()) {
+            return false
+        }
+        return true
+    }
+
     addClickEvent() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
+            //cc.log('删除打印：执行删除动作')
+            if (!this.isNeedToCancel(event)) {
+                return
+            }
 
-            let isTouchMove = touchMoveEvent(event)
-            if (isTouchMove) {
-                if (this.cancelBetLock || this.ownScore == 0) {
-                    return
-                }
-                let raceNum = RoomManage.roomItem.oningRaceNum
-                if (RaceManage.raceList[raceNum].state !== RaceState.BET) {
-                    return
-                }
-                if (this.isOverBetTime()) {
-                    return
-                }
-                //cc.log('删除打印：执行删除动作')
-                this.cancelBetLock = true
-                this.showCancelChipAn()
+            let betLocation = this.typeValue as betLocaion
+            let raceNum = RoomManage.roomItem.oningRaceNum
+            let betParam = { userId: UserManage.userInfo.id, raceNum: raceNum, betLocation: betLocation } as BetNoticeData
+            let localBetVal = BetManage.getBetByLocation(betParam)
+            let xiaZhuVal = RaceManage.getClickXiaZhuVal()
+            let enterRoomParam = RoomManage.getEnterRoomParam()
+            let successNowVal = xiaZhuVal - localBetVal //删除成功后总的下注值
+            this.cancelBetLock = true
+
+
+            //删除动画以及声音
+            this.showCancelChipAn()
+            if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
+                BetManage.cancelBet(betParam)
                 if (ConfigManage.isTxMusicOpen()) {
                     this.chipCancelVoice.play()
                 }
-                let roomId = RoomManage.roomItem.id
-                let userId = UserManage.userInfo.id
-                let betLocation = this.typeValue as betLocaion
-                let betParam = { userId: userId, raceNum: raceNum, betLocation: betLocation } as BetNoticeData
-                let localBetVal = BetManage.getBetByLocation(betParam)
-                let xiaZhuVal = RaceManage.getClickXiaZhuVal()
-                RaceManage.setClickXiaZhuVal(xiaZhuVal - localBetVal)
-                let enterRoomParam = RoomManage.getEnterRoomParam()
-                if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM) { //模拟房间删除
-                    BetManage.cancelBet(betParam)
-                    this.scheduleOnce(() => {
-                        this.cancelBetLock = false
-                    }, 0.5);
-                    return
-                }
-                this.execCancel(roomId, userId, raceNum, betLocation)
+                RaceManage.setClickXiaZhuVal(successNowVal)//设置当前场次总的下注值
+                this.scheduleOnce(() => {
+                    this.cancelBetLock = false
+                }, 0.5);
                 return
             }
+            this.execCancel(RoomManage.roomItem.id, UserManage.userInfo.id, raceNum, betLocation, successNowVal)
         })
 
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
@@ -271,8 +282,12 @@ export default class NewClass extends cc.Component {
         return false
     }
 
-    async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion) {
+    async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion, nowVal: number) {
         let result = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
+        if (ConfigManage.isTxMusicOpen()) {
+            this.chipCancelVoice.play()
+        }
+        RaceManage.setClickXiaZhuVal(nowVal)//设置当前场次总的下注值
         this.scheduleOnce(() => {
             this.cancelBetLock = false
         }, 0.5);
