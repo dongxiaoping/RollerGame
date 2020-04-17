@@ -8,6 +8,9 @@ import RoomManage from '../../store/Room/RoomManage'
 import RollControler from '../../common/RollControler'
 import ConfigManage from '../../store/Config/ConfigManage'
 import webSocketManage from '../../common/WebSocketManage'
+import GameMemberManage from '../../store/GameMember/GameMemberManage';
+import BetManage from '../../store/Bets/BetManage';
+
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -106,44 +109,58 @@ export default class NewClass extends cc.Component {
     eventIdTwo: string = null
 
     start() {
-        RoomManage.reSet() //清楚上次房间的数据记录
-        let enterRoomParam = RoomManage.getEnterRoomParam()
-        if (enterRoomParam == null) {
-            if (isUrlToGameRoom()) {
-                this.startByUrl()
-            } else {
-                let node = cc.instantiate(this.tipDialog)
-                let scriptOb = node.getComponent('TipDialog')
-                node.parent = this.node
-                let dialogParam = {
-                    sureButtonShow: true, cancelButtonShow: false, content: "房间不存在或已关闭！", cancelButtonAction: null,
-                    sureButtonAction: TipDialogButtonAction.OUT_ROOM
-                } as TipDialogParam
-                scriptOb.tipDialogShow(dialogParam)
-            }
-        } else {
+        this.clear()
+        let enterRoomParam = this.getEnterRoomParam()
+        if (enterRoomParam) {
             this.startByEnterMode(enterRoomParam)
+        } else {
+            let dialogParam = {
+                sureButtonShow: true, cancelButtonShow: false, content: "房间不存在或已关闭！", cancelButtonAction: null,
+                sureButtonAction: TipDialogButtonAction.OUT_ROOM
+            } as TipDialogParam
+            this.dialogShow(dialogParam)
         }
 
     }
 
-    async startByUrl() {
-        let info = await UserManage.requestUserInfo();
-        let userId = UserManage.userInfo.id
-        RoomManage.setEnterRoomParam({
-            model: EnterRoomModel.SHARE,
-            userId: userId,
-            roomId: parseInt(getUrlParam('roomId'))
-        } as EnterRoomParam)
+    dialogShow(dialogParam: TipDialogParam) {
+        let node = cc.instantiate(this.tipDialog)
+        let scriptOb = node.getComponent('TipDialog')
+        node.parent = this.node
+        scriptOb.tipDialogShow(dialogParam)
+    }
+
+    getEnterRoomParam(): EnterRoomParam {
         let enterRoomParam = RoomManage.getEnterRoomParam()
-        this.startByEnterMode(enterRoomParam)
+        if (enterRoomParam == null && isUrlToGameRoom()) {
+            RoomManage.setEnterRoomParam({
+                model: EnterRoomModel.SHARE,
+                userId: null,
+                roomId: parseInt(getUrlParam('roomId'))
+            } as EnterRoomParam)
+        }
+        return RoomManage.getEnterRoomParam()
+    }
+
+    //将游戏房间重置为初始进入的状态
+    clear(): void {
+        RoomManage.clear()
+        RaceManage.clear()
+        GameMemberManage.clear()
+        BetManage.clear()
     }
 
     startByEnterMode(enterRoomParam: EnterRoomParam) {
+        let isEmulatorRoom = enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM ? true : false
+        this.controller = new RollControler(cc, isEmulatorRoom, this)
+        if (isEmulatorRoom) {
+            this.startEmulatorGame()
+        } else {
+            this.startWebGame(enterRoomParam)
+        }
         this.scheduleOnce(() => { //定时器
             if (ConfigManage.isBackMusicOpen()) {
                 this.backMusic.play()
-
             }
         }, 0.5);
         this.scheduleOnce(() => { //定时器
@@ -151,15 +168,6 @@ export default class NewClass extends cc.Component {
                 this.backMusic.play()
             }
         }, 4);
-        let isEmulatorRoom = enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM ? true : false
-        this.controller = new RollControler(cc, isEmulatorRoom, this)
-        if (isEmulatorRoom) {
-            //cc.log('进入了模拟房间')
-            this.enterEmulatorRoom()
-            cc.director.preloadScene('LobbyScene');//预加载
-            return
-        }
-        this.enterWebGame()
         cc.director.preloadScene('LobbyScene');//预加载
     }
 
@@ -186,7 +194,7 @@ export default class NewClass extends cc.Component {
         this.eventIdTwo = randEventId()
         eventBus.on(EventType.MEMBER_DELETE_FROM_ROOM, this.eventIdTwo, (userId: string): void => {
             if (UserManage.userInfo.id == userId) {
-                cc.log('我被踢出房间:'+userId)
+                cc.log('我被踢出房间:' + userId)
                 this.execBackLobby()
             }
         })
@@ -198,13 +206,12 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    async enterWebGame() {
-        let enterRoomParam = RoomManage.getEnterRoomParam()
+    async startWebGame(enterRoomParam: EnterRoomParam) {
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
-        if (enterRoomParam.model === EnterRoomModel.SHARE) {
-            //cc.log('进入了分享房间')
-            await UserManage.requestUserInfo()
+        if (enterRoomParam.model == EnterRoomModel.SHARE) {
+            let userInfo = await UserManage.requestUserInfo();
+            userId = UserManage.userInfo.id
         }
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {
@@ -277,10 +284,10 @@ export default class NewClass extends cc.Component {
         this.showRoomNum.string = '房间号：' + roomInfo.id
         this.showBetLimit.string = '下注上限：' + roomInfo.costLimit
         this.showPlayCountLimit.string = '当前牌局：' + (roomInfo.oningRaceNum + 1) + '/' + roomInfo.playCount
-        this.memberLimit.string = '玩家上限：'+roomInfo.memberLimit
+        this.memberLimit.string = '玩家上限：' + roomInfo.memberLimit
     }
 
-    enterEmulatorRoom() {
+    startEmulatorGame() {
         this.controller.start()
         this.initRoom()
         this.showStartButton()
@@ -597,7 +604,7 @@ export default class NewClass extends cc.Component {
     onDisable() {
         eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne)
         eventBus.off(EventType.MEMBER_DELETE_FROM_ROOM, this.eventIdTwo)
-        
+
         try {
             let enterRoomParam = RoomManage.getEnterRoomParam()
             if (enterRoomParam.model !== EnterRoomModel.EMULATOR_ROOM) {

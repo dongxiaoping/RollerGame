@@ -16,7 +16,7 @@ class RaceManage {
         })
     }
 
-    public reSet() {
+    public clear() {
         this.raceList = []
         this.gameOverResultList = null
     }

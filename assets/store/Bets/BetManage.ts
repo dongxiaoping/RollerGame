@@ -15,7 +15,7 @@ class BetManage {
         })
     }
 
-    public reSet() {
+    public clear() {
         this.betList = []
     }
 

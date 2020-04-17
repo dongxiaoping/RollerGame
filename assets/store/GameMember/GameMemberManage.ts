@@ -7,7 +7,7 @@ import RoomManage from '../Room/RoomManage';
 class GameMemberManage {
     private _gameMenmberList: GameMemberItem[] = null
 
-    public reSet() {
+    public clear() {
         this._gameMenmberList = null
     }
 

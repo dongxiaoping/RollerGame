@@ -15,14 +15,11 @@ class RoomManage {
         })
     }
 
-    public reSet() {
+    public clear() {
         this.roomItem = null
-        RaceManage.reSet()
-        GameMemberManage.reSet()
-        BetManage.reSet()
     }
 
-    public getEnterRoomParam() {
+    public getEnterRoomParam(): EnterRoomParam{
         return this.enterRoomParam
     }
 
