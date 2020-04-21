@@ -3,13 +3,14 @@ import RoomManage from "../store/Room/RoomManage";
 import RaceManage from "../store/Races/RaceManage";
 import ConfigManage from "../store/Config/ConfigManage";
 import { randFloatNum, mergeRaceResult, randomRange } from "./Util";
-import { betLocaion, NoticeType, NoticeData, RaceState, raceResultData, roomState } from "./Const";
+import { betLocaion, NoticeType, NoticeData, RaceState, raceResultData, roomState, ConsoleType } from "./Const";
 import BetManage from "../store/Bets/BetManage";
 import UserManage from "../store/User/UserManage";
 import webSocketManage from '../common/WebSocketManage'
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import GameMemberItem from "../store/GameMember/GameMemberItem";
 import { roomGameConfig } from "./RoomGameConfig";
+import Log from "./Log";
 export class RollControlerBase {
     public isEmulatorRoom: boolean //是否是模拟房间
     public eventIdList: string[] = []
@@ -161,8 +162,9 @@ export class RollControlerBase {
                     userId: UserManage.userInfo.id
                 }
             } as NoticeData
+            Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_SEND], "RollControllerBase/enterSocketRoom",
+            ['进入房间请求',notice])
             webSocketManage.send(JSON.stringify(notice));
-            //this.cc.log('我是玩家，我向服务器发起进入socket房间的websocket通知')
         } else {
             //this.cc.log('房间已关闭，无法进入')
         }

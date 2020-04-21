@@ -220,8 +220,12 @@ export default class NewClass extends cc.Component {
             this.showEnterRoomFailTip(result.extObject)
             return
         }
-        this.initRoom()
         this.controller.start()
+        this.showUserPanel()
+        this.initXiaZhuPanel()
+        this.initMahjongPanel()
+        this.initDesk()
+        this.showTopLeftRaceInfo()
         this.initShowAction()
         webSocketManage.openWs(() => {
             //cc.log('socket连接成功，发送连接成功本地通知')
@@ -289,20 +293,16 @@ export default class NewClass extends cc.Component {
 
     startEmulatorGame() {
         this.controller.start()
-        this.initRoom()
-        this.showStartButton()
-        let landlordId = RaceManage.raceList[0].landlordId
-        this.scheduleOnce(() => {
-            RaceManage.changeRaceLandlord(landlordId, 8, 0)
-        }, 1);
-    }
-
-    initRoom() {
         this.showUserPanel()
         this.initXiaZhuPanel()
         this.initMahjongPanel()
         this.initDesk()
         this.showTopLeftRaceInfo()
+        this.showStartButton()
+        let landlordId = RaceManage.raceList[0].landlordId
+        this.scheduleOnce(() => {
+            RaceManage.changeRaceLandlord(landlordId, 8, 0)
+        }, 1);
     }
 
     private initDesk() {

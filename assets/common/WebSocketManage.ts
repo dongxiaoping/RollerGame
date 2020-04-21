@@ -1,4 +1,5 @@
-import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType, memberState, ResponseStatus, CartonMessage, ChatMessageType } from "./Const";
+import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType,
+     memberState, ResponseStatus, CartonMessage, ChatMessageType, ConsoleType } from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
@@ -7,6 +8,7 @@ import RaceManage from "../store/Races/RaceManage";
 import BetManage from "../store/Bets/BetManage";
 import { config } from "./Config";
 import { roomGameConfig } from "./RoomGameConfig";
+import Log from "./Log";
 
 class WebSocketManage {
     public ws: any = null
@@ -53,11 +55,11 @@ class WebSocketManage {
         let type = info.type
         let message = info.info
         let roomResult: raceResultData[] = null
-        //console.log(JSON.stringify(info));
+        Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",[info])
         switch (type) {
             case 'memberInSocketRoom':
                 message as GameMember
-                //console.log('socket房间有新成员进入通知');
+                console.log('socket房间有新成员进入通知');
                 GameMemberManage.addGameMember(message)
                 if (message.userId == UserManage.userInfo.id && RoomManage.roomItem.creatUserId == message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
                     //cc.log('房主加入房间')
