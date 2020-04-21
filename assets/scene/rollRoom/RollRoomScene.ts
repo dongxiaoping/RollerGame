@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam } from '../../common/Const'
+import { ConsoleType, NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam } from '../../common/Const'
 import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -10,7 +10,7 @@ import ConfigManage from '../../store/Config/ConfigManage'
 import webSocketManage from '../../common/WebSocketManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage';
 import BetManage from '../../store/Bets/BetManage';
-
+import Log from "../../common/Log";
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -608,15 +608,8 @@ export default class NewClass extends cc.Component {
         try {
             let enterRoomParam = RoomManage.getEnterRoomParam()
             if (enterRoomParam.model !== EnterRoomModel.EMULATOR_ROOM) {
-                let notice = {
-                    type: NoticeType.outRoom, info: {
-                        roomId: RoomManage.roomItem.id,
-                        userId: UserManage.userInfo.id
-                    }
-                } as NoticeData
-                webSocketManage.send(JSON.stringify(notice))
                 webSocketManage.closeWs()
-                //cc.log('我是玩家，我向服务器发起退出房间通知')
+                Log.d([ConsoleType.SOCKET], 'RollRoomScene/onDisable', ['房间页面被销毁，关闭socket连接'])
             }
         } catch (e) { }
     }

@@ -69,13 +69,14 @@ class WebSocketManage {
                     })
                 }
                 break;
-            case 'memberOutSocketRoom':
-                //console.log('socket房间有成员退出通知，用户：' + message.userId);
+            case 'memberOutRoom':
+                message = message.data
+                Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['接到有成员退出通知',info])
                 if (RoomManage.roomItem.creatUserId != message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
-                    console.log('用户退出通知，用户:' + message.userId);
                     GameMemberManage.outGameMember(message.userId)
                 } else {
                     //状态改为离线
+                    Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['游戏中，改为离线状态'])
                     if (typeof (GameMemberManage.gameMenmberList[message.userId]) !== 'undefined') {
                         GameMemberManage.gameMenmberList[message.userId].state = memberState.OffLine
                     }
