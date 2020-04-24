@@ -122,13 +122,13 @@ export default class LobbyScene extends cc.Component {
         }
     }
 
-    async initUserInfo() { //这个地方要改
-        let info = await UserManage.requestUserInfo();
+    async initUserInfo(userId:string) { //这个地方要改
+        let info = await UserManage.requestUserInfo(userId);
         this.userName.string = UserManage.userInfo.nick
         this.userId.string = 'ID:' + UserManage.userInfo.id
         this.diamond.string = UserManage.userInfo.diamond + ''
         this.chipCount.string = UserManage.userInfo.score + ''
-        cc.loader.load({ url: UserManage.userInfo.icon, type: 'png' }, (err, img: any) => {
+        cc.loader.load({ url: UserManage.getUserIconUrl(), type: 'png' }, (err, img: any) => {
             let myIcon = new cc.SpriteFrame(img);
             this.userIconSprite.spriteFrame = myIcon
         });
@@ -140,7 +140,12 @@ export default class LobbyScene extends cc.Component {
     }
 
     start() {
-        this.initUserInfo()
+        let userId = UserManage.getLoginUserId()
+        if(userId == null){
+            window.location.href= config.loginPageAddress
+            return
+        }
+        this.initUserInfo(userId)
         cc.director.preloadScene('RollRoomScene');//预加载房间，提高进入房间的速度
         this.versionLabel.string = config.version
         //console.log('应用启动')

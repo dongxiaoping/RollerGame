@@ -210,8 +210,7 @@ export default class NewClass extends cc.Component {
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
         if (enterRoomParam.model == EnterRoomModel.SHARE) {
-            let userInfo = await UserManage.requestUserInfo();
-            userId = UserManage.userInfo.id
+            let userInfo = await UserManage.requestUserInfo(userId);
         }
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {
@@ -545,7 +544,7 @@ export default class NewClass extends cc.Component {
         let userInfo = UserManage.userInfo
         this.userScoreLabel.string = RaceManage.getUserScore(userInfo.id) + ''
         this.diamondScoreLable.string = userInfo.diamond + ''
-        cc.loader.load({ url: userInfo.icon, type: 'png' }, (err, img: any) => {//loadRes
+        cc.loader.load({ url: UserManage.getUserIconUrl(), type: 'png' }, (err, img: any) => {//loadRes
             let myIcon = new cc.SpriteFrame(img);
             this.userIcon.spriteFrame = myIcon;
         });

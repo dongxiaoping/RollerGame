@@ -5,6 +5,7 @@ export interface RoomGameConfig {
     dealTime: number //发牌持续时间 s
     betTime: number //下注持续时间 s
     showDownTime: number //开牌时间
+    userIconUrl:string //用户icon前缀
     showResultKeepTime: number //结果显示停留时间 s
     showResultTime: number //结果面板持续时间 s
 }
@@ -18,6 +19,7 @@ export const roomGameConfig: RoomGameConfig = {
     rollDiceTime: 4,
     dealTime: 3,
     betTime: 13,
+    userIconUrl: '',
     showDownTime: 7,
     showResultKeepTime: 4,
     showResultTime: 4

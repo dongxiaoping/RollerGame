@@ -9,9 +9,17 @@ class ConfigManage {
     private configHasLoad: boolean = false //网络配置文件是否加载
     private createDiamondConfig: any = null //创建房间的相关数据信息
     private chipValList: any = []
-
+    private userIconUrl:string ='' //用户Icon地址前缀
     public setBackMusic(isOpen: boolean) {
         this.isBackMusic = isOpen
+    }
+
+    public getUserIconUrl(){
+        return this.userIconUrl
+    }
+
+    public setUserIconUrl(url:string){
+        this.userIconUrl = url
     }
 
     public isConfigHasLoad(): boolean {

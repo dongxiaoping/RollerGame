@@ -7,6 +7,7 @@ import RaceManage from "../../store/Races/RaceManage";
 import { roomGameConfig } from "../../common/RoomGameConfig";
 import { faceList } from "../../common/FaceList";
 import { wenZiList } from "../../common/WenZiList";
+import ConfigManage from "../../store/Config/ConfigManage";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -69,18 +70,13 @@ export default class NewClass extends cc.Component {
                 }
             })
         } else {
-            cc.loader.loadRes('renwu/1_3', (error, img) => {
+            let iconUrl = ConfigManage.getUserIconUrl()+memberData.userIcon
+            cc.loader.load({ url: iconUrl, type: 'png' }, (err, img: any) => {
                 let myIcon = new cc.SpriteFrame(img);
                 if (myIcon !== null && this.userIcon != null) {
                     this.userIcon.spriteFrame = myIcon
                 }
-            })
-            // cc.loader.load({ url: 'http://www.toplaygame.cn/default_user_icon.png', type: 'png' }, (err, img: any) => {
-            //     let myIcon = new cc.SpriteFrame(img);
-            //     if (myIcon !== null && this.userIcon != null) {
-            //         this.userIcon.spriteFrame = myIcon
-            //     }
-            // });
+            });
         }
     }
 
