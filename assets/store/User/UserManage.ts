@@ -5,7 +5,7 @@ import http from '../../common/Http'
 import { UserInfo } from './UserBase';
 import { RoomGameConfig } from '../../common/RoomGameConfig'
 import ConfigManage from '../Config/ConfigManage';
-import { getUrlParam } from '../../common/Util';
+import { getUrlParam, webCookie } from '../../common/Util';
 
 class UserManage {
     public userInfo: UserItem = null
@@ -17,8 +17,9 @@ class UserManage {
         return this.selectChipValue
     }
 
-    getLoginUserId(){
-        let id = getUrlParam('userId')
+    getLoginUserId() {
+        // let id = getUrlParam('userId')
+        let id = webCookie.getItem('userId')
         return id
     }
 
@@ -26,9 +27,9 @@ class UserManage {
         this.selectChipValue = val
     }
 
-    getUserIconUrl():string{
-       // let  iconUrl = 'http://localhost:7456/res/import/cf/cff28e0a-70b9-498d-a348-40eda2f525a8.jpg'
-         let iconUrl = ConfigManage.getUserIconUrl() + this.userInfo.icon
+    getUserIconUrl(): string {
+        // let  iconUrl = 'http://localhost:7456/res/import/cf/cff28e0a-70b9-498d-a348-40eda2f525a8.jpg'
+        let iconUrl = ConfigManage.getUserIconUrl() + this.userInfo.icon
         return iconUrl
     }
 
@@ -36,13 +37,13 @@ class UserManage {
         this.userInfo = new UserItem(info)
     }
 
-    public requestUserInfo(userId:string): Promise<PromiseParam> {
+    public requestUserInfo(userId: string): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             if (this.userInfo !== null) {
                 resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
                 return
             }
-            let httpUrl = config.serverAddress + InterfaceUrl.GET_USER_INFO+"?id="+userId
+            let httpUrl = config.serverAddress + InterfaceUrl.GET_USER_INFO + "?id=" + userId
             http.getWithUrl(httpUrl, (status: boolean, info: any) => {
                 let userInfo = info.data as UserInfo
                 let gameConfig = info.config as RoomGameConfig

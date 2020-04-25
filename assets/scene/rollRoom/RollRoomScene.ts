@@ -11,6 +11,7 @@ import webSocketManage from '../../common/WebSocketManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage';
 import BetManage from '../../store/Bets/BetManage';
 import Log from "../../common/Log";
+import { config } from '../../common/Config';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -111,6 +112,10 @@ export default class NewClass extends cc.Component {
     start() {
         this.clear()
         let enterRoomParam = this.getEnterRoomParam()
+        if(enterRoomParam.model == EnterRoomModel.SHARE && enterRoomParam.userId == null){
+            window.location.href= config.loginPageAddress
+            return
+        }
         if (enterRoomParam) {
             this.startByEnterMode(enterRoomParam)
         } else {
@@ -135,7 +140,7 @@ export default class NewClass extends cc.Component {
         if (enterRoomParam == null && isUrlToGameRoom()) {
             RoomManage.setEnterRoomParam({
                 model: EnterRoomModel.SHARE,
-                userId: null,
+                userId: UserManage.getLoginUserId(),
                 roomId: parseInt(getUrlParam('roomId'))
             } as EnterRoomParam)
         }

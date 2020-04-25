@@ -1,6 +1,7 @@
 import RoomManage from "../../store/Room/RoomManage";
 import { EnterRoomModel } from "../../common/Const";
 import UserManage from "../../store/User/UserManage";
+import ConfigManage from "../../store/Config/ConfigManage";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,7 +23,7 @@ export default class NewClass extends cc.Component {
         if (userScore > 0) {
             this.userScore.node.color = cc.Color.YELLOW
         }
-        this.userScore.string = userScore +''
+        this.userScore.string = userScore + ''
         this.userName.string = userName
         let enterRoomParam = RoomManage.getEnterRoomParam()
         if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && id !== UserManage.userInfo.id) {
@@ -31,7 +32,8 @@ export default class NewClass extends cc.Component {
                 this.userIcon.spriteFrame = myIcon
             })
         } else {
-            cc.loader.load({ url: iconUrl, type: 'png' }, (err, img: any) => {
+
+            cc.loader.load({ url: ConfigManage.getUserIconUrl() + iconUrl, type: 'png' }, (err, img: any) => {
                 let myIcon = new cc.SpriteFrame(img);
                 this.userIcon.spriteFrame = myIcon
             });
