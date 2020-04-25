@@ -1,8 +1,6 @@
 import UserManage from "../../store/User/UserManage";
 import { ResponseStatus } from "../../common/Const";
-
 const { ccclass, property } = cc._decorator;
-
 @ccclass
 export default class NewClass extends cc.Component {
     @property(cc.Node)
@@ -41,11 +39,11 @@ export default class NewClass extends cc.Component {
     }
 
     async buyDiamond(count: number) {
-        let result = await UserManage.rechargeDiamond(UserManage.userInfo.id, count)
-        if (result.result === ResponseStatus.FAIL) {
-            return
-        }
-        UserManage.userInfo.diamond = result.extObject
+        // let result = await UserManage.rechargeDiamond(UserManage.userInfo.id, count)
+        // if (result.result === ResponseStatus.FAIL) {
+        //     return
+        // }
+        // UserManage.userInfo.diamond = result.extObject
         this.node.destroy()
     }
 }
