@@ -112,11 +112,15 @@ export default class NewClass extends cc.Component {
     start() {
         this.clear()
         let enterRoomParam = this.getEnterRoomParam()
-        if(enterRoomParam.model == EnterRoomModel.SHARE && enterRoomParam.userId == null){
-            window.location.href= config.loginPageAddress
-            return
-        }
         if (enterRoomParam) {
+            if(enterRoomParam.model == EnterRoomModel.SHARE && enterRoomParam.userId == null){
+                let dialogParam = {
+                    sureButtonShow: true, cancelButtonShow: false, content: "请注册登录！", cancelButtonAction: null,
+                    sureButtonAction: TipDialogButtonAction.OUT_TO_LOGIN
+                } as TipDialogParam
+                this.dialogShow(dialogParam)
+                return
+            }
             this.startByEnterMode(enterRoomParam)
         } else {
             let dialogParam = {

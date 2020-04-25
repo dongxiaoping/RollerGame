@@ -1,6 +1,7 @@
 import { TipDialogParam, Coordinate, TipDialogButtonAction, EventType, LocalNoticeEventType, LocalNoticeEventPara } from "../../common/Const";
 import webSocketManage from '../../common/WebSocketManage'
 import { eventBus } from "../../common/EventBus";
+import { config } from "../../common/Config";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -52,6 +53,9 @@ export default class NewClass extends cc.Component {
                 break
             case TipDialogButtonAction.OUT_ROOM:
                 cc.director.loadScene("LobbyScene");
+                break
+            case TipDialogButtonAction.OUT_TO_LOGIN:
+                window.location.href= config.loginPageAddress
                 break
             case TipDialogButtonAction.RECHARGE:
                 let node = cc.instantiate(this.rechargePanel)

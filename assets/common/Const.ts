@@ -373,6 +373,7 @@ export interface TipDialogParam {
 export enum TipDialogButtonAction {
     SOCKET_CONNECT = 1, //发起socket连接
     OUT_ROOM = 2, //退出房间
+    OUT_TO_LOGIN = 4, //退到登录页面
     RECHARGE = 3, //充值
 }
 

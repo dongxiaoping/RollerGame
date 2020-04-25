@@ -185,8 +185,9 @@ export default class LobbyScene extends cc.Component {
 
 
         this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
-            this.closeApp()
-            //cc.log('退出按钮被点击')
+            //this.closeApp()
+            window.location.href= config.loginPageAddress
+            cc.log('退出按钮被点击')
         })
 
         this.ruleButton.node.on(cc.Node.EventType.TOUCH_START, () => {
