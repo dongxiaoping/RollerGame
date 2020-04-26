@@ -2,7 +2,7 @@ const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
 import { ConsoleType, NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam } from '../../common/Const'
-import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam } from '../../common/Util'
+import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam, webCookie } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollControler from '../../common/RollControler'
@@ -114,6 +114,7 @@ export default class NewClass extends cc.Component {
         let enterRoomParam = this.getEnterRoomParam()
         if (enterRoomParam) {
             if(enterRoomParam.model == EnterRoomModel.SHARE && enterRoomParam.userId == null){
+                webCookie.setItem('roomId', enterRoomParam.roomId, null)
                 let dialogParam = {
                     sureButtonShow: true, cancelButtonShow: false, content: "请注册登录！", cancelButtonAction: null,
                     sureButtonAction: TipDialogButtonAction.OUT_TO_LOGIN

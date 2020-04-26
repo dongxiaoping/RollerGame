@@ -55,7 +55,7 @@ export default class NewClass extends cc.Component {
                 cc.director.loadScene("LobbyScene");
                 break
             case TipDialogButtonAction.OUT_TO_LOGIN:
-                window.location.href= config.loginPageAddress
+                window.location.href= config.registerPageAddress
                 break
             case TipDialogButtonAction.RECHARGE:
                 let node = cc.instantiate(this.rechargePanel)
