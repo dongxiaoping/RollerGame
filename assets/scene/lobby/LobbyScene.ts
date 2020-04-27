@@ -93,17 +93,6 @@ export default class LobbyScene extends cc.Component {
         })
     }
 
-    //退出
-    closeApp() {
-        // if(navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") != -1){
-        //     window.location.href = "about:blank";
-        //     window.close();
-        // }else{
-        //     window.opener = null;
-        //     window.open("", "_self");
-        //     window.close();
-        // }
-    }
     //关闭数字进房间面板
     closeEntryBox() {
         let node = this.node.getChildByName('EntryBox')
@@ -142,7 +131,7 @@ export default class LobbyScene extends cc.Component {
     start() {
         let userId = UserManage.getLoginUserId()
         if(userId == null){
-            window.location.href= config.loginPageAddress
+            window.location.replace(config.loginPageAddress)
             return
         }
         this.initUserInfo(userId)
@@ -185,8 +174,7 @@ export default class LobbyScene extends cc.Component {
 
 
         this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
-            //this.closeApp()
-            window.location.href= config.loginPageAddress
+            window.location.replace(config.loginPageAddress)
             cc.log('退出按钮被点击')
         })
 
