@@ -117,7 +117,7 @@ export default class NewClass extends cc.Component {
                 webCookie.setItem('roomId', enterRoomParam.roomId, null)
                 let dialogParam = {
                     sureButtonShow: true, cancelButtonShow: false, content: "请注册登录！", cancelButtonAction: null,
-                    sureButtonAction: TipDialogButtonAction.OUT_TO_LOGIN
+                    sureButtonAction: TipDialogButtonAction.OUT_TO_REGISTER
                 } as TipDialogParam
                 this.dialogShow(dialogParam)
                 return
@@ -220,7 +220,16 @@ export default class NewClass extends cc.Component {
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
         if (enterRoomParam.model == EnterRoomModel.SHARE) {
-            let userInfo = await UserManage.requestUserInfo(userId);
+            let reInfo = await UserManage.requestUserInfo(userId);
+            if(reInfo.result == ResponseStatus.FAIL){
+                webCookie.removeItem('userId')
+                let dialogParam = {
+                    sureButtonShow: true, cancelButtonShow: false, content: "账号异常，请重新登录！", cancelButtonAction: null,
+                    sureButtonAction: TipDialogButtonAction.OUT_TO_LOGIN
+                } as TipDialogParam
+                this.dialogShow(dialogParam)
+                return
+            }
         }
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {

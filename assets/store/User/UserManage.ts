@@ -45,6 +45,10 @@ class UserManage {
             }
             let httpUrl = config.serverAddress + InterfaceUrl.GET_USER_INFO + "?id=" + userId
             http.getWithUrl(httpUrl, (status: boolean, info: any) => {
+                if(info.status == 0){
+                    resolve({ result: ResponseStatus.FAIL, extObject: info })
+                    return
+                }
                 let userInfo = info.data as UserInfo
                 let gameConfig = info.config as RoomGameConfig
                 ConfigManage.setUserIconUrl(gameConfig.userIconUrl)
