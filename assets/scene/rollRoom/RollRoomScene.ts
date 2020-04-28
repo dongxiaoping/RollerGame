@@ -27,6 +27,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     private exit: cc.Sprite = null  //退出
 
+    @property(cc.Sprite)
+    private shareButton: cc.Sprite = null  //分享按钮
+
     @property(cc.Prefab)
     private playButtonPrefab: cc.Prefab = null //播放按钮
 
@@ -59,6 +62,9 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Prefab)
     private tipDialog: cc.Prefab = null  //提示框
+
+    @property(cc.Prefab)
+    private SharePanel: cc.Prefab = null  //分享面板
 
     @property(cc.Prefab)
     private chatCartonPanel: cc.Prefab = null  //动画消息发送面板
@@ -335,6 +341,10 @@ export default class NewClass extends cc.Component {
             this.execBackLobby()
         })
 
+        this.shareButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.showSharePanel()
+        })
+
         this.setButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             //cc.log('设置按钮被点击')
             var node = cc.instantiate(this.SetPanel)
@@ -379,6 +389,16 @@ export default class NewClass extends cc.Component {
         }
         cc.director.loadScene("LobbyScene");
         this.destroy()
+    }
+
+    //显示分享面板
+    showSharePanel(){
+        if (this.node.getChildByName('SharePanel') !== null) {
+            return
+        }
+        var node = cc.instantiate(this.SharePanel)
+        node.parent = this.node
+        node.active = true
     }
 
     showRoomResultPanel() {

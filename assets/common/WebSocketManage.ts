@@ -55,7 +55,7 @@ class WebSocketManage {
         let type = info.type
         let message = info.info
         let roomResult: raceResultData[] = null
-        Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",[info])
+        //Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",[info])
         switch (type) {
             case 'memberInSocketRoom':
                 message as GameMember
@@ -71,12 +71,12 @@ class WebSocketManage {
                 break;
             case 'memberOutRoom':
                 message = message.data
-                Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['接到有成员退出通知',info])
+                //Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['接到有成员退出通知',info])
                 if (RoomManage.roomItem.creatUserId != message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
                     GameMemberManage.outGameMember(message.userId)
                 } else {
                     //状态改为离线
-                    Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['游戏中，改为离线状态'])
+                   // Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['游戏中，改为离线状态'])
                     if (typeof (GameMemberManage.gameMenmberList[message.userId]) !== 'undefined') {
                         GameMemberManage.gameMenmberList[message.userId].state = memberState.OffLine
                     }

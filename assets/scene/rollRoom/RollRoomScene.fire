@@ -234,7 +234,7 @@
       "array": [
         0,
         0,
-        116.91342951089922,
+        265.00377355803823,
         0,
         0,
         0,
@@ -746,13 +746,13 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Client",
+    "_name": "Share",
     "_objFlags": 0,
     "_parent": {
       "__id__": 14
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 16
@@ -784,7 +784,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -87,
+        -40,
         2.5,
         0,
         0,
@@ -825,7 +825,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "d011ac7c-64ac-4e98-acd8-61b0536155d1"
+      "__uuid__": "e9eb0c6f-08de-41f9-bf43-3cf5a98e798b"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -838,9 +838,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "4cdb1e2f-163b-4bff-a07a-19bee13cca1c"
-    },
+    "_atlas": null,
     "_id": "26O3/08OlAxZ8ySxBN4GeW"
   },
   {
@@ -855,7 +853,7 @@
     "_target": null,
     "_alignFlags": 33,
     "_left": 0,
-    "_right": 212,
+    "_right": 165,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -910,7 +908,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        39,
+        35,
         2.5,
         0,
         0,
@@ -981,7 +979,7 @@
     "_target": null,
     "_alignFlags": 33,
     "_left": 0,
-    "_right": 86,
+    "_right": 90,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -4695,6 +4693,9 @@
     "exit": {
       "__id__": 22
     },
+    "shareButton": {
+      "__id__": 16
+    },
     "playButtonPrefab": {
       "__uuid__": "96555e57-30bf-4555-b386-bacd48eb80b7"
     },
@@ -4727,6 +4728,9 @@
     },
     "tipDialog": {
       "__uuid__": "3618248e-0cae-47a4-b90f-efe8ab7604a5"
+    },
+    "SharePanel": {
+      "__uuid__": "e92619d8-637a-4b43-b256-e38a6dce1b6f"
     },
     "chatCartonPanel": {
       "__uuid__": "57612c10-dcf6-4e5a-87b2-b309b182f01c"
