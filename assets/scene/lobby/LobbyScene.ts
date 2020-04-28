@@ -63,6 +63,9 @@ export default class LobbyScene extends cc.Component {
     chipCount: cc.Label = null;
 
     @property(cc.Label)
+    informMessageLabel: cc.Label = null; //公告
+
+    @property(cc.Label)
     versionLabel: cc.Label = null; //版本号显示标签
 
 
@@ -135,6 +138,7 @@ export default class LobbyScene extends cc.Component {
     }
 
     start() {
+        this.informMessageLabel.string = ConfigManage.getInformMessage()
         let userId = UserManage.getLoginUserId()
         if(userId == null){
             window.location.replace(config.loginPageAddress)

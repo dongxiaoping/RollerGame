@@ -1,5 +1,6 @@
 export interface RoomGameConfig {
     customerWechat:string //客服微信号
+    informMessage:string //公告信息
     timeBeforeBeginText: number  //开始文字显示之前的延迟空白时间 s
     beginTextShowTime: number //开始文字显示停留时间
     rollDiceTime: number //摇色子持续时间 s
@@ -17,6 +18,7 @@ export interface RoomGameConfig {
 export const roomGameConfig: RoomGameConfig = {
     timeBeforeBeginText: 0.5,
     customerWechat:"wh_dxp",
+    informMessage:"本游戏诚招代理，代理请于客服联系！文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！",
     beginTextShowTime: 1.5,
     rollDiceTime: 4,
     dealTime: 3,
