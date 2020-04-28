@@ -10,6 +10,7 @@ class ConfigManage {
     private createDiamondConfig: any = null //创建房间的相关数据信息
     private chipValList: any = []
     private userIconUrl: string = '' //用户Icon地址前缀
+    private gameUrl: string = '' //游戏地址
     public setBackMusic(isOpen: boolean) {
         this.isBackMusic = isOpen
     }
@@ -101,6 +102,14 @@ class ConfigManage {
     //公告信息
     public getInformMessage() {
         return roomGameConfig.informMessage
+    }
+
+    public setGameUrl(url:string){
+        this.gameUrl = url
+    }
+
+    public getGameUrl(){
+        return this.gameUrl
     }
 }
 

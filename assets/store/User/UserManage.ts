@@ -51,6 +51,7 @@ class UserManage {
                 }
                 let userInfo = info.data as UserInfo
                 let gameConfig = info.config as RoomGameConfig
+                ConfigManage.setGameUrl(info.gameUrl)
                 ConfigManage.setUserIconUrl(gameConfig.userIconUrl)
                 this.userInfo = new UserItem(userInfo)
                 resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
