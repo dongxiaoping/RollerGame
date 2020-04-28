@@ -1,4 +1,5 @@
 export interface RoomGameConfig {
+    customerWechat:string //客服微信号
     timeBeforeBeginText: number  //开始文字显示之前的延迟空白时间 s
     beginTextShowTime: number //开始文字显示停留时间
     rollDiceTime: number //摇色子持续时间 s
@@ -15,6 +16,7 @@ export interface RoomGameConfig {
  */
 export const roomGameConfig: RoomGameConfig = {
     timeBeforeBeginText: 0.5,
+    customerWechat:"wh_dxp",
     beginTextShowTime: 1.5,
     rollDiceTime: 4,
     dealTime: 3,

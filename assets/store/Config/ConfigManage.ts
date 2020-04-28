@@ -92,6 +92,11 @@ class ConfigManage {
     public setChipValList(valList: any) {
         this.chipValList = valList
     }
+
+    //获取客服微信号
+    public getCustomerWechatNum(){
+        return roomGameConfig.customerWechat
+    }
 }
 
 export default new ConfigManage

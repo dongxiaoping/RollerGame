@@ -17,6 +17,9 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Prefab)
     CreateRoomPanel: cc.Prefab = null; //创建房间面板
 
+    @property(cc.Prefab)
+    CustomerPanel: cc.Prefab = null; //客服面板
+
     @property(cc.Sprite)
     JoinPart: cc.Sprite = null; //加入房间图标区
 
@@ -28,6 +31,9 @@ export default class LobbyScene extends cc.Component {
 
     @property(cc.Sprite)
     ruleButton: cc.Sprite = null; //玩法按钮
+
+    @property(cc.Sprite)
+    customerButton: cc.Sprite = null; //客服按钮
 
     @property(cc.Sprite)
     CreateRoomPart: cc.Sprite = null; //创建房间图标区
@@ -187,6 +193,16 @@ export default class LobbyScene extends cc.Component {
             let node = cc.instantiate(this.rechargePanel)
             node.parent = this.node
         })
+
+        this.customerButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+            if (this.node.getChildByName('CustomerPanel') != null) {
+                return
+            }
+            var node = cc.instantiate(this.CustomerPanel)
+            node.parent = this.node
+            node.active = true
+        })
+        
 
         this.CreateRoomPart.node.on(cc.Node.EventType.TOUCH_END, () => {
             //cc.log('创建房间被点击了')

@@ -1,5 +1,6 @@
 import UserManage from "../../store/User/UserManage";
 import { ResponseStatus } from "../../common/Const";
+import ConfigManage from "../../store/Config/ConfigManage";
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
@@ -11,8 +12,11 @@ export default class NewClass extends cc.Component {
     threeRechargePart: cc.Node = null;
     @property(cc.Node)
     fourRechargePart: cc.Node = null;
-    start() {
 
+    @property(cc.Label)
+    cutomerWechat: cc.Label = null
+    start() {
+        this.cutomerWechat.string = "请联系客服购买，客服微信号" + ConfigManage.getCustomerWechatNum()
     }
 
     onEnable() {
