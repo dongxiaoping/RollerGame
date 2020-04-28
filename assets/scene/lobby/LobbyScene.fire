@@ -2562,7 +2562,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 992,
+      "width": 0,
       "height": 20.16
     },
     "_anchorPoint": {
@@ -2574,7 +2574,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -207,
+        289,
         0.065,
         0,
         0,
@@ -2613,8 +2613,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！",
-    "_N$string": "文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 16,
     "_lineHeight": 16,
     "_enableWrapText": true,
@@ -4566,6 +4566,9 @@
     },
     "chipCount": {
       "__id__": 90
+    },
+    "informMessageLabel": {
+      "__id__": 56
     },
     "versionLabel": {
       "__id__": 21
