@@ -8,10 +8,10 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Sprite)
-    createButton: cc.Sprite = null
-    @property(cc.Sprite)
-    cancelButton: cc.Sprite = null
+    @property(cc.Button)
+    createButton: cc.Button = null
+    @property(cc.Button)
+    cancelButton: cc.Button = null
 
     //////////////////////房间人数
     @property(cc.Toggle)
