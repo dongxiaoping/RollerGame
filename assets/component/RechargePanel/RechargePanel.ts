@@ -12,6 +12,8 @@ export default class NewClass extends cc.Component {
     threeRechargePart: cc.Node = null;
     @property(cc.Node)
     fourRechargePart: cc.Node = null;
+    @property(cc.Sprite)
+    closeButton: cc.Sprite = null;
 
     @property(cc.Label)
     cutomerWechat: cc.Label = null
@@ -20,6 +22,9 @@ export default class NewClass extends cc.Component {
     }
 
     onEnable() {
+        this.closeButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.node.destroy()
+        })
         this.oneRechargePart.on(cc.Node.EventType.TOUCH_END, () => {
             this.buyDiamond(2000)
             //cc.log('购买1')

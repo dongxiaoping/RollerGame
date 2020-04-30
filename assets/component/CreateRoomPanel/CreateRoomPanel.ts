@@ -13,6 +13,10 @@ export default class NewClass extends cc.Component {
     @property(cc.Button)
     cancelButton: cc.Button = null
 
+    @property(cc.Sprite)
+    closeButton: cc.Sprite = null;
+
+
     //////////////////////房间人数
     @property(cc.Toggle)
     renshu_one: cc.Toggle = null
@@ -135,6 +139,9 @@ export default class NewClass extends cc.Component {
     }
 
     onEnable() {
+        this.closeButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.node.destroy()
+        })
         this.creatDiamondConfig = ConfigManage.getCreateDiamondConfig()
         this.setShow()
         this.toggleInit()

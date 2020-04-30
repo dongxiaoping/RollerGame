@@ -28,12 +28,17 @@ export default class NewClass extends cc.Component {
     facePart: cc.Node = null //表情区域
     @property(cc.Node)
     faceContent: cc.Node = null //表情列表
+    @property(cc.Sprite)
+    closeButton: cc.Sprite = null;
     start() {
         this.addFaceIconEvent()
     }
 
     addFaceIconEvent() {
         try {
+            this.closeButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+                this.node.destroy()
+            })
             this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
                 this.node.destroy()
             })

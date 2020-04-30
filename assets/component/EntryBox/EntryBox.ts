@@ -16,6 +16,8 @@ export default class NewClass extends cc.Component {
     Four: cc.Button = null;
     @property(cc.Button)
     Five: cc.Button = null;
+    @property(cc.Sprite)
+    closeButton: cc.Sprite = null;
     @property(cc.Button)
     Six: cc.Button = null;
     @property(cc.Button)
@@ -40,6 +42,9 @@ export default class NewClass extends cc.Component {
 
     }
     start() {
+        this.closeButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.node.destroy()
+        })
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
             this.node.destroy()
         })
