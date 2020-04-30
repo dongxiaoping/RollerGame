@@ -4573,6 +4573,9 @@
     "versionLabel": {
       "__id__": 21
     },
+    "tipDialog": {
+      "__uuid__": "3618248e-0cae-47a4-b90f-efe8ab7604a5"
+    },
     "userIconSprite": {
       "__id__": 67
     },

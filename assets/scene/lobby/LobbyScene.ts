@@ -1,7 +1,7 @@
 import UserManage from "../../store/User/UserManage";
 import { isUrlToGameRoom, getUrlParam, randEventId } from "../../common/Util";
 import RoomManage from "../../store/Room/RoomManage";
-import { EnterRoomModel, EnterRoomParam, EventType, LocalNoticeEventType, LocalNoticeEventPara } from "../../common/Const";
+import { EnterRoomModel, EnterRoomParam, EventType, LocalNoticeEventType, LocalNoticeEventPara, TipDialogButtonAction, TipDialogParam } from "../../common/Const";
 import { config } from "../../common/Config";
 import { eventBus } from "../../common/EventBus";
 import ConfigManage from "../../store/Config/ConfigManage";
@@ -68,6 +68,8 @@ export default class LobbyScene extends cc.Component {
     @property(cc.Label)
     versionLabel: cc.Label = null; //版本号显示标签
 
+    @property(cc.Prefab)
+    private tipDialog: cc.Prefab = null  //提示框
 
     @property(cc.Sprite)
     userIconSprite: cc.Sprite = null; //用户图标
@@ -184,7 +186,11 @@ export default class LobbyScene extends cc.Component {
 
 
         this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
-            window.location.replace(config.loginPageAddress)
+            let dialogParam = {
+                sureButtonShow: true, cancelButtonShow: true, content: "返回到登录页面？", cancelButtonAction: null,
+                sureButtonAction: TipDialogButtonAction.OUT_TO_LOGIN
+            } as TipDialogParam
+            this.dialogShow(dialogParam)
             cc.log('退出按钮被点击')
         })
 
@@ -219,6 +225,13 @@ export default class LobbyScene extends cc.Component {
             node.parent = this.node
             node.active = true
         })
+    }
+
+    dialogShow(dialogParam: TipDialogParam) {
+        let node = cc.instantiate(this.tipDialog)
+        let scriptOb = node.getComponent('TipDialog')
+        node.parent = this.node
+        scriptOb.tipDialogShow(dialogParam)
     }
 
     // update (dt) {}
