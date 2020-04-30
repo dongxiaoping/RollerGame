@@ -310,6 +310,12 @@ export enum EnterRoomFail {
     net_fail_reload = '网络异常请重新加载游戏！'
 }
 
+export enum WordMessage {
+    back_to_lobby = '退出当前游戏？'
+}
+
+
+
 //创建房间错误类型
 export enum CreateRoomFail {
     param_error = '参数错误', //传参错误
@@ -375,10 +381,11 @@ export interface TipDialogParam {
 export enum TipDialogButtonAction {
     SOCKET_CONNECT = 1, //发起socket连接
     OUT_ROOM = 2, //退出房间
-    OUT_TO_LOGIN = 4, //退到登录页面
-    RE_IN_GAME = 6, //重新进入游戏
-    OUT_TO_REGISTER = 5, //退出到登录页面
     RECHARGE = 3, //充值
+    OUT_TO_LOGIN = 4, //退到登录页面
+    OUT_TO_REGISTER = 5, //退出到登录页面
+    RE_IN_GAME = 6, //重新进入游戏
+    OUT_TO_LOBBY = 7 //退出到首页
 }
 
 //发送消息类型

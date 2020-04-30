@@ -63,6 +63,12 @@ export default class NewClass extends cc.Component {
             case TipDialogButtonAction.RE_IN_GAME:
                 window.location.reload()
                 break
+            case TipDialogButtonAction.OUT_TO_LOBBY:
+                eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                    type: LocalNoticeEventType.TO_LOBBY_EVENT,
+                    info: false
+                } as LocalNoticeEventPara)
+                break
             case TipDialogButtonAction.RECHARGE:
                 let node = cc.instantiate(this.rechargePanel)
                 node.parent = this.node.parent

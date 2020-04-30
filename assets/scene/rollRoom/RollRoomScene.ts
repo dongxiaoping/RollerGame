@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { ConsoleType, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam } from '../../common/Const'
+import { ConsoleType, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam, WordMessage } from '../../common/Const'
 import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam, webCookie } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -355,7 +355,11 @@ export default class NewClass extends cc.Component {
     //添加面板上组件的一些响应事件
     private addClickEvent() {
         this.exit.node.on(cc.Node.EventType.TOUCH_END, () => {
-            this.execBackLobby()
+            let dialogParam = {
+                sureButtonShow: true, cancelButtonShow: true, content: WordMessage.back_to_lobby, cancelButtonAction: null,
+                sureButtonAction: TipDialogButtonAction.OUT_TO_LOBBY
+            } as TipDialogParam
+             this.dialogShow(dialogParam)
         })
 
         this.shareButton.node.on(cc.Node.EventType.TOUCH_END, () => {
@@ -399,7 +403,6 @@ export default class NewClass extends cc.Component {
 
     //返回大厅行为
     execBackLobby() {
-        //cc.log('退出到主页')
         if (this.controller) {
             this.controller.close()
             this.controller = null
