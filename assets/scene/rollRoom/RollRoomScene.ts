@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { ConsoleType, NoticeType, NoticeData, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam } from '../../common/Const'
+import { ConsoleType, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam } from '../../common/Const'
 import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam, webCookie } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -11,7 +11,7 @@ import webSocketManage from '../../common/WebSocketManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage';
 import BetManage from '../../store/Bets/BetManage';
 import Log from "../../common/Log";
-import { config } from '../../common/Config';
+
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -120,7 +120,7 @@ export default class NewClass extends cc.Component {
         let enterRoomParam = this.getEnterRoomParam()
         if (enterRoomParam) {
             if(enterRoomParam.model == EnterRoomModel.SHARE && enterRoomParam.userId == null){
-                webCookie.setItem('roomId', enterRoomParam.roomId, null)
+                webCookie.setItem('roomId', enterRoomParam.roomId, 0.1)
                 let dialogParam = {
                     sureButtonShow: true, cancelButtonShow: false, content: "请注册登录！", cancelButtonAction: null,
                     sureButtonAction: TipDialogButtonAction.OUT_TO_REGISTER
