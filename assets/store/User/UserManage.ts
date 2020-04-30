@@ -6,6 +6,7 @@ import { UserInfo } from './UserBase';
 import { RoomGameConfig } from '../../common/RoomGameConfig'
 import ConfigManage from '../Config/ConfigManage';
 import { getUrlParam, webCookie } from '../../common/Util';
+import axios from 'axios'
 
 class UserManage {
     public userInfo: UserItem = null
@@ -43,8 +44,15 @@ class UserManage {
                 resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
                 return
             }
-            let httpUrl = config.serverAddress + InterfaceUrl.GET_USER_INFO + "?id=" + userId
-            http.getWithUrl(httpUrl, (status: boolean, info: any) => {
+            let httpUrl = config.serverAddress + InterfaceUrl.GET_USER_INFO
+            axios
+            .get(httpUrl, {
+                params: {
+                    id: userId
+                }
+            })
+            .then((response: any): void => {
+                let info = response.data
                 if(info.status == 0){
                     resolve({ result: ResponseStatus.FAIL, extObject: info })
                     return
@@ -55,6 +63,8 @@ class UserManage {
                 ConfigManage.setUserIconUrl(gameConfig.userIconUrl)
                 this.userInfo = new UserItem(userInfo)
                 resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
+            }).catch(function(e){
+                resolve({ result: ResponseStatus.FAIL, extObject: {status:0,message:'net_error',data:''} })
             })
         })
     }

@@ -60,6 +60,9 @@ export default class NewClass extends cc.Component {
             case TipDialogButtonAction.OUT_TO_LOGIN:
                 window.location.replace(config.loginPageAddress)
                 break
+            case TipDialogButtonAction.RE_IN_GAME:
+                window.location.reload()
+                break
             case TipDialogButtonAction.RECHARGE:
                 let node = cc.instantiate(this.rechargePanel)
                 node.parent = this.node.parent

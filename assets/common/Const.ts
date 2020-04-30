@@ -305,7 +305,9 @@ export enum EnterRoomFail {
     in_room_fail = '进入房间异常', //进入房间，插入数据库异常
     interface_fail = '接口请求异常', //接口异常
     has_kickout = '无法进入该房间',
-    has_playing = '游戏已开始，无法进入'
+    has_playing = '游戏已开始，无法进入',
+    account_error = '账号异常，请重新登录！',
+    net_fail_reload = '网络异常请重新加载游戏！'
 }
 
 //创建房间错误类型
@@ -374,6 +376,7 @@ export enum TipDialogButtonAction {
     SOCKET_CONNECT = 1, //发起socket连接
     OUT_ROOM = 2, //退出房间
     OUT_TO_LOGIN = 4, //退到登录页面
+    RE_IN_GAME = 6, //重新进入游戏
     OUT_TO_REGISTER = 5, //退出到登录页面
     RECHARGE = 3, //充值
 }

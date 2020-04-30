@@ -3,6 +3,7 @@ import { PromiseParam, InterfaceUrl, ResponseStatus } from '../../common/Const';
 import { config } from '../../common/Config';
 import http from '../../common/Http'
 import UserManage from '../User/UserManage';
+import axios from 'axios'
 class ConfigManage {
     private isBackMusic: boolean = true //背景音乐是否开启
     private isTxMusic: boolean = true //特效音乐是否开启
@@ -76,14 +77,18 @@ class ConfigManage {
     public loadConfigInfo(): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             let httpUrl = config.serverAddress + InterfaceUrl.GET_CONFIG
-            http.getWithUrl(httpUrl, (error: boolean, info: any) => {
-                if (!error && info.status != ResponseStatus.FAIL) {
+            axios
+                .get(httpUrl)
+                .then((response: any): void => {
+                    let info = response.data
                     this.createDiamondConfig = info.data.createDiamond
                     this.setChipValList(info.data.roomGame.chipValList)
                     UserManage.setSelectChipValue(info.data.roomGame.chipValList[0])
                     this.configHasLoad = true
-                }
-            })
+                    resolve({ result: ResponseStatus.SUCCESS, extObject: ""})
+                }).catch(function (e) {
+                    resolve({ result: ResponseStatus.FAIL, extObject: { status: 0, message: 'net_error', data: '' } })
+                })
         })
     }
 
@@ -104,11 +109,11 @@ class ConfigManage {
         return roomGameConfig.informMessage
     }
 
-    public setGameUrl(url:string){
+    public setGameUrl(url: string) {
         this.gameUrl = url
     }
 
-    public getGameUrl(){
+    public getGameUrl() {
         return this.gameUrl
     }
 }

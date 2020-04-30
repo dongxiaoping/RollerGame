@@ -29,7 +29,7 @@ export default class NewClass extends cc.Component {
             let contentInfo = UserManage.userInfo.nick+"邀请您一起玩，代开房间【"+roomNum+"】,人数上限"+memberLimit+
             "，局数"+playCount+"，最高下"+costLimit+
             ",点击URL地址进入游戏："+gameUrl+"?roomId="+roomNum
-            webCookie.setItem("share", contentInfo, null)
+            webCookie.setItem("share", contentInfo, 0.01)
            this.webViewPart.url = "https://www.toplaygame.cn/login/copyPage"
         }catch(e){}
 

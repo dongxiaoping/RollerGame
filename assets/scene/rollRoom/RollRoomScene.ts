@@ -188,12 +188,22 @@ export default class NewClass extends cc.Component {
     }
 
     onEnable() {
-        if (!ConfigManage.isConfigHasLoad()) {
-            ConfigManage.loadConfigInfo()
-        }
+        this.configManageGet()
         this.addClickEvent()
         this.localNoticeEvent()
+    }
 
+    async configManageGet(){
+        if (!ConfigManage.isConfigHasLoad()) {
+            let info = await ConfigManage.loadConfigInfo()
+            if(info.result == ResponseStatus.FAIL){
+                let dialogParam = {
+                    sureButtonShow: true, cancelButtonShow: false, content: EnterRoomFail.net_fail_reload, cancelButtonAction: null,
+                    sureButtonAction:  TipDialogButtonAction.RE_IN_GAME
+                } as TipDialogParam
+                this.dialogShow(dialogParam)
+            }
+        }
     }
 
     localNoticeEvent() {
@@ -228,10 +238,17 @@ export default class NewClass extends cc.Component {
         if (enterRoomParam.model == EnterRoomModel.SHARE) {
             let reInfo = await UserManage.requestUserInfo(userId);
             if(reInfo.result == ResponseStatus.FAIL){
-                webCookie.removeItem('userId')
+                let messageSet = EnterRoomFail.account_error
+                let actionSet = TipDialogButtonAction.OUT_TO_LOGIN
+                if(reInfo.extObject.message == 'net_error'){
+                    let messageSet = EnterRoomFail.net_fail_reload
+                    let actionSet = TipDialogButtonAction.RE_IN_GAME
+                }else{
+                    webCookie.removeItem('userId')
+                }
                 let dialogParam = {
-                    sureButtonShow: true, cancelButtonShow: false, content: "账号异常，请重新登录！", cancelButtonAction: null,
-                    sureButtonAction: TipDialogButtonAction.OUT_TO_LOGIN
+                    sureButtonShow: true, cancelButtonShow: false, content: messageSet, cancelButtonAction: null,
+                    sureButtonAction: actionSet
                 } as TipDialogParam
                 this.dialogShow(dialogParam)
                 return
