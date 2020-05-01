@@ -39,6 +39,8 @@ export default class NewClass extends cc.Component {
     jushu_two: cc.Toggle = null
     @property(cc.Toggle)
     jushu_three: cc.Toggle = null
+    @property(cc.Toggle)
+    jushu_four: cc.Toggle = null
 
     @property(cc.Label)
     one_jushu_label: cc.Label = null
@@ -46,6 +48,8 @@ export default class NewClass extends cc.Component {
     two_jushu_label: cc.Label = null
     @property(cc.Label)
     three_jushu_label: cc.Label = null
+    @property(cc.Label)
+    four_jushu_label: cc.Label = null
     ////////////////////////////////
 
     //////////////////////扣钻模式
@@ -62,6 +66,8 @@ export default class NewClass extends cc.Component {
     xiazhu_two: cc.Toggle = null
     @property(cc.Toggle)
     xiazhu_three: cc.Toggle = null
+    @property(cc.Toggle)
+    xiazhu_four: cc.Toggle = null
 
     @property(cc.Label)
     one_xiazhu_label: cc.Label = null
@@ -69,6 +75,8 @@ export default class NewClass extends cc.Component {
     two_xiazhu_label: cc.Label = null
     @property(cc.Label)
     three_xiazhu_label: cc.Label = null
+    @property(cc.Label)
+    four_xiazhu_label: cc.Label = null
     ////////////////////////////////
 
     @property(cc.Label)
@@ -77,6 +85,8 @@ export default class NewClass extends cc.Component {
     two_jushu_diamond_label: cc.Label = null
     @property(cc.Label)
     three_jushu_diamond_label: cc.Label = null
+    @property(cc.Label)
+    four_jushu_diamond_label: cc.Label = null
     /////////////////////////////////////
 
     @property(cc.Label)
@@ -85,6 +95,8 @@ export default class NewClass extends cc.Component {
     two_xiazhu_diamond_label: cc.Label = null
     @property(cc.Label)
     three_xiazhu_diamond_label: cc.Label = null
+    @property(cc.Label)
+    four_xiazhu_diamond_label: cc.Label = null
     /////////////////////////////////////
 
     creatDiamondConfig: any
@@ -106,10 +118,12 @@ export default class NewClass extends cc.Component {
         this.one_jushu_label.string = this.creatDiamondConfig.totalRace.one.raceCount + '局'
         this.two_jushu_label.string = this.creatDiamondConfig.totalRace.two.raceCount + '局'
         this.three_jushu_label.string = this.creatDiamondConfig.totalRace.three.raceCount + '局'
+        this.four_jushu_label.string = this.creatDiamondConfig.totalRace.four.raceCount + '局'
 
         this.one_xiazhu_label.string = this.creatDiamondConfig.betLimit.one.limitVal + ''
         this.two_xiazhu_label.string = this.creatDiamondConfig.betLimit.two.limitVal + ''
         this.three_xiazhu_label.string = this.creatDiamondConfig.betLimit.three.limitVal + ''
+        this.four_xiazhu_label.string = this.creatDiamondConfig.betLimit.four.limitVal + ''
         this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
         this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
     }
@@ -119,10 +133,12 @@ export default class NewClass extends cc.Component {
             this.one_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.one.aaDiamond + ''
             this.two_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.two.aaDiamond + ''
             this.three_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.three.aaDiamond + ''
+            this.four_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.four.aaDiamond + ''
         } else {
             this.one_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.one.daiKaiDiamond + ''
             this.two_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.two.daiKaiDiamond + ''
             this.three_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.three.daiKaiDiamond + ''
+            this.four_jushu_diamond_label.string = this.creatDiamondConfig.totalRace.four.daiKaiDiamond + ''
         }
     }
 
@@ -131,10 +147,12 @@ export default class NewClass extends cc.Component {
             this.one_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.one.aaRate + '倍'
             this.two_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.two.aaRate + '倍'
             this.three_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.three.aaRate + '倍'
+            this.four_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.four.aaRate + '倍'
         } else {
             this.one_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.one.daiKaiRate + '倍'
             this.two_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.two.daiKaiRate + '倍'
             this.three_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.three.daiKaiRate + '倍'
+            this.four_xiazhu_diamond_label.string = this.creatDiamondConfig.betLimit.four.daiKaiRate + '倍'
         }
     }
 
@@ -158,11 +176,11 @@ export default class NewClass extends cc.Component {
             let payMode: CreateRoomPayModel = null
             let xiazhu: number = null
             if (this.renshu_one.isChecked) {
-                renshu = 6
+                renshu = this.creatDiamondConfig.roomPeople.one.peoplecount
             } else if (this.renshu_two.isChecked) {
-                renshu = 8
+                renshu = this.creatDiamondConfig.roomPeople.two.peoplecount
             } else if (this.renshu_three.isChecked) {
-                renshu = 10
+                renshu = this.creatDiamondConfig.roomPeople.three.peoplecount
             } else {
                 renshu = null
                 //cc.log('人数不能为空')
@@ -175,6 +193,8 @@ export default class NewClass extends cc.Component {
                 jushu = this.creatDiamondConfig.totalRace.two.raceCount
             } else if (this.jushu_three.isChecked) {
                 jushu = this.creatDiamondConfig.totalRace.three.raceCount
+            }else if (this.jushu_four.isChecked) {
+                jushu = this.creatDiamondConfig.totalRace.four.raceCount
             } else {
                 jushu = null
                 //cc.log('局数不能为空')
@@ -201,7 +221,9 @@ export default class NewClass extends cc.Component {
                 xiazhu = this.creatDiamondConfig.betLimit.two.limitVal
             } else if (this.xiazhu_three.isChecked) {
                 xiazhu = this.creatDiamondConfig.betLimit.three.limitVal
-            } else {
+            } else if (this.xiazhu_four.isChecked) {
+                xiazhu = this.creatDiamondConfig.betLimit.four.limitVal
+            }else {
                 xiazhu = null
                 //cc.log('下注上限不能为空')
                 return
@@ -282,6 +304,7 @@ export default class NewClass extends cc.Component {
             if (this.jushu_one.isChecked) {
                 this.jushu_two.isChecked = false
                 this.jushu_three.isChecked = false
+                this.jushu_four.isChecked = false
                 //cc.log('renshu_one')
             }
         }, this);
@@ -289,6 +312,7 @@ export default class NewClass extends cc.Component {
             if (this.jushu_two.isChecked) {
                 this.jushu_one.isChecked = false
                 this.jushu_three.isChecked = false
+                this.jushu_four.isChecked = false
                 //cc.log('renshu_two')
             }
         }, this);
@@ -296,7 +320,15 @@ export default class NewClass extends cc.Component {
             if (this.jushu_three.isChecked) {
                 this.jushu_one.isChecked = false
                 this.jushu_two.isChecked = false
+                this.jushu_four.isChecked = false
                 //cc.log('renshu_three')
+            }
+        }, this);
+        this.jushu_four.node.on('toggle', () => {
+            if (this.jushu_four.isChecked) {
+                this.jushu_one.isChecked = false
+                this.jushu_two.isChecked = false
+                this.jushu_three.isChecked = false
             }
         }, this);
         ////
@@ -326,6 +358,7 @@ export default class NewClass extends cc.Component {
             if (this.xiazhu_one.isChecked) {
                 this.xiazhu_two.isChecked = false
                 this.xiazhu_three.isChecked = false
+                this.xiazhu_four.isChecked = false
                 //cc.log('renshu_one')
             }
         }, this);
@@ -333,6 +366,7 @@ export default class NewClass extends cc.Component {
             if (this.xiazhu_two.isChecked) {
                 this.xiazhu_one.isChecked = false
                 this.xiazhu_three.isChecked = false
+                this.xiazhu_four.isChecked = false
                 //cc.log('renshu_two')
             }
         }, this);
@@ -340,6 +374,15 @@ export default class NewClass extends cc.Component {
             if (this.xiazhu_three.isChecked) {
                 this.xiazhu_one.isChecked = false
                 this.xiazhu_two.isChecked = false
+                this.xiazhu_four.isChecked = false
+                //cc.log('renshu_three')
+            }
+        }, this);
+        this.xiazhu_four.node.on('toggle', () => {
+            if (this.xiazhu_four.isChecked) {
+                this.xiazhu_one.isChecked = false
+                this.xiazhu_two.isChecked = false
+                this.xiazhu_three.isChecked = false
                 //cc.log('renshu_three')
             }
         }, this);
