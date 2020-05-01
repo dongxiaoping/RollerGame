@@ -16,6 +16,35 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     closeButton: cc.Sprite = null;
 
+    @property(cc.Node)
+    renshu_part_one: cc.Node = null
+    @property(cc.Node)
+    renshu_part_two: cc.Node = null
+    @property(cc.Node)
+    renshu_part_three: cc.Node = null
+
+    @property(cc.Node)
+    daikai_part: cc.Node = null
+    @property(cc.Node)
+    aa_part: cc.Node = null
+
+    @property(cc.Node)
+    jushu_part_one: cc.Node = null
+    @property(cc.Node)
+    jushu_part_two: cc.Node = null
+    @property(cc.Node)
+    jushu_part_three: cc.Node = null
+    @property(cc.Node)
+    jushu_part_four: cc.Node = null
+
+    @property(cc.Node)
+    xiazhu_part_one: cc.Node = null
+    @property(cc.Node)
+    xiazhu_part_two: cc.Node = null
+    @property(cc.Node)
+    xiazhu_part_three: cc.Node = null
+    @property(cc.Node)
+    xiazhu_part_four: cc.Node = null
 
     //////////////////////房间人数
     @property(cc.Toggle)
@@ -274,6 +303,8 @@ export default class NewClass extends cc.Component {
     }
 
     toggleInit() {
+
+        //////////////////////////////////////////
         /////人数
         this.renshu_one.node.on('toggle', () => {
             if (this.renshu_one.isChecked) {
@@ -385,6 +416,97 @@ export default class NewClass extends cc.Component {
                 this.xiazhu_three.isChecked = false
                 //cc.log('renshu_three')
             }
+        }, this);
+        ////
+
+
+
+        ////////////////////////
+        /////人数
+        this.renshu_part_one.on(cc.Node.EventType.TOUCH_END, () => {
+            this.renshu_one.isChecked = true
+            this.renshu_two.isChecked = false
+            this.renshu_three.isChecked = false
+        }, this);
+
+        this.renshu_part_two.on(cc.Node.EventType.TOUCH_END, () => {
+            this.renshu_two.isChecked = true
+            this.renshu_one.isChecked = false
+            this.renshu_three.isChecked = false
+        }, this);
+        this.renshu_part_three.on(cc.Node.EventType.TOUCH_END, () => {
+            this.renshu_three.isChecked = true
+            this.renshu_one.isChecked = false
+            this.renshu_two.isChecked = false
+        }, this);
+        ////
+
+
+        /////局数
+        this.jushu_part_one.on(cc.Node.EventType.TOUCH_END, () => {
+            this.jushu_one.isChecked = true
+            this.jushu_two.isChecked = false
+            this.jushu_three.isChecked = false
+            this.jushu_four.isChecked = false
+        }, this);
+        this.jushu_part_two.on(cc.Node.EventType.TOUCH_END, () => {
+            this.jushu_two.isChecked = true
+            this.jushu_one.isChecked = false
+            this.jushu_three.isChecked = false
+            this.jushu_four.isChecked = false
+        }, this);
+        this.jushu_part_three.on(cc.Node.EventType.TOUCH_END, () => {
+            this.jushu_three.isChecked = true
+            this.jushu_one.isChecked = false
+            this.jushu_two.isChecked = false
+            this.jushu_four.isChecked = false
+        }, this);
+        this.jushu_part_four.on(cc.Node.EventType.TOUCH_END, () => {
+            this.jushu_four.isChecked = true
+            this.jushu_one.isChecked = false
+            this.jushu_two.isChecked = false
+            this.jushu_three.isChecked = false
+        }, this);
+        ////
+
+
+        this.daikai_part.on(cc.Node.EventType.TOUCH_END, () => {
+            this.DaiKai.isChecked = true
+            this.AA.isChecked = false
+            this.setJuShuDiamondShow(CreateRoomPayModel.DAI_KAI)
+            this.setXiaZhuDiamondShow(CreateRoomPayModel.DAI_KAI)
+        }, this);
+        this.aa_part.on(cc.Node.EventType.TOUCH_END, () => {
+            this.AA.isChecked = true
+            this.DaiKai.isChecked = false
+            this.setJuShuDiamondShow(CreateRoomPayModel.AA)
+            this.setXiaZhuDiamondShow(CreateRoomPayModel.AA)
+        }, this);
+
+        ////倍率
+        this.xiazhu_part_one.on(cc.Node.EventType.TOUCH_END, () => {
+            this.xiazhu_one.isChecked = true
+            this.xiazhu_two.isChecked = false
+            this.xiazhu_three.isChecked = false
+            this.xiazhu_four.isChecked = false
+        }, this);
+        this.xiazhu_part_two.on(cc.Node.EventType.TOUCH_END, () => {
+            this.xiazhu_two.isChecked = true
+            this.xiazhu_one.isChecked = false
+            this.xiazhu_three.isChecked = false
+            this.xiazhu_four.isChecked = false
+        }, this);
+        this.xiazhu_part_three.on(cc.Node.EventType.TOUCH_END, () => {
+            this.xiazhu_three.isChecked = true
+            this.xiazhu_one.isChecked = false
+            this.xiazhu_two.isChecked = false
+            this.xiazhu_four.isChecked = false
+        }, this);
+        this.xiazhu_part_four.on(cc.Node.EventType.TOUCH_END, () => {
+            this.xiazhu_four.isChecked = true
+            this.xiazhu_one.isChecked = false
+            this.xiazhu_two.isChecked = false
+            this.xiazhu_three.isChecked = false
         }, this);
         ////
 
