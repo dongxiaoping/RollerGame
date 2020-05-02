@@ -116,6 +116,18 @@ class ConfigManage {
     public getGameUrl() {
         return this.gameUrl
     }
+
+    //分享游戏页面地址
+    public getSharePageAddr() {
+        return "https://www.toplaygame.cn/login/copySharePage"
+      // return "localhost/login/copySharePage"
+    }
+
+    //分享战绩页面地址
+    public getZhanjiPageAddr() {
+       // return "http://localhost/login/copyZhanjiPage/"
+        return "https://www.toplaygame.cn/login/copyZhanjiPage"
+    }
 }
 
 export default new ConfigManage
