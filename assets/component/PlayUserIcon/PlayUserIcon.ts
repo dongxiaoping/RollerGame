@@ -1,11 +1,12 @@
 import { eventBus } from "../../common/EventBus";
-import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState, LocalNoticeEventType, LocalNoticeEventPara, raceResultData, CartonMessage, ChatMessageType } from "../../common/Const";
+import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState, CartonMessage, ChatMessageType, NoticeType, NoticeData, roomState } from "../../common/Const";
 import { randEventId } from '../../common/Util'
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 import RaceManage from "../../store/Races/RaceManage";
 import { roomGameConfig } from "../../common/RoomGameConfig";
 import { faceList } from "../../common/FaceList";
+import webSocketManage from '../../common/WebSocketManage'
 import { wenZiList } from "../../common/WenZiList";
 import ConfigManage from "../../store/Config/ConfigManage";
 const { ccclass, property } = cc._decorator;
@@ -20,6 +21,9 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Sprite)
     userIcon: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    kickButton: cc.Sprite = null;
 
     @property(cc.Sprite)
     offLineIcon: cc.Sprite = null;
@@ -38,7 +42,29 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     messageZiPref: cc.Prefab = null;
     start() {
-
+        this.kickButton.enabled = false
+        this.kickButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            try {
+                if(RoomManage.roomItem.roomState == roomState.OPEN ){
+                    let notice = {
+                        type: NoticeType.kickOutMemberFromRoom, info: {
+                            roomId: RoomManage.roomItem.id,
+                            kickUserId: this.memberData.userId,
+                        }
+                    } as NoticeData
+                    webSocketManage.send(JSON.stringify(notice));
+                }else{
+    
+                }
+            } catch (error) {
+                
+            }
+        })
+        this.userIcon.node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (RoomManage.roomItem.creatUserId == UserManage.userInfo.id && this.memberData.userId != UserManage.userInfo.id) {
+                this.kickButton.enabled = this.kickButton.enabled ? false : true
+            }
+        })
     }
 
     changeByUserState(myState: memberState) {
@@ -62,7 +88,7 @@ export default class NewClass extends cc.Component {
         this.changeByUserState(memberData.state)
         this.updateScoreShow(memberData.xiaZhuVal)
         let enterRoomParam = RoomManage.getEnterRoomParam()
-        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && this.memberData.userId !== UserManage.userInfo.id) {
+        if (enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM && this.memberData.userId != UserManage.userInfo.id) {
             cc.loader.loadRes(memberData.userIcon, (error, img) => {
                 let myIcon = new cc.SpriteFrame(img);
                 if (myIcon !== null && this.userIcon != null) {
@@ -70,7 +96,7 @@ export default class NewClass extends cc.Component {
                 }
             })
         } else {
-            let iconUrl = ConfigManage.getUserIconUrl()+memberData.userIcon
+            let iconUrl = ConfigManage.getUserIconUrl() + memberData.userIcon
             cc.loader.load({ url: iconUrl, type: 'png' }, (err, img: any) => {
                 let myIcon = new cc.SpriteFrame(img);
                 if (myIcon !== null && this.userIcon != null) {
@@ -88,6 +114,9 @@ export default class NewClass extends cc.Component {
 
     getMemberData(): MemberInChairData {
         return this.memberData
+    }
+    onLoad(){
+
     }
 
     onEnable() {

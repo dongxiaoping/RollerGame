@@ -341,6 +341,7 @@ export enum NoticeType {
     landlordSelected = 'landlordSelected', //玩家选择当地主通知
     enterRoom = 'enterRoom', //普通玩家进入房间
     raceBet = 'raceBet', //玩家下注通知
+    kickOutMemberFromRoom = 'kickOutMemberFromRoom', //踢出玩家
     chatCartonMessage = 'chatCartonMessage', //消息动画
     cancelRaceBet = 'cancelRaceBet' //取消指定区域的下注
 }

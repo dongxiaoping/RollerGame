@@ -71,7 +71,7 @@ class WebSocketManage {
                 break;
             case 'memberOutRoom':
                 message = message.data
-                //Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['接到有成员退出通知',info])
+                //Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['接到有成员退出通知',message])
                 if (RoomManage.roomItem.creatUserId != message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
                     GameMemberManage.outGameMember(message.userId)
                 } else {
