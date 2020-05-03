@@ -1,9 +1,8 @@
 const { ccclass, property } = cc._decorator;
-import { NoticeType, NoticeData, RaceState, EventType, BetChipChangeInfo, betLocaion, LocalNoticeEventType, CompareDxRe, BetNoticeData, EnterRoomModel } from '../../common/Const'
+import { NoticeType, NoticeData, RaceState, BetChipChangeInfo, betLocaion, CompareDxRe, BetNoticeData, EnterRoomModel, ResponseStatus } from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
-import { eventBus } from '../../common/EventBus'
 import BetManage from '../../store/Bets/BetManage'
 import webSocketManage from '../../common/WebSocketManage'
 import ConfigManage from '../../store/Config/ConfigManage'
@@ -40,7 +39,7 @@ export default class NewClass extends cc.Component {
     allScore: number = 0 // 所有用户当前位置的下注值
     touchLock: boolean = false //防止点击速率过快
     overBetLimitLock: boolean = false //超限锁，防止超限反复点击
-    cancelBetLock: boolean = false //取消下注锁
+    isBetCanceling: boolean = false //正在取消下注中
     scheduleOb: any = null
     start() {
         //cc.log('按钮类型：' + this.typeValue)
@@ -154,7 +153,7 @@ export default class NewClass extends cc.Component {
         if (!isTouchMove) {
             return false
         }
-        if (this.cancelBetLock || this.ownScore == 0) {
+        if (this.isBetCanceling || this.ownScore == 0) {
             return false
         }
         let raceNum = RoomManage.roomItem.oningRaceNum
@@ -181,7 +180,7 @@ export default class NewClass extends cc.Component {
             let xiaZhuVal = RaceManage.getClickXiaZhuVal()
             let enterRoomParam = RoomManage.getEnterRoomParam()
             let successNowVal = xiaZhuVal - localBetVal //删除成功后总的下注值
-            this.cancelBetLock = true
+            this.isBetCanceling = true
 
 
             //删除动画以及声音
@@ -193,7 +192,7 @@ export default class NewClass extends cc.Component {
                 }
                 RaceManage.setClickXiaZhuVal(successNowVal)//设置当前场次总的下注值
                 this.scheduleOnce(() => {
-                    this.cancelBetLock = false
+                    this.isBetCanceling = false
                 }, 0.5);
                 return
             }
@@ -225,7 +224,7 @@ export default class NewClass extends cc.Component {
                 return
             }
             this.focus.node.active = false //在桌子上处理
-            if (this.touchLock || this.overBetLimitLock || this.cancelBetLock) {
+            if (this.touchLock || this.overBetLimitLock || this.isBetCanceling) {
                 return
             }
             this.scheduleOnce(() => { //定时器
@@ -283,24 +282,24 @@ export default class NewClass extends cc.Component {
     }
 
     async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion, nowVal: number) {
-        let result = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
-        if (ConfigManage.isTxMusicOpen()) {
-            this.chipCancelVoice.play()
-        }
-        RaceManage.setClickXiaZhuVal(nowVal)//设置当前场次总的下注值
+        let info = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
         this.scheduleOnce(() => {
-            this.cancelBetLock = false
+            this.isBetCanceling = false
         }, 0.5);
-        //cc.log('删除打印：成功删除下注')
-        let notice = {
-            type: NoticeType.cancelRaceBet, info: {
-                userId: userId,
-                roomId: roomId,
-                raceNum: raceNum,
-                betLocation: theBetLocaion
-            } as BetNoticeData
-        } as NoticeData
-        webSocketManage.send(JSON.stringify(notice));
+        if (info.result == ResponseStatus.SUCCESS) {
+            if (ConfigManage.isTxMusicOpen()) {
+                this.chipCancelVoice.play()
+            }
+            RaceManage.setClickXiaZhuVal(nowVal)//设置当前场次总的下注值
+            let notice = {
+                type: NoticeType.cancelRaceBet, info: {
+                    userId: userId,
+                    roomId: roomId,
+                    raceNum: raceNum,
+                    betLocation: theBetLocaion
+                } as BetNoticeData
+            } as NoticeData
+            webSocketManage.send(JSON.stringify(notice));
+        }
     }
-    // update (dt) {}
 }
