@@ -50,7 +50,7 @@ export default class NewClass extends cc.Component {
     }
     //获取战绩分享信息
     getShareZhanjiMessage(resultList) {
-        let resultString = '房间，'+RoomManage.roomItem.id+'比赛结果，'
+        let resultString = RoomManage.roomItem.id+'号房间比赛结果->'
         resultList.forEach(element => {
             let name = element.nick
             let score = element.score
