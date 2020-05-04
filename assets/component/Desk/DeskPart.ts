@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import { NoticeType, NoticeData, RaceState, BetChipChangeInfo, betLocaion, CompareDxRe, BetNoticeData, EnterRoomModel, ResponseStatus } from '../../common/Const'
+import { NoticeType, NoticeData, RaceState, BetChipChangeInfo, betLocaion, CompareDxRe, BetNoticeData, EnterRoomModel, ResponseStatus, ConsoleType } from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
@@ -7,6 +7,7 @@ import BetManage from '../../store/Bets/BetManage'
 import webSocketManage from '../../common/WebSocketManage'
 import ConfigManage from '../../store/Config/ConfigManage'
 import { touchMoveEvent } from '../../common/Util'
+import Log from '../../common/Log';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -168,7 +169,6 @@ export default class NewClass extends cc.Component {
 
     addClickEvent() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
-            return 
             //cc.log('删除打印：执行删除动作')
             if (!this.isNeedToCancel(event)) {
                 return
@@ -289,6 +289,8 @@ export default class NewClass extends cc.Component {
             this.isBetCanceling = false
         }, 0.5);
         if (info.result == ResponseStatus.SUCCESS) {
+            Log.i([ConsoleType.INTERfACE], "DeskPart",
+            ['删除成功', info])
             if (ConfigManage.isTxMusicOpen()) {
                 this.chipCancelVoice.play()
             }
@@ -302,6 +304,9 @@ export default class NewClass extends cc.Component {
                 } as BetNoticeData
             } as NoticeData
             webSocketManage.send(JSON.stringify(notice));
+        }else{
+         Log.i([ConsoleType.INTERfACE], "DeskPart",
+                   ['删除下注失败', info])
         }
     }
 }
