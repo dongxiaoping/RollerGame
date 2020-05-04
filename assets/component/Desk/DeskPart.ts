@@ -197,7 +197,18 @@ export default class NewClass extends cc.Component {
                 }, 0.5);
                 return
             }
-            this.execCancel(RoomManage.roomItem.id, UserManage.userInfo.id, raceNum, betLocation, successNowVal)
+            let betInfo = {
+                roomId: RoomManage.roomItem.id, raceNum: RoomManage.roomItem.oningRaceNum,
+                betLocation: this.typeValue, userId: UserManage.userInfo.id, betVal: -1*localBetVal
+            } as BetNoticeData
+            let notice = { type: NoticeType.raceBet, info: betInfo } as NoticeData
+            webSocketManage.send(JSON.stringify(notice));
+            if (ConfigManage.isTxMusicOpen()) {
+                this.chipCancelVoice.play()
+            }
+            this.scheduleOnce(() => {
+                this.isBetCanceling = false
+            }, 1);
         })
 
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
@@ -280,33 +291,5 @@ export default class NewClass extends cc.Component {
             return true
         }
         return false
-    }
-
-    //TODO 下注再快速删除，数据库操作是否会存在问题，目前出现取消失败的情况
-    async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion, nowVal: number) {
-        let info = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
-        this.scheduleOnce(() => {
-            this.isBetCanceling = false
-        }, 0.5);
-        if (info.result == ResponseStatus.SUCCESS) {
-            Log.i([ConsoleType.INTERfACE], "DeskPart",
-            ['删除成功', info])
-            if (ConfigManage.isTxMusicOpen()) {
-                this.chipCancelVoice.play()
-            }
-            RaceManage.setClickXiaZhuVal(nowVal)//设置当前场次总的下注值
-            let notice = {
-                type: NoticeType.cancelRaceBet, info: {
-                    userId: userId,
-                    roomId: roomId,
-                    raceNum: raceNum,
-                    betLocation: theBetLocaion
-                } as BetNoticeData
-            } as NoticeData
-            webSocketManage.send(JSON.stringify(notice));
-        }else{
-         Log.i([ConsoleType.INTERfACE], "DeskPart",
-                   ['删除下注失败', info])
-        }
     }
 }

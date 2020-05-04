@@ -1,5 +1,7 @@
-import { NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType,
-     memberState, ResponseStatus, CartonMessage, ChatMessageType, ConsoleType } from "./Const";
+import {
+    NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType,
+    memberState, ResponseStatus, CartonMessage, ChatMessageType, ConsoleType
+} from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
 import GameMemberManage from "../store/GameMember/GameMemberManage";
@@ -76,7 +78,7 @@ class WebSocketManage {
                     GameMemberManage.outGameMember(message.userId)
                 } else {
                     //状态改为离线
-                   // Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['游戏中，改为离线状态'])
+                    // Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['游戏中，改为离线状态'])
                     if (typeof (GameMemberManage.gameMenmberList[message.userId]) !== 'undefined') {
                         GameMemberManage.gameMenmberList[message.userId].state = memberState.OffLine
                     }
@@ -113,18 +115,27 @@ class WebSocketManage {
                 let raceResult = message.raceResult as raceResultData[]
                 setTimeout(() => {
                     eventBus.emit(EventType.USER_SCORE_NOTICE, message.roomResult) //这个地方有问题，这个地方是，修改总的数据
-                 //   Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET, ConsoleType.RACE_SCORE], "WebSocketManage/onmessage",
-                 //   ['同步服务器上用户当前总的得分数到本地',message.roomResult])
+                    //   Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET, ConsoleType.RACE_SCORE], "WebSocketManage/onmessage",
+                    //   ['同步服务器上用户当前总的得分数到本地',message.roomResult])
                 }, (roomGameConfig.showDownTime + 1) * 1000)
                 RaceManage.raceList[message.raceNum].setRaceResultList(raceResult)//这个地方是同步当前场次本地和服务器的用户得分数据
-              //  Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET, ConsoleType.RACE_SCORE], "WebSocketManage/onmessage",
-              //  ['同步服务器上用户当前场次的得分数到本地',raceResult])
+                //  Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET, ConsoleType.RACE_SCORE], "WebSocketManage/onmessage",
+                //  ['同步服务器上用户当前场次的得分数到本地',raceResult])
                 RaceManage.changeRaceState(RaceState.SHOW_DOWN)
                 //console.log('比大小，包括开牌，播报牌位的胜负关系');
                 break;
-            case 'betNotice': //下注通知  //TODO 如果人物在本地没找到怎么办
+            case 'betNotice': //下注通知 值为负数表示取消下注
                 message as BetNoticeData
-                BetManage.addBet(message.raceNum, message.userId, message.betLocation, message.betVal)
+                if (message.betVal < 0) { //表示取消下注
+                    let betVal = message.betVal
+                    BetManage.cancelBet(message)
+                    if(message.userId == UserManage.userInfo.id){
+                        let xiaZhuVal = RaceManage.getClickXiaZhuVal()
+                        RaceManage.setClickXiaZhuVal(xiaZhuVal + betVal)
+                    }
+                } else {
+                    BetManage.addBet(message.raceNum, message.userId, message.betLocation, message.betVal)
+                }
                 //console.log('下注接收通知');
                 break;
             case 'allRaceFinished': //所有游戏结束
@@ -133,24 +144,20 @@ class WebSocketManage {
                 RaceManage.setGameOverResultList(roomResult)
                 RoomManage.roomItem.roomState = roomState.CLOSE
                 break;
-            case 'cancelBetSuccessNotice': //删除下注成功通知
-                message as BetNoticeData
-                BetManage.cancelBet(message)
-                break;
             case 'chatCartonMessage': //动画消息信息
                 message as CartonMessage
                 eventBus.emit(EventType.CARTON_MESSAGE_NOTICE, message)
                 break;
             case 'memberWaitForLandlord': //用户选择当庄
                 let setInfo = { userId: message.userId, type: ChatMessageType.QIANG_ZHUANG, message: 0 } as CartonMessage
-               // console.log('接收到用户抢庄通知：'+JSON.stringify(setInfo))
+                // console.log('接收到用户抢庄通知：'+JSON.stringify(setInfo))
                 eventBus.emit(EventType.CARTON_MESSAGE_NOTICE, setInfo)
                 break;
             case 'checkRoomMember': //房间游戏启动前的成员核对
                 console.log("成员核对")
                 console.log(message)
                 GameMemberManage.checkRoomMember(message);
-            break;
+                break;
         }
     }
 }

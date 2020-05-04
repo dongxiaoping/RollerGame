@@ -12,5 +12,5 @@ export const config: Config = {
   loginPageAddress: 'https://www.toplaygame.cn/login/login.html',//登录页面地址
   registerPageAddress: 'https://www.toplaygame.cn/login/register.html',//注册页面地址
   websocketAddress: 'wss://www.toplaygame.cn/wss',
-  version: 'v1.1.4'
+  version: 'v1.1.6'
 }
