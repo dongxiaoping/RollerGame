@@ -106,15 +106,19 @@ class WebSocketManage {
                 RaceManage.changeRaceState(RaceState.BET)
                 //console.log('下注');
                 break;
-            case 'raceStateShowDown':
+            case 'raceStateShowDown': //TODO这个地方不清晰
                 message as NoticeInfo
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
                 RaceManage.changeRaceLandlord(message.landlordId, 1, message.raceNum)
                 let raceResult = message.raceResult as raceResultData[]
                 setTimeout(() => {
-                    eventBus.emit(EventType.USER_SCORE_NOTICE, message.roomResult)
+                    eventBus.emit(EventType.USER_SCORE_NOTICE, message.roomResult) //这个地方有问题，这个地方是，修改总的数据
+                 //   Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET, ConsoleType.RACE_SCORE], "WebSocketManage/onmessage",
+                 //   ['同步服务器上用户当前总的得分数到本地',message.roomResult])
                 }, (roomGameConfig.showDownTime + 1) * 1000)
-                RaceManage.raceList[message.raceNum].setRaceResultList(raceResult)
+                RaceManage.raceList[message.raceNum].setRaceResultList(raceResult)//这个地方是同步当前场次本地和服务器的用户得分数据
+              //  Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET, ConsoleType.RACE_SCORE], "WebSocketManage/onmessage",
+              //  ['同步服务器上用户当前场次的得分数到本地',raceResult])
                 RaceManage.changeRaceState(RaceState.SHOW_DOWN)
                 //console.log('比大小，包括开牌，播报牌位的胜负关系');
                 break;

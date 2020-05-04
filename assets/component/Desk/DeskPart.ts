@@ -168,6 +168,7 @@ export default class NewClass extends cc.Component {
 
     addClickEvent() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
+            return 
             //cc.log('删除打印：执行删除动作')
             if (!this.isNeedToCancel(event)) {
                 return
@@ -281,6 +282,7 @@ export default class NewClass extends cc.Component {
         return false
     }
 
+    //TODO 下注再快速删除，数据库操作是否会存在问题，目前出现取消失败的情况
     async execCancel(roomId: number, userId: string, raceNum: number, theBetLocaion: betLocaion, nowVal: number) {
         let info = await BetManage.cancelBetByLocation(roomId, userId, raceNum, theBetLocaion)
         this.scheduleOnce(() => {

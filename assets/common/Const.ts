@@ -406,6 +406,7 @@ export const ConsoleType = {
     SOCKET: '_socket_', //web socket
     SOCKET_SEND: '_socket_send_', //web socket 发送请求
     SOCKET_GET: '_socket_get_', //web socket 返回结果
+    RACE_SCORE: '_race_score_' //比赛分数相关
 }
 
 
