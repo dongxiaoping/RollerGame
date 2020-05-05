@@ -1,6 +1,6 @@
 import {
     NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType,
-    memberState, ResponseStatus, CartonMessage, ChatMessageType, ConsoleType
+    memberState, ResponseStatus, CartonMessage, ChatMessageType, ConsoleType, LocalNoticeEventPara, voiceNotice
 } from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
@@ -158,6 +158,17 @@ class WebSocketManage {
                 console.log(message)
                 GameMemberManage.checkRoomMember(message);
                 break;
+            case 'audioPlayNotice': //语音
+            debugger
+                message as voiceNotice
+              //  let userId = message.userId
+              //  let voiceName = message.voiceName
+                console.log('接受到语音通知')
+                console.log(message)
+                eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                    type: LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE,info:message
+                } as LocalNoticeEventPara)
+            break;
         }
     }
 }

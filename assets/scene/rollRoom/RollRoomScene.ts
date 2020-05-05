@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { ConsoleType, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam, WordMessage } from '../../common/Const'
+import { ConsoleType, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam, WordMessage, voiceNotice } from '../../common/Const'
 import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam, webCookie } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -11,9 +11,15 @@ import webSocketManage from '../../common/WebSocketManage'
 import GameMemberManage from '../../store/GameMember/GameMemberManage';
 import BetManage from '../../store/Bets/BetManage';
 import Log from "../../common/Log";
+import voiceManage from '../../store/Voice/VoiceManage';
 
 @ccclass
 export default class NewClass extends cc.Component {
+
+    @property(cc.Button)
+    private startButton: cc.Button = null //
+    @property(cc.Button)
+    private stopButton: cc.Button = null //
 
     @property(cc.Sprite)
     private userIcon: cc.Sprite = null //用户图标
@@ -116,6 +122,15 @@ export default class NewClass extends cc.Component {
     eventIdTwo: string = null
 
     start() {
+        /////////
+        voiceManage.recOpen(()=>{})
+        this.stopButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            voiceManage.recStop()
+        })
+        this.startButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            voiceManage.recStart()
+        })
+        ///////////
         this.clear()
         let enterRoomParam = this.getEnterRoomParam()
         if (enterRoomParam) {
@@ -214,8 +229,14 @@ export default class NewClass extends cc.Component {
                 case LocalNoticeEventType.DIAMOND_COUNT_CHANGE:
                     this.diamondScoreLable.string = info.info + ''
                     break
+                    case LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE:
+                        debugger
+                        let infoItem = info.info as voiceNotice
+                        voiceManage.getAndPlayAudio(cc,infoItem.userId, infoItem.voiceName )
+                        break
             }
         })
+
 
         this.eventIdTwo = randEventId()
         eventBus.on(EventType.MEMBER_DELETE_FROM_ROOM, this.eventIdTwo, (userId: string): void => {
@@ -658,6 +679,8 @@ export default class NewClass extends cc.Component {
             ob.destroy()
         }
     }
+
+    
 
     onDisable() {
         eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne)

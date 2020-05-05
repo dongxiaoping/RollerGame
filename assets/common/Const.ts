@@ -88,7 +88,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     BACK_MUSIC_STATE_CHANGE_NOTICE = 11, //背景音乐开关改变通知
     TO_SHOW_START_BUTTON = 12, //通知显示开始按钮
     SOCKET_CONNECT_NOTICE = 13, //socket连接结果通知
-    DIAMOND_COUNT_CHANGE = 14 //钻数量改变通知
+    DIAMOND_COUNT_CHANGE = 14, //钻数量改变通知
+    PLAY_AUDIO_LOCAL_NOTICE = 15  //播放音频通知
 }
 
 export interface LocalNoticeEventPara {
@@ -151,6 +152,12 @@ export interface GameMember {
     creatTime?: string
     modTime?: string
     state: memberState
+}
+
+export interface voiceNotice {
+    userId: string
+    roomId?:number
+    voiceName:string
 }
 
 export interface raceRecord {
@@ -339,6 +346,7 @@ export interface NoticeInfo {
 export enum NoticeType {
     startRoomGame = 'startRoomGame', //开始房间的比赛 房主调用
     landlordSelected = 'landlordSelected', //玩家选择当地主通知
+    voicePlay = 'audioPlayNotice', //语音通知
     enterRoom = 'enterRoom', //普通玩家进入房间
     raceBet = 'raceBet', //玩家下注通知
     kickOutMemberFromRoom = 'kickOutMemberFromRoom', //踢出玩家
@@ -365,6 +373,7 @@ export const InterfaceUrl = {
     CANCEL_BET: '/race/betrecord/cancel_bet_by_location',
     GET_ROOM_RESULT: '/race/room/get_room_result',
     RECHARGE_DIAMOND: '/race/user/recharge_diamond',
+    AUDIO_UPLOAD: '/race/voice/uploadVoice',
     GET_USER_DIAMOND: '/race/user/get_user_diamond', //获取用户当前钻数量
     GET_USER_INFO: '/race/user/get_user_info_by_id', //获取用户信息
     IS_ROOM_EXIST: '/race/room/is_room_exist'

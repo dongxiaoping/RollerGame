@@ -1,42 +1,22 @@
-import { memberState, BetRecord } from "../../common/Const";
-import Betitem from "../../store/Bets/BetItem";
-import BetManage from "../../store/Bets/BetManage";
-
+import { EventType, ResponseStatus } from "../../common/Const";
+import voiceManage from "../../store/Voice/VoiceManage"
+import ConfigManage from "../../store/Config/ConfigManage";
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
-    touchStart: any
-    //  @property(cc.AudioSource)
-    //qinQiangZhuangVoice: cc.AudioSource = null;
-
-    @property(cc.Prefab)
-    playUserIcon: cc.Prefab = null;
+    private rec
+    @property(cc.Button)
+    private startButton: cc.Button = null //
+    @property(cc.Button)
+    private stopButton: cc.Button = null //
     start() {
-        // let item = {
-        //     userId: 'e',
-        //     raceNum: 1,
-        //     sky: 0,
-        //     land: 0,
-        //     middle: 0,
-        //     bridg: 0,
-        //     skyCorner: 0,
-        //     landCorner: 0,
-        // } as BetRecord
-
-        // BetManage.setBetList([item])
-        // BetManage.betList.forEach((item: Betitem[], index) => {
-        //     //console.log(item)
-        //     //console.log(index)
-        // })
-        // //console.log(BetManage.betList)
-        //userIconNode.getComponent('PlayUserIcon').setShow(memberInChairData)
-        // this.qinQiangZhuangVoice.play()
-
-        let userIconNode = cc.instantiate(this.playUserIcon)
-        userIconNode.name = "PlayerIcon"
-        userIconNode.setPosition(0, 0)
-        userIconNode.parent = this.node
-       // userIconNode.getComponent('PlayUserIcon').setShow(memberInChairData)
+        voiceManage.recOpen(()=>{})
+        this.stopButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            voiceManage.recStop()
+        })
+        this.startButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+            voiceManage.recStart()
+        })
     }
 
     onEnable() {
