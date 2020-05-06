@@ -1,12 +1,16 @@
 import axios from 'axios'
-import { ResponseStatus, PromiseParam, NoticeType, NoticeData, InterfaceUrl } from '../../common/Const'
+import { ResponseStatus, PromiseParam, NoticeType, NoticeData, InterfaceUrl, EventType, LocalNoticeEventType, LocalNoticeEventPara, voiceNotice } from '../../common/Const'
 import RoomManage from '../Room/RoomManage';
 import webSocketManage from '../../common/WebSocketManage'
 import UserManage from '../User/UserManage';
 import ConfigManage from '../Config/ConfigManage';
 import { config } from '../../common/Config';
+import { eventBus } from '../../common/EventBus';
 class VoiceManage {
-    private rec //实例化的录音对象
+    private rec = null//实例化的录音对象
+    public timeLimit = 6 //单位s 录音超时时间
+    public beginButtonHideTime = 5 //语音按钮消失时长
+    public scheduleOnceLimit = null //超时自动关闭录音定时器
     constructor() {
 
     }
@@ -29,24 +33,32 @@ class VoiceManage {
             success && success();
         }, function (msg, isUserNotAllow) {//用户拒绝未授权或不支持
             //dialog&&dialog.Cancel(); 如果开启了弹框，此处需要取消
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                type: LocalNoticeEventType.PLAY_AUDIO_NOT_SUPPORT,info:""
+            } as LocalNoticeEventPara)
             console.log((isUserNotAllow ? "UserNotAllow，" : "") + "无法录音:" + msg);
         });
     }
 
     //开始录音
     recStart() {
-        this.rec.start();
+        this.recOpen(()=>{
+            this.rec.start();
+        })
     }
 
     //上传语音，并通知其它玩家播放语音
-    async uploadAndNoticeAudio(base64data: any) {
+    //base64data 语音文件
+    //duration 语音时长 单位ms
+    async uploadAndNoticeAudio(base64data: any, duration: number) {
         let info = await this.upLoadVice(base64data)
         if (info.result == ResponseStatus.SUCCESS) {
             let notice = {
                 type: NoticeType.voicePlay, info: {
                     roomId: RoomManage.roomItem.id,
                     userId: UserManage.userInfo.id,
-                    voiceName: info.extObject
+                    voiceName: info.extObject,
+                    duration: duration
                 }
             } as NoticeData
             webSocketManage.send(JSON.stringify(notice));
@@ -56,11 +68,15 @@ class VoiceManage {
         }
     }
 
-    //获取到音频地址后，进行播放，userId为音频所属的userId,ccOb为页面的cc
-    getAndPlayAudio(ccOb: any, userId: string, url: string) {
-        url = ConfigManage.getAudioUrl() + url
-        ccOb.loader.load(url, function (err, clip) {
-            console.log(err)
+    //获取到音频地址后，进行播放
+    getAndPlayAudio(ccOb: any, voiceItem: voiceNotice) {
+        console.log('准备播放语音')
+        if(voiceItem.userId == UserManage.userInfo.id){
+            console.log('是自己的，不播放')
+            return
+        }
+        console.log(voiceItem)
+        ccOb.loader.load(ConfigManage.getAudioUrl() + voiceItem.voiceName, function (err, clip) {
             var audioID = ccOb.audioEngine.play(clip, false, 0.5);
         });
     }
@@ -68,13 +84,15 @@ class VoiceManage {
     //结束并上报录音
     recStop() {
         let that = this
+        if(this.rec == null){
+            return
+        }
         this.rec.stop(function (blob, duration) {
             let reader = new FileReader();
             reader.readAsDataURL(blob);
             reader.onloadend = function () {
                 let base64data = reader.result;
-                that.uploadAndNoticeAudio(base64data)
-                console.log(base64data);
+                that.uploadAndNoticeAudio(base64data, duration)
             }
 
             console.log(blob, (window.URL || webkitURL).createObjectURL(blob), "时长:" + duration + "ms");
@@ -82,12 +100,12 @@ class VoiceManage {
             that.rec = null;
             //已经拿到blob文件对象想干嘛就干嘛：立即播放、上传
             /*** 【立即播放例子】 ***/
-            var audio = document.createElement("audio");
-            audio.controls = true;
+        //    var audio = document.createElement("audio");
+         //   audio.controls = true;
             //  document.body.appendChild(audio);
             //简单利用URL生成播放地址，注意不用了时需要revokeObjectURL，否则霸占内存
-            audio.src = (window.URL || webkitURL).createObjectURL(blob);
-            audio.play();
+          //  audio.src = (window.URL || webkitURL).createObjectURL(blob);
+           // audio.play();
         }, function (msg) {
             console.log("录音失败:" + msg);
             that.rec.close();//可以通过stop方法的第3个参数来自动调用close
@@ -111,7 +129,7 @@ class VoiceManage {
                     file: file
                 }
             }).then(res => {
-                if (res.data.status == 1) {
+                if (res.data.status == ResponseStatus.SUCCESS) {
                     let mp3Url = res.data.data
                     resolve({ result: ResponseStatus.SUCCESS, extObject: mp3Url })
                 } else {

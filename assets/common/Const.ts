@@ -89,7 +89,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     TO_SHOW_START_BUTTON = 12, //通知显示开始按钮
     SOCKET_CONNECT_NOTICE = 13, //socket连接结果通知
     DIAMOND_COUNT_CHANGE = 14, //钻数量改变通知
-    PLAY_AUDIO_LOCAL_NOTICE = 15  //播放音频通知
+    PLAY_AUDIO_LOCAL_NOTICE = 15,  //播放音频通知
+    PLAY_AUDIO_NOT_SUPPORT = 16 //不支持语音功能
 }
 
 export interface LocalNoticeEventPara {
@@ -157,6 +158,7 @@ export interface GameMember {
 export interface voiceNotice {
     userId: string
     roomId?:number
+    duration:number //语音时长 ms
     voiceName:string
 }
 
@@ -318,7 +320,9 @@ export enum EnterRoomFail {
 }
 
 export enum WordMessage {
-    back_to_lobby = '退出当前游戏？'
+    back_to_lobby = '退出当前游戏？',
+    over_bet_limit = '超出下注上限！',
+    audio_not_support = '语音失败，录音权限未开启！'
 }
 
 

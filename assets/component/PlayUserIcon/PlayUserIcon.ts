@@ -1,5 +1,5 @@
 import { eventBus } from "../../common/EventBus";
-import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState, CartonMessage, ChatMessageType, NoticeType, NoticeData, roomState } from "../../common/Const";
+import { EventType, BetChipChangeInfo, RaceStateChangeParam, RaceState, EnterRoomModel, MemberInChairData, MemberStateData, memberState, CartonMessage, ChatMessageType, NoticeType, NoticeData, roomState, LocalNoticeEventPara, LocalNoticeEventType, voiceNotice } from "../../common/Const";
 import { randEventId } from '../../common/Util'
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
@@ -36,6 +36,7 @@ export default class NewClass extends cc.Component {
     eventIdFour: string = ''
     eventIdFive: string = ''
     eventIdSix: string = ''
+    eventIdSeven: string = ''
     memberData: MemberInChairData = null
     @property(cc.Prefab)
     messageIconPref: cc.Prefab = null;
@@ -189,6 +190,20 @@ export default class NewClass extends cc.Component {
                 }
             }
         })
+
+        this.eventIdSeven = randEventId()
+        eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventIdSeven, (info: LocalNoticeEventPara): void => {
+            let localNoticeEventType = info.type
+            switch (localNoticeEventType) {
+                case LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE:
+                    let infoItem = info.info as voiceNotice
+                    let duration = Math.ceil(infoItem.duration / 1000) 
+                    if(infoItem.userId == this.memberData.userId){ //TODO 需要显示用户的语音喇叭
+                        console.log('显示语音喇叭')
+                    }
+                    break
+            }
+        })
     }
 
     faceShow(facecItem: any) {
@@ -227,6 +242,8 @@ export default class NewClass extends cc.Component {
         eventBus.off(EventType.MEMBER_STATE_CHANGE, this.eventIdFour)
         eventBus.off(EventType.RACE_STATE_CHANGE_EVENT, this.eventIdFive)
         eventBus.off(EventType.CARTON_MESSAGE_NOTICE, this.eventIdSix)
+        eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdSeven)
+        
     }
 
     update(dt) {

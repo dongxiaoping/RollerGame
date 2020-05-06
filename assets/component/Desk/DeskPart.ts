@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import { NoticeType, NoticeData, RaceState, BetChipChangeInfo, betLocaion, CompareDxRe, BetNoticeData, EnterRoomModel, ResponseStatus, ConsoleType } from '../../common/Const'
+import { NoticeType, NoticeData, RaceState, BetChipChangeInfo, betLocaion, CompareDxRe, BetNoticeData, EnterRoomModel, ResponseStatus, ConsoleType, WordMessage } from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
@@ -266,7 +266,7 @@ export default class NewClass extends cc.Component {
                 if (ConfigManage.isTxMusicOpen()) {
                     this.overBetLimitVoice.play()
                 }
-                cc.find('Canvas/Desk').getComponent('Desk').showBetLimitTip()
+                cc.find('Canvas/Desk').getComponent('Desk').showDeskMiddleTip(WordMessage.over_bet_limit)
                 return
             }
             RaceManage.setClickXiaZhuVal(xiaZhuVal + UserManage.selectChipValue)

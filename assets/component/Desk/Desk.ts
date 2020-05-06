@@ -5,7 +5,7 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { EventType, RaceStateChangeParam, RaceState, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo, betLocaion, DiceCountInfo, TableLocationType, roomState } from '../../common/Const'
+import { EventType, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo, betLocaion, DiceCountInfo, TableLocationType, roomState, WordMessage } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 import { randEventId } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -56,7 +56,9 @@ export default class Desk extends cc.Component {
     @property(cc.Sprite)
     landRacecLineSprite: cc.Sprite = null
 
-    private chairManage: ChairManage;
+    private chairManage: ChairManage
+
+    private scheduleOnceTip = null //桌子中间显示提示计时器
     start() {
         this.chairManage = new ChairManage(cc, this.playUserIcon)
         this.showMembers()
@@ -119,14 +121,19 @@ export default class Desk extends cc.Component {
         }, 0.3, 3, 0.1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
     }
 
-    showBetLimitTip() {
+    showDeskMiddleTip(wordString : string) {
         let node = this.node.getChildByName('OverBetLimitTip')
-        if (node.active) {
-            return
+        //写入文字信息
+        if (!node.active) {
+            node.active = true
         }
-        node.active = true
-        this.scheduleOnce(() => {
+        if(this.scheduleOnceTip != null){
+            this.unschedule(this.scheduleOnceTip)
+            this.scheduleOnceTip = null
+        }
+        this.scheduleOnceTip = this.scheduleOnce(() => {
             this.node.getChildByName('OverBetLimitTip').active = false
+            this.scheduleOnceTip = null
         }, 3);
     }
 
@@ -187,6 +194,9 @@ export default class Desk extends cc.Component {
                     let tableLocationType = info.info as TableLocationType
                     let majongScore = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getMahjongScore(tableLocationType)
                     this.toMahjongValueLabelShow(tableLocationType, majongScore) //麻将值文字 显示
+                    break
+                case LocalNoticeEventType.PLAY_AUDIO_NOT_SUPPORT:
+                    this.showDeskMiddleTip(WordMessage.audio_not_support)
                     break
             }
         })

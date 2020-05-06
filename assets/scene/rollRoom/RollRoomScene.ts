@@ -16,10 +16,8 @@ import voiceManage from '../../store/Voice/VoiceManage';
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Button)
-    private startButton: cc.Button = null //
-    @property(cc.Button)
-    private stopButton: cc.Button = null //
+    @property(cc.Sprite)
+    private voiceBeginButton: cc.Sprite = null //录音按钮
 
     @property(cc.Sprite)
     private userIcon: cc.Sprite = null //用户图标
@@ -120,21 +118,13 @@ export default class NewClass extends cc.Component {
     beginVoice: cc.AudioSource = null;
     eventIdOne: string = null
     eventIdTwo: string = null
-
+    timerSet: any = null
     start() {
-        /////////
-        voiceManage.recOpen(()=>{})
-        this.stopButton.node.on(cc.Node.EventType.TOUCH_END, () => {
-            voiceManage.recStop()
-        })
-        this.startButton.node.on(cc.Node.EventType.TOUCH_END, () => {
-            voiceManage.recStart()
-        })
-        ///////////
         this.clear()
+        this.initVoiceFunction()
         let enterRoomParam = this.getEnterRoomParam()
         if (enterRoomParam) {
-            if(enterRoomParam.model == EnterRoomModel.SHARE && enterRoomParam.userId == null){
+            if (enterRoomParam.model == EnterRoomModel.SHARE && enterRoomParam.userId == null) {
                 webCookie.setItem('roomId', enterRoomParam.roomId, 0.1)
                 let dialogParam = {
                     sureButtonShow: true, cancelButtonShow: false, content: "请注册登录！", cancelButtonAction: null,
@@ -152,6 +142,31 @@ export default class NewClass extends cc.Component {
             this.dialogShow(dialogParam)
         }
 
+    }
+
+    //初始化语音功能
+    initVoiceFunction(){
+        try{
+            let that = this
+            that.voiceBeginButton.node.on(cc.Node.EventType.TOUCH_START, () => {
+                voiceManage.recStart()
+                that.timerSet = window.setTimeout(function(){
+                    that.timerSet = null
+                    voiceManage.recStop()
+                    that.voiceBeginButton.node.active = false
+                    that.scheduleOnce(() => {
+                        that.voiceBeginButton.node.active = true
+                    }, voiceManage.beginButtonHideTime)
+                }, voiceManage.timeLimit*1000)
+            })
+            that.voiceBeginButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+                voiceManage.recStop()
+                if(that.timerSet != null){
+                    window.clearTimeout(that.timerSet)
+                    that.timerSet = null
+                }
+            })
+        }catch(e){}
     }
 
     dialogShow(dialogParam: TipDialogParam) {
@@ -208,13 +223,13 @@ export default class NewClass extends cc.Component {
         this.localNoticeEvent()
     }
 
-    async configManageGet(){
+    async configManageGet() {
         if (!ConfigManage.isConfigHasLoad()) {
             let info = await ConfigManage.loadConfigInfo()
-            if(info.result == ResponseStatus.FAIL){
+            if (info.result == ResponseStatus.FAIL) {
                 let dialogParam = {
                     sureButtonShow: true, cancelButtonShow: false, content: EnterRoomFail.net_fail_reload, cancelButtonAction: null,
-                    sureButtonAction:  TipDialogButtonAction.RE_IN_GAME
+                    sureButtonAction: TipDialogButtonAction.RE_IN_GAME
                 } as TipDialogParam
                 this.dialogShow(dialogParam)
             }
@@ -229,11 +244,10 @@ export default class NewClass extends cc.Component {
                 case LocalNoticeEventType.DIAMOND_COUNT_CHANGE:
                     this.diamondScoreLable.string = info.info + ''
                     break
-                    case LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE:
-                        debugger
-                        let infoItem = info.info as voiceNotice
-                        voiceManage.getAndPlayAudio(cc,infoItem.userId, infoItem.voiceName )
-                        break
+                case LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE:
+                    let infoItem = info.info as voiceNotice
+                    voiceManage.getAndPlayAudio(cc, infoItem)
+                    break
             }
         })
 
@@ -258,13 +272,13 @@ export default class NewClass extends cc.Component {
         let roomId = enterRoomParam.roomId
         if (enterRoomParam.model == EnterRoomModel.SHARE) {
             let reInfo = await UserManage.requestUserInfo(userId);
-            if(reInfo.result == ResponseStatus.FAIL){
+            if (reInfo.result == ResponseStatus.FAIL) {
                 let messageSet = EnterRoomFail.account_error
                 let actionSet = TipDialogButtonAction.OUT_TO_LOGIN
-                if(reInfo.extObject.message == 'net_error'){
+                if (reInfo.extObject.message == 'net_error') {
                     let messageSet = EnterRoomFail.net_fail_reload
                     let actionSet = TipDialogButtonAction.RE_IN_GAME
-                }else{
+                } else {
                     webCookie.removeItem('userId')
                 }
                 let dialogParam = {
@@ -380,7 +394,7 @@ export default class NewClass extends cc.Component {
                 sureButtonShow: true, cancelButtonShow: true, content: WordMessage.back_to_lobby, cancelButtonAction: null,
                 sureButtonAction: TipDialogButtonAction.OUT_TO_LOBBY
             } as TipDialogParam
-             this.dialogShow(dialogParam)
+            this.dialogShow(dialogParam)
         })
 
         this.shareButton.node.on(cc.Node.EventType.TOUCH_END, () => {
@@ -433,7 +447,7 @@ export default class NewClass extends cc.Component {
     }
 
     //显示分享面板
-    showSharePanel(){
+    showSharePanel() {
         if (this.node.getChildByName('SharePanel') !== null) {
             return
         }
@@ -680,7 +694,7 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    
+
 
     onDisable() {
         eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne)
