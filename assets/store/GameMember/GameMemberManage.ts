@@ -76,24 +76,54 @@ class GameMemberManage {
         return this._gameMenmberList[userId]
     }
 
-    //将socket传过来的玩家信息和本地玩家信息对比，对本地玩家信息进行核对
-    checkRoomMember(memeberIdList: string[]) {
-        let invaildMemeberIds = []
-        this.gameMenmberList.forEach((item: GameMemberItem) => {
-            let isExist = false
-            for (let j = 0; j < memeberIdList.length; j++) {
-                if (memeberIdList[j] == item.userId) {
-                    isExist = true
-                    break
-                }
-            }
-            if (!isExist) {
-                invaildMemeberIds.push(item.userId)
-            }
-        })
+    //服务器通知过来的用户信息，对本地的用户信息进行校验
+    checkRoomMember(memberList: GameMember[]) {
+        let invaildMemeberIds = this.getInvaildMemberIds(memberList)
         for (let i = 0; i < invaildMemeberIds.length; i++) {
             this.outGameMember(invaildMemeberIds[i])
         }
+        let addMemberList = this.getNeedAddMemberList(memberList)
+        for (let j = 0; j < addMemberList.length; j++) {
+            this.addGameMember(addMemberList[j])
+        }
+    }
+
+    private getInvaildMemberIds(serverMemberList: GameMember[]): string[] {
+        let list = []
+        this.gameMenmberList.forEach((item: GameMemberItem) => {
+            let isExistMember = false
+            let j = 0;
+            for (; j < serverMemberList.length; j++) {
+                if (serverMemberList[j].userId == item.userId) {
+                    isExistMember = true
+                    break
+                }
+            }
+            if (!isExistMember) {
+                list.push(item.userId)
+            }
+        })
+        return list
+    }
+
+
+
+    private getNeedAddMemberList(serverMemberList: GameMember[]): GameMember[] {
+        let list = []
+        serverMemberList.forEach((item: GameMemberItem) => {
+            let isNeedAdd = true
+            let j = 0;
+            for (; j < this.gameMenmberList.length; j++) {
+                if (this.gameMenmberList[j].userId == item.userId) {
+                    isNeedAdd = false
+                    break
+                }
+            }
+            if (isNeedAdd) {
+                list.push(item.userId)
+            }
+        })
+        return list
     }
 }
 
