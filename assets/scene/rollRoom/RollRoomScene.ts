@@ -145,28 +145,28 @@ export default class NewClass extends cc.Component {
     }
 
     //初始化语音功能
-    initVoiceFunction(){
-        try{
+    initVoiceFunction() {
+        try {
             let that = this
             that.voiceBeginButton.node.on(cc.Node.EventType.TOUCH_START, () => {
                 voiceManage.recStart()
-                that.timerSet = window.setTimeout(function(){
+                that.timerSet = window.setTimeout(function () {
                     that.timerSet = null
                     voiceManage.recStop()
                     that.voiceBeginButton.node.active = false
                     that.scheduleOnce(() => {
                         that.voiceBeginButton.node.active = true
                     }, voiceManage.beginButtonHideTime)
-                }, voiceManage.timeLimit*1000)
+                }, voiceManage.timeLimit * 1000)
             })
             that.voiceBeginButton.node.on(cc.Node.EventType.TOUCH_END, () => {
                 voiceManage.recStop()
-                if(that.timerSet != null){
+                if (that.timerSet != null) {
                     window.clearTimeout(that.timerSet)
                     that.timerSet = null
                 }
             })
-        }catch(e){}
+        } catch (e) { }
     }
 
     dialogShow(dialogParam: TipDialogParam) {
@@ -694,7 +694,13 @@ export default class NewClass extends cc.Component {
         }
     }
 
-
+    kickoutButtonClick(userId: string, nick: string) {
+        let dialogParam = {
+            sureButtonShow: true, cancelButtonShow: true, content: "确定踢出玩家" + nick + "?", cancelButtonAction: null,
+            sureButtonAction: TipDialogButtonAction.KICKOUT_MEMBER, otherInfo: { userId: userId, nick: nick }
+        } as TipDialogParam
+        this.dialogShow(dialogParam)
+    }
 
     onDisable() {
         eventBus.off(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne)

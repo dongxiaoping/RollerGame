@@ -389,6 +389,7 @@ export interface TipDialogParam {
     content: string,  //提示文字内容显示
     cancelButtonAction: TipDialogButtonAction, //取消按钮行为
     sureButtonAction: TipDialogButtonAction //确认按钮行为
+    otherInfo?:any
 }
 
 //提示框行为类型
@@ -399,7 +400,8 @@ export enum TipDialogButtonAction {
     OUT_TO_LOGIN = 4, //退到登录页面
     OUT_TO_REGISTER = 5, //退出到登录页面
     RE_IN_GAME = 6, //重新进入游戏
-    OUT_TO_LOBBY = 7 //退出到首页
+    OUT_TO_LOBBY = 7, //退出到首页
+    KICKOUT_MEMBER = 8 //踢出玩家 
 }
 
 //发送消息类型

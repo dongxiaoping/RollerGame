@@ -1,7 +1,8 @@
-import { TipDialogParam, Coordinate, TipDialogButtonAction, EventType, LocalNoticeEventType, LocalNoticeEventPara } from "../../common/Const";
+import { TipDialogParam, Coordinate, TipDialogButtonAction, EventType, LocalNoticeEventType, LocalNoticeEventPara, roomState, NoticeType, NoticeData } from "../../common/Const";
 import webSocketManage from '../../common/WebSocketManage'
 import { eventBus } from "../../common/EventBus";
 import { config } from "../../common/Config";
+import RoomManage from "../../store/Room/RoomManage";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -35,47 +36,63 @@ export default class NewClass extends cc.Component {
     }
 
     execButtonAction(action: TipDialogButtonAction) {
-        switch (action) {
-            case TipDialogButtonAction.SOCKET_CONNECT:
-                webSocketManage.openWs(() => {
-                    //cc.log('socket连接成功，发送连接成功本地通知')
+        try {
+            switch (action) {
+                case TipDialogButtonAction.SOCKET_CONNECT:
+                    webSocketManage.openWs(() => {
+                        //cc.log('socket连接成功，发送连接成功本地通知')
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                            type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
+                            info: true
+                        } as LocalNoticeEventPara)
+                    }, () => {
+                        //cc.log('socket连接失败，发送连接失败本地通知')
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                            type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
+                            info: false
+                        } as LocalNoticeEventPara)
+                    })
+                    break
+                case TipDialogButtonAction.OUT_ROOM:
+                    cc.director.loadScene("LobbyScene");
+                    break
+                case TipDialogButtonAction.OUT_TO_REGISTER:
+                    window.location.replace(config.registerPageAddress)
+                    break
+                case TipDialogButtonAction.OUT_TO_LOGIN:
+                    window.location.replace(config.loginPageAddress)
+                    break
+                case TipDialogButtonAction.RE_IN_GAME:
+                    window.location.reload()
+                    break
+                case TipDialogButtonAction.OUT_TO_LOBBY:
                     eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                        type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
-                        info: true
-                    } as LocalNoticeEventPara)
-                }, () => {
-                    //cc.log('socket连接失败，发送连接失败本地通知')
-                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                        type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
+                        type: LocalNoticeEventType.TO_LOBBY_EVENT,
                         info: false
                     } as LocalNoticeEventPara)
-                })
-                break
-            case TipDialogButtonAction.OUT_ROOM:
-                cc.director.loadScene("LobbyScene");
-                break
-            case TipDialogButtonAction.OUT_TO_REGISTER:
-                window.location.replace(config.registerPageAddress)
-                break
-            case TipDialogButtonAction.OUT_TO_LOGIN:
-                window.location.replace(config.loginPageAddress)
-                break
-            case TipDialogButtonAction.RE_IN_GAME:
-                window.location.reload()
-                break
-            case TipDialogButtonAction.OUT_TO_LOBBY:
-                eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                    type: LocalNoticeEventType.TO_LOBBY_EVENT,
-                    info: false
-                } as LocalNoticeEventPara)
-                break
-            case TipDialogButtonAction.RECHARGE:
-                let node = cc.instantiate(this.rechargePanel)
-                node.parent = this.node.parent
-                break
+                    break
+                case TipDialogButtonAction.RECHARGE:
+                    let node = cc.instantiate(this.rechargePanel)
+                    node.parent = this.node.parent
+                    break
+                case TipDialogButtonAction.KICKOUT_MEMBER:
+                    let userId = this.tipDialogParam.otherInfo.userId
+                    if (RoomManage.roomItem.roomState == roomState.OPEN) {
+                        let notice = {
+                            type: NoticeType.kickOutMemberFromRoom, info: {
+                                roomId: RoomManage.roomItem.id,
+                                kickUserId: userId,
+                            }
+                        } as NoticeData
+                        webSocketManage.send(JSON.stringify(notice));
+                    }
+                    break
+            }
+            this.node.active = false
+            this.node.destroy()
+        } catch (error) {
+
         }
-        this.node.active = false
-        this.node.destroy()
     }
 
     tipDialogShow(info: TipDialogParam) {

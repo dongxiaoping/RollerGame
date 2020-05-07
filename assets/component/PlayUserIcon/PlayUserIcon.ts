@@ -46,17 +46,7 @@ export default class NewClass extends cc.Component {
         this.kickButton.enabled = false
         this.kickButton.node.on(cc.Node.EventType.TOUCH_END, () => {
             try {
-                if(RoomManage.roomItem.roomState == roomState.OPEN ){
-                    let notice = {
-                        type: NoticeType.kickOutMemberFromRoom, info: {
-                            roomId: RoomManage.roomItem.id,
-                            kickUserId: this.memberData.userId,
-                        }
-                    } as NoticeData
-                    webSocketManage.send(JSON.stringify(notice));
-                }else{
-    
-                }
+                cc.find('Canvas').getComponent('RollRoomScene').kickoutButtonClick(this.memberData.userId, this.memberData.userName)
             } catch (error) {
                 
             }

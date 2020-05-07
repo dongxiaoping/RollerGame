@@ -129,7 +129,7 @@ class WebSocketManage {
                 if (message.betVal < 0) { //表示取消下注
                     let betVal = message.betVal
                     BetManage.cancelBet(message)
-                    if(message.userId == UserManage.userInfo.id){
+                    if (message.userId == UserManage.userInfo.id) {
                         let xiaZhuVal = RaceManage.getClickXiaZhuVal()
                         RaceManage.setClickXiaZhuVal(xiaZhuVal + betVal)
                     }
@@ -164,9 +164,9 @@ class WebSocketManage {
                 console.log('接受到语音通知')
                 console.log(message)
                 eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                    type: LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE, info:message
+                    type: LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE, info: message
                 } as LocalNoticeEventPara)
-            break;
+                break;
         }
     }
 }

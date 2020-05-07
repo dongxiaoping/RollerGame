@@ -94,7 +94,7 @@ class GameMemberManage {
             let isExistMember = false
             let j = 0;
             for (; j < serverMemberList.length; j++) {
-                if (serverMemberList[j].userId == item.userId) {
+                if (serverMemberList[j]["userId"] == item.userId) {
                     isExistMember = true
                     break
                 }
@@ -113,11 +113,8 @@ class GameMemberManage {
         serverMemberList.forEach((item: GameMemberItem) => {
             let isNeedAdd = true
             let j = 0;
-            for (; j < this.gameMenmberList.length; j++) {
-                if (this.gameMenmberList[j].userId == item.userId) {
-                    isNeedAdd = false
-                    break
-                }
+            if (typeof (this.gameMenmberList[item.userId]) != 'undefined') {
+                isNeedAdd = false
             }
             if (isNeedAdd) {
                 list.push(item.userId)
