@@ -71,11 +71,6 @@ class VoiceManage {
     //获取到音频地址后，进行播放
     getAndPlayAudio(ccOb: any, voiceItem: voiceNotice) {
         console.log('准备播放语音')
-        if(voiceItem.userId == UserManage.userInfo.id){
-            console.log('是自己的，不播放')
-            return
-        }
-        console.log(voiceItem)
         ccOb.loader.load(ConfigManage.getAudioUrl() + voiceItem.voiceName, function (err, clip) {
             var audioID = ccOb.audioEngine.play(clip, false, 0.5);
         });
