@@ -118,7 +118,6 @@ export default class NewClass extends cc.Component {
     beginVoice: cc.AudioSource = null;
     eventIdOne: string = null
     eventIdTwo: string = null
-    timerSet: any = null
     start() {
         this.clear()
         this.initVoiceFunction()
@@ -148,10 +147,15 @@ export default class NewClass extends cc.Component {
     initVoiceFunction() {
         try {
             let that = this
+            let bigSize = 160
             that.voiceBeginButton.node.on(cc.Node.EventType.TOUCH_START, () => {
                 voiceManage.recStart()
-                that.timerSet = window.setTimeout(function () {
-                    that.timerSet = null
+                that.voiceBeginButton.node.width = bigSize
+                that.voiceBeginButton.node.height = bigSize
+                voiceManage.voiceButtonHideTimer = window.setTimeout(function () {
+                    that.voiceBeginButton.node.width = 80
+                    that.voiceBeginButton.node.height = 80
+                    voiceManage.voiceButtonHideTimer = null
                     voiceManage.recStop()
                     that.voiceBeginButton.node.active = false
                     that.scheduleOnce(() => {
@@ -160,10 +164,12 @@ export default class NewClass extends cc.Component {
                 }, voiceManage.timeLimit * 1000)
             })
             that.voiceBeginButton.node.on(cc.Node.EventType.TOUCH_END, () => {
+                that.voiceBeginButton.node.width = 80
+                that.voiceBeginButton.node.height = 80
                 voiceManage.recStop()
-                if (that.timerSet != null) {
-                    window.clearTimeout(that.timerSet)
-                    that.timerSet = null
+                if (voiceManage.voiceButtonHideTimer != null) {
+                    window.clearTimeout(voiceManage.voiceButtonHideTimer)
+                    voiceManage.voiceButtonHideTimer = null
                 }
             })
         } catch (e) { }

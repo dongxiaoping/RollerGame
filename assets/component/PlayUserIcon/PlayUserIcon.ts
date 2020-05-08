@@ -16,6 +16,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     userName: cc.Label = null;
 
+    @property(cc.Animation)
+    voicePlayAnimation: cc.Animation = null;
+
     @property(cc.Label)
     userScoreLabel: cc.Label = null;
 
@@ -43,7 +46,6 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     messageZiPref: cc.Prefab = null;
     start() {
-        this.kickButton.enabled = false
         this.kickButton.node.on(cc.Node.EventType.TOUCH_END, () => {
             try {
                 cc.find('Canvas').getComponent('RollRoomScene').kickoutButtonClick(this.memberData.userId, this.memberData.userName)
@@ -53,7 +55,7 @@ export default class NewClass extends cc.Component {
         })
         this.userIcon.node.on(cc.Node.EventType.TOUCH_END, () => {
             if (RoomManage.roomItem.creatUserId == UserManage.userInfo.id && this.memberData.userId != UserManage.userInfo.id) {
-                this.kickButton.enabled = this.kickButton.enabled ? false : true
+                this.kickButton.node.active = this.kickButton.node.active ? false : true
             }
         })
     }
@@ -188,8 +190,13 @@ export default class NewClass extends cc.Component {
                 case LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE:
                     let infoItem = info.info as voiceNotice
                     let duration = Math.ceil(infoItem.duration / 1000) 
-                    if(infoItem.userId == this.memberData.userId){ //TODO 需要显示用户的语音喇叭
-                        console.log('显示语音喇叭')
+                    if(infoItem.userId == this.memberData.userId){ //喇叭 显示语音喇叭
+                        this.voicePlayAnimation.node.active = true
+                        this.voicePlayAnimation.play()
+                        this.scheduleOnce(() => {
+                            this.voicePlayAnimation.node.active = false
+                            this.voicePlayAnimation.stop()
+                        }, duration);
                     }
                     break
             }

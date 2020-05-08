@@ -122,10 +122,10 @@ export default class Desk extends cc.Component {
     }
 
     showDeskMiddleTip(wordString : string) {
-        let node = this.node.getChildByName('OverBetLimitTip')
-        //写入文字信息
-        if (!node.active) {
-            node.active = true
+        let theNode = this.node.getChildByName('OverBetLimitTip')
+        theNode.getComponents(cc.Label)[0].string = wordString
+        if (!theNode.active) {
+            theNode.active = true
         }
         if(this.scheduleOnceTip != null){
             this.unschedule(this.scheduleOnceTip)

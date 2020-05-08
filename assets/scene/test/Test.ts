@@ -9,13 +9,18 @@ export default class NewClass extends cc.Component {
     private startButton: cc.Button = null //
     @property(cc.Button)
     private stopButton: cc.Button = null //
+    @property(cc.Sprite)
+    private but: cc.Sprite = null //
     start() {
-        voiceManage.recOpen(()=>{})
-        this.stopButton.node.on(cc.Node.EventType.TOUCH_END, () => {
-            voiceManage.recStop()
+
+        // voiceManage.recOpen(()=>{})
+        this.but.node.on(cc.Node.EventType.TOUCH_START, () => {
+            this.but.node.width = 120
+            this.but.node.height = 120
         })
-        this.startButton.node.on(cc.Node.EventType.TOUCH_END, () => {
-            voiceManage.recStart()
+        this.but.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.but.node.width = 40
+            this.but.node.height = 40
         })
     }
 

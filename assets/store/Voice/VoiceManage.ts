@@ -11,6 +11,7 @@ class VoiceManage {
     public timeLimit = 6 //单位s 录音超时时间
     public beginButtonHideTime = 5 //语音按钮消失时长
     public scheduleOnceLimit = null //超时自动关闭录音定时器
+    public voiceButtonHideTimer: any = null //声音按钮隐藏定时器
     constructor() {
 
     }
@@ -72,7 +73,7 @@ class VoiceManage {
     getAndPlayAudio(ccOb: any, voiceItem: voiceNotice) {
         console.log('准备播放语音')
         ccOb.loader.load(ConfigManage.getAudioUrl() + voiceItem.voiceName, function (err, clip) {
-            var audioID = ccOb.audioEngine.play(clip, false, 0.5);
+            var audioID = ccOb.audioEngine.play(clip, false, 1);
         });
     }
 
