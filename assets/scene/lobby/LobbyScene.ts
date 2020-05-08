@@ -1,7 +1,7 @@
 import UserManage from "../../store/User/UserManage";
 import { isUrlToGameRoom, getUrlParam, randEventId } from "../../common/Util";
 import RoomManage from "../../store/Room/RoomManage";
-import { EnterRoomModel, EnterRoomParam, EventType, LocalNoticeEventType, LocalNoticeEventPara, TipDialogButtonAction, TipDialogParam } from "../../common/Const";
+import { EnterRoomModel, EnterRoomParam, EventType, LocalNoticeEventType, LocalNoticeEventPara, TipDialogButtonAction, TipDialogParam, WordMessage } from "../../common/Const";
 import { config } from "../../common/Config";
 import { eventBus } from "../../common/EventBus";
 import ConfigManage from "../../store/Config/ConfigManage";
@@ -165,11 +165,6 @@ export default class LobbyScene extends cc.Component {
             node.active = true
         })
         this.LianXiChang.node.on(cc.Node.EventType.TOUCH_START, () => {
-            //cc.log('练习场被点击了')
-            // if (this.emulatorRoomHasClick) {
-            //     //cc.log('练习场不能重复点击或者点击过早！')
-            //     return
-            // }
             this.emulatorRoomHasClick = true
             RoomManage.setEnterRoomParam({
                 model: EnterRoomModel.EMULATOR_ROOM
@@ -187,7 +182,7 @@ export default class LobbyScene extends cc.Component {
 
         this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             let dialogParam = {
-                sureButtonShow: true, cancelButtonShow: true, content: "确定退出应用？", cancelButtonAction: null,
+                sureButtonShow: true, cancelButtonShow: true, content: WordMessage.out_app, cancelButtonAction: null,
                 sureButtonAction: TipDialogButtonAction.OUT_APP
             } as TipDialogParam
             this.dialogShow(dialogParam)

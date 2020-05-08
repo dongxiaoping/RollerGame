@@ -322,6 +322,7 @@ export enum EnterRoomFail {
 export enum WordMessage {
     back_to_lobby = '退出当前游戏？',
     over_bet_limit = '超出下注上限！',
+    out_app = "退出当前应用？",
     audio_not_support = '语音失败，录音权限未开启！'
 }
 

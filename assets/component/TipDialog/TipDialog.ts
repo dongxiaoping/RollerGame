@@ -60,9 +60,18 @@ export default class NewClass extends cc.Component {
                     window.location.replace(config.registerPageAddress)
                     break
                 case TipDialogButtonAction.OUT_APP:
-                    window.opener = null
-                    window.open('', '_self')
-                    window.close()
+                    try{
+                        if (navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") !=-1) {
+                            window.location.href="about:blank";
+                            window.close();
+                        } else {
+                            window.opener = null;
+                            window.open("", "_self");
+                            window.close();
+                        }
+                    }catch(e){
+                        window.location.replace(config.loginPageAddress)
+                    }
                     break
                 case TipDialogButtonAction.OUT_TO_LOGIN:
                      window.location.replace(config.loginPageAddress)
