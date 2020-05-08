@@ -59,8 +59,13 @@ export default class NewClass extends cc.Component {
                 case TipDialogButtonAction.OUT_TO_REGISTER:
                     window.location.replace(config.registerPageAddress)
                     break
+                case TipDialogButtonAction.OUT_APP:
+                    window.opener = null
+                    window.open('', '_self')
+                    window.close()
+                    break
                 case TipDialogButtonAction.OUT_TO_LOGIN:
-                    window.location.replace(config.loginPageAddress)
+                     window.location.replace(config.loginPageAddress)
                     break
                 case TipDialogButtonAction.RE_IN_GAME:
                     window.location.reload()

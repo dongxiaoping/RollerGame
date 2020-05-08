@@ -401,7 +401,8 @@ export enum TipDialogButtonAction {
     OUT_TO_REGISTER = 5, //退出到登录页面
     RE_IN_GAME = 6, //重新进入游戏
     OUT_TO_LOBBY = 7, //退出到首页
-    KICKOUT_MEMBER = 8 //踢出玩家 
+    KICKOUT_MEMBER = 8, //踢出玩家 
+    OUT_APP =9 //退出应用
 }
 
 //发送消息类型

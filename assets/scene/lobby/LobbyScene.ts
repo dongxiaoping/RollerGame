@@ -187,11 +187,10 @@ export default class LobbyScene extends cc.Component {
 
         this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             let dialogParam = {
-                sureButtonShow: true, cancelButtonShow: true, content: "返回到登录页面？", cancelButtonAction: null,
-                sureButtonAction: TipDialogButtonAction.OUT_TO_LOGIN
+                sureButtonShow: true, cancelButtonShow: true, content: "确定退出应用？", cancelButtonAction: null,
+                sureButtonAction: TipDialogButtonAction.OUT_APP
             } as TipDialogParam
             this.dialogShow(dialogParam)
-            cc.log('退出按钮被点击')
         })
 
         this.ruleButton.node.on(cc.Node.EventType.TOUCH_START, () => {
