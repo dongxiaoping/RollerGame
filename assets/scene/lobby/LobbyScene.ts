@@ -182,8 +182,8 @@ export default class LobbyScene extends cc.Component {
 
         this.exitButton.node.on(cc.Node.EventType.TOUCH_START, () => {
             let dialogParam = {
-                sureButtonShow: true, cancelButtonShow: true, content: WordMessage.out_app, cancelButtonAction: null,
-                sureButtonAction: TipDialogButtonAction.OUT_APP
+                sureButtonShow: true, cancelButtonShow: false, content: WordMessage.out_action_tip, cancelButtonAction: null,
+                sureButtonAction: null
             } as TipDialogParam
             this.dialogShow(dialogParam)
         })
