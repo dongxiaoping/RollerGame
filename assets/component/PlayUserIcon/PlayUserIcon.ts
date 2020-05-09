@@ -48,6 +48,7 @@ export default class NewClass extends cc.Component {
     start() {
         this.kickButton.node.on(cc.Node.EventType.TOUCH_END, () => {
             try {
+                this.kickButton.node.active = false
                 cc.find('Canvas').getComponent('RollRoomScene').kickoutButtonClick(this.memberData.userId, this.memberData.userName)
             } catch (error) {
                 

@@ -3,8 +3,8 @@
   "_name": "wangzhaClip",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 1.25,
-  "sample": 4,
+  "_duration": 1.6666666666666667,
+  "sample": 3,
   "speed": 1,
   "wrapMode": 1,
   "curveData": {
@@ -18,25 +18,25 @@
             }
           },
           {
-            "frame": 0.25,
+            "frame": 0.3333333333333333,
             "value": {
               "__uuid__": "692481a0-2a1e-4794-ba5c-21f7583f6788"
             }
           },
           {
-            "frame": 0.5,
+            "frame": 0.6666666666666666,
             "value": {
               "__uuid__": "1258a5d5-c37c-4476-97a7-81fc9adc7f2e"
             }
           },
           {
-            "frame": 0.75,
+            "frame": 1,
             "value": {
               "__uuid__": "b98c518a-3b40-4269-8ad5-80c70eb97490"
             }
           },
           {
-            "frame": 1,
+            "frame": 1.3333333333333333,
             "value": {
               "__uuid__": "a230e5bb-d928-44c8-a4a0-a907335c65b9"
             }

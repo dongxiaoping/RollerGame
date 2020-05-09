@@ -8,7 +8,7 @@ export const RaceList: raceRecord[] = [
         landlordScore: { 'one': 2, 'two': 8 },
         skyScore: { 'one': 3, 'two': 4 },
         middleScore: { 'one': 4, 'two': 1 },
-        landScore: { 'one': 3, 'two': 5 },
+        landScore: { 'one': 1, 'two': 9 },
         points: { one: 6, two: 5 },
         landResult: CompareDxRe.SMALL,
         middleResult: CompareDxRe.SMALL,

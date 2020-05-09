@@ -61,6 +61,8 @@ export default class Desk extends cc.Component {
 
     @property(cc.Prefab)
     private erBaGangAnimation: cc.Prefab = null //二八杠动画特效
+    @property(cc.Prefab)
+    private biShiAnimation: cc.Prefab = null //鄙十动画特效
 
     private scheduleOnceTip = null //桌子中间显示提示计时器
     start() {
@@ -297,11 +299,18 @@ export default class Desk extends cc.Component {
 
     //显示麻将结果动画
     toPlayResultAnimation(tableLocation: TableLocationType, majongScore: DiceCountInfo) {
-        if (getMajhongValueType(majongScore) != MajhongValueType.ER_BA_GANG) {
+        let actionAnimation = null
+        if (getMajhongValueType(majongScore) == MajhongValueType.ER_BA_GANG) {
+            actionAnimation = this.erBaGangAnimation
+        }
+        if (getMajhongValueType(majongScore) == MajhongValueType.BI_SHI) {
+            actionAnimation = this.biShiAnimation
+        }
+        if(actionAnimation == null){
             return
         }
         let roomOb = cc.find('Canvas').getComponent('RollRoomScene')
-        let node = cc.instantiate(this.erBaGangAnimation)
+        let node = cc.instantiate(actionAnimation)
         node.parent = roomOb.node
         let locationSet = { x: 0, y: 0 } as Coordinate
         if (tableLocation == TableLocationType.LAND) {
@@ -325,7 +334,7 @@ export default class Desk extends cc.Component {
             node.getComponents(cc.Animation)[0].stop()
             node.active = false
             node.destroy()
-        }, 2);
+        }, 2.5);
     }
 
     //执行请下注动画
