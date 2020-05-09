@@ -37,7 +37,7 @@ class VoiceManage {
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                 type: LocalNoticeEventType.PLAY_AUDIO_NOT_SUPPORT,info:""
             } as LocalNoticeEventPara)
-            console.log((isUserNotAllow ? "UserNotAllow，" : "") + "无法录音:" + msg);
+            //console.log((isUserNotAllow ? "UserNotAllow，" : "") + "无法录音:" + msg);
         });
     }
 
@@ -63,15 +63,15 @@ class VoiceManage {
                 }
             } as NoticeData
             webSocketManage.send(JSON.stringify(notice));
-            console.log('语音通知')
+           //.log('语音通知')
         }else{
-            console.log('语音上传失败')
+          //  console.log('语音上传失败')
         }
     }
 
     //获取到音频地址后，进行播放
     getAndPlayAudio(ccOb: any, voiceItem: voiceNotice) {
-        console.log('准备播放语音')
+       // console.log('准备播放语音')
         ccOb.loader.load(ConfigManage.getAudioUrl() + voiceItem.voiceName, function (err, clip) {
             var audioID = ccOb.audioEngine.play(clip, false, 1);
         });
@@ -91,7 +91,7 @@ class VoiceManage {
                 that.uploadAndNoticeAudio(base64data, duration)
             }
 
-            console.log(blob, (window.URL || webkitURL).createObjectURL(blob), "时长:" + duration + "ms");
+           // console.log(blob, (window.URL || webkitURL).createObjectURL(blob), "时长:" + duration + "ms");
             that.rec.close();//释放录音资源，当然可以不释放，后面可以连续调用start；但不释放时系统或浏览器会一直提示在录音，最佳操作是录完就close掉
             that.rec = null;
             //已经拿到blob文件对象想干嘛就干嘛：立即播放、上传
@@ -103,7 +103,7 @@ class VoiceManage {
           //  audio.src = (window.URL || webkitURL).createObjectURL(blob);
            // audio.play();
         }, function (msg) {
-            console.log("录音失败:" + msg);
+            //console.log("录音失败:" + msg);
             that.rec.close();//可以通过stop方法的第3个参数来自动调用close
             that.rec = null;
         });
@@ -130,12 +130,12 @@ class VoiceManage {
                     resolve({ result: ResponseStatus.SUCCESS, extObject: mp3Url })
                 } else {
                     resolve({ result: ResponseStatus.FAIL, extObject: "" })
-                    console.log("语音通知失败")
+                   // console.log("语音通知失败")
                 }
-                console.log(res)
+               // console.log(res)
             }).catch(function (e) {
                 resolve({ result: ResponseStatus.FAIL, extObject: "" })
-                console.log("语音通知网络异常")
+              //  console.log("语音通知网络异常")
             })
         })
     }

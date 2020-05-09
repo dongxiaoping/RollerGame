@@ -110,7 +110,8 @@ export const chipPoint = {
 export enum MajhongValueType {
     DUI_ZI = 1, //对子
     BI_SHI = 2, //鄙十
-    DIAN = 3 //点
+    DIAN = 3, //点
+    ER_BA_GANG = 4 //二八杠
 }
 
 export interface BetRecord {

@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { ConsoleType, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam, WordMessage, voiceNotice } from '../../common/Const'
+import { ConsoleType, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam, WordMessage, voiceNotice} from '../../common/Const'
 import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam, webCookie } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'

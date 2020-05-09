@@ -5,14 +5,15 @@
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { EventType, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo, betLocaion, DiceCountInfo, TableLocationType, roomState, WordMessage } from '../../common/Const'
+import { EventType, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo, betLocaion, DiceCountInfo, TableLocationType, roomState, WordMessage, Coordinate, MajhongValueType } from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
-import { randEventId } from '../../common/Util'
+import { randEventId, getMajhongValueType } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage';
 import ChairManage from './ChairManage';
 import { getLocationByLocaitonType } from '../DealMachine/DealMachineBase';
 import ConfigManage from '../../store/Config/ConfigManage';
+
 @ccclass
 export default class Desk extends cc.Component {
 
@@ -57,6 +58,9 @@ export default class Desk extends cc.Component {
     landRacecLineSprite: cc.Sprite = null
 
     private chairManage: ChairManage
+
+    @property(cc.Prefab)
+    private erBaGangAnimation: cc.Prefab = null //二八杠动画特效
 
     private scheduleOnceTip = null //桌子中间显示提示计时器
     start() {
@@ -121,13 +125,13 @@ export default class Desk extends cc.Component {
         }, 0.3, 3, 0.1); //间隔时间s，重复次数，延迟时间s //执行次数=重复次数+1
     }
 
-    showDeskMiddleTip(wordString : string) {
+    showDeskMiddleTip(wordString: string) {
         let theNode = this.node.getChildByName('OverBetLimitTip')
         theNode.getComponents(cc.Label)[0].string = wordString
         if (!theNode.active) {
             theNode.active = true
         }
-        if(this.scheduleOnceTip != null){
+        if (this.scheduleOnceTip != null) {
             this.unschedule(this.scheduleOnceTip)
             this.scheduleOnceTip = null
         }
@@ -166,7 +170,7 @@ export default class Desk extends cc.Component {
         eventBus.on(EventType.MEMBER_DELETE_FROM_ROOM, randEventId(), (userId: string): void => {
             //cc.log('我是桌子，我收到玩家退出房间通知')
             if (RoomManage.roomItem.roomState === roomState.OPEN) {
-                cc.log('游戏没开，将玩家从座位上踢出，用户:'+userId)
+                cc.log('游戏没开，将玩家从座位上踢出，用户:' + userId)
                 this.chairManage.outChair(userId)
             }
         })
@@ -194,6 +198,7 @@ export default class Desk extends cc.Component {
                     let tableLocationType = info.info as TableLocationType
                     let majongScore = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getMahjongScore(tableLocationType)
                     this.toMahjongValueLabelShow(tableLocationType, majongScore) //麻将值文字 显示
+                    this.toPlayResultAnimation(tableLocationType, majongScore)
                     break
                 case LocalNoticeEventType.PLAY_AUDIO_NOT_SUPPORT:
                     this.showDeskMiddleTip(WordMessage.audio_not_support)
@@ -290,6 +295,38 @@ export default class Desk extends cc.Component {
         }, 1.5);
     }
 
+    //显示麻将结果动画
+    toPlayResultAnimation(tableLocation: TableLocationType, majongScore: DiceCountInfo) {
+        if (getMajhongValueType(majongScore) != MajhongValueType.ER_BA_GANG) {
+            return
+        }
+        let roomOb = cc.find('Canvas').getComponent('RollRoomScene')
+        let node = cc.instantiate(this.erBaGangAnimation)
+        node.parent = roomOb.node
+        let locationSet = { x: 0, y: 0 } as Coordinate
+        if (tableLocation == TableLocationType.LAND) {
+            locationSet.x = 213
+            locationSet.y = 78
+        } else if (tableLocation == TableLocationType.LANDLORD) {
+            locationSet.x = 11
+            locationSet.y = 85
+        } else if (tableLocation == TableLocationType.MIDDLE) {
+            locationSet.x = 5
+            locationSet.y = -72
+        } else {
+            locationSet.x = -213
+            locationSet.y = 78
+        }
+        node.x = locationSet.x
+        node.y = locationSet.y
+        node.active = true
+        node.getComponents(cc.Animation)[0].play()
+        this.scheduleOnce(() => {
+            node.getComponents(cc.Animation)[0].stop()
+            node.active = false
+            node.destroy()
+        }, 2);
+    }
 
     //执行请下注动画
     playingXiaZhuAnimation() {
@@ -336,5 +373,5 @@ export default class Desk extends cc.Component {
                 }
             })
         } catch (e) { //cc.log(e) }
+        }
     }
-}

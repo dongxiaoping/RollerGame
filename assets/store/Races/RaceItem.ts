@@ -79,7 +79,7 @@ export default class RaceItem {
         this.raceResultList = getMemeberResultScoreList(list, GameMemberManage.gameMenmberList)
     }
 
-    getMahjongScore(location: TableLocationType) {
+    getMahjongScore(location: TableLocationType): DiceCountInfo {
         switch (location) {
             case TableLocationType.SKY:
                 return this.skyScore;

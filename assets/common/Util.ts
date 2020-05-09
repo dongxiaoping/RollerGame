@@ -7,9 +7,11 @@ export function randEventId(): string {
 }
 
 export function getMajhongValueType(majongInfo: DiceCountInfo): MajhongValueType {
-    if (majongInfo.one === majongInfo.two) {
+    if((majongInfo.one == 2 && majongInfo.two == 8) || (majongInfo.one == 8 && majongInfo.two == 2)){
+        return MajhongValueType.ER_BA_GANG
+    }else if (majongInfo.one === majongInfo.two) {
         return MajhongValueType.DUI_ZI
-    } else if (majongInfo.two + majongInfo.one === 10) {
+    } else if (majongInfo.two + majongInfo.one == 10) {
         return MajhongValueType.BI_SHI
     } else {
         return MajhongValueType.DIAN
