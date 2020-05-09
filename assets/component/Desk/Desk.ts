@@ -339,7 +339,7 @@ export default class Desk extends cc.Component {
             node.getComponents(cc.Animation)[0].stop()
             node.active = false
             node.destroy()
-        }, 2.5);
+        }, 3.5);
     }
 
     //执行请下注动画
