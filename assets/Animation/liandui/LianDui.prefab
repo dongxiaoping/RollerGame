@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "WangZha",
+    "_name": "LianDui",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -39,8 +39,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 220,
-      "height": 180
+      "width": 250,
+      "height": 130
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -85,14 +85,14 @@
     },
     "_enabled": true,
     "_defaultClip": {
-      "__uuid__": "c6886bc5-4827-4ec9-a621-1332f0ea0cec"
+      "__uuid__": "84effe83-c873-4519-a559-d27edab2c823"
     },
     "_clips": [
       {
-        "__uuid__": "c6886bc5-4827-4ec9-a621-1332f0ea0cec"
+        "__uuid__": "84effe83-c873-4519-a559-d27edab2c823"
       }
     ],
-    "playOnLoad": true,
+    "playOnLoad": false,
     "_id": ""
   },
   {
@@ -111,7 +111,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "e912a841-5742-4226-a1f8-710d9ea84e44"
+      "__uuid__": "a5e20656-3ae6-433d-8421-8b020b9aff74"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -125,7 +125,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "308f0420-d03c-47b4-aa8e-7e4db56b61d6"
+      "__uuid__": "50e64ce4-12fc-4448-a109-d55ef1d82f55"
     },
     "_id": ""
   },
@@ -135,9 +135,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c5c44345-1bb8-4934-8573-548d48126f10"
+      "__uuid__": "174a088a-91fb-4fa7-8286-5bc51945e71c"
     },
-    "fileId": "3aGUWkt6BAc7kVCSzKT/ET",
+    "fileId": "0babiE8/ZIQ5V+FW+a74xG",
     "sync": false
   }
 ]

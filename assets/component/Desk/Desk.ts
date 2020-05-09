@@ -63,6 +63,8 @@ export default class Desk extends cc.Component {
     private erBaGangAnimation: cc.Prefab = null //二八杠动画特效
     @property(cc.Prefab)
     private biShiAnimation: cc.Prefab = null //鄙十动画特效
+    @property(cc.Prefab)
+    private duiZiAnimation: cc.Prefab = null //对子动画特效
 
     private scheduleOnceTip = null //桌子中间显示提示计时器
     start() {
@@ -305,6 +307,9 @@ export default class Desk extends cc.Component {
         }
         if (getMajhongValueType(majongScore) == MajhongValueType.BI_SHI) {
             actionAnimation = this.biShiAnimation
+        }
+        if (getMajhongValueType(majongScore) == MajhongValueType.DUI_ZI) {
+            actionAnimation = this.duiZiAnimation
         }
         if(actionAnimation == null){
             return
