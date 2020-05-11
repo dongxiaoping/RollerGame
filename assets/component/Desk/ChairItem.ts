@@ -1,4 +1,4 @@
-import { MemberInChairData, Coordinate } from "../../common/Const";
+import { MemberInChairData, Coordinate, memberState } from "../../common/Const";
 
 export default class ChairItem {
     private cc: any
@@ -19,7 +19,9 @@ export default class ChairItem {
         userIconNode.parent = this.cc.find("Canvas/" + this.chairName)
         userIconNode.setPosition(0, 0)
 
-        let userInfo = userIconNode.getComponent('PlayUserIcon').getMemberData() as MemberInChairData
+        let memberJs = userIconNode.getComponent('PlayUserIcon')
+        let userInfo = memberJs.getMemberData() as MemberInChairData
+        memberJs.changeByUserState(userInfo.state)
         let theUserNode = this.cc.find('Canvas/Desk').getChildByName('user_' + userInfo.userId)
         if (theUserNode) {
             theUserNode.destroy()

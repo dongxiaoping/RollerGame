@@ -62,6 +62,7 @@ export default class NewClass extends cc.Component {
     }
 
     changeByUserState(myState: memberState) {
+        this.memberData.state = myState
         switch (myState) {
             case memberState.OffLine:
                 this.offLineIcon.node.active = true
