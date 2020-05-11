@@ -2205,7 +2205,7 @@
     "_clip": {
       "__uuid__": "4a7a6eb6-16e6-4369-8a11-25e0f41648e4"
     },
-    "_volume": 0.7,
+    "_volume": 1,
     "_mute": false,
     "_loop": false,
     "playOnLoad": false,
