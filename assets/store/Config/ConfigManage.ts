@@ -13,8 +13,41 @@ class ConfigManage {
     private userIconUrl: string = '' //用户Icon地址前缀
     private audioUrl: string = '' //音频文件地址
     private gameUrl: string = '' //游戏地址
+
+    constructor() {
+        let isTxMusic = window.localStorage.getItem("isTxMusic")
+        if (isTxMusic == null) {
+            this.isTxMusic = true
+        } else {
+            this.isTxMusic = parseInt(isTxMusic) ? true : false
+        }
+
+        let isBackMusic = window.localStorage.getItem("isBackMusic")
+        if (isBackMusic == null) {
+            this.isBackMusic = true
+        } else {
+            this.isBackMusic = parseInt(isBackMusic) ? true : false
+        }
+    }
+
     public setBackMusic(isOpen: boolean) {
         this.isBackMusic = isOpen
+        let flag = isOpen ? 1 : 0
+        window.localStorage.setItem("isBackMusic", flag.toString())
+    }
+
+    public setTxMusic(isOpen: boolean) {
+        this.isTxMusic = isOpen
+        let flag = isOpen ? 1 : 0
+        window.localStorage.setItem("isTxMusic", flag.toString())
+    }
+
+    public isTxMusicOpen() {
+        return this.isTxMusic
+    }
+
+    public isBackMusicOpen() {
+        return this.isBackMusic
     }
 
     public getUserIconUrl() {
@@ -35,18 +68,6 @@ class ConfigManage {
 
     public isConfigHasLoad(): boolean {
         return this.configHasLoad
-    }
-
-    public setTxMusic(isOpen: boolean) {
-        this.isTxMusic = isOpen
-    }
-
-    public isBackMusicOpen() {
-        return this.isBackMusic
-    }
-
-    public isTxMusicOpen() {
-        return this.isTxMusic
     }
 
     public getCreateDiamondConfig() {
