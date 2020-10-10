@@ -125,35 +125,36 @@ export function randomRange(min: number, max: number) { // min最小值，max最
 }
 
 export const webCookie = {
-    setItem: function (key,value) {
-        try{
-            value = JSON.stringify(value);
-            window.localStorage.setItem(key,value);
-            return true;
-        }catch(e){
-            window.localStorage.setItem(key,value);
-            return true;
-        }
+    setItem: function (name, value, expireHour) {
+        var Days = 6 * 30 * 24 * 60 * 60 * 1000;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString() + "; path=/";
     },
 
-    getItem: function (key) {
-        let value = window.localStorage.getItem(key);
-        try {
-            return JSON.parse(value);
-        }catch(e){
+    //读取cookies
+    getItem: function (name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg)) {
+            var value = unescape(arr[2]);
+            this.setItem(name, value);
             return value;
+        } else {
+            return null;
         }
     },
 
-    removeItem: function (key) {
-        window.localStorage.removeItem(key);
-        return true;
-    },
-
-    clear: function () {
-        try{
-            window.localStorage.clear();
-        }catch (e) {
+    //删除cookies
+    removeItem: function (name,path="/") {
+        let exp = new Date();
+        let exp_time = exp.getTime();
+        let new_time = exp_time - 1;
+        exp.setTime(new_time);
+        let exp_string = exp.toGMTString();
+        let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg)) {
+            let value = unescape(arr[2]);
+            document.cookie = name + "=" + value + ";expires=" + exp_string+ "; path="+path;
         }
     }
 }
