@@ -12,6 +12,7 @@ class ConfigManage {
     private chipValList: any = []
     private userIconUrl: string = '' //用户Icon地址前缀
     private audioUrl: string = '' //音频文件地址
+    private rapLandlordTime: number
     private gameUrl: string = '' //游戏地址
 
     constructor() {
@@ -64,6 +65,14 @@ class ConfigManage {
 
     public setAudioUrl(url: string) {
         this.audioUrl = url
+    }
+
+    public setRapLandlordTime(val:number){
+        this.rapLandlordTime = val;
+    }
+
+    public getRapLandlordTime() {
+        return this.rapLandlordTime
     }
 
     public isConfigHasLoad(): boolean {

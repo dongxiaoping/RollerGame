@@ -46,7 +46,7 @@ export default class NewClass extends cc.Component {
     }
 
     waitLandlordSync() {
-        this.showTime = 7
+        this.showTime = ConfigManage.getRapLandlordTime()
         this.time.string = this.showTime.toString()
         this.schedule(() => {
             this.showTime--

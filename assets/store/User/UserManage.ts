@@ -62,6 +62,7 @@ class UserManage {
                 ConfigManage.setGameUrl(info.gameUrl)
                 ConfigManage.setAudioUrl(info.config.userAudioUrl)
                 ConfigManage.setUserIconUrl(gameConfig.userIconUrl)
+                ConfigManage.setRapLandlordTime(gameConfig.rapLandlordTime)
                 this.userInfo = new UserItem(userInfo)
                 resolve({ result: ResponseStatus.SUCCESS, extObject: this.userInfo })
             }).catch(function(e){
