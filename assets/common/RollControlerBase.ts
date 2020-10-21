@@ -9,7 +9,6 @@ import UserManage from "../store/User/UserManage";
 import webSocketManage from '../common/WebSocketManage'
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import GameMemberItem from "../store/GameMember/GameMemberItem";
-import { roomGameConfig } from "./RoomGameConfig";
 import Log from "./Log";
 export class RollControlerBase {
     public isEmulatorRoom: boolean //是否是模拟房间
@@ -50,8 +49,8 @@ export class RollControlerBase {
                 kaiShi.destroy()
                 this.roomScene.beginRollDice()
                 this.roomScene.showXiaZhuPanel()
-            }, roomGameConfig.beginTextShowTime);
-        }, roomGameConfig.timeBeforeBeginText);
+            }, ConfigManage.getBeginTextShowTime());
+        }, ConfigManage.getTimeBeforeBeginText());
     }
 
     responseLocalBeLandlordDeal(wantLandlord: boolean) {

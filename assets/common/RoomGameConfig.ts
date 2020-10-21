@@ -16,17 +16,3 @@ export interface RoomGameConfig {
  * 下注阶段时间 = betTime
  * 比大小阶段时间 = showDownTime + showResultKeepTime + showResultTime
  */
-export const roomGameConfig: RoomGameConfig = {
-    rapLandlordTime: 7,
-    timeBeforeBeginText: 0.5,
-    customerWechat:"wh_dxp",
-    informMessage:"滚筒子诚招代理，代理请于客服联系！文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！",
-    beginTextShowTime: 1.5,
-    rollDiceTime: 4,
-    dealTime: 3,
-    betTime: 13,
-    userIconUrl: '',
-    showDownTime: 7,
-    showResultKeepTime: 4,
-    showResultTime: 4
-}

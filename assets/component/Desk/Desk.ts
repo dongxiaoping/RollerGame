@@ -195,8 +195,8 @@ export default class Desk extends cc.Component {
                     this.scheduleOnce(() => {
                         //cc.log('我是桌子，比大小动画执行完毕，我发出比大小动画结束通知')
                         this.node.parent.getChildByName('XiaZhu').getComponent('XiaZhu').destroyDeskChip()
-                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE } as LocalNoticeEventPara)
-                    }, ConfigManage.showResultKeepTime());
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {type: LocalNoticeEventType.SHOW_DOWN_ANIMATION_FINISHED_NOTICE} as LocalNoticeEventPara)
+                    }, ConfigManage.getShowResultKeepTime());
                     break
                 case LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE:
                     let tableLocationType = info.info as TableLocationType
@@ -284,7 +284,7 @@ export default class Desk extends cc.Component {
         let middleResultAmimation: any = null
         if ((race.skyResult === CompareDxRe.BIG && race.middleResult === CompareDxRe.BIG &&
             race.landResult === CompareDxRe.BIG) || (race.skyResult === CompareDxRe.SMALL &&
-                race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL)) {
+            race.middleResult === CompareDxRe.SMALL && race.landResult === CompareDxRe.SMALL)) {
             //cc.log('显示通赔或者通杀')
             middleResultAmimation = cc.instantiate(this.middleResultWenZi)
             middleResultAmimation.parent = this.node
@@ -311,13 +311,13 @@ export default class Desk extends cc.Component {
         if (getMajhongValueType(majongScore) == MajhongValueType.DUI_ZI) {
             actionAnimation = this.duiZiAnimation
         }
-        if(actionAnimation == null){
+        if (actionAnimation == null) {
             return
         }
         let roomOb = cc.find('Canvas').getComponent('RollRoomScene')
         let node = cc.instantiate(actionAnimation)
         node.parent = roomOb.node
-        let locationSet = { x: 0, y: 0 } as Coordinate
+        let locationSet = {x: 0, y: 0} as Coordinate
         if (tableLocation == TableLocationType.LAND) {
             locationSet.x = 213
             locationSet.y = 78
@@ -352,7 +352,8 @@ export default class Desk extends cc.Component {
         this.scheduleOnce(() => {
             try {
                 node.destroy()
-            } catch (e) { }
+            } catch (e) {
+            }
         }, 1.5);
     }
 
@@ -389,3 +390,4 @@ export default class Desk extends cc.Component {
         } catch (e) { //cc.log(e) }
         }
     }
+}

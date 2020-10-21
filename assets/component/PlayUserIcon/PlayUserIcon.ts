@@ -4,9 +4,7 @@ import { randEventId } from '../../common/Util'
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 import RaceManage from "../../store/Races/RaceManage";
-import { roomGameConfig } from "../../common/RoomGameConfig";
 import { faceList } from "../../common/FaceList";
-import webSocketManage from '../../common/WebSocketManage'
 import { wenZiList } from "../../common/WenZiList";
 import ConfigManage from "../../store/Config/ConfigManage";
 const { ccclass, property } = cc._decorator;
@@ -164,7 +162,7 @@ export default class NewClass extends cc.Component {
                             if (this.memberData.userId == UserManage.userInfo.id) {
                                 cc.find('Canvas').getComponent('RollRoomScene').userScoreLabel.string = this.userScoreLabel.string
                             }
-                        }, roomGameConfig.showDownTime + 1);
+                        }, ConfigManage.getShowDownTime() + 1);
                     }
                     break
             }

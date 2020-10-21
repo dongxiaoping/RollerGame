@@ -1,7 +1,5 @@
-import { roomGameConfig } from '../../common/RoomGameConfig';
 import { PromiseParam, InterfaceUrl, ResponseStatus } from '../../common/Const';
 import { config } from '../../common/Config';
-import http from '../../common/Http'
 import UserManage from '../User/UserManage';
 import axios from 'axios'
 class ConfigManage {
@@ -14,6 +12,16 @@ class ConfigManage {
     private audioUrl: string = '' //音频文件地址
     private rapLandlordTime: number
     private gameUrl: string = '' //游戏地址
+    private informMessage: string = "滚筒子诚招代理，代理请于客服联系！文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！"
+    private customerWechat: string = 'wh_dxp'
+    private rollDiceTime: number = 4
+    private betTime: number = 13
+    private showDownTime: number = 7
+    private showResultKeepTime: number = 4
+    private showResultTime: number = 4
+    private dealTime: number = 3
+    private beginTextShowTime: number = 1.5
+    private timeBeforeBeginText: number = 0.5
 
     constructor() {
         let isTxMusic = window.localStorage.getItem("isTxMusic")
@@ -63,6 +71,11 @@ class ConfigManage {
         return this.audioUrl
     }
 
+    public getTimeBeforeBeginText() {
+        return this.timeBeforeBeginText
+    }
+
+
     public setAudioUrl(url: string) {
         this.audioUrl = url
     }
@@ -83,34 +96,38 @@ class ConfigManage {
         return this.createDiamondConfig
     }
 
+    public getBeginTextShowTime() {
+        return this.beginTextShowTime
+    }
+
     //摇色子时间
     public getRollDiceTime(): number {
-        return roomGameConfig.rollDiceTime
+        return this.rollDiceTime
     }
 
     //发牌时间
     public getDealTime(): number {
-        return roomGameConfig.dealTime
+        return this.dealTime
     }
 
     //下注时间
     public getBetTime(): number {
-        return roomGameConfig.betTime
+        return this.betTime
     }
 
     //开牌动画时间
     public getShowDownTime(): number {
-        return roomGameConfig.showDownTime
+        return this.showDownTime
     }
 
     //结果显示停留时间 s
-    public showResultKeepTime(): number {
-        return roomGameConfig.showResultKeepTime
+    public getShowResultKeepTime(): number {
+        return this.showResultKeepTime
     }
 
     //结果面板显示时间
     public getShowResultTime(): number {
-        return roomGameConfig.showResultTime
+        return this.showResultTime
     }
 
     public loadConfigInfo(): Promise<PromiseParam> {
@@ -140,12 +157,12 @@ class ConfigManage {
 
     //获取客服微信号
     public getCustomerWechatNum() {
-        return roomGameConfig.customerWechat
+        return this.customerWechat
     }
 
     //公告信息
     public getInformMessage() {
-        return roomGameConfig.informMessage
+        return this.informMessage
     }
 
     public setGameUrl(url: string) {
