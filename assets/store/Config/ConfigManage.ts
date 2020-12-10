@@ -13,7 +13,7 @@ class ConfigManage {
     private rapLandlordTime: number
     private gameUrl: string = '' //游戏地址
     private informMessage: string = "滚筒子诚招代理，代理请于客服联系！文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！"
-    private customerWechat: string = 'wh_dxp'
+    private customerWechat: string = 'xxxx'
     private rollDiceTime: number = 4
     private betTime: number = 13
     private showDownTime: number = 7

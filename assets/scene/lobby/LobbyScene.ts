@@ -202,9 +202,9 @@ export default class LobbyScene extends cc.Component {
             if (this.node.getChildByName('CustomerPanel') != null) {
                 return
             }
-            var node = cc.instantiate(this.CustomerPanel)
-            node.parent = this.node
-            node.active = true
+           // var node = cc.instantiate(this.CustomerPanel) //关闭客服
+          //  node.parent = this.node
+          //  node.active = true
         })
         
 
