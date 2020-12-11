@@ -1,17 +1,16 @@
 import { eventBus } from '../common/EventBus'
-import { NoticeData, NoticeType, RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData, gameMemberType, memberState, GameMember, raceResultData } from '../common/Const'
+import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData, gameMemberType, memberState, GameMember, raceResultData } from '../common/Const'
 import { randEventId } from '../common/Util'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage';
 import { roomInfo } from '../mock/RoomInfo'
 import { RollControlerBase } from './RollControlerBase';
-import webSocketManage from '../common/WebSocketManage'
 import { GameMemberList } from '../mock/GameMemberList';
 import GameMemberManage from '../store/GameMember/GameMemberManage';
 import RaceManage from '../store/Races/RaceManage';
 import { RaceList } from '../mock/RaceList';
-import BetManage from '../store/Bets/BetManage';
 import ConfigManage from '../store/Config/ConfigManage';
+import  Log from "../common/Log"
 export class RollControler extends RollControlerBase {
     constructor(cc: any, isEmulatorRoom: boolean, roomScene: any) {
         super(cc, isEmulatorRoom, roomScene)
@@ -89,6 +88,12 @@ export class RollControler extends RollControlerBase {
                     this.roomScene.beginDeal()
                     break
                 case LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE: //发牌结束通知
+                    //发牌动画结束后，检查如果作弊开关开启，看牌
+                    Log.d([],"RollControler",["接受到发牌结束通知"])
+                    if(ConfigManage.isCheat()){
+                        Log.d([],"RollControler",["作弊被打开，发出翻牌本地通知"])
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_IMMEDIATELY } as LocalNoticeEventPara)
+                    }
                     //this.cc.log('响应发牌动画结束通知,将状态改为下注')
                     if (this.isEmulatorRoom) {
                         RaceManage.changeRaceState(RaceState.BET)

@@ -3,6 +3,7 @@ interface Config {
   websocketAddress: string //websocket服务器地址
   loginPageAddress:string
   registerPageAddress:string
+  cheatSwitchNumber: number //cheat开关号码
   version: string //版本号
 }
 export const config: Config = {
@@ -12,5 +13,6 @@ export const config: Config = {
   loginPageAddress: 'https://www.toplaygame.cn/login/login.html',//登录页面地址
   registerPageAddress: 'https://www.toplaygame.cn/login/register.html',//注册页面地址
   websocketAddress: 'wss://www.toplaygame.cn/wss',
-  version: 'v1.1.18'
+  cheatSwitchNumber: 34850239,
+  version: 'v1.1.20'
 }

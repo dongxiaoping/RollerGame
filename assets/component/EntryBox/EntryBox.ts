@@ -1,7 +1,16 @@
 import RoomManage from "../../store/Room/RoomManage";
-import { EnterRoomModel, EnterRoomParam, ResponseStatus, TipDialogParam } from "../../common/Const";
+import {
+    ConsoleType,
+    EnterRoomModel,
+    EnterRoomParam,
+    ResponseStatus,
+    TipDialogParam,
+    WordMessage
+} from "../../common/Const";
 import UserManage from "../../store/User/UserManage";
-
+import {config} from "../../common/Config"
+import Log from "../../common/Log"
+import configManage from "../../store/Config/ConfigManage"
 const { ccclass, property } = cc._decorator;
 //输入房间号加入房间面板
 @ccclass
@@ -83,6 +92,16 @@ export default class NewClass extends cc.Component {
         })
         this.Enter.node.on(cc.Node.EventType.TOUCH_END, () => {
             let roomId = parseInt(this.Num.string)
+            Log.d([], "EntryBox",
+                ["输入房间号", roomId])
+            Log.d([], "EntryBox",
+                ["核对号", config.cheatSwitchNumber])
+            if(roomId == config.cheatSwitchNumber){
+                configManage.setCheat(true)
+                Log.d([], "EntryBox",
+                    [WordMessage.cheat_open])
+                return
+            }
             RoomManage.setEnterRoomParam({
                 model: EnterRoomModel.NUMBER_PANEL,
                 userId: UserManage.userInfo.id,

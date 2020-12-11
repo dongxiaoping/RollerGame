@@ -10,6 +10,7 @@ import { randEventId } from '../../common/Util'
 import RoomManage from '../../store/Room/RoomManage'
 import RaceManage from '../../store/Races/RaceManage'
 import ConfigManage from '../../store/Config/ConfigManage';
+import  Log from "../../common/Log"
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -163,15 +164,42 @@ export default class NewClass extends cc.Component {
         return Math.floor(Math.random() * c + n);
     }
 
+    getTableLocationType():TableLocationType{
+        if (this.node.name === 'MjDouble' + TableLocationType.LAND) {
+            return TableLocationType.LAND
+        } else if (this.node.name === 'MjDouble' + TableLocationType.LANDLORD) {
+            return TableLocationType.LANDLORD
+        } else if (this.node.name === 'MjDouble' + TableLocationType.MIDDLE) {
+            return TableLocationType.MIDDLE
+        } else if (this.node.name === 'MjDouble' + TableLocationType.SKY) {
+            return TableLocationType.SKY
+        }else{
+            Log.e([],"MjDouble",["未知的牌位"])
+            return null
+        }
+    }
+
     onEnable() {
         this.localEventId = randEventId()
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.localEventId, (info: LocalNoticeEventPara) => {
             if (info.type === LocalNoticeEventType.OPEN_CARD_REQUEST_NOTICE) {
                 let tableLocationType = info.info as TableLocationType
-                if (this.node.name === 'MjDouble' + tableLocationType) {
+                if (this.getTableLocationType() == tableLocationType) {
                     //cc.log('接收到翻牌通知')
                     this.open(tableLocationType)
                     //cc.log(info)
+                }
+            }else if (info.type === LocalNoticeEventType.OPEN_IMMEDIATELY) {
+                Log.d([],"MjDouble",["接受到作弊翻牌通知，开始翻牌"])
+                try{
+                    let majongScore = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].getMahjongScore(this.getTableLocationType())
+                    Log.d([],"MjDouble",["翻牌点数",majongScore])
+                    this.openAnimation(this.one, majongScore.one, () => {
+                    })
+                    this.openAnimation(this.two, majongScore.two, () => {
+                    })
+                }catch(e){
+                    Log.e([],"MjDouble",["全部翻牌逻辑报错",e.toLocaleString()])
                 }
             }
         })

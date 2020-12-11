@@ -90,7 +90,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     SOCKET_CONNECT_NOTICE = 13, //socket连接结果通知
     DIAMOND_COUNT_CHANGE = 14, //钻数量改变通知
     PLAY_AUDIO_LOCAL_NOTICE = 15,  //播放音频通知
-    PLAY_AUDIO_NOT_SUPPORT = 16 //不支持语音功能
+    PLAY_AUDIO_NOT_SUPPORT = 16, //不支持语音功能
+    OPEN_IMMEDIATELY = 17 //立马显示所有牌的数据，作弊调用
 }
 
 export interface LocalNoticeEventPara {
@@ -324,6 +325,7 @@ export enum WordMessage {
     back_to_lobby = '退出当前游戏？',
     over_bet_limit = '超出下注上限！',
     out_app = "退出当前应用？",
+    cheat_open = "作弊开关被打开",
     out_action_tip = "请点击页面左下方的 x 或者 -> 退出应用！",
     audio_not_support = '语音失败，录音权限未开启！'
 }

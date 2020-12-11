@@ -10,7 +10,7 @@ class LogManage {
     }
 
     getLevel(){
-        let a = "DEBUG"
+        let a = "ERROR"
         switch(a){
             case "ERROR":
                 return this.levels.e;

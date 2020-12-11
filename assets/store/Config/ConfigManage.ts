@@ -14,6 +14,7 @@ class ConfigManage {
     private gameUrl: string = '' //游戏地址
     private informMessage: string = "滚筒子诚招代理，代理请于客服联系！文明游戏，禁止赌博，一旦发现利用平台从事赌博活动一律封号处理！"
     private customerWechat: string = 'xxxx'
+    private cheat: boolean = false //是否作弊
     private rollDiceTime: number = 4
     private betTime: number = 13
     private showDownTime: number = 7
@@ -43,6 +44,14 @@ class ConfigManage {
         this.isBackMusic = isOpen
         let flag = isOpen ? 1 : 0
         window.localStorage.setItem("isBackMusic", flag.toString())
+    }
+
+    public setCheat(isCheat: boolean){
+        this.cheat = isCheat
+    }
+
+    public  isCheat() : boolean{
+        return this.cheat
     }
 
     public setTxMusic(isOpen: boolean) {
