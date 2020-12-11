@@ -5,9 +5,9 @@ import http from '../../common/Http'
 import { UserInfo } from './UserBase';
 import { RoomGameConfig } from '../../common/RoomGameConfig'
 import ConfigManage from '../Config/ConfigManage';
-import { getUrlParam, webCookie } from '../../common/Util';
+import { webCookie } from '../../common/Util';
 import axios from 'axios'
-
+import log from 'loglevel'
 class UserManage {
     public userInfo: UserItem = null
     selectChipValue: number = 0 //当前用户选中的下注值，默认10
@@ -19,9 +19,18 @@ class UserManage {
     }
 
     getLoginUserId() {
-        // let id = getUrlParam('userId')
-        let id = webCookie.getItem('userId')
-        return id
+        try{
+            let id = webCookie.getItem('userId')
+            log.info("cookie获取用户id", id)
+            if(id == null){
+                id = localStorage.getItem('userId')
+                log.info("localStorage获取用户id", id)
+            }
+            return id
+        }catch (e) {
+            log.error("本地查找用户id异常",e)
+            return null
+        }
     }
 
     setSelectChipValue(val: number) {
