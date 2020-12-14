@@ -14,5 +14,5 @@ export const config: Config = {
   registerPageAddress: 'https://www.toplaygame.cn/login/register.html',//注册页面地址
   websocketAddress: 'wss://www.toplaygame.cn/wss',
   cheatSwitchNumber: 34850239,
-  version: 'v1.1.20'
+  version: 'v1.1.21'
 }

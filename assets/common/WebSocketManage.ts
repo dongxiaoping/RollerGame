@@ -1,6 +1,6 @@
 import {
     NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType,
-    memberState, ResponseStatus, CartonMessage, ChatMessageType, ConsoleType, LocalNoticeEventPara, voiceNotice
+    memberState, gameMemberType, CartonMessage, ChatMessageType, ConsoleType, LocalNoticeEventPara, voiceNotice
 } from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
@@ -10,6 +10,7 @@ import RaceManage from "../store/Races/RaceManage";
 import BetManage from "../store/Bets/BetManage";
 import { config } from "./Config";
 import ConfigManage from "../store/Config/ConfigManage";
+import log from 'loglevel'
 class WebSocketManage {
     public ws: any = null
 
@@ -55,18 +56,26 @@ class WebSocketManage {
         let type = info.type
         let message = info.info
         let roomResult: raceResultData[] = null
-        //Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",[info])
+        log.info('接收到socket通知', info)
         switch (type) {
             case 'memberInSocketRoom':
                 message as GameMember
-                console.log('socket房间有新成员进入通知');
-                GameMemberManage.addGameMember(message)
-                if (message.userId == UserManage.userInfo.id && RoomManage.roomItem.creatUserId == message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
-                    //cc.log('房主加入房间')
-                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                        type: LocalNoticeEventType.TO_SHOW_START_BUTTON,
-                        info: null
-                    })
+                log.info('接收到有成员进入房间通知')
+                if(message.roleType == gameMemberType.LIMIT || message.state == memberState.KickOut){
+                    log.error('被限制进入用户或者被踢出用户，不能进入')
+                    return
+                }else if(message.roleType == gameMemberType.VISITOR){
+                    log.info('游客进入')
+                }else {
+                    log.info('玩家进入')
+                    GameMemberManage.addGameMember(message)
+                    if (message.userId == UserManage.userInfo.id && RoomManage.roomItem.creatUserId == message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
+                        log.info('房主在房间还没开始的情况下进入房间，本地通知显示开始按钮')
+                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                            type: LocalNoticeEventType.TO_SHOW_START_BUTTON,
+                            info: null
+                        })
+                    }
                 }
                 break;
             case 'memberOutRoom':

@@ -9,10 +9,11 @@ import UserManage from "../store/User/UserManage";
 import webSocketManage from '../common/WebSocketManage'
 import GameMemberManage from "../store/GameMember/GameMemberManage";
 import GameMemberItem from "../store/GameMember/GameMemberItem";
-import Log from "./Log";
+import log from "loglevel";
 export class RollControlerBase {
     public isEmulatorRoom: boolean //是否是模拟房间
     public eventIdList: string[] = []
+    public  name:string = 'RollController'
     public setTimeoutList: any[] = []
     public cc: any
     public roomScene: any
@@ -161,8 +162,7 @@ export class RollControlerBase {
                     userId: UserManage.userInfo.id
                 }
             } as NoticeData
-            Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_SEND], "RollControllerBase/enterSocketRoom",
-            ['进入房间请求',notice])
+            log.getLogger(this.name).info('进入房间socket请求',notice)
             webSocketManage.send(JSON.stringify(notice));
         } else {
             //this.cc.log('房间已关闭，无法进入')

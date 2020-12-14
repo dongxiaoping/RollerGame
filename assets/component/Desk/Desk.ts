@@ -160,7 +160,7 @@ export default class Desk extends cc.Component {
             this.node.getChildByName('LandCornerPart').getComponent('DeskPart').betCancel(info)
         })
 
-        eventBus.on(EventType.NEW_MEMBER_IN_ROOM, randEventId(), (newMember: GameMember): void => { //TODO 这个位置要优化
+        eventBus.on(EventType.NEW_MEMBER_IN_ROOM, randEventId(), (newMember: GameMember): void => { //这个位置要优化
             //cc.log('我是桌子，我收到新玩家加入的本地通知,我将玩家入座')
             if (this.chairManage.getChairByUserId(newMember.userId) == null) {
                 let member = {

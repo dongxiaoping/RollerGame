@@ -133,9 +133,10 @@ export interface BetRecord {
 
 
 export enum gameMemberType {
-    MANAGE = 1, //房主
-    PLAYER = 2,  //玩家
-    VISITOR = 3   //观众
+    PLAYER = 1,  //玩家
+    VISITOR = 2,   //观众
+    LIMIT = 3, //限制进入人员
+    MANAGE = 4, //房主
 }
 
 export enum memberState {

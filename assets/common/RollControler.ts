@@ -10,7 +10,7 @@ import GameMemberManage from '../store/GameMember/GameMemberManage';
 import RaceManage from '../store/Races/RaceManage';
 import { RaceList } from '../mock/RaceList';
 import ConfigManage from '../store/Config/ConfigManage';
-import  Log from "../common/Log"
+import  log from "loglevel"
 export class RollControler extends RollControlerBase {
     constructor(cc: any, isEmulatorRoom: boolean, roomScene: any) {
         super(cc, isEmulatorRoom, roomScene)
@@ -89,9 +89,9 @@ export class RollControler extends RollControlerBase {
                     break
                 case LocalNoticeEventType.DELIVERY_CARD_FINISHED_NOTICE: //发牌结束通知
                     //发牌动画结束后，检查如果作弊开关开启，看牌
-                    Log.d([],"RollControler",["接受到发牌结束通知"])
+                   // Log.d([],"RollControler",["接受到发牌结束通知"])
                     if(ConfigManage.isCheat()){
-                        Log.d([],"RollControler",["作弊被打开，发出翻牌本地通知"])
+                      //  Log.d([],"RollControler",["作弊被打开，发出翻牌本地通知"])
                         eventBus.emit(EventType.LOCAL_NOTICE_EVENT, { type: LocalNoticeEventType.OPEN_IMMEDIATELY } as LocalNoticeEventPara)
                     }
                     //this.cc.log('响应发牌动画结束通知,将状态改为下注')
@@ -137,12 +137,12 @@ export class RollControler extends RollControlerBase {
                 case LocalNoticeEventType.TO_SHOW_START_BUTTON: //显示开始按钮通知
                     this.roomScene.showStartButton()
                     break
-                case LocalNoticeEventType.SOCKET_CONNECT_NOTICE: //socket连接结果通知
+                case LocalNoticeEventType.SOCKET_CONNECT_NOTICE: //socket连接结果通知 //TODO
                     if (info.info) { //连接成功通知
-                        //cc.log('接到socket连接通知，进入socket房间')
+                        log.getLogger(this.name).info('接到socket连接通知，进入socket房间')
                         this.enterSocketRoom()
                     } else {
-                        //cc.log('接到socket连接失败通知，弹出提示框')
+                        log.getLogger(this.name).info('接到socket连接失败通知，弹出提示框')
                         this.roomScene.scoketFailTip()
                     }
                     break
