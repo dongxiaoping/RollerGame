@@ -61,6 +61,9 @@ class WebSocketManage {
             case 'memberInSocketRoom':
                 message as GameMember
                 log.info('接收到有成员进入房间通知')
+                if(message.userId == UserManage.userInfo.id){
+                    UserManage.setUserInfoInRoom(message)
+                }
                 if(message.roleType == gameMemberType.LIMIT || message.state == memberState.KickOut){
                     log.error('被限制进入用户或者被踢出用户，不能进入')
                     return
@@ -101,12 +104,17 @@ class WebSocketManage {
                 break;
             case 'raceStateChoiceLandlord': //接收选地主通知
                 message as NoticeInfo
+                log.info("接收到选地主通知")
+                if(UserManage.getUserInfoInRoom().roleType != gameMemberType.PLAYER){
+                    log.info("非玩家，对选地主不响应")
+                    return
+                }
                 if (message.raceNum == 0) { //房间开始
                     RoomManage.roomItem.roomState = roomState.PLAYING
                     UserManage.costDiamond(RoomManage.roomItem.id, UserManage.userInfo.id)
                 }
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
-                //console.log('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' + RoomManage.roomItem.oningRaceNum);
+                log.info('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' ,RoomManage.roomItem.oningRaceNum);
                 RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
                 break;
             case 'raceStateDeal':

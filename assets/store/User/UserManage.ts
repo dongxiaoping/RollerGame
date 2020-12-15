@@ -1,16 +1,17 @@
 import { config } from '../../common/Config'
-import { PromiseParam, PromiseResult, ResponseStatus, InterfaceUrl, ResponseData } from '../../common/Const'
+import {PromiseParam, PromiseResult, ResponseStatus, InterfaceUrl, ResponseData, GameMember} from '../../common/Const'
 import UserItem from './UserItem'
 import http from '../../common/Http'
 import { UserInfo } from './UserBase';
 import { RoomGameConfig } from '../../common/RoomGameConfig'
 import ConfigManage from '../Config/ConfigManage';
-import { webCookie } from '../../common/Util';
+import {getUrlParam, webCookie} from '../../common/Util';
 import axios from 'axios'
 import log from 'loglevel'
 class UserManage {
     public userInfo: UserItem = null
     selectChipValue: number = 0 //当前用户选中的下注值，默认10
+    public userInfoInRoom: GameMember = null//当前用户在玩家列表中显示的一些基本数据
     constructor() {
     }
 
@@ -20,7 +21,12 @@ class UserManage {
 
     getLoginUserId() {
         try{
-            let id = webCookie.getItem('userId')
+            let id = getUrlParam('userId')
+            if(id != null){
+                log.info("从url中取到了用户ID，主要用于快速测试使用，用户ID:", id)
+                return id
+            }
+            id = webCookie.getItem('userId')
             log.info("cookie获取用户id", id)
             if(id == null){
                 id = localStorage.getItem('userId')
@@ -31,6 +37,14 @@ class UserManage {
             log.error("本地查找用户id异常",e)
             return null
         }
+    }
+
+    setUserInfoInRoom(item: GameMember){
+        this.userInfoInRoom = item
+    }
+
+    getUserInfoInRoom(){
+        return this.userInfoInRoom
     }
 
     setSelectChipValue(val: number) {
