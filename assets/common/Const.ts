@@ -329,6 +329,7 @@ export enum WordMessage {
     out_app = "退出当前应用？",
     cheat_open = "作弊开关被打开",
     out_action_tip = "请点击页面左下方的 x 或者 -> 退出应用！",
+    login_page_action_tip = "是否退出到登录页面？",
     audio_not_support = '语音失败，录音权限未开启！'
 }
 
