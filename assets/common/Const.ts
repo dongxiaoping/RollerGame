@@ -91,7 +91,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     DIAMOND_COUNT_CHANGE = 14, //钻数量改变通知
     PLAY_AUDIO_LOCAL_NOTICE = 15,  //播放音频通知
     PLAY_AUDIO_NOT_SUPPORT = 16, //不支持语音功能
-    OPEN_IMMEDIATELY = 17 //立马显示所有牌的数据，作弊调用
+    OPEN_IMMEDIATELY = 17, //立马显示所有牌的数据，作弊调用
+    VISIT_ENTER_ROOM = 18//游客进入房间通知
 }
 
 export interface LocalNoticeEventPara {

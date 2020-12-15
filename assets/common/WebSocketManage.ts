@@ -65,7 +65,15 @@ class WebSocketManage {
                     log.error('被限制进入用户或者被踢出用户，不能进入')
                     return
                 }else if(message.roleType == gameMemberType.VISITOR){
-                    log.info('游客进入')
+                    log.info('游客进入,发出本地通知')
+                    if(message.userId != UserManage.userInfo.id){
+                        log.info('游客进入,其他人不做任何处理')
+                        return
+                    }
+                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                        type: LocalNoticeEventType.VISIT_ENTER_ROOM,
+                        info: message
+                    })
                 }else {
                     log.info('玩家进入')
                     GameMemberManage.addGameMember(message)

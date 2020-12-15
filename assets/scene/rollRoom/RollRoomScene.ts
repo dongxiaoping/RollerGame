@@ -1,7 +1,26 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
 import { eventBus } from '../../common/EventBus'
-import { ConsoleType, RaceState, EventType, roomState, EnterRoomModel, LocalNoticeEventPara, LocalNoticeEventType, ResponseStatus, EnterRoomFail, ResponseData, TipDialogParam, TipDialogButtonAction, raceResultData, CreateRoomPayModel, EnterRoomParam, WordMessage, voiceNotice} from '../../common/Const'
+import {
+    ConsoleType,
+    RaceState,
+    EventType,
+    roomState,
+    EnterRoomModel,
+    LocalNoticeEventPara,
+    LocalNoticeEventType,
+    ResponseStatus,
+    EnterRoomFail,
+    ResponseData,
+    TipDialogParam,
+    TipDialogButtonAction,
+    raceResultData,
+    CreateRoomPayModel,
+    EnterRoomParam,
+    WordMessage,
+    voiceNotice,
+    GameMember
+} from '../../common/Const'
 import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam, webCookie } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
@@ -250,13 +269,24 @@ export default class NewClass extends cc.Component {
         this.eventIdOne = randEventId()
         eventBus.on(EventType.LOCAL_NOTICE_EVENT, this.eventIdOne, (info: LocalNoticeEventPara): void => {
             let localNoticeEventType = info.type
+            let infoItem = info.info
             switch (localNoticeEventType) {
                 case LocalNoticeEventType.DIAMOND_COUNT_CHANGE:
-                    this.diamondScoreLable.string = info.info + ''
+                    this.diamondScoreLable.string = infoItem + ''
                     break
                 case LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE:
-                    let infoItem = info.info as voiceNotice
-                    voiceManage.getAndPlayAudio(cc, infoItem)
+                    voiceManage.getAndPlayAudio(cc, infoItem as voiceNotice)
+                    break
+                case LocalNoticeEventType.VISIT_ENTER_ROOM:
+                    infoItem as GameMember
+                    if(infoItem.userId == UserManage.userInfo.id){
+                        log.getLogger(this.name).info('通知当前用户是否需要以游客身份进入')
+                        let dialogParam = {
+                            sureButtonShow: true, cancelButtonShow: true, content: '房间已满，是否以游客身份进入房间？',
+                            cancelButtonAction: TipDialogButtonAction.OUT_ROOM, sureButtonAction: null
+                        } as TipDialogParam
+                        this.dialogShow(dialogParam)
+                    }
                     break
             }
         })

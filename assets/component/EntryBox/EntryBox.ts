@@ -9,7 +9,7 @@ import {
 } from "../../common/Const";
 import UserManage from "../../store/User/UserManage";
 import {config} from "../../common/Config"
-import Log from "../../common/Log"
+import log from 'loglevel'
 import configManage from "../../store/Config/ConfigManage"
 const { ccclass, property } = cc._decorator;
 //输入房间号加入房间面板
@@ -92,14 +92,12 @@ export default class NewClass extends cc.Component {
         })
         this.Enter.node.on(cc.Node.EventType.TOUCH_END, () => {
             let roomId = parseInt(this.Num.string)
-            Log.d([], "EntryBox",
-                ["输入房间号", roomId])
-            Log.d([], "EntryBox",
-                ["核对号", config.cheatSwitchNumber])
+            log.info('输入房间号：',roomId)
             if(roomId == config.cheatSwitchNumber){
+                log.info('作弊开关触发')
                 configManage.setCheat(true)
-                Log.d([], "EntryBox",
-                    [WordMessage.cheat_open])
+                this.showCheatTip()
+                this.node.destroy()
                 return
             }
             RoomManage.setEnterRoomParam({
@@ -129,6 +127,15 @@ export default class NewClass extends cc.Component {
         node.parent = this.node.parent
         node.active = true
         let dialogParam = { sureButtonShow: true, cancelButtonShow: false, content: '房间不存在或已关闭', cancelButtonAction: null, sureButtonAction: null } as TipDialogParam
+        scriptOb.tipDialogShow(dialogParam)
+    }
+
+    showCheatTip() {
+        let node = cc.instantiate(this.tipDialog)
+        let scriptOb = node.getComponent('TipDialog')
+        node.parent = this.node.parent
+        node.active = true
+        let dialogParam = { sureButtonShow: true, cancelButtonShow: false, content: '超级权限开启', cancelButtonAction: null, sureButtonAction: null } as TipDialogParam
         scriptOb.tipDialogShow(dialogParam)
     }
 
