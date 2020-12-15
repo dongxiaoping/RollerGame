@@ -1,6 +1,6 @@
 import {
     NoticeInfo, roomState, GameMember, EventType, RaceState, raceResultData, BetNoticeData, LocalNoticeEventType,
-    memberState, gameMemberType, CartonMessage, ChatMessageType, ConsoleType, LocalNoticeEventPara, voiceNotice
+    memberState, gameMemberType, CartonMessage, ChatMessageType, turnLandlordNotice, LocalNoticeEventPara, voiceNotice
 } from "./Const";
 import RoomManage from "../store/Room/RoomManage";
 import UserManage from "../store/User/UserManage";
@@ -188,6 +188,12 @@ class WebSocketManage {
                     type: LocalNoticeEventType.PLAY_AUDIO_LOCAL_NOTICE, info: message
                 } as LocalNoticeEventPara)
                 break;
+            case 'turnLandlord': //轮庄通知
+                message as turnLandlordNotice
+                log.info('接收到轮庄通知', message)
+                eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                    type: LocalNoticeEventType.TURN_LANDLORD_LOCAL_NOTICE, info: message
+                } as LocalNoticeEventPara)
         }
     }
 }

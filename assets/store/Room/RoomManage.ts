@@ -1,6 +1,21 @@
 import { config } from '../../common/Config'
 import RoomItem from './RoomItem'
-import { InterfaceUrl, PromiseParam, PromiseResult, RoomInfo, CreateRoomPayModel, ResponseData, ResponseStatus, raceRecord, GameMember, EnterRoomParam, EnterRoomFail, CreateRoomFail, BetRecord } from '../../common/Const'
+import {
+    InterfaceUrl,
+    PromiseParam,
+    PromiseResult,
+    RoomInfo,
+    CreateRoomPayModel,
+    ResponseData,
+    ResponseStatus,
+    raceRecord,
+    GameMember,
+    EnterRoomParam,
+    EnterRoomFail,
+    CreateRoomFail,
+    BetRecord,
+    playMode
+} from '../../common/Const'
 import http from '../../common/Http'
 import RaceManage from '../Races/RaceManage';
 import GameMemberManage from '../GameMember/GameMemberManage';
@@ -32,11 +47,12 @@ class RoomManage {
     }
 
     //creatUserId 创建者ID、 memberLimit 人员数量限制 ， playCount场次，roomPay 房间费用支付模式， costLimit下注上限
-    public createRoom(creatUserId: string, memberLimit: number, playCount: number, roomPay: CreateRoomPayModel, costLimit: number): Promise<PromiseParam> {
+    public createRoom(creatUserId: string, memberLimit: number, playCount: number,
+                      roomPay: CreateRoomPayModel, costLimit: number, thePlayMode:playMode): Promise<PromiseParam> {
         return new Promise((resolve: (param: PromiseParam) => void): void => {
             let httpUrl = config.serverAddress + InterfaceUrl.CREATE_ROOM
             let paramString = '?creatUserId=' + creatUserId + '&memberLimit=' + memberLimit +
-                '&playCount=' + playCount + '&roomPay=' + roomPay + '&costLimit=' + costLimit
+                '&playCount=' + playCount + '&roomPay=' + roomPay + '&costLimit=' + costLimit+ '&playMode=' + thePlayMode
             httpUrl = httpUrl + paramString
             http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
                 if (error) {

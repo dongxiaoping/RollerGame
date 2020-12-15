@@ -92,7 +92,8 @@ export enum LocalNoticeEventType { // LOCAL_NOTICE_EVENT 事件的子事件 （�
     PLAY_AUDIO_LOCAL_NOTICE = 15,  //播放音频通知
     PLAY_AUDIO_NOT_SUPPORT = 16, //不支持语音功能
     OPEN_IMMEDIATELY = 17, //立马显示所有牌的数据，作弊调用
-    VISIT_ENTER_ROOM = 18//游客进入房间通知
+    VISIT_ENTER_ROOM = 18, //游客进入房间通知
+    TURN_LANDLORD_LOCAL_NOTICE = 19 //轮庄通知，通知指定用户是否愿意当庄
 }
 
 export interface LocalNoticeEventPara {
@@ -166,6 +167,12 @@ export interface voiceNotice {
     voiceName:string
 }
 
+export interface turnLandlordNotice {
+    raceNum: number
+    roomId: number
+    userId:string
+}
+
 export interface raceRecord {
     id: string
     roomId?: number
@@ -196,8 +203,8 @@ export interface MajongResult {
 }
 
 export enum playMode {
-    LANDLORD = 1, //霸王庄
-    TURN = 2, //轮流
+    TURN = 1, //轮流
+    RAP = 2 //抢庄
 }
 
 export interface RoomInfo {
@@ -363,6 +370,7 @@ export enum NoticeType {
     raceBet = 'raceBet', //玩家下注通知
     kickOutMemberFromRoom = 'kickOutMemberFromRoom', //踢出玩家
     chatCartonMessage = 'chatCartonMessage', //消息动画
+    sureBeLandlordInTurn = 'sureBeLandlordInTurn', //确认轮庄中当地主
     cancelRaceBet = 'cancelRaceBet' //取消指定区域的下注
 }
 
@@ -409,8 +417,9 @@ export enum TipDialogButtonAction {
     OUT_TO_REGISTER = 5, //退出到登录页面
     RE_IN_GAME = 6, //重新进入游戏
     OUT_TO_LOBBY = 7, //退出到首页
-    KICKOUT_MEMBER = 8, //踢出玩家 
-    OUT_APP =9 //退出应用
+    KICKOUT_MEMBER = 8, //踢出玩家
+    OUT_APP =9, //退出应用
+    TURN_LANDLORD_TRUE//轮庄确认选择当庄
 }
 
 //发送消息类型

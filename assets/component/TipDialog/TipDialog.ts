@@ -1,10 +1,22 @@
-import { TipDialogParam, Coordinate, TipDialogButtonAction, EventType, LocalNoticeEventType, LocalNoticeEventPara, roomState, NoticeType, NoticeData } from "../../common/Const";
+import {
+    TipDialogParam,
+    Coordinate,
+    TipDialogButtonAction,
+    EventType,
+    LocalNoticeEventType,
+    LocalNoticeEventPara,
+    roomState,
+    NoticeType,
+    NoticeData,
+    turnLandlordNotice
+} from "../../common/Const";
 import webSocketManage from '../../common/WebSocketManage'
 import { eventBus } from "../../common/EventBus";
 import { config } from "../../common/Config";
 import RoomManage from "../../store/Room/RoomManage";
+import UserManage from '../../store/User/UserManage'
 const { ccclass, property } = cc._decorator;
-
+import log from 'loglevel'
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -55,6 +67,19 @@ export default class NewClass extends cc.Component {
                     break
                 case TipDialogButtonAction.OUT_ROOM:
                     cc.director.loadScene("LobbyScene");
+                    break
+                case TipDialogButtonAction.TURN_LANDLORD_TRUE:
+                    log.info('当前用户在轮庄中确认当地主')
+                    let otherInfo = this.tipDialogParam.otherInfo as turnLandlordNotice
+                    let notice = {
+                        type: NoticeType.sureBeLandlordInTurn, info: {
+                            roomId: RoomManage.roomItem.id,
+                            userId: UserManage.userInfo.id,
+                            raceNum: otherInfo.raceNum
+                        }
+                    } as NoticeData
+                    log.info('发出socket通知，确认在轮庄中当地主')
+                    webSocketManage.send(JSON.stringify(notice));
                     break
                 case TipDialogButtonAction.OUT_TO_REGISTER:
                     window.location.replace(config.registerPageAddress)

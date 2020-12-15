@@ -1,8 +1,19 @@
-import { CreateRoomPayModel, ResponseStatus, RoomInfo, EnterRoomParam, EnterRoomModel, ResponseData, CreateRoomFail, TipDialogParam, TipDialogButtonAction } from "../../common/Const";
+import {
+    CreateRoomPayModel,
+    ResponseStatus,
+    RoomInfo,
+    EnterRoomParam,
+    EnterRoomModel,
+    ResponseData,
+    CreateRoomFail,
+    TipDialogParam,
+    TipDialogButtonAction,
+    playMode
+} from "../../common/Const";
 import RoomManage from "../../store/Room/RoomManage";
 import UserManage from "../../store/User/UserManage";
 import ConfigManage from "../../store/Config/ConfigManage";
-
+import log from 'loglevel'
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -88,6 +99,12 @@ export default class NewClass extends cc.Component {
     AA: cc.Toggle = null
     ////////////////////////////////
 
+    //////////////////////抢庄模式
+    @property(cc.Toggle)
+    QiangzhuangTurn: cc.Toggle = null //轮庄
+    @property(cc.Toggle)
+    QiangzhuangRap: cc.Toggle = null//抢庄
+
     //////////////////////房间人数
     @property(cc.Toggle)
     xiazhu_one: cc.Toggle = null
@@ -137,6 +154,7 @@ export default class NewClass extends cc.Component {
         this.jushu_one.isChecked = true
         this.DaiKai.isChecked = true
         this.xiazhu_one.isChecked = true
+        this.QiangzhuangTurn.isChecked = true
     }
 
     setShow() {
@@ -204,6 +222,8 @@ export default class NewClass extends cc.Component {
             let jushu: number = null
             let payMode: CreateRoomPayModel = null
             let xiazhu: number = null
+            let thePlayMode: number = null //选择模式
+
             if (this.renshu_one.isChecked) {
                 renshu = this.creatDiamondConfig.roomPeople.one.peoplecount
             } else if (this.renshu_two.isChecked) {
@@ -212,7 +232,7 @@ export default class NewClass extends cc.Component {
                 renshu = this.creatDiamondConfig.roomPeople.three.peoplecount
             } else {
                 renshu = null
-                //cc.log('人数不能为空')
+                log.error('创建房间失败，人数不能为空')
                 return
             }
 
@@ -226,8 +246,14 @@ export default class NewClass extends cc.Component {
                 jushu = this.creatDiamondConfig.totalRace.four.raceCount
             } else {
                 jushu = null
-                //cc.log('局数不能为空')
+                log.error('创建房间失败，局数不能为空')
                 return
+            }
+
+            if(this.QiangzhuangTurn.isChecked){
+                thePlayMode = playMode.TURN
+            }else{
+                thePlayMode = playMode.RAP
             }
 
             if (this.DaiKai.isChecked) {
@@ -240,7 +266,7 @@ export default class NewClass extends cc.Component {
                 this.setXiaZhuDiamondShow(CreateRoomPayModel.AA)
             } else {
                 payMode = null
-                //cc.log('付款模式不能为空')
+                log.error('创建房间失败，付款模式不能为空')
                 return
             }
 
@@ -254,18 +280,19 @@ export default class NewClass extends cc.Component {
                 xiazhu = this.creatDiamondConfig.betLimit.four.limitVal
             }else {
                 xiazhu = null
-                //cc.log('下注上限不能为空')
+                log.error('创建房间失败，下注上限不能为空')
                 return
             }
-            //cc.log('创建信息：人数：' + renshu + ",局数：" + jushu + ",付款模式:" + payMode + ',下注上限：' + xiazhu)
-            //cc.log('start_game_test:面板创建游戏')
-            this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu)
+            log.info('创建信息：人数：', renshu, ",局数：", jushu,
+                ",付款模式:", payMode, ',下注上限：', xiazhu,',抢庄模式：', thePlayMode)
+            this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu, thePlayMode)
         })
     }
 
-    async dealCreateRoom(userId: string, renshu: number, jushu: number, payMode: CreateRoomPayModel, xiazhu: number) {
-        let res = await RoomManage.createRoom(userId, renshu, jushu, payMode, xiazhu)
-        //cc.log('房间创建完毕信息：' + JSON.stringify(res))
+    async dealCreateRoom(userId: string, renshu: number, jushu: number, payMode: CreateRoomPayModel,
+                         xiazhu: number, thePlayMode:playMode) {
+        let res = await RoomManage.createRoom(userId, renshu, jushu, payMode, xiazhu, thePlayMode)
+        log.info('房间创建完毕信息：', res)
         if (res.result === ResponseStatus.SUCCESS) {
             let roomInfo = res.extObject as RoomInfo
             RoomManage.setRoomItem(roomInfo) //主要的设置roomId
@@ -275,12 +302,12 @@ export default class NewClass extends cc.Component {
                 userId: UserManage.userInfo.id,
                 roomId: roomInfo.id
             } as EnterRoomParam)
-            //cc.log('start_game_test:创建成功，跳转到房间页面，用户ID:' + UserManage.userInfo.id + ',房间ID:' + roomInfo.id)
+            log.info('start_game_test:创建成功，跳转到房间页面，用户ID:', UserManage.userInfo.id ,',房间ID:' ,roomInfo.id)
+            log.info('进入游戏房间')
             cc.director.loadScene("RollRoomScene");
-            //cc.log('进入游戏房间')
             return
         }
-        //cc.log('房间创建失败')
+        log.error('房间创建失败')
         this.showCreateRoomFailTip(res.extObject)
         this.node.destroy()
     }

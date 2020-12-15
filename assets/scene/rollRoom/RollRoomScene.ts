@@ -1,27 +1,28 @@
 const { ccclass, property } = cc._decorator;
 import UserManage from '../../store/User/UserManage'
-import { eventBus } from '../../common/EventBus'
+import {eventBus} from '../../common/EventBus'
 import {
-    ConsoleType,
-    RaceState,
-    EventType,
-    roomState,
+    CreateRoomPayModel,
+    EnterRoomFail,
     EnterRoomModel,
+    EnterRoomParam,
+    EventType,
+    GameMember,
     LocalNoticeEventPara,
     LocalNoticeEventType,
-    ResponseStatus,
-    EnterRoomFail,
-    ResponseData,
-    TipDialogParam,
-    TipDialogButtonAction,
+    playMode,
     raceResultData,
-    CreateRoomPayModel,
-    EnterRoomParam,
-    WordMessage,
+    RaceState,
+    ResponseData,
+    ResponseStatus,
+    roomState,
+    TipDialogButtonAction,
+    TipDialogParam,
+    turnLandlordNotice,
     voiceNotice,
-    GameMember
+    WordMessage
 } from '../../common/Const'
-import { getFaPaiLocation, randEventId, isUrlToGameRoom, getUrlParam, webCookie } from '../../common/Util'
+import {getFaPaiLocation, getUrlParam, isUrlToGameRoom, randEventId, webCookie} from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import RollControler from '../../common/RollControler'
@@ -105,6 +106,8 @@ export default class NewClass extends cc.Component {
     showBetLimit: cc.Label = null; //下注限制数显示
     @property(cc.Label)
     memberLimit: cc.Label = null; //人数
+    @property(cc.Label)
+    playModeShow: cc.Label = null; //选庄模式
     @property(cc.Label)
     showPlayCountLimit: cc.Label = null; //牌局进行信息显示
     @property(cc.Label)
@@ -288,6 +291,19 @@ export default class NewClass extends cc.Component {
                         this.dialogShow(dialogParam)
                     }
                     break
+                case LocalNoticeEventType.TURN_LANDLORD_LOCAL_NOTICE:
+                    infoItem as turnLandlordNotice
+                    if(infoItem.userId == UserManage.userInfo.id){
+                        log.info('轮到自己当庄')
+                        let dialogParam = {
+                            sureButtonShow: true, cancelButtonShow: true, content: '是否当庄？',
+                            cancelButtonAction: null, sureButtonAction: TipDialogButtonAction.TURN_LANDLORD_TRUE,
+                            otherInfo: infoItem
+                        } as TipDialogParam
+                        this.dialogShow(dialogParam)
+                        //定时自动关闭
+                    }
+                    break
             }
         })
 
@@ -332,7 +348,7 @@ export default class NewClass extends cc.Component {
         log.getLogger(this.name).trace('开始登录房间', userId, roomId)
         let result = await RoomManage.loginRoom(userId, roomId)
         if (result.result === ResponseStatus.FAIL) {  //TODO 登录房间
-            log.getLogger(this.name).error('登录房间失败', userId, roomId, result)
+            log.getLogger(this.name).error('登录房间失败', userId, roomId)
             this.showEnterRoomFailTip(result.extObject)
             return
         }
@@ -406,6 +422,8 @@ export default class NewClass extends cc.Component {
         this.showBetLimit.string = '下注上限：' + roomInfo.costLimit
         this.showPlayCountLimit.string = '当前牌局：' + (roomInfo.oningRaceNum + 1) + '/' + roomInfo.playCount
         this.memberLimit.string = '玩家上限：' + roomInfo.memberLimit
+        this.playModeShow.string = '选庄模式：' + (roomInfo.playMode==playMode.TURN? '轮流':'抢庄')
+
     }
 
     startEmulatorGame() {
