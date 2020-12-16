@@ -68,19 +68,6 @@ export default class NewClass extends cc.Component {
                 case TipDialogButtonAction.OUT_ROOM:
                     cc.director.loadScene("LobbyScene");
                     break
-                case TipDialogButtonAction.TURN_LANDLORD_TRUE:
-                    log.info('当前用户在轮庄中确认当地主')
-                    let otherInfo = this.tipDialogParam.otherInfo as turnLandlordNotice
-                    let notice = {
-                        type: NoticeType.sureBeLandlordInTurn, info: {
-                            roomId: RoomManage.roomItem.id,
-                            userId: UserManage.userInfo.id,
-                            raceNum: otherInfo.raceNum
-                        }
-                    } as NoticeData
-                    log.info('发出socket通知，确认在轮庄中当地主')
-                    webSocketManage.send(JSON.stringify(notice));
-                    break
                 case TipDialogButtonAction.OUT_TO_REGISTER:
                     window.location.replace(config.registerPageAddress)
                     break

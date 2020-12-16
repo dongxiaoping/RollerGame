@@ -9,7 +9,7 @@ import {
     EventType,
     GameMember, gameMemberType,
     LocalNoticeEventPara,
-    LocalNoticeEventType,
+    LocalNoticeEventType, NoticeData, NoticeType,
     playMode,
     raceResultData,
     RaceState,
@@ -135,6 +135,12 @@ export default class NewClass extends cc.Component {
 
     @property(cc.AudioSource)
     woQiangVoice: cc.AudioSource = null;
+
+    @property(cc.Button)
+    TurnLandlordSure: cc.Button= null; //轮庄确认按钮
+
+    @property(cc.Button)
+    TurnLandlordCancel: cc.Button= null; //轮庄取消按钮
 
     @property(cc.AudioSource)
     beginVoice: cc.AudioSource = null;
@@ -293,15 +299,10 @@ export default class NewClass extends cc.Component {
                     break
                 case LocalNoticeEventType.TURN_LANDLORD_LOCAL_NOTICE:
                     infoItem as turnLandlordNotice
+                    this.closeTurnLandlordPanel()
                     if(infoItem.userId == UserManage.userInfo.id){
-                        log.info('轮到自己当庄')
-                        let dialogParam = {
-                            sureButtonShow: true, cancelButtonShow: true, content: '是否当庄？',
-                            cancelButtonAction: null, sureButtonAction: TipDialogButtonAction.TURN_LANDLORD_TRUE,
-                            otherInfo: infoItem
-                        } as TipDialogParam
-                        this.dialogShow(dialogParam)
-                        //定时自动关闭
+                        log.info('轮到自己当庄,打开轮庄面板')
+                        this.showTurnLandlordPanel()
                     }
                     break
             }
@@ -481,6 +482,26 @@ export default class NewClass extends cc.Component {
             node.parent = this.node
             node.setPosition(0, 0);
             node.active = true
+        })
+
+        this.TurnLandlordSure.node.on(cc.Node.EventType.TOUCH_START, () => {
+            log.info('轮庄确认被点击')
+            log.info('当前用户在轮庄中确认当地主')
+            let notice = {
+                type: NoticeType.sureBeLandlordInTurn, info: {
+                    roomId: RoomManage.roomItem.id,
+                    userId: UserManage.userInfo.id,
+                    raceNum: RoomManage.roomItem.oningRaceNum
+                }
+            } as NoticeData
+            log.info('发出socket通知，确认在轮庄中当地主')
+            webSocketManage.send(JSON.stringify(notice));
+            this.closeTurnLandlordPanel()
+        })
+
+        this.TurnLandlordCancel.node.on(cc.Node.EventType.TOUCH_START, () => {
+            log.info('轮庄放弃被点击被点击')
+            this.closeTurnLandlordPanel()
         })
 
     }
@@ -777,6 +798,22 @@ export default class NewClass extends cc.Component {
                // Log.d([ConsoleType.SOCKET], 'RollRoomScene/onDisable', ['房间页面被销毁，关闭socket连接'])
             }
         } catch (e) { }
+    }
+
+    showTurnLandlordPanel(){
+        log.info('打开轮庄面板')
+        let ob = this.node.getChildByName('TurnLandlordButtons')
+        if (ob) {
+            ob.active = true
+        }
+    }
+
+    closeTurnLandlordPanel(){
+        log.info('关闭轮庄面板')
+        let ob = this.node.getChildByName('TurnLandlordButtons')
+        if (ob) {
+            ob.active = false
+        }
     }
 
     // update (dt) {}
