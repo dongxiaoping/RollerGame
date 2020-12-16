@@ -60,7 +60,7 @@ class WebSocketManage {
         switch (type) {
             case 'memberInSocketRoom':
                 message as GameMember
-                log.info('接收到有成员进入房间通知')
+                log.info('接收到有成员进入房间通知', message)
                 if(message.userId == UserManage.userInfo.id){
                     UserManage.setUserInfoInRoom(message)
                 }
@@ -89,15 +89,16 @@ class WebSocketManage {
                     }
                 }
                 break;
-            case 'memberOutRoom':
+            case 'memberOutRoom': //有成员离开房间通知 有三种情况： 1、重复登录，踢出上一个登录 2、踢出 3、主动退出
                 message = message.data
-                //Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['接到有成员退出通知',message])
+                log.info('接到成员退出房间通知',message)
                 if (RoomManage.roomItem.creatUserId != message.userId && RoomManage.roomItem.roomState == roomState.OPEN) {
+                    log.info('游戏还没开始，并且退出的不是房主，将该用户的信息清除，用户：', message.userId)
                     GameMemberManage.outGameMember(message.userId)
                 } else {
-                    //状态改为离线
-                    // Log.i([ConsoleType.SOCKET, ConsoleType.SOCKET_GET], "WebSocketManage/onmessage",['游戏中，改为离线状态'])
-                    if (typeof (GameMemberManage.gameMenmberList[message.userId]) !== 'undefined') {
+                    log.info('游戏已经开始，将用户的状态改为离线')
+                    if (typeof (GameMemberManage.gameMenmberList[message.userId]) != 'undefined') {
+                        log.info('用户是玩家')
                         GameMemberManage.gameMenmberList[message.userId].state = memberState.OffLine
                     }
                 }
@@ -105,13 +106,14 @@ class WebSocketManage {
             case 'raceStateChoiceLandlord': //接收选地主通知
                 message as NoticeInfo
                 log.info("接收到选地主通知")
+                if (message.raceNum == 0) {
+                    log.info('游戏刚开始，将本地房间状态改为游戏中')
+                    RoomManage.roomItem.roomState = roomState.PLAYING
+                    //UserManage.costDiamond(RoomManage.roomItem.id, UserManage.userInfo.id)
+                }
                 if(UserManage.getUserInfoInRoom().roleType != gameMemberType.PLAYER){
                     log.info("非玩家，对选地主不响应")
                     return
-                }
-                if (message.raceNum == 0) { //房间开始
-                    RoomManage.roomItem.roomState = roomState.PLAYING
-                    UserManage.costDiamond(RoomManage.roomItem.id, UserManage.userInfo.id)
                 }
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
                 log.info('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' ,RoomManage.roomItem.oningRaceNum);
@@ -131,8 +133,9 @@ class WebSocketManage {
                 RaceManage.changeRaceState(RaceState.BET)
                 //console.log('下注');
                 break;
-            case 'raceStateShowDown': //TODO这个地方不清晰
+            case 'raceStateShowDown':
                 message as NoticeInfo
+                log.info('接收到比大小通知，包含了当前场次的结果信息，以及房间的整体结果信息', message)
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
                 RaceManage.changeRaceLandlord(message.landlordId, 1, message.raceNum)
                 let raceResult = message.raceResult as raceResultData[]
@@ -191,6 +194,10 @@ class WebSocketManage {
             case 'turnLandlord': //轮庄通知
                 message as turnLandlordNotice
                 log.info('接收到轮庄通知', message)
+                if (message.raceNum == 0) {
+                    log.info('游戏刚开始，将本地房间状态改为游戏中')
+                    RoomManage.roomItem.roomState = roomState.PLAYING
+                }
                 eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                     type: LocalNoticeEventType.TURN_LANDLORD_LOCAL_NOTICE, info: message
                 } as LocalNoticeEventPara)

@@ -311,7 +311,7 @@ export default class NewClass extends cc.Component {
         this.eventIdTwo = randEventId()
         eventBus.on(EventType.MEMBER_DELETE_FROM_ROOM, this.eventIdTwo, (userId: string): void => {
             if (UserManage.userInfo.id == userId) {
-               // cc.log('我被踢出房间:' + userId)
+                log.info('我被踢出房间')
                 this.execBackLobby()
             }
         })
