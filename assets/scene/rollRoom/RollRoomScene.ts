@@ -148,7 +148,7 @@ export default class NewClass extends cc.Component {
     eventIdTwo: string = null
     public name:string = 'RollRoomScene'
     start() {
-        log.setLevel(log.levels.TRACE)
+        //log.setLevel(log.levels.TRACE)
         log.info(this.name, '启动')
         this.clear()
         this.initVoiceFunction()

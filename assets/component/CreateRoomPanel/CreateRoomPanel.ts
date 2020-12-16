@@ -285,7 +285,8 @@ export default class NewClass extends cc.Component {
             }
             log.info('创建信息：人数：', renshu, ",局数：", jushu,
                 ",付款模式:", payMode, ',下注上限：', xiazhu,',抢庄模式：', thePlayMode)
-            this.dealCreateRoom(UserManage.userInfo.id, 3, 5, payMode, xiazhu, thePlayMode)
+            //this.dealCreateRoom(UserManage.userInfo.id, 3, 5, payMode, xiazhu, thePlayMode)
+            this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu, thePlayMode)
         })
     }
 
