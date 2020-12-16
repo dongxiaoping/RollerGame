@@ -2,10 +2,28 @@
  * 功能：1、提供桌面显示 2、提供桌位的坐标 3、提供天、地、中等位置放置chip的中心点坐标
  * 3、提供出结果后，桌面的提示动画  4、提供用户图标显示管理
  */
+import UserManage from "../../store/User/UserManage";
+
 const { ccclass, property } = cc._decorator;
 import GameMemberManage from '../../store/GameMember/GameMemberManage'
 import GameMemberItem from '../../store/GameMember/GameMemberItem'
-import { EventType, LocalNoticeEventType, LocalNoticeEventPara, CompareDxRe, MemberInChairData, GameMember, BetChipChangeInfo, betLocaion, DiceCountInfo, TableLocationType, roomState, WordMessage, Coordinate, MajhongValueType } from '../../common/Const'
+import {
+    EventType,
+    LocalNoticeEventType,
+    LocalNoticeEventPara,
+    CompareDxRe,
+    MemberInChairData,
+    GameMember,
+    BetChipChangeInfo,
+    betLocaion,
+    DiceCountInfo,
+    TableLocationType,
+    roomState,
+    WordMessage,
+    Coordinate,
+    MajhongValueType,
+    turnLandlordNotice
+} from '../../common/Const'
 import { eventBus } from '../../common/EventBus'
 import { randEventId, getMajhongValueType } from '../../common/Util'
 import RaceManage from '../../store/Races/RaceManage'
@@ -147,7 +165,7 @@ export default class Desk extends cc.Component {
 
     addEventListener() {
         eventBus.on(EventType.LANDLORD_CAHNGE_EVENT, randEventId(), (landlordId: string): void => {
-            //cc.log('桌子接收当前比赛有庄设置,将该用户挪动到地主椅子')
+            log.info('桌子接收当前比赛有庄设置,将该用户挪动到地主椅子')
             this.chairManage.moveToLandlordChair(landlordId)
         })
 
@@ -206,6 +224,11 @@ export default class Desk extends cc.Component {
                     break
                 case LocalNoticeEventType.PLAY_AUDIO_NOT_SUPPORT:
                     this.showDeskMiddleTip(WordMessage.audio_not_support)
+                    break
+                case LocalNoticeEventType.TURN_LANDLORD_LOCAL_NOTICE:
+                    let infoItem = info.info as turnLandlordNotice
+                    log.info('将当前的选庄用户移动到庄的位置，用户：',infoItem)
+                    this.chairManage.moveToLandlordChair(infoItem.userId)
                     break
             }
         })

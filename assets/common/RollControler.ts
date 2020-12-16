@@ -1,16 +1,30 @@
-import { eventBus } from '../common/EventBus'
-import { RaceState, EventType, TableLocationType, RaceStateChangeParam, LocalNoticeEventPara, LocalNoticeEventType, roomState, BetNoticeData, gameMemberType, memberState, GameMember, raceResultData } from '../common/Const'
-import { randEventId } from '../common/Util'
+import {eventBus} from '../common/EventBus'
+import {
+    EventType,
+    GameMember,
+    gameMemberType,
+    LocalNoticeEventPara,
+    LocalNoticeEventType,
+    memberState,
+    playMode,
+    raceResultData,
+    RaceState,
+    RaceStateChangeParam,
+    roomState,
+    TableLocationType
+} from '../common/Const'
+import {randEventId} from '../common/Util'
 import RoomManage from '../store/Room/RoomManage'
 import UserManage from '../store/User/UserManage';
-import { roomInfo } from '../mock/RoomInfo'
-import { RollControlerBase } from './RollControlerBase';
-import { GameMemberList } from '../mock/GameMemberList';
+import {roomInfo} from '../mock/RoomInfo'
+import {RollControlerBase} from './RollControlerBase';
+import {GameMemberList} from '../mock/GameMemberList';
 import GameMemberManage from '../store/GameMember/GameMemberManage';
 import RaceManage from '../store/Races/RaceManage';
-import { RaceList } from '../mock/RaceList';
+import {RaceList} from '../mock/RaceList';
 import ConfigManage from '../store/Config/ConfigManage';
-import  log from "loglevel"
+import log from "loglevel"
+
 export class RollControler extends RollControlerBase {
     constructor(cc: any, isEmulatorRoom: boolean, roomScene: any) {
         super(cc, isEmulatorRoom, roomScene)
@@ -30,9 +44,16 @@ export class RollControler extends RollControlerBase {
             let to = info.toState
             switch (to) {
                 case RaceState.CHOICE_LANDLORD: //选庄
-                    this.roomScene.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)
-                    this.roomScene.showChoiceLandLordPanel()
-                    this.roomScene.showLandlordSncyTimePanel()
+                    log.info('本地接到通知比赛状态为抢庄阶段')
+                    if(RoomManage.roomItem.playMode == playMode.RAP){
+                        log.info('执行抢庄模式相关业务逻辑')
+                        this.roomScene.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)
+                        this.roomScene.showChoiceLandLordPanel()
+                        this.roomScene.showLandlordSncyTimePanel()
+                    }else {
+                        this.roomScene.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)
+                        log.info('执行轮庄模式业务逻辑')
+                    }
                     break
                 case RaceState.DEAL://发牌
                     this.execDealAction()

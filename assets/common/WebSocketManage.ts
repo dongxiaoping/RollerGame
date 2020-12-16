@@ -112,12 +112,12 @@ class WebSocketManage {
                     //UserManage.costDiamond(RoomManage.roomItem.id, UserManage.userInfo.id)
                 }
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
+                log.info('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' ,RoomManage.roomItem.oningRaceNum);
+                RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
                 if(UserManage.getUserInfoInRoom().roleType != gameMemberType.PLAYER){
                     log.info("非玩家，对选地主不响应")
                     return
                 }
-                log.info('start_game_test:socket收到游戏选地主通知,我将比赛状态设置为选地主,当前比赛场次:' ,RoomManage.roomItem.oningRaceNum);
-                RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
                 break;
             case 'raceStateDeal':
                 message as NoticeInfo
@@ -199,6 +199,7 @@ class WebSocketManage {
                     RoomManage.roomItem.roomState = roomState.PLAYING
                 }
                 RoomManage.roomItem.changeOningRaceNum(message.raceNum)
+                RaceManage.changeRaceState(RaceState.CHOICE_LANDLORD)
                 eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                     type: LocalNoticeEventType.TURN_LANDLORD_LOCAL_NOTICE, info: message
                 } as LocalNoticeEventPara)

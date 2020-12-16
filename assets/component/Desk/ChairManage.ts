@@ -1,6 +1,6 @@
 import ChairItem from "./ChairItem";
 import { MemberInChairData, Coordinate } from "../../common/Const";
-
+import log from 'loglevel'
 export default class ChairManage {
     private cc: any;
     public chairList: ChairItem[] = []
@@ -93,12 +93,12 @@ export default class ChairManage {
         }
         let theUserChair = this.getChairByUserId(userId)
         if (theUserChair === null) {
-            //console.log('改成员不在座椅上，无法挪动到地主位置')
+            log.info('该成员不在座椅上，无法挪动到地主位置')
             return
 
         }
         if (theUserChair.chairName === 'Member_0') {
-            //console.log('改成员已经在地主位置上')
+            log.info('改成员已经在地主位置上')
             return
         }
         let landChair = this.chairList[0]
