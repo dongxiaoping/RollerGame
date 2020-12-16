@@ -1,5 +1,20 @@
+import log from "loglevel";
+
 const { ccclass, property } = cc._decorator;
-import { NoticeType, NoticeData, RaceState, BetChipChangeInfo, betLocaion, CompareDxRe, BetNoticeData, EnterRoomModel, ResponseStatus, ConsoleType, WordMessage } from '../../common/Const'
+import {
+    NoticeType,
+    NoticeData,
+    RaceState,
+    BetChipChangeInfo,
+    betLocaion,
+    CompareDxRe,
+    BetNoticeData,
+    EnterRoomModel,
+    ResponseStatus,
+    ConsoleType,
+    WordMessage,
+    gameMemberType
+} from '../../common/Const'
 import RaceManage from '../../store/Races/RaceManage'
 import RoomManage from '../../store/Room/RoomManage'
 import UserManage from '../../store/User/UserManage'
@@ -167,9 +182,19 @@ export default class NewClass extends cc.Component {
         return true
     }
 
+    isCanBet(){
+        if(UserManage.getUserInfoInRoom()!=null && UserManage.getUserInfoInRoom().roleType == gameMemberType.VISITOR){
+            log.error('游客不能点桌子下注')
+            return false
+        }
+        return true
+    }
+
     addClickEvent() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, (event: any) => {
-            //cc.log('删除打印：执行删除动作')
+            if(!this.isCanBet()){
+                return
+            }
             if (!this.isNeedToCancel(event)) {
                 return
             }
@@ -212,6 +237,9 @@ export default class NewClass extends cc.Component {
         })
 
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
+            if(!this.isCanBet()){
+                return
+            }
             if (this.touchLock) {
                 return
             }
@@ -226,10 +254,16 @@ export default class NewClass extends cc.Component {
         })
 
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, (event: any) => {
+            if(!this.isCanBet()){
+                return
+            }
             this.focus.node.active = false
         })
 
         this.node.on(cc.Node.EventType.TOUCH_END, (event: any) => {
+            if(!this.isCanBet()){
+                return
+            }
             this.focus.node.active = false
             let isTouchMove = touchMoveEvent(event)
             if (isTouchMove) {
@@ -245,11 +279,11 @@ export default class NewClass extends cc.Component {
             let oningRaceNum = RoomManage.roomItem.oningRaceNum
 
             if (RaceManage.raceList[oningRaceNum].state !== RaceState.BET) {
-                //cc.log('当前不是下注环节，不能下注')
+                log.info('当前不是下注环节，不能下注')
                 return
             }
             if (RaceManage.raceList[oningRaceNum].landlordId === UserManage.userInfo.id) {
-                //cc.log('地主不能下注')
+                log.info('地主不能下注')
                 return
             }
             if (this.isOverBetTime()) {

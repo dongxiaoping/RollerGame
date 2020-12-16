@@ -7,7 +7,7 @@ import {
     EnterRoomModel,
     EnterRoomParam,
     EventType,
-    GameMember,
+    GameMember, gameMemberType,
     LocalNoticeEventPara,
     LocalNoticeEventType,
     playMode,
@@ -718,16 +718,20 @@ export default class NewClass extends cc.Component {
         node.parent = this.node
         node.getChildByName('Layout').active = false
         node.active = true
-        //cc.log('初始化下注功能')
+        log.info('初始化下注功能')
     }
     //显示下注面板
     showXiaZhuPanel() {
+        if(!this.controller.isEmulatorRoom && UserManage.getUserInfoInRoom().roleType == gameMemberType.VISITOR){
+            log.info('不是模拟房间并且当前用户是游客，不提供下注面板')
+            return
+        }
         let landlordId = RaceManage.raceList[RoomManage.roomItem.oningRaceNum].landlordId
         if (UserManage.userInfo.id !== landlordId) {
             let node = this.node.getChildByName('XiaZhu')
             node.setPosition(250, -260);
             node.getChildByName('Layout').active = true
-            //cc.log('显示下注面板')
+            log.info('显示下注面板')
         }
     }
 

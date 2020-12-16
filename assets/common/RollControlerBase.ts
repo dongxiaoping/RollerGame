@@ -3,7 +3,16 @@ import RoomManage from "../store/Room/RoomManage";
 import RaceManage from "../store/Races/RaceManage";
 import ConfigManage from "../store/Config/ConfigManage";
 import { randFloatNum, mergeRaceResult, randomRange } from "./Util";
-import { betLocaion, NoticeType, NoticeData, RaceState, raceResultData, roomState, ConsoleType } from "./Const";
+import {
+    betLocaion,
+    NoticeType,
+    NoticeData,
+    RaceState,
+    raceResultData,
+    roomState,
+    ConsoleType,
+    gameMemberType
+} from "./Const";
 import BetManage from "../store/Bets/BetManage";
 import UserManage from "../store/User/UserManage";
 import webSocketManage from '../common/WebSocketManage'
