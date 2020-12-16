@@ -201,6 +201,18 @@ class WebSocketManage {
                 eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                     type: LocalNoticeEventType.TURN_LANDLORD_LOCAL_NOTICE, info: message
                 } as LocalNoticeEventPara)
+                break;
+            case 'enterRoomRes': //进入socket房间结果
+                log.info('进入接口房间结果通知')
+                if(message.flag == 0){
+                    log.info('进入socket房间失败,退出到大厅', message)
+                    eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                        type: LocalNoticeEventType.TO_LOBBY_EVENT,
+                        info: false
+                    } as LocalNoticeEventPara)
+                }
+                break;
+
         }
     }
 }

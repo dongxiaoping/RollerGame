@@ -143,7 +143,7 @@ export default class NewClass extends cc.Component {
     public name:string = 'RollRoomScene'
     start() {
         log.setLevel(log.levels.TRACE)
-        log.getLogger(this.name).info(this.name, '启动')
+        log.info(this.name, '启动')
         this.clear()
         this.initVoiceFunction()
         let enterRoomParam = this.getEnterRoomParam()
@@ -159,7 +159,7 @@ export default class NewClass extends cc.Component {
             }
             this.startByEnterMode(enterRoomParam)
         } else {
-            log.getLogger(this.name).error('url 没有附带有效的房间用户信息，提示房间不存在或已关闭')
+            log.error('url 没有附带有效的房间用户信息，提示房间不存在或已关闭')
             let dialogParam = {
                 sureButtonShow: true, cancelButtonShow: false, content: "房间不存在或已关闭！", cancelButtonAction: null,
                 sureButtonAction: TipDialogButtonAction.OUT_ROOM
@@ -283,7 +283,7 @@ export default class NewClass extends cc.Component {
                 case LocalNoticeEventType.VISIT_ENTER_ROOM:
                     infoItem as GameMember
                     if(infoItem.userId == UserManage.userInfo.id){
-                        log.getLogger(this.name).info('通知当前用户是否需要以游客身份进入')
+                        log.info('通知当前用户是否需要以游客身份进入')
                         let dialogParam = {
                             sureButtonShow: true, cancelButtonShow: true, content: '房间已满，是否以游客身份进入房间？',
                             cancelButtonAction: TipDialogButtonAction.OUT_ROOM, sureButtonAction: null
@@ -345,10 +345,11 @@ export default class NewClass extends cc.Component {
                 return
             }
         }
-        log.getLogger(this.name).trace('开始登录房间', userId, roomId)
+        log.info('开始登录房间', userId, roomId)
         let result = await RoomManage.loginRoom(userId, roomId)
-        if (result.result === ResponseStatus.FAIL) {  //TODO 登录房间
-            log.getLogger(this.name).error('登录房间失败', userId, roomId)
+        log.info('登录房间结果', result)
+        if (result.result === ResponseStatus.FAIL) {
+            log.error('登录房间失败')
             this.showEnterRoomFailTip(result.extObject)
             return
         }
@@ -359,15 +360,15 @@ export default class NewClass extends cc.Component {
         this.initDesk()
         this.showTopLeftRaceInfo()
         this.initShowAction()
-        log.getLogger('RollRoomScene').info('开始socket连接')
+        log.info('开始socket连接')
         webSocketManage.openWs(() => {
-            log.getLogger('RollRoomScene').info('socket连接成功，发送连接成功本地通知')
+            log.info('socket连接成功，发送连接成功本地通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                 type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
                 info: true
             } as LocalNoticeEventPara)
         }, () => {
-            log.getLogger('RollRoomScene').error('socket连接失败，发送连接失败本地通知')
+            log.error('socket连接失败，发送连接失败本地通知')
             eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
                 type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
                 info: false
