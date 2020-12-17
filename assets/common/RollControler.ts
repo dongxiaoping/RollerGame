@@ -24,6 +24,7 @@ import RaceManage from '../store/Races/RaceManage';
 import {RaceList} from '../mock/RaceList';
 import ConfigManage from '../store/Config/ConfigManage';
 import log from "loglevel"
+import webSocketManage from "./WebSocketManage";
 
 export class RollControler extends RollControlerBase {
     constructor(cc: any, isEmulatorRoom: boolean, roomScene: any) {
@@ -158,13 +159,19 @@ export class RollControler extends RollControlerBase {
                 case LocalNoticeEventType.TO_SHOW_START_BUTTON: //显示开始按钮通知
                     this.roomScene.showStartButton()
                     break
-                case LocalNoticeEventType.SOCKET_CONNECT_NOTICE: //socket连接结果通知 //TODO
-                    if (info.info) { //连接成功通知
-                        log.getLogger(this.name).info('接到socket连接通知，进入socket房间')
+                case LocalNoticeEventType.SOCKET_CONNECT_NOTICE: //socket连接结果通知
+                    if (info.info) {
+                        log.info('接到socket连接成功通知通知，发socket请求进入socket房间')
                         this.enterSocketRoom()
                     } else {
-                        log.getLogger(this.name).info('接到socket连接失败通知，弹出提示框')
-                        this.roomScene.scoketFailTip()
+                        log.error('接到socket连接失败,重连次数：', webSocketManage.socketConnectCount)
+                        if(webSocketManage.socketConnectCount>=3){
+                            this.roomScene.scoketFailTip()
+                        }else{
+                            this.cc.scheduleOnce(() => {
+                                webSocketManage.socketConnectAction()
+                            }, webSocketManage.socketConnectCount);
+                        }
                     }
                     break
             }

@@ -8,7 +8,7 @@ export class Http {
         let err = false
         var xhr = cc.loader.getXMLHttpRequest();
         xhr.open("GET", url, true);
-      //  xhr.setRequestHeader('cache-control','no-cache');
+        xhr.setRequestHeader('cache-control','no-cache'); //TODO
         xhr["onloadend"] = function () {
             if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status <= 207)) {
                 err = false;

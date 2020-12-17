@@ -171,7 +171,7 @@ export class RollControlerBase {
                     userId: UserManage.userInfo.id
                 }
             } as NoticeData
-            log.getLogger(this.name).info('进入房间socket请求',notice)
+            log.info('进入房间socket请求',notice)
             webSocketManage.send(JSON.stringify(notice));
         } else {
             //this.cc.log('房间已关闭，无法进入')

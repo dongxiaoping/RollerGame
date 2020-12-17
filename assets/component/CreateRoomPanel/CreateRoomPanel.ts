@@ -217,7 +217,7 @@ export default class NewClass extends cc.Component {
             this.node.destroy()
         })
         this.createButton.node.on(cc.Node.EventType.TOUCH_END, () => {
-            //cc.log('创建按钮被点击')
+            log.info('创建按钮被点击')
             let renshu: number = null
             let jushu: number = null
             let payMode: CreateRoomPayModel = null
@@ -286,7 +286,7 @@ export default class NewClass extends cc.Component {
             log.info('创建信息：人数：', renshu, ",局数：", jushu,
                 ",付款模式:", payMode, ',下注上限：', xiazhu,',抢庄模式：', thePlayMode)
             //this.dealCreateRoom(UserManage.userInfo.id, 3, 5, payMode, xiazhu, thePlayMode)
-            this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu, thePlayMode)
+           let result = this.dealCreateRoom(UserManage.userInfo.id, renshu, jushu, payMode, xiazhu, thePlayMode)
         })
     }
 
@@ -295,20 +295,26 @@ export default class NewClass extends cc.Component {
         let res = await RoomManage.createRoom(userId, renshu, jushu, payMode, xiazhu, thePlayMode)
         log.info('房间创建完毕信息：', res)
         if (res.result === ResponseStatus.SUCCESS) {
+            log.info('房间创建成功')
             let roomInfo = res.extObject as RoomInfo
-            RoomManage.setRoomItem(roomInfo) //主要的设置roomId
+            log.info('将房间信息保持到本地')
+            RoomManage.setRoomItem(roomInfo)
+            log.info('销毁创建房间页面')
             this.node.destroy()
-            RoomManage.setEnterRoomParam({
+            log.info('以创建房间的模式进入到房间页面')
+            let enterModeInfo = {
                 model: EnterRoomModel.CREATE_ROOM,
                 userId: UserManage.userInfo.id,
                 roomId: roomInfo.id
-            } as EnterRoomParam)
-            log.info('start_game_test:创建成功，跳转到房间页面，用户ID:', UserManage.userInfo.id ,',房间ID:' ,roomInfo.id)
+            } as EnterRoomParam
+            RoomManage.setEnterRoomParam(enterModeInfo)
+            log.info('进入房间模式里面设置的信息：',enterModeInfo)
+            log.info('创建成功，跳转到房间页面，用户ID:', UserManage.userInfo.id ,',房间ID:' ,roomInfo.id)
             log.info('进入游戏房间')
             cc.director.loadScene("RollRoomScene");
             return
         }
-        log.error('房间创建失败')
+        log.error('房间创建失败，销毁创建房间页面，弹出提示框')
         this.showCreateRoomFailTip(res.extObject)
         this.node.destroy()
     }
@@ -320,7 +326,6 @@ export default class NewClass extends cc.Component {
         node.active = true
         let contenShow = CreateRoomFail[info.message]
         if (info.message === 'diamond_not_enough') {
-            //contenShow = '钻余额' + info.data.has + ',创建房间需要钻' + info.data.need + ',请点击确认购买！'
             contenShow = '钻余额不足，请点击购买！'
         }
         let dialogParam = {
@@ -331,9 +336,6 @@ export default class NewClass extends cc.Component {
     }
 
     toggleInit() {
-
-        //////////////////////////////////////////
-        /////人数
         this.renshu_one.node.on('toggle', () => {
             if (this.renshu_one.isChecked) {
                 this.renshu_two.isChecked = false

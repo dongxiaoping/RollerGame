@@ -13,7 +13,7 @@ import ConfigManage from "../store/Config/ConfigManage";
 import log from 'loglevel'
 class WebSocketManage {
     public ws: any = null
-
+    public socketConnectCount:number = 0; //连接次数，用户重新连接
     public closeWs(): void {
         if (this.ws !== null) {
             this.ws.close()
@@ -216,6 +216,24 @@ class WebSocketManage {
                 break;
 
         }
+    }
+
+    //执行socket链接，成功或者失败都发本地通知
+    socketConnectAction(){
+        ++this.socketConnectCount;
+        this.openWs(() => {
+            log.info('socket连接成功，发送连接成功本地通知')
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
+                info: true
+            } as LocalNoticeEventPara)
+        }, () => {
+            log.info('socket连接失败，发送连接失败本地通知')
+            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
+                type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
+                info: false
+            } as LocalNoticeEventPara)
+        })
     }
 }
 export default new WebSocketManage()

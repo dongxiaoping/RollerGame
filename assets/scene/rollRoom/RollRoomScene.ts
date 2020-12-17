@@ -136,11 +136,11 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioSource)
     woQiangVoice: cc.AudioSource = null;
 
-    @property(cc.Button)
-    TurnLandlordSure: cc.Button= null; //轮庄确认按钮
+    @property(cc.Sprite)
+    TurnLandlordSure: cc.Sprite= null; //轮庄确认按钮
 
-    @property(cc.Button)
-    TurnLandlordCancel: cc.Button= null; //轮庄取消按钮
+    @property(cc.Sprite)
+    TurnLandlordCancel: cc.Sprite= null; //轮庄取消按钮
 
     @property(cc.AudioSource)
     beginVoice: cc.AudioSource = null;
@@ -148,13 +148,14 @@ export default class NewClass extends cc.Component {
     eventIdTwo: string = null
     public name:string = 'RollRoomScene'
     start() {
-        //log.setLevel(log.levels.TRACE)
+        log.setLevel(log.levels.ERROR)
         log.info(this.name, '启动')
         this.clear()
         this.initVoiceFunction()
         let enterRoomParam = this.getEnterRoomParam()
         if (enterRoomParam) {
             if (enterRoomParam.model == EnterRoomModel.SHARE && enterRoomParam.userId == null) {
+                log.info('分享进入并且没有登录')
                 webCookie.setItem('roomId', enterRoomParam.roomId, 0.1)
                 let dialogParam = {
                     sureButtonShow: true, cancelButtonShow: false, content: "请注册登录！", cancelButtonAction: null,
@@ -163,9 +164,10 @@ export default class NewClass extends cc.Component {
                 this.dialogShow(dialogParam)
                 return
             }
+            log.info('模式以及数据都正常，接着走流程')
             this.startByEnterMode(enterRoomParam)
         } else {
-            log.error('url 没有附带有效的房间用户信息，提示房间不存在或已关闭')
+            log.info('未知模式进入，无法取到房间和用户等信息，提示跳转到主页')
             let dialogParam = {
                 sureButtonShow: true, cancelButtonShow: false, content: "房间不存在或已关闭！", cancelButtonAction: null,
                 sureButtonAction: TipDialogButtonAction.OUT_ROOM
@@ -238,8 +240,10 @@ export default class NewClass extends cc.Component {
         let isEmulatorRoom = enterRoomParam.model === EnterRoomModel.EMULATOR_ROOM ? true : false
         this.controller = new RollControler(cc, isEmulatorRoom, this)
         if (isEmulatorRoom) {
+            log.info('模拟房间，走模拟流程')
             this.startEmulatorGame()
         } else {
+            log.info('非模拟房间，走正常房间流程')
             this.startWebGame(enterRoomParam)
         }
         this.scheduleOnce(() => { //定时器
@@ -328,6 +332,8 @@ export default class NewClass extends cc.Component {
         let userId = enterRoomParam.userId
         let roomId = enterRoomParam.roomId
         if (enterRoomParam.model == EnterRoomModel.SHARE) {
+            log.info('以分享的方式进入的房间')
+            log.info('从服务器上请求用户的详细信息到本地')
             let reInfo = await UserManage.requestUserInfo(userId);
             if (reInfo.result == ResponseStatus.FAIL) {
                 let messageSet = EnterRoomFail.account_error
@@ -345,6 +351,8 @@ export default class NewClass extends cc.Component {
                 this.dialogShow(dialogParam)
                 return
             }
+        }else{
+            log.info('以面板的方式或者创建房间的方式进入的房间')
         }
         log.info('开始登录房间', userId, roomId)
         let result = await RoomManage.loginRoom(userId, roomId)
@@ -362,20 +370,9 @@ export default class NewClass extends cc.Component {
         this.showTopLeftRaceInfo()
         this.initShowAction()
         log.info('开始socket连接')
-        webSocketManage.openWs(() => {
-            log.info('socket连接成功，发送连接成功本地通知')
-            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
-                info: true
-            } as LocalNoticeEventPara)
-        }, () => {
-            log.error('socket连接失败，发送连接失败本地通知')
-            eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
-                info: false
-            } as LocalNoticeEventPara)
-        })
+        webSocketManage.socketConnectAction()
         if (RoomManage.roomItem.roomState == roomState.PLAYING) {
+            log.error('更新用户的钻信息')
             UserManage.updateUserDiamond()
         }
     }

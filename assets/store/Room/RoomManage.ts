@@ -20,6 +20,7 @@ import http from '../../common/Http'
 import RaceManage from '../Races/RaceManage';
 import GameMemberManage from '../GameMember/GameMemberManage';
 import BetManage from '../Bets/BetManage';
+import log from 'loglevel'
 class RoomManage {
     public roomItem: RoomItem = null
     private enterRoomParam: EnterRoomParam = null //进入房间的传参
@@ -74,30 +75,34 @@ class RoomManage {
             let httpUrl = config.serverAddress + InterfaceUrl.LOGIN_IN_ROOM + '?userId=' + userId + '&roomId=' + rommId
             http.getWithUrl(httpUrl, (error: boolean, info: ResponseData) => {
                 if (error) {
+                    log.info('登入房间失败')
                     resolve({ result: ResponseStatus.FAIL, extObject: { message: EnterRoomFail.interface_fail } })
                     return
                 }
                 if (info.status === ResponseStatus.FAIL) { //加入房间失败
+                    log.info('登入房间失败')
                     resolve({ result: ResponseStatus.FAIL, extObject: info })
                     return
                 }
                 let data = info.data;
-                let roomInfo = data.room as RoomInfo;
+                let roomInfo = data.room as RoomInfo
 
                 let races = data.races
                 for (let i = 0; i < races.length; i++) {
-                    races[i].points = JSON.parse(races[i].points);
-                    races[i].landlordScore = JSON.parse(races[i].landlordScore);
-                    races[i].skyScore = JSON.parse(races[i].skyScore);
-                    races[i].landScore = JSON.parse(races[i].landScore);
-                    races[i].middleScore = JSON.parse(races[i].middleScore);
+                    races[i].points = JSON.parse(races[i].points)
+                    races[i].landlordScore = JSON.parse(races[i].landlordScore)
+                    races[i].skyScore = JSON.parse(races[i].skyScore)
+                    races[i].landScore = JSON.parse(races[i].landScore)
+                    races[i].middleScore = JSON.parse(races[i].middleScore)
                 }
                 races as raceRecord[];
-                let members = data.members as GameMember[];
-                this.setRoomItem(roomInfo);
-                RaceManage.setRaceList(races);
+                let members = data.members as GameMember[]
+                log.info('设置房间信息到本地',roomInfo)
+                this.setRoomItem(roomInfo)
+                log.info('设置场次等信息')
+                RaceManage.setRaceList(races)
                 RaceManage.setClickXiaZhuVal(0)
-                GameMemberManage.setGameMemberList(members);
+                GameMemberManage.setGameMemberList(members)
                 let betRecordList = data.betRecords as BetRecord[]
                 BetManage.setBetList(betRecordList)
                 resolve({ result: ResponseStatus.SUCCESS, extObject: info })

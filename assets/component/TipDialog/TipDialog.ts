@@ -51,19 +51,7 @@ export default class NewClass extends cc.Component {
         try {
             switch (action) {
                 case TipDialogButtonAction.SOCKET_CONNECT:
-                    webSocketManage.openWs(() => {
-                        //cc.log('socket连接成功，发送连接成功本地通知')
-                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                            type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
-                            info: true
-                        } as LocalNoticeEventPara)
-                    }, () => {
-                        //cc.log('socket连接失败，发送连接失败本地通知')
-                        eventBus.emit(EventType.LOCAL_NOTICE_EVENT, {
-                            type: LocalNoticeEventType.SOCKET_CONNECT_NOTICE,
-                            info: false
-                        } as LocalNoticeEventPara)
-                    })
+                    webSocketManage.socketConnectAction()
                     break
                 case TipDialogButtonAction.OUT_ROOM:
                     cc.director.loadScene("LobbyScene");
