@@ -14,9 +14,9 @@ import webSocketManage from '../../common/WebSocketManage'
 import { eventBus } from "../../common/EventBus";
 import { config } from "../../common/Config";
 import RoomManage from "../../store/Room/RoomManage";
-import UserManage from '../../store/User/UserManage'
 const { ccclass, property } = cc._decorator;
 import log from 'loglevel'
+import {randomRange} from "../../common/Util";
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -57,7 +57,7 @@ export default class NewClass extends cc.Component {
                     cc.director.loadScene("LobbyScene");
                     break
                 case TipDialogButtonAction.OUT_TO_REGISTER:
-                    window.location.replace(config.registerPageAddress)
+                    window.location.replace(config.registerPageAddress + "?rand=" + randomRange(1, 3000))
                     break
                 case TipDialogButtonAction.OUT_APP:
                     try{
@@ -70,11 +70,11 @@ export default class NewClass extends cc.Component {
                             window.close();
                         }
                     }catch(e){
-                        window.location.replace(config.loginPageAddress)
+                        window.location.replace(config.loginPageAddress + "?rand=" + randomRange(1, 3000))
                     }
                     break
                 case TipDialogButtonAction.OUT_TO_LOGIN:
-                     window.location.replace(config.loginPageAddress)
+                     window.location.replace(config.loginPageAddress + "?rand=" + randomRange(1, 3000))
                     break
                 case TipDialogButtonAction.RE_IN_GAME:
                     window.location.reload()

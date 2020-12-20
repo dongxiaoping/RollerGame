@@ -1,5 +1,5 @@
 import UserManage from "../../store/User/UserManage";
-import { isUrlToGameRoom, getUrlParam, randEventId } from "../../common/Util";
+import {randEventId, randomRange} from "../../common/Util";
 import RoomManage from "../../store/Room/RoomManage";
 import { EnterRoomModel, EnterRoomParam, EventType, LocalNoticeEventType, LocalNoticeEventPara, TipDialogButtonAction, TipDialogParam, WordMessage } from "../../common/Const";
 import { config } from "../../common/Config";
@@ -143,7 +143,7 @@ export default class LobbyScene extends cc.Component {
         this.informMessageLabel.string = ConfigManage.getInformMessage()
         let userId = UserManage.getLoginUserId()
         if(userId == null){
-            window.location.replace(config.loginPageAddress)
+            window.location.replace(config.loginPageAddress + "?rand=" + randomRange(1, 3000))
             return
         }
         this.initUserInfo(userId)

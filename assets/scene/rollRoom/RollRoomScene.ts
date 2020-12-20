@@ -167,14 +167,9 @@ export default class NewClass extends cc.Component {
             log.info('模式以及数据都正常，接着走流程')
             this.startByEnterMode(enterRoomParam)
         } else {
-            log.info('未知模式进入，无法取到房间和用户等信息，提示跳转到主页')
-            let dialogParam = {
-                sureButtonShow: true, cancelButtonShow: false, content: "房间不存在或已关闭！", cancelButtonAction: null,
-                sureButtonAction: TipDialogButtonAction.OUT_ROOM
-            } as TipDialogParam
-            this.dialogShow(dialogParam)
+            log.info('未知模式进入，无法取到房间号，跳转到主页')
+            cc.director.loadScene("LobbyScene");
         }
-
     }
 
     //初始化语音功能
@@ -343,6 +338,7 @@ export default class NewClass extends cc.Component {
                     let actionSet = TipDialogButtonAction.RE_IN_GAME
                 } else {
                     webCookie.removeItem('userId')
+                    localStorage.removeItem('userId')
                 }
                 let dialogParam = {
                     sureButtonShow: true, cancelButtonShow: false, content: messageSet, cancelButtonAction: null,
@@ -358,7 +354,7 @@ export default class NewClass extends cc.Component {
         let result = await RoomManage.loginRoom(userId, roomId)
         log.info('登录房间结果', result)
         if (result.result === ResponseStatus.FAIL) {
-            log.error('登录房间失败')
+            log.error('登录房间失败', result)
             this.showEnterRoomFailTip(result.extObject)
             return
         }
@@ -392,12 +388,12 @@ export default class NewClass extends cc.Component {
     }
 
     showEnterRoomFailTip(info: ResponseData) {
-        let contenShow = EnterRoomFail[info.message]
+        let contentShow = typeof EnterRoomFail[info.message] == 'undefined'?info.message:EnterRoomFail[info.message]
         let node = cc.instantiate(this.tipDialog)
         let scriptOb = node.getComponent('TipDialog')
         node.parent = this.node
         let dialogParam = {
-            sureButtonShow: true, cancelButtonShow: false, content: contenShow, cancelButtonAction: null,
+            sureButtonShow: true, cancelButtonShow: false, content: contentShow, cancelButtonAction: null,
             sureButtonAction: TipDialogButtonAction.OUT_ROOM
         } as TipDialogParam
         if (info.message === 'diamond_not_enough') {
