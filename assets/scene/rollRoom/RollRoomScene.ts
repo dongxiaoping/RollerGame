@@ -494,6 +494,15 @@ export default class NewClass extends cc.Component {
 
         this.TurnLandlordCancel.node.on(cc.Node.EventType.TOUCH_START, () => {
             log.info('轮庄放弃被点击被点击')
+            let notice = {
+                type: NoticeType.sureBeLandlordPass, info: {
+                    roomId: RoomManage.roomItem.id,
+                    userId: UserManage.userInfo.id,
+                    raceNum: RoomManage.roomItem.oningRaceNum
+                }
+            } as NoticeData
+            log.info('发出socket通知，在轮庄中放弃当地主')
+            webSocketManage.send(JSON.stringify(notice));
             this.closeTurnLandlordPanel()
         })
 

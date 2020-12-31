@@ -371,6 +371,7 @@ export enum NoticeType {
     kickOutMemberFromRoom = 'kickOutMemberFromRoom', //踢出玩家
     chatCartonMessage = 'chatCartonMessage', //消息动画
     sureBeLandlordInTurn = 'sureBeLandlordInTurn', //确认轮庄中当地主
+    sureBeLandlordPass = 'sureBeLandlordPass', //确认轮庄中放弃当地主
     cancelRaceBet = 'cancelRaceBet' //取消指定区域的下注
 }
 
