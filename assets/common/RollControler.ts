@@ -45,15 +45,15 @@ export class RollControler extends RollControlerBase {
             let to = info.toState
             switch (to) {
                 case RaceState.CHOICE_LANDLORD: //选庄
-                    log.info('本地接到通知比赛状态为抢庄阶段')
+                    log.info('本地接到通知比赛状态为选庄阶段')
                     if(RoomManage.roomItem.playMode == playMode.RAP){
                         log.info('执行抢庄模式相关业务逻辑')
                         this.roomScene.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)
                         this.roomScene.showChoiceLandLordPanel()
                         this.roomScene.showLandlordSncyTimePanel()
                     }else {
-                        this.roomScene.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)
                         log.info('执行轮庄模式业务逻辑')
+                        this.roomScene.adjustBeforeRaceStateChange(RaceState.CHOICE_LANDLORD)
                     }
                     break
                 case RaceState.DEAL://发牌

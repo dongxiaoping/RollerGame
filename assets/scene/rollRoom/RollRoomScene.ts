@@ -148,7 +148,7 @@ export default class NewClass extends cc.Component {
     eventIdTwo: string = null
     public name:string = 'RollRoomScene'
     start() {
-        log.setLevel(log.levels.ERROR)
+        log.setLevel(log.levels.DEBUG)
         log.info(this.name, '启动')
         this.clear()
         this.initVoiceFunction()
@@ -298,10 +298,12 @@ export default class NewClass extends cc.Component {
                     break
                 case LocalNoticeEventType.TURN_LANDLORD_LOCAL_NOTICE:
                     infoItem as turnLandlordNotice
-                    this.closeTurnLandlordPanel()
+                    log.info('本地接到轮庄通知，执行轮庄处理流程', infoItem)
                     if(infoItem.userId == UserManage.userInfo.id){
                         log.info('轮到自己当庄,打开轮庄面板')
                         this.showTurnLandlordPanel()
+                    }else{
+                        this.closeTurnLandlordPanel()
                     }
                     break
             }
